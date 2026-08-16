@@ -3,10 +3,231 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Löneberäkning</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f2f4f7;
+      color: #222;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 22px;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-top: 14px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 24px;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .calculate {
+      background: #222;
+      color: white;
+    }
+
+    .result {
+      margin-top: 25px;
+      padding: 18px;
+      background: #f0f2f5;
+      border-radius: 12px;
+    }
+
+    .result p {
+      margin: 8px 0;
+      font-size: 16px;
+    }
+
+    .total {
+      font-size: 22px !important;
+      font-weight: bold;
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Löneberäkning</h1>
-  <p>Enkel och professionell löneberäkning.</p>
+
+<div class="container">
+  <div class="card">
+
+    <h1>Löneberäkning</h1>
+
+    <div class="subtitle">
+      Enkel och professionell löneberäkning
+    </div>
+
+    <label>Namn</label>
+    <input type="text" id="name" placeholder="Ange namn">
+
+    <label>Redovisa timmar</label>
+    <input type="number" id="regularHours" value="0">
+
+    <label>Övertid timmar</label>
+    <input type="number" id="overtimeHours" value="0">
+
+    <label>Natt timmar</label>
+    <input type="number" id="nightHours" value="0">
+
+    <label>Helg timmar</label>
+    <input type="number" id="weekendHours" value="0">
+
+    <label>Helgdag timmar</label>
+    <input type="number" id="holidayHours" value="0">
+
+    <label>Timlön (kr)</label>
+    <input type="number" id="hourlyRate" value="146">
+
+    <label>Övertid tillägg (%)</label>
+    <input type="number" id="overtimePercent" value="10">
+
+    <label>Natt tillägg (%)</label>
+    <input type="number" id="nightPercent" value="30">
+
+    <label>Helg tillägg (%)</label>
+    <input type="number" id="weekendPercent" value="50">
+
+    <label>Helgdag tillägg (%)</label>
+    <input type="number" id="holidayPercent" value="100">
+
+    <label>Semesterersättning (%)</label>
+    <input type="number" id="holidayPay" value="13">
+
+    <label>Skatt (%)</label>
+    <input type="number" id="tax" value="21">
+
+    <button class="calculate" onclick="calculateSalary()">
+      Beräkna lön
+    </button>
+
+    <div class="result" id="result">
+      <p>Fyll i uppgifterna och tryck på "Beräkna lön".</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+
+function calculateSalary() {
+
+  const regularHours = Number(document.getElementById("regularHours").value);
+  const overtimeHours = Number(document.getElementById("overtimeHours").value);
+  const nightHours = Number(document.getElementById("nightHours").value);
+  const weekendHours = Number(document.getElementById("weekendHours").value);
+  const holidayHours = Number(document.getElementById("holidayHours").value);
+
+  const hourlyRate = Number(document.getElementById("hourlyRate").value);
+
+  const overtimePercent = Number(document.getElementById("overtimePercent").value);
+  const nightPercent = Number(document.getElementById("nightPercent").value);
+  const weekendPercent = Number(document.getElementById("weekendPercent").value);
+  const holidayPercent = Number(document.getElementById("holidayPercent").value);
+
+  const holidayPay = Number(document.getElementById("holidayPay").value);
+  const tax = Number(document.getElementById("tax").value);
+
+  const regularPay = regularHours * hourlyRate;
+
+  const overtimePay =
+    overtimeHours * hourlyRate * (1 + overtimePercent / 100);
+
+  const nightPay =
+    nightHours * hourlyRate * (1 + nightPercent / 100);
+
+  const weekendPay =
+    weekendHours * hourlyRate * (1 + weekendPercent / 100);
+
+  const holidayPayAmount =
+    holidayHours * hourlyRate * (1 + holidayPercent / 100);
+
+  const baseGross =
+    regularPay +
+    overtimePay +
+    nightPay +
+    weekendPay +
+    holidayPayAmount;
+
+  const vacationPay =
+    baseGross * holidayPay / 100;
+
+  const grossSalary =
+    baseGross + vacationPay;
+
+  const taxAmount =
+    grossSalary * tax / 100;
+
+  const netSalary =
+    grossSalary - taxAmount;
+
+  document.getElementById("result").innerHTML = `
+
+    <p><strong>Bruttolön:</strong>
+      ${grossSalary.toFixed(2)} kr
+    </p>
+
+    <p><strong>Semesterersättning:</strong>
+      ${vacationPay.toFixed(2)} kr
+    </p>
+
+    <p><strong>Skatt:</strong>
+      ${taxAmount.toFixed(2)} kr
+    </p>
+
+    <p class="total">
+      Nettolön: ${netSalary.toFixed(2)} kr
+    </p>
+
+  `;
+}
+
+</script>
+
 </body>
 </html>
