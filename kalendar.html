@@ -1,1 +1,295 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Arbetstid Kalender</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f2f4f7;
+      color: #222;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 15px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.10);
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+
+    .month-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .month-controls button {
+      border: none;
+      background: #222;
+      color: white;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    #monthYear {
+      font-size: 22px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+    }
+
+    .day-name {
+      font-weight: bold;
+      text-align: center;
+      padding: 10px 3px;
+      background: #e9ecef;
+      border-radius: 8px;
+    }
+
+    .day {
+      min-height: 75px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 7px;
+      background: #fafafa;
+      cursor: pointer;
+    }
+
+    .day:hover {
+      background: #eef3f8;
+    }
+
+    .day-number {
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .hours {
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 6px;
+      font-size: 14px;
+    }
+
+    .back-button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      background: #222;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        margin: 5px auto;
+        padding: 8px;
+      }
+
+      .card {
+        padding: 10px;
+      }
+
+      .calendar {
+        gap: 3px;
+      }
+
+      .day {
+        min-height: 65px;
+        padding: 4px;
+      }
+
+      .hours {
+        padding: 4px;
+        font-size: 13px;
+      }
+
+      #monthYear {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="card">
+
+      <h1>📅 Arbetstid Kalender</h1>
+
+      <div class="month-controls">
+        <button onclick="previousMonth()">‹</button>
+
+        <div id="monthYear"></div>
+
+        <button onclick="nextMonth()">›</button>
+      </div>
+
+      <div class="calendar" id="calendar"></div>
+
+      <button class="back-button" onclick="window.location.href='index.html'">
+        ← Tillbaka
+      </button>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    let currentDate = new Date();
+
+    const monthNames = [
+      "Januari",
+      "Februari",
+      "Mars",
+      "April",
+      "Maj",
+      "Juni",
+      "Juli",
+      "Augusti",
+      "September",
+      "Oktober",
+      "November",
+      "December"
+    ];
+
+    const dayNames = [
+      "Mån",
+      "Tis",
+      "Ons",
+      "Tor",
+      "Fre",
+      "Lör",
+      "Sön"
+    ];
+
+    function renderCalendar() {
+
+      const calendar = document.getElementById("calendar");
+      const monthYear = document.getElementById("monthYear");
+
+      calendar.innerHTML = "";
+
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth();
+
+      monthYear.textContent =
+        monthNames[month] + " " + year;
+
+      dayNames.forEach(day => {
+
+        const header = document.createElement("div");
+
+        header.className = "day-name";
+
+        header.textContent = day;
+
+        calendar.appendChild(header);
+
+      });
+
+      const firstDay =
+        new Date(year, month, 1).getDay();
+
+      const daysInMonth =
+        new Date(year, month + 1, 0).getDate();
+
+      let startDay = firstDay - 1;
+
+      if (startDay < 0) {
+        startDay = 6;
+      }
+
+      for (let i = 0; i < startDay; i++) {
+
+        const emptyDay = document.createElement("div");
+
+        emptyDay.className = "day";
+
+        emptyDay.style.visibility = "hidden";
+
+        calendar.appendChild(emptyDay);
+
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+
+        const dayBox = document.createElement("div");
+
+        dayBox.className = "day";
+
+        dayBox.innerHTML = `
+          <div class="day-number">${day}</div>
+          <input
+            type="number"
+            class="hours"
+            min="0"
+            step="0.5"
+            placeholder="Timmar"
+          >
+        `;
+
+        calendar.appendChild(dayBox);
+
+      }
+    }
+
+    function previousMonth() {
+
+      currentDate.setMonth(
+        currentDate.getMonth() - 1
+      );
+
+      renderCalendar();
+    }
+
+    function nextMonth() {
+
+      currentDate.setMonth(
+        currentDate.getMonth() + 1
+      );
+
+      renderCalendar();
+    }
+
+    renderCalendar();
+
+  </script>
+
+</body>
+</html>
