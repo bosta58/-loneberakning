@@ -161,6 +161,10 @@
 
       <div class="calendar" id="calendar"></div>
 
+<div id="totalHours">
+  0.0
+</div>
+
       <button class="back-button" onclick="window.location.href='index.html'">
         ← Tillbaka
       </button>
@@ -170,125 +174,141 @@
   </div>
 
   <script>
+let currentDate = new Date();
 
-    let currentDate = new Date();
+const monthNames = [
+  "Januari",
+  "Februari",
+  "Mars",
+  "April",
+  "Maj",
+  "Juni",
+  "Juli",
+  "Augusti",
+  "September",
+  "Oktober",
+  "November",
+  "December"
+];
 
-    const monthNames = [
-      "Januari",
-      "Februari",
-      "Mars",
-      "April",
-      "Maj",
-      "Juni",
-      "Juli",
-      "Augusti",
-      "September",
-      "Oktober",
-      "November",
-      "December"
-    ];
+const dayNames = [
+  "Mån",
+  "Tis",
+  "Ons",
+  "Tor",
+  "Fre",
+  "Lör",
+  "Sön"
+];
 
-    const dayNames = [
-      "Mån",
-      "Tis",
-      "Ons",
-      "Tor",
-      "Fre",
-      "Lör",
-      "Sön"
-    ];
+function renderCalendar() {
 
-    function renderCalendar() {
+  const calendar = document.getElementById("calendar");
+  const monthYear = document.getElementById("monthYear");
 
-      const calendar = document.getElementById("calendar");
-      const monthYear = document.getElementById("monthYear");
+  calendar.innerHTML = "";
 
-      calendar.innerHTML = "";
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
 
-      const year = currentDate.getFullYear();
-      const month = currentDate.getMonth();
+  monthYear.textContent =
+    monthNames[month] + " " + year;
 
-      monthYear.textContent =
-        monthNames[month] + " " + year;
+  dayNames.forEach(day => {
 
-      dayNames.forEach(day => {
+    const header = document.createElement("div");
 
-        const header = document.createElement("div");
+    header.className = "day-name";
+    header.textContent = day;
 
-        header.className = "day-name";
+    calendar.appendChild(header);
 
-        header.textContent = day;
+  });
 
-        calendar.appendChild(header);
+  const firstDay =
+    new Date(year, month, 1).getDay();
 
-      });
+  const daysInMonth =
+    new Date(year, month + 1, 0).getDate();
 
-      const firstDay =
-        new Date(year, month, 1).getDay();
+  let startDay = firstDay - 1;
 
-      const daysInMonth =
-        new Date(year, month + 1, 0).getDate();
+  if (startDay < 0) {
+    startDay = 6;
+  }
 
-      let startDay = firstDay - 1;
+  for (let i = 0; i < startDay; i++) {
 
-      if (startDay < 0) {
-        startDay = 6;
-      }
+    const emptyDay = document.createElement("div");
 
-      for (let i = 0; i < startDay; i++) {
+    emptyDay.className = "day";
+    emptyDay.style.visibility = "hidden";
 
-        const emptyDay = document.createElement("div");
+    calendar.appendChild(emptyDay);
 
-        emptyDay.className = "day";
+  }
 
-        emptyDay.style.visibility = "hidden";
+  for (let day = 1; day <= daysInMonth; day++) {
 
-        calendar.appendChild(emptyDay);
+    const dayBox = document.createElement("div");
 
-      }
+    dayBox.className = "day";
 
-      for (let day = 1; day <= daysInMonth; day++) {
+    dayBox.innerHTML = `
+      <div class="day-number">${day}</div>
 
-        const dayBox = document.createElement("div");
+      <input
+        type="number"
+        class="hours"
+        min="0"
+        step="0.5"
+        placeholder="Timmar"
+        oninput="calculateTotal()"
+      >
+    `;
 
-        dayBox.className = "day";
+    calendar.appendChild(dayBox);
 
-        dayBox.innerHTML = `
-          <div class="day-number">${day}</div>
-          <input
-            type="number"
-            class="hours"
-            min="0"
-            step="0.5"
-            placeholder="Timmar"
-          >
-        `;
+  }
 
-        calendar.appendChild(dayBox);
+  calculateTotal();
+}
 
-      }
-    }
+function calculateTotal() {
 
-    function previousMonth() {
+  const inputs =
+    document.querySelectorAll(".hours");
 
-      currentDate.setMonth(
-        currentDate.getMonth() - 1
-      );
+  let total = 0;
 
-      renderCalendar();
-    }
+  inputs.forEach(input => {
+    total += Number(input.value) || 0;
+  });
 
-    function nextMonth() {
+  document.getElementById("totalHours").textContent =
+    total.toFixed(1);
+}
 
-      currentDate.setMonth(
-        currentDate.getMonth() + 1
-      );
+function previousMonth() {
 
-      renderCalendar();
-    }
+  currentDate.setMonth(
+    currentDate.getMonth() - 1
+  );
 
-    renderCalendar();
+  renderCalendar();
+}
 
+function nextMonth() {
+
+  currentDate.setMonth(
+    currentDate.getMonth() + 1
+  );
+
+  renderCalendar();
+}
+
+renderCalendar();
+    
   </script>
 
 </body>
