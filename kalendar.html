@@ -84,12 +84,11 @@
     }
 
     .day {
-      min-height: 75px;
+      min-height: 82px;
       border: 1px solid #ddd;
       border-radius: 9px;
       padding: 5px;
       background: #fafafa;
-      cursor: pointer;
     }
 
     .day:hover {
@@ -114,10 +113,24 @@
       background: #fff5f5;
     }
 
+    .holiday {
+      background: #fff0d9;
+      border-color: #e6a23c;
+    }
+
     .empty {
       border: none;
       background: transparent;
-      cursor: default;
+    }
+
+    .day-type {
+      width: 100%;
+      margin-top: 4px;
+      padding: 4px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 11px;
+      background: white;
     }
 
     .summary {
@@ -180,7 +193,7 @@
       }
 
       .day {
-        min-height: 68px;
+        min-height: 78px;
       }
 
       .hours-input {
@@ -190,6 +203,10 @@
 
       .weekday {
         font-size: 11px;
+      }
+
+      .day-type {
+        font-size: 10px;
       }
     }
   </style>
@@ -203,6 +220,7 @@
     <h1>📅 Arbetstidskalender</h1>
 
     <div class="top-row">
+
       <div class="month">
         <select id="monthSelect"></select>
       </div>
@@ -210,6 +228,7 @@
       <div class="year">
         <select id="yearSelect"></select>
       </div>
+
     </div>
 
     <div class="calendar">
@@ -233,8 +252,38 @@
       <h2>Sammanställning</h2>
 
       <div class="summary-row">
-        <span>Redovni sati:</span>
-        <span id="totalHours">0</span>
+        <span>Ordinarie vardag:</span>
+        <span id="regularWeekday">0.0</span>
+      </div>
+
+      <div class="summary-row">
+        <span>Övertid vardag:</span>
+        <span id="overtimeWeekday">0.0</span>
+      </div>
+
+      <div class="summary-row">
+        <span>Ordinarie helg:</span>
+        <span id="regularWeekend">0.0</span>
+      </div>
+
+      <div class="summary-row">
+        <span>Övertid helg:</span>
+        <span id="overtimeWeekend">0.0</span>
+      </div>
+
+      <div class="summary-row">
+        <span>Ordinarie helgdag:</span>
+        <span id="regularHoliday">0.0</span>
+      </div>
+
+      <div class="summary-row">
+        <span>Övertid helgdag:</span>
+        <span id="overtimeHoliday">0.0</span>
+      </div>
+
+      <div class="summary-row">
+        <span>Totalt timmar:</span>
+        <span id="totalHours">0.0</span>
       </div>
 
       <div class="summary-row">
@@ -245,6 +294,7 @@
     </div>
 
     <div class="buttons">
+
       <button class="save" onclick="saveCalendar()">
         💾 Spara
       </button>
@@ -252,6 +302,7 @@
       <button class="clear" onclick="clearCalendar()">
         🗑️ Rensa
       </button>
+
     </div>
 
   </div>
@@ -274,9 +325,14 @@ const months = [
   "December"
 ];
 
-const monthSelect = document.getElementById("monthSelect");
-const yearSelect = document.getElementById("yearSelect");
-const daysContainer = document.getElementById("days");
+const monthSelect =
+  document.getElementById("monthSelect");
+
+const yearSelect =
+  document.getElementById("yearSelect");
+
+const daysContainer =
+  document.getElementById("days");
 
 const now = new Date();
 
@@ -284,149 +340,416 @@ let selectedMonth = now.getMonth();
 let selectedYear = now.getFullYear();
 
 months.forEach((month, index) => {
-  const option = document.createElement("option");
+
+  const option =
+    document.createElement("option");
+
   option.value = index;
   option.textContent = month;
+
   monthSelect.appendChild(option);
+
 });
 
-for (let year = selectedYear - 2; year <= selectedYear + 3; year++) {
-  const option = document.createElement("option");
+for (
+  let year = selectedYear - 2;
+  year <= selectedYear + 3;
+  year++
+) {
+
+  const option =
+    document.createElement("option");
+
   option.value = year;
   option.textContent = year;
+
   yearSelect.appendChild(option);
+
 }
 
 monthSelect.value = selectedMonth;
 yearSelect.value = selectedYear;
 
-monthSelect.addEventListener("change", renderCalendar);
-yearSelect.addEventListener("change", renderCalendar);
+monthSelect.addEventListener(
+  "change",
+  renderCalendar
+);
+
+yearSelect.addEventListener(
+  "change",
+  renderCalendar
+);
+
 
 function renderCalendar() {
 
-  selectedMonth = parseInt(monthSelect.value);
-  selectedYear = parseInt(yearSelect.value);
+  selectedMonth =
+    parseInt(monthSelect.value);
+
+  selectedYear =
+    parseInt(yearSelect.value);
 
   daysContainer.innerHTML = "";
 
-  const firstDay = new Date(
-    selectedYear,
-    selectedMonth,
-    1
-  );
+  const firstDay =
+    new Date(
+      selectedYear,
+      selectedMonth,
+      1
+    );
 
-  const daysInMonth = new Date(
-    selectedYear,
-    selectedMonth + 1,
-    0
-  ).getDate();
+  const daysInMonth =
+    new Date(
+      selectedYear,
+      selectedMonth + 1,
+      0
+    ).getDate();
 
-  let startDay = firstDay.getDay();
+  let startDay =
+    firstDay.getDay();
 
-  // Gör söndag till 7 så att måndag blir första dagen
   if (startDay === 0) {
     startDay = 7;
   }
 
-  // Tomma rutor före första dagen
-  for (let i = 1; i < startDay; i++) {
+  for (
+    let i = 1;
+    i < startDay;
+    i++
+  ) {
 
-    const empty = document.createElement("div");
+    const empty =
+      document.createElement("div");
 
-    empty.className = "day empty";
+    empty.className =
+      "day empty";
 
     daysContainer.appendChild(empty);
+
   }
 
-  // Dagar
-  for (let day = 1; day <= daysInMonth; day++) {
 
-    const date = new Date(
-      selectedYear,
-      selectedMonth,
-      day
-    );
+  for (
+    let day = 1;
+    day <= daysInMonth;
+    day++
+  ) {
 
-    const weekday = date.getDay();
+    const date =
+      new Date(
+        selectedYear,
+        selectedMonth,
+        day
+      );
 
-    const dayBox = document.createElement("div");
+    const weekday =
+      date.getDay();
+
+    const dayBox =
+      document.createElement("div");
 
     dayBox.className = "day";
 
-    if (weekday === 0 || weekday === 6) {
-      dayBox.classList.add("weekend");
+
+    if (
+      weekday === 0 ||
+      weekday === 6
+    ) {
+
+      dayBox.classList.add(
+        "weekend"
+      );
+
     }
 
-    const number = document.createElement("div");
 
-    number.className = "day-number";
+    const number =
+      document.createElement("div");
+
+    number.className =
+      "day-number";
 
     number.textContent = day;
 
-    const input = document.createElement("input");
+
+    const input =
+      document.createElement("input");
 
     input.type = "number";
     input.min = "0";
     input.step = "0.5";
 
-    input.className = "hours-input";
+    input.className =
+      "hours-input";
 
     input.placeholder = "tim";
 
     input.dataset.day = day;
 
-    input.addEventListener("input", updateSummary);
+
+    const typeSelect =
+      document.createElement("select");
+
+    typeSelect.className =
+      "day-type";
+
+    typeSelect.innerHTML = `
+      <option value="weekday">
+        Vardag
+      </option>
+
+      <option value="holiday">
+        Helgdag
+      </option>
+    `;
+
+
+    if (
+      weekday === 0 ||
+      weekday === 6
+    ) {
+
+      typeSelect.value =
+        "weekend";
+
+      typeSelect.innerHTML = `
+        <option value="weekend">
+          Helg
+        </option>
+
+        <option value="holiday">
+          Helgdag
+        </option>
+      `;
+
+    }
+
+
+    typeSelect.addEventListener(
+      "change",
+      function() {
+
+        updateDayAppearance(
+          dayBox,
+          typeSelect.value
+        );
+
+        updateSummary();
+
+      }
+    );
+
+
+    input.addEventListener(
+      "input",
+      updateSummary
+    );
+
 
     dayBox.appendChild(number);
     dayBox.appendChild(input);
+    dayBox.appendChild(typeSelect);
 
     daysContainer.appendChild(dayBox);
+
   }
 
   loadCalendar();
   updateSummary();
+
 }
+
+
+function updateDayAppearance(
+  dayBox,
+  type
+) {
+
+  dayBox.classList.remove(
+    "weekend",
+    "holiday"
+  );
+
+  if (type === "weekend") {
+
+    dayBox.classList.add(
+      "weekend"
+    );
+
+  }
+
+  if (type === "holiday") {
+
+    dayBox.classList.add(
+      "holiday"
+    );
+
+  }
+
+}
+
 
 function updateSummary() {
 
-  const inputs = document.querySelectorAll(".hours-input");
+  const inputs =
+    document.querySelectorAll(
+      ".hours-input"
+    );
+
+  const types =
+    document.querySelectorAll(
+      ".day-type"
+    );
+
+
+  let regularWeekday = 0;
+  let overtimeWeekday = 0;
+
+  let regularWeekend = 0;
+  let overtimeWeekend = 0;
+
+  let regularHoliday = 0;
+  let overtimeHoliday = 0;
 
   let total = 0;
   let workDays = 0;
 
-  inputs.forEach(input => {
 
-    const value = parseFloat(input.value) || 0;
+  inputs.forEach(
+    (input, index) => {
 
-    total += value;
+      const value =
+        parseFloat(input.value) || 0;
 
-    if (value > 0) {
-      workDays++;
+      const type =
+        types[index].value;
+
+
+      if (value > 0) {
+        workDays++;
+      }
+
+      total += value;
+
+
+      const regular =
+        Math.min(value, 8);
+
+      const overtime =
+        Math.max(value - 8, 0);
+
+
+      if (type === "weekday") {
+
+        regularWeekday += regular;
+        overtimeWeekday += overtime;
+
+      }
+
+      else if (
+        type === "weekend"
+      ) {
+
+        regularWeekend += regular;
+        overtimeWeekend += overtime;
+
+      }
+
+      else if (
+        type === "holiday"
+      ) {
+
+        regularHoliday += regular;
+        overtimeHoliday += overtime;
+
+      }
+
     }
+  );
 
-  });
 
-  document.getElementById("totalHours").textContent =
+  document.getElementById(
+    "regularWeekday"
+  ).textContent =
+    regularWeekday.toFixed(1);
+
+
+  document.getElementById(
+    "overtimeWeekday"
+  ).textContent =
+    overtimeWeekday.toFixed(1);
+
+
+  document.getElementById(
+    "regularWeekend"
+  ).textContent =
+    regularWeekend.toFixed(1);
+
+
+  document.getElementById(
+    "overtimeWeekend"
+  ).textContent =
+    overtimeWeekend.toFixed(1);
+
+
+  document.getElementById(
+    "regularHoliday"
+  ).textContent =
+    regularHoliday.toFixed(1);
+
+
+  document.getElementById(
+    "overtimeHoliday"
+  ).textContent =
+    overtimeHoliday.toFixed(1);
+
+
+  document.getElementById(
+    "totalHours"
+  ).textContent =
     total.toFixed(1);
 
-  document.getElementById("workDays").textContent =
+
+  document.getElementById(
+    "workDays"
+  ).textContent =
     workDays;
+
 }
+
 
 function saveCalendar() {
 
   const data = {};
 
-  const inputs = document.querySelectorAll(".hours-input");
+  const inputs =
+    document.querySelectorAll(
+      ".hours-input"
+    );
 
-  inputs.forEach(input => {
+  const types =
+    document.querySelectorAll(
+      ".day-type"
+    );
 
-    const day = input.dataset.day;
 
-    data[day] = input.value;
+  inputs.forEach(
+    (input, index) => {
 
-  });
+      const day =
+        input.dataset.day;
+
+      data[day] = {
+
+        hours: input.value,
+
+        type: types[index].value
+
+      };
+
+    }
+  );
+
 
   const key =
     "calendar_" +
@@ -434,13 +757,19 @@ function saveCalendar() {
     "_" +
     selectedMonth;
 
+
   localStorage.setItem(
     key,
     JSON.stringify(data)
   );
 
-  alert("Kalendern är sparad.");
+
+  alert(
+    "Kalendern är sparad."
+  );
+
 }
+
 
 function loadCalendar() {
 
@@ -450,41 +779,116 @@ function loadCalendar() {
     "_" +
     selectedMonth;
 
+
   const saved =
     localStorage.getItem(key);
+
 
   if (!saved) {
     return;
   }
 
-  const data = JSON.parse(saved);
+
+  const data =
+    JSON.parse(saved);
+
 
   const inputs =
-    document.querySelectorAll(".hours-input");
+    document.querySelectorAll(
+      ".hours-input"
+    );
 
-  inputs.forEach(input => {
+  const types =
+    document.querySelectorAll(
+      ".day-type"
+    );
 
-    const day = input.dataset.day;
 
-    if (data[day] !== undefined) {
-      input.value = data[day];
+  inputs.forEach(
+    (input, index) => {
+
+      const day =
+        input.dataset.day;
+
+
+      if (
+        data[day] !== undefined
+      ) {
+
+        /*
+          Nytt format:
+          data[day] = {
+            hours: "10",
+            type: "weekend"
+          }
+        */
+
+        if (
+          typeof data[day] ===
+          "object"
+        ) {
+
+          input.value =
+            data[day].hours || "";
+
+          types[index].value =
+            data[day].type ||
+            "weekday";
+
+        }
+
+        /*
+          Stöd för gamla sparade
+          kalendrar med bara timmar.
+        */
+
+        else {
+
+          input.value =
+            data[day];
+
+        }
+
+        updateDayAppearance(
+          input.parentElement,
+          types[index].value
+        );
+
+      }
+
     }
+  );
 
-  });
 }
+
 
 function clearCalendar() {
 
-  if (!confirm("Vill du rensa alla timmar för denna månad?")) {
+  if (
+    !confirm(
+      "Vill du rensa alla timmar för denna månad?"
+    )
+  ) {
+
     return;
+
   }
 
-  const inputs =
-    document.querySelectorAll(".hours-input");
 
-  inputs.forEach(input => {
-    input.value = "";
-  });
+  const inputs =
+    document.querySelectorAll(
+      ".hours-input"
+    );
+
+
+  inputs.forEach(
+    input => {
+
+      input.value = "";
+
+    }
+  );
+
 
   const key =
     "calendar_" +
@@ -492,10 +896,13 @@ function clearCalendar() {
     "_" +
     selectedMonth;
 
+
   localStorage.removeItem(key);
 
   updateSummary();
+
 }
+
 
 renderCalendar();
 
