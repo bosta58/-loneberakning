@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Arbetstid Kalender</title>
+  <title>Arbetstidskalender</title>
 
   <style>
     * {
@@ -19,102 +18,160 @@
     }
 
     .container {
-      max-width: 900px;
-      margin: 20px auto;
+      max-width: 700px;
+      margin: 0 auto;
       padding: 15px;
     }
 
     .card {
       background: white;
       border-radius: 18px;
-      padding: 20px;
+      padding: 18px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.10);
     }
 
     h1 {
       text-align: center;
-      margin-top: 0;
-      margin-bottom: 20px;
+      margin: 5px 0 18px;
+      font-size: 25px;
     }
 
-    .month-controls {
+    .top-row {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      gap: 10px;
       margin-bottom: 15px;
     }
 
-    .month-controls button {
-      border: none;
-      background: #222;
-      color: white;
-      border-radius: 10px;
-      padding: 10px 16px;
-      font-size: 18px;
-      cursor: pointer;
+    select,
+    button,
+    input {
+      font-size: 16px;
     }
 
-    #monthYear {
-      font-size: 22px;
-      font-weight: bold;
-      text-align: center;
+    select {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background: white;
+    }
+
+    .month {
+      flex: 1;
+    }
+
+    .year {
+      width: 120px;
     }
 
     .calendar {
+      width: 100%;
+    }
+
+    .weekdays,
+    .days {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       gap: 5px;
     }
 
-    .day-name {
-      font-weight: bold;
+    .weekday {
       text-align: center;
-      padding: 10px 3px;
-      background: #e9ecef;
-      border-radius: 8px;
+      font-weight: bold;
+      font-size: 13px;
+      padding: 8px 2px;
     }
 
     .day {
       min-height: 75px;
       border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 7px;
+      border-radius: 9px;
+      padding: 5px;
       background: #fafafa;
       cursor: pointer;
     }
 
     .day:hover {
-      background: #eef3f8;
+      background: #eef5ff;
     }
 
     .day-number {
       font-weight: bold;
-      margin-bottom: 8px;
+      font-size: 14px;
+      margin-bottom: 5px;
     }
 
-    .hours {
+    .hours-input {
       width: 100%;
       border: 1px solid #ccc;
       border-radius: 6px;
       padding: 6px;
-      font-size: 14px;
+      text-align: center;
     }
 
-    .back-button {
-      width: 100%;
-      margin-top: 20px;
-      padding: 13px;
+    .weekend {
+      background: #fff5f5;
+    }
+
+    .empty {
+      border: none;
+      background: transparent;
+      cursor: default;
+    }
+
+    .summary {
+      margin-top: 18px;
+      padding: 15px;
+      border-radius: 12px;
+      background: #f5f7fa;
+    }
+
+    .summary h2 {
+      margin-top: 0;
+      font-size: 19px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .summary-row:last-child {
+      border-bottom: none;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .buttons button {
+      flex: 1;
+      padding: 12px;
       border: none;
       border-radius: 10px;
-      background: #222;
-      color: white;
-      font-size: 16px;
       cursor: pointer;
+      font-weight: bold;
     }
 
-    @media (max-width: 600px) {
+    .save {
+      background: #1f7a4d;
+      color: white;
+    }
+
+    .clear {
+      background: #ddd;
+      color: #222;
+    }
+
+    @media (max-width: 500px) {
       .container {
-        margin: 5px auto;
         padding: 8px;
       }
 
@@ -122,22 +179,17 @@
         padding: 10px;
       }
 
-      .calendar {
-        gap: 3px;
-      }
-
       .day {
-        min-height: 65px;
-        padding: 4px;
+        min-height: 68px;
       }
 
-      .hours {
-        padding: 4px;
-        font-size: 13px;
+      .hours-input {
+        font-size: 14px;
+        padding: 5px 2px;
       }
 
-      #monthYear {
-        font-size: 18px;
+      .weekday {
+        font-size: 11px;
       }
     }
   </style>
@@ -145,38 +197,69 @@
 
 <body>
 
-  <div class="container">
+<div class="container">
+  <div class="card">
 
-    <div class="card">
+    <h1>📅 Arbetstidskalender</h1>
 
-      <h1>📅 Arbetstid Kalender</h1>
-
-      <div class="month-controls">
-        <button onclick="previousMonth()">‹</button>
-
-        <div id="monthYear"></div>
-
-        <button onclick="nextMonth()">›</button>
+    <div class="top-row">
+      <div class="month">
+        <select id="monthSelect"></select>
       </div>
 
-      <div class="calendar" id="calendar"></div>
+      <div class="year">
+        <select id="yearSelect"></select>
+      </div>
+    </div>
 
-<div id="totalHours">
-  0.0
-</div>
+    <div class="calendar">
 
-      <button class="back-button" onclick="window.location.href='index.html'">
-        ← Tillbaka
-      </button>
+      <div class="weekdays">
+        <div class="weekday">Mån</div>
+        <div class="weekday">Tis</div>
+        <div class="weekday">Ons</div>
+        <div class="weekday">Tor</div>
+        <div class="weekday">Fre</div>
+        <div class="weekday">Lör</div>
+        <div class="weekday">Sön</div>
+      </div>
+
+      <div id="days" class="days"></div>
 
     </div>
 
+    <div class="summary">
+
+      <h2>Sammanställning</h2>
+
+      <div class="summary-row">
+        <span>Redovni sati:</span>
+        <span id="totalHours">0</span>
+      </div>
+
+      <div class="summary-row">
+        <span>Antal arbetsdagar:</span>
+        <span id="workDays">0</span>
+      </div>
+
+    </div>
+
+    <div class="buttons">
+      <button class="save" onclick="saveCalendar()">
+        💾 Spara
+      </button>
+
+      <button class="clear" onclick="clearCalendar()">
+        🗑️ Rensa
+      </button>
+    </div>
+
   </div>
+</div>
 
-  <script>
-let currentDate = new Date();
+<script>
 
-const monthNames = [
+const months = [
   "Januari",
   "Februari",
   "Mars",
@@ -191,125 +274,232 @@ const monthNames = [
   "December"
 ];
 
-const dayNames = [
-  "Mån",
-  "Tis",
-  "Ons",
-  "Tor",
-  "Fre",
-  "Lör",
-  "Sön"
-];
+const monthSelect = document.getElementById("monthSelect");
+const yearSelect = document.getElementById("yearSelect");
+const daysContainer = document.getElementById("days");
+
+const now = new Date();
+
+let selectedMonth = now.getMonth();
+let selectedYear = now.getFullYear();
+
+months.forEach((month, index) => {
+  const option = document.createElement("option");
+  option.value = index;
+  option.textContent = month;
+  monthSelect.appendChild(option);
+});
+
+for (let year = selectedYear - 2; year <= selectedYear + 3; year++) {
+  const option = document.createElement("option");
+  option.value = year;
+  option.textContent = year;
+  yearSelect.appendChild(option);
+}
+
+monthSelect.value = selectedMonth;
+yearSelect.value = selectedYear;
+
+monthSelect.addEventListener("change", renderCalendar);
+yearSelect.addEventListener("change", renderCalendar);
 
 function renderCalendar() {
 
-  const calendar = document.getElementById("calendar");
-  const monthYear = document.getElementById("monthYear");
+  selectedMonth = parseInt(monthSelect.value);
+  selectedYear = parseInt(yearSelect.value);
 
-  calendar.innerHTML = "";
+  daysContainer.innerHTML = "";
 
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth();
+  const firstDay = new Date(
+    selectedYear,
+    selectedMonth,
+    1
+  );
 
-  monthYear.textContent =
-    monthNames[month] + " " + year;
+  const daysInMonth = new Date(
+    selectedYear,
+    selectedMonth + 1,
+    0
+  ).getDate();
 
-  dayNames.forEach(day => {
+  let startDay = firstDay.getDay();
 
-    const header = document.createElement("div");
-
-    header.className = "day-name";
-    header.textContent = day;
-
-    calendar.appendChild(header);
-
-  });
-
-  const firstDay =
-    new Date(year, month, 1).getDay();
-
-  const daysInMonth =
-    new Date(year, month + 1, 0).getDate();
-
-  let startDay = firstDay - 1;
-
-  if (startDay < 0) {
-    startDay = 6;
+  // Gör söndag till 7 så att måndag blir första dagen
+  if (startDay === 0) {
+    startDay = 7;
   }
 
-  for (let i = 0; i < startDay; i++) {
+  // Tomma rutor före första dagen
+  for (let i = 1; i < startDay; i++) {
 
-    const emptyDay = document.createElement("div");
+    const empty = document.createElement("div");
 
-    emptyDay.className = "day";
-    emptyDay.style.visibility = "hidden";
+    empty.className = "day empty";
 
-    calendar.appendChild(emptyDay);
-
+    daysContainer.appendChild(empty);
   }
 
+  // Dagar
   for (let day = 1; day <= daysInMonth; day++) {
+
+    const date = new Date(
+      selectedYear,
+      selectedMonth,
+      day
+    );
+
+    const weekday = date.getDay();
 
     const dayBox = document.createElement("div");
 
     dayBox.className = "day";
 
-    dayBox.innerHTML = `
-      <div class="day-number">${day}</div>
+    if (weekday === 0 || weekday === 6) {
+      dayBox.classList.add("weekend");
+    }
 
-      <input
-        type="number"
-        class="hours"
-        min="0"
-        step="0.5"
-        placeholder="Timmar"
-        oninput="calculateTotal()"
-      >
-    `;
+    const number = document.createElement("div");
 
-    calendar.appendChild(dayBox);
+    number.className = "day-number";
 
+    number.textContent = day;
+
+    const input = document.createElement("input");
+
+    input.type = "number";
+    input.min = "0";
+    input.step = "0.5";
+
+    input.className = "hours-input";
+
+    input.placeholder = "tim";
+
+    input.dataset.day = day;
+
+    input.addEventListener("input", updateSummary);
+
+    dayBox.appendChild(number);
+    dayBox.appendChild(input);
+
+    daysContainer.appendChild(dayBox);
   }
 
-  calculateTotal();
+  loadCalendar();
+  updateSummary();
 }
 
-function calculateTotal() {
+function updateSummary() {
 
-  const inputs =
-    document.querySelectorAll(".hours");
+  const inputs = document.querySelectorAll(".hours-input");
 
   let total = 0;
+  let workDays = 0;
 
   inputs.forEach(input => {
-    total += Number(input.value) || 0;
+
+    const value = parseFloat(input.value) || 0;
+
+    total += value;
+
+    if (value > 0) {
+      workDays++;
+    }
+
   });
 
   document.getElementById("totalHours").textContent =
     total.toFixed(1);
+
+  document.getElementById("workDays").textContent =
+    workDays;
 }
 
-function previousMonth() {
+function saveCalendar() {
 
-  currentDate.setMonth(
-    currentDate.getMonth() - 1
+  const data = {};
+
+  const inputs = document.querySelectorAll(".hours-input");
+
+  inputs.forEach(input => {
+
+    const day = input.dataset.day;
+
+    data[day] = input.value;
+
+  });
+
+  const key =
+    "calendar_" +
+    selectedYear +
+    "_" +
+    selectedMonth;
+
+  localStorage.setItem(
+    key,
+    JSON.stringify(data)
   );
 
-  renderCalendar();
+  alert("Kalendern är sparad.");
 }
 
-function nextMonth() {
+function loadCalendar() {
 
-  currentDate.setMonth(
-    currentDate.getMonth() + 1
-  );
+  const key =
+    "calendar_" +
+    selectedYear +
+    "_" +
+    selectedMonth;
 
-  renderCalendar();
+  const saved =
+    localStorage.getItem(key);
+
+  if (!saved) {
+    return;
+  }
+
+  const data = JSON.parse(saved);
+
+  const inputs =
+    document.querySelectorAll(".hours-input");
+
+  inputs.forEach(input => {
+
+    const day = input.dataset.day;
+
+    if (data[day] !== undefined) {
+      input.value = data[day];
+    }
+
+  });
+}
+
+function clearCalendar() {
+
+  if (!confirm("Vill du rensa alla timmar för denna månad?")) {
+    return;
+  }
+
+  const inputs =
+    document.querySelectorAll(".hours-input");
+
+  inputs.forEach(input => {
+    input.value = "";
+  });
+
+  const key =
+    "calendar_" +
+    selectedYear +
+    "_" +
+    selectedMonth;
+
+  localStorage.removeItem(key);
+
+  updateSummary();
 }
 
 renderCalendar();
-    
-  </script>
+
+</script>
 
 </body>
 </html>
