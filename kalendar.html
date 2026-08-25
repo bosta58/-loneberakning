@@ -380,7 +380,107 @@ yearSelect.addEventListener(
   renderCalendar
 );
 
+// 🇸🇪 Svenska helgdagar
+function getSwedishHoliday(date) {
 
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+
+  // Fasta svenska helgdagar
+  const fixedHolidays = {
+    "0-1": "Nyårsdagen",
+    "0-6": "Trettondedag jul",
+    "4-1": "Första maj",
+    "5-6": "Sveriges nationaldag",
+    "11-25": "Juldagen",
+    "11-26": "Annandag jul"
+  };
+
+  const key = month + "-" + day;
+
+  if (fixedHolidays[key]) {
+    return fixedHolidays[key];
+  }
+
+  // Beräkna påskdagen
+  const a = year % 19;
+  const b = Math.floor(year / 100);
+  const c = year % 100;
+  const d = Math.floor(b / 4);
+  const e = b % 4;
+  const f = Math.floor((b + 8) / 25);
+  const g = Math.floor((b - f + 1) / 3);
+  const h = (19 * a + b - d - g + 15) % 30;
+  const i = Math.floor(c / 4);
+  const k = c % 4;
+  const l = (32 + 2 * e + 2 * i - h - k) % 7;
+  const m = Math.floor((a + 11 * h + 22 * l) / 451);
+
+  const easterMonth =
+    Math.floor((h + l - 7 * m + 114) / 31) - 1;
+
+  const easterDay =
+    ((h + l - 7 * m + 114) % 31) + 1;
+
+  const easter = new Date(
+    year,
+    easterMonth,
+    easterDay
+  );
+
+  // Påskdagen
+  if (
+    date.getTime() === easter.getTime()
+  ) {
+    return "Påskdagen";
+  }
+
+  // Långfredagen
+  const goodFriday = new Date(easter);
+  goodFriday.setDate(easter.getDate() - 2);
+
+  if (
+    date.getTime() === goodFriday.getTime()
+  ) {
+    return "Långfredagen";
+  }
+
+  // Annandag påsk
+  const easterMonday = new Date(easter);
+  easterMonday.setDate(easter.getDate() + 1);
+
+  if (
+    date.getTime() === easterMonday.getTime()
+  ) {
+    return "Annandag påsk";
+  }
+
+  // Kristi himmelsfärdsdag
+  const ascension = new Date(easter);
+  ascension.setDate(easter.getDate() + 39);
+
+  if (
+    date.getTime() === ascension.getTime()
+  ) {
+    return "Kristi himmelsfärdsdag";
+  }
+
+  // Pingstdagen
+  const pentecost = new Date(easter);
+  pentecost.setDate(easter.getDate() + 49);
+
+  if (
+    date.getTime() === pentecost.getTime()
+  ) {
+    return "Pingstdagen";
+  }
+
+  return null;
+}
+
+
+function renderCalendar() {
 function renderCalendar() {
 
   selectedMonth =
