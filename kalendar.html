@@ -525,7 +525,19 @@ function renderCalendar() {
       `;
 
     }
+    const holidayDate =
+      new Date(
+        selectedYear,
+        selectedMonth,
+        day
+      );
 
+    if (
+      holidayDate.getMonth() === 4 &&
+      holidayDate.getDate() === 1
+    ) {
+      typeSelect.value = "holiday";
+    }
 
     typeSelect.addEventListener(
       "change",
