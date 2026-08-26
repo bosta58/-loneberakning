@@ -379,24 +379,38 @@ const nightOvertimeHours =
         Number(document.getElementById("tax").value);
 
       const regularPay =
-        regularHours * hourlyRate;
+  regularHours * hourlyRate;
 
-      const overtimePay =
-        overtimeHours * hourlyRate *
-        (1 + overtimePercent / 100);
+const regularOvertimePay =
+  regularOvertimeHours * hourlyRate *
+  (1 + overtimePercent / 100);
 
-      const nightPay =
-        nightHours * hourlyRate *
-        (1 + nightPercent / 100);
+const weekendPay =
+  weekendHours * hourlyRate *
+  (1 + weekendPercent / 100);
 
-      const weekendPay =
-        weekendHours * hourlyRate *
-        (1 + weekendPercent / 100);
+const weekendOvertimePay =
+  weekendOvertimeHours * hourlyRate *
+  (1 + weekendPercent / 100) *
+  (1 + overtimePercent / 100);
 
-      const holidayPayAmount =
-        holidayHours * hourlyRate *
-        (1 + holidayPercent / 100);
+const holidayPayAmount =
+  holidayHours * hourlyRate *
+  (1 + holidayPercent / 100);
 
+const holidayOvertimePay =
+  holidayOvertimeHours * hourlyRate *
+  (1 + holidayPercent / 100) *
+  (1 + overtimePercent / 100);
+
+const nightPay =
+  nightHours * hourlyRate *
+  (1 + nightPercent / 100);
+
+const nightOvertimePay =
+  nightOvertimeHours * hourlyRate *
+  (1 + nightPercent / 100) *
+  (1 + overtimePercent / 100);
       const baseGross =
         regularPay +
         overtimePay +
