@@ -411,12 +411,15 @@ const nightOvertimePay =
   nightOvertimeHours * hourlyRate *
   (1 + nightPercent / 100) *
   (1 + overtimePercent / 100);
-      const baseGross =
-        regularPay +
-        overtimePay +
-        nightPay +
-        weekendPay +
-        holidayPayAmount;
+     const baseGross =
+  regularPay +
+  regularOvertimePay +
+  weekendPay +
+  weekendOvertimePay +
+  holidayPayAmount +
+  holidayOvertimePay +
+  nightPay +
+  nightOvertimePay;
 
       const vacationPay =
         baseGross * holidayPay / 100;
