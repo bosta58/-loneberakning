@@ -595,7 +595,23 @@ function renderCalendar() {
 
     }
     
+const holidayDate =
+  new Date(
+    selectedYear,
+    selectedMonth,
+    day
+  );
 
+const holidayName =
+  getSwedishHoliday(holidayDate);
+
+if (holidayName) {
+
+  typeSelect.value = "holiday";
+
+  dayBox.classList.add("holiday");
+
+}
     typeSelect.addEventListener(
       "change",
       function() {
