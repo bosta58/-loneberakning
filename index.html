@@ -301,29 +301,59 @@
         Löneuppgifter
       </div>
 
-      <label>Timlön (kr)</label>
-      <input type="number" id="hourlyRate" value="146">
+    <div class="values-grid">
 
-   <div class="percent-row">
-  <label>Övertid tillägg (%)</label>
-  <input type="number" id="overtimePercent" value="10">
+  <div class="value-field">
+    <label>Redovni sati (kr)</label>
+    <input type="number" id="regularRate" value="146">
+  </div>
+
+  <div class="value-field">
+    <label>Prekovremeni sati (kr)</label>
+    <input type="number" id="regularOvertimeRate" value="156">
+  </div>
+
+  <div class="value-field">
+    <label>Noćni sati (kr)</label>
+    <input type="number" id="nightRate" value="146">
+  </div>
+
+  <div class="value-field">
+    <label>Noćni prekovremeni (kr)</label>
+    <input type="number" id="nightOvertimeRate" value="156">
+  </div>
+
+  <div class="value-field">
+    <label>Vikend sati (kr)</label>
+    <input type="number" id="weekendRate" value="146">
+  </div>
+
+  <div class="value-field">
+    <label>Vikend prekovremeni (kr)</label>
+    <input type="number" id="weekendOvertimeRate" value="156">
+  </div>
+
+  <div class="value-field">
+    <label>Praznični sati (kr)</label>
+    <input type="number" id="holidayRate" value="146">
+  </div>
+
+  <div class="value-field">
+    <label>Praznični prekovremeni (kr)</label>
+    <input type="number" id="holidayOvertimeRate" value="156">
+  </div>
+
+  <div class="value-field">
+    <label>Porez (%)</label>
+    <input type="number" id="tax" value="21">
+  </div>
+
+  <div class="value-field">
+    <label>Godišnji (%)</label>
+    <input type="number" id="holidayPay" value="13">
+  </div>
+
 </div>
-
-      <label>Natt tillägg (%)</label>
-      <input type="number" id="nightPercent" value="30">
-
-      <label>Helg tillägg (%)</label>
-      <input type="number" id="weekendPercent" value="50">
-
-      <label>Helgdag tillägg (%)</label>
-      <input type="number" id="holidayPercent" value="100">
-
-      <label>Semesterersättning (%)</label>
-      <input type="number" id="holidayPay" value="13">
-
-      <label>Skatt (%)</label>
-      <input type="number" id="tax" value="21">
-
       <button class="calculate" onclick="calculateSalary()">
         Beräkna lön
       </button>
