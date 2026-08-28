@@ -261,6 +261,40 @@
 
 .value-field input {
   margin-top: 0;
+}/* Personuppgifter - två kolumner */
+
+.personuppgifter-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.person-card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.person-card .section-title {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.person-card label {
+  display: block;
+  margin-top: 7px;
+  margin-bottom: 4px;
+}
+
+.person-card input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  font-size: 14px;
 }
   </style>
 </head>
@@ -285,8 +319,47 @@
   </button>
 </div>
 
-     <div class="section-title">
-  Personuppgifter
+     <div class="personuppgifter-grid">
+
+  <!-- Arbetsgivare -->
+  <div class="person-card">
+    <div class="section-title">
+      Arbetsgivare
+    </div>
+
+    <label>Företagsnamn</label>
+    <input type="text" id="employerName" placeholder="Ange företagsnamn">
+
+    <label>Organisationsnummer</label>
+    <input type="text" id="orgNumber" placeholder="Ange organisationsnummer">
+
+    <label>Adress</label>
+    <input type="text" id="employerAddress" placeholder="Ange adress">
+
+    <label>Telefon</label>
+    <input type="text" id="employerPhone" placeholder="Ange telefon">
+  </div>
+
+
+  <!-- Arbetstagare -->
+  <div class="person-card">
+    <div class="section-title">
+      Arbetstagare
+    </div>
+
+    <label>Namn</label>
+    <input type="text" id="name" placeholder="Ange namn">
+
+    <label>Personnummer</label>
+    <input type="text" id="personalNumber" placeholder="ÅÅMMDD-XXXX">
+
+    <label>Adress</label>
+    <input type="text" id="employeeAddress" placeholder="Ange adress">
+
+    <label>Telefon</label>
+    <input type="text" id="employeePhone" placeholder="Ange telefon">
+  </div>
+
 </div>
 
 <div class="persons-grid">
