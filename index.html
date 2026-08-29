@@ -483,131 +483,141 @@
   
 }function calculateSalary() {
 
-      const regularHours =
-  Number(document.getElementById("regularHours").value);
+  const regularHours =
+    Number(document.getElementById("regularHours").value);
 
-const regularOvertimeHours =
-  Number(document.getElementById("regularOvertimeHours").value);
+  const regularOvertimeHours =
+    Number(document.getElementById("regularOvertimeHours").value);
 
-const weekendHours =
-  Number(document.getElementById("weekendHours").value);
+  const weekendHours =
+    Number(document.getElementById("weekendHours").value);
 
-const weekendOvertimeHours =
-  Number(document.getElementById("weekendOvertimeHours").value);
+  const weekendOvertimeHours =
+    Number(document.getElementById("weekendOvertimeHours").value);
 
-const holidayHours =
-  Number(document.getElementById("holidayHours").value);
+  const holidayHours =
+    Number(document.getElementById("holidayHours").value);
 
-const holidayOvertimeHours =
-  Number(document.getElementById("holidayOvertimeHours").value);
+  const holidayOvertimeHours =
+    Number(document.getElementById("holidayOvertimeHours").value);
 
-const nightHours =
-  Number(document.getElementById("nightHours").value);
+  const nightHours =
+    Number(document.getElementById("nightHours").value);
 
-const nightOvertimeHours =
-  Number(document.getElementById("nightOvertimeHours").value);
-      const hourlyRate =
-        Number(document.getElementById("hourlyRate").value);
+  const nightOvertimeHours =
+    Number(document.getElementById("nightOvertimeHours").value);
 
-      const overtimePercent =
-        Number(document.getElementById("overtimePercent").value);
 
-      const nightPercent =
-        Number(document.getElementById("nightPercent").value);
+  // Satnice
+  const regularRate =
+    Number(document.getElementById("regularRate").value);
 
-      const weekendPercent =
-        Number(document.getElementById("weekendPercent").value);
+  const regularOvertimeRate =
+    Number(document.getElementById("regularOvertimeRate").value);
 
-      const holidayPercent =
-        Number(document.getElementById("holidayPercent").value);
+  const nightRate =
+    Number(document.getElementById("nightRate").value);
 
-      const holidayPay =
-        Number(document.getElementById("holidayPay").value);
+  const nightOvertimeRate =
+    Number(document.getElementById("nightOvertimeRate").value);
 
-      const tax =
-        Number(document.getElementById("tax").value);
+  const weekendRate =
+    Number(document.getElementById("weekendRate").value);
 
-      const regularPay =
-  regularHours * hourlyRate;
+  const weekendOvertimeRate =
+    Number(document.getElementById("weekendOvertimeRate").value);
 
-const regularOvertimePay =
-  regularOvertimeHours * hourlyRate *
-  (1 + overtimePercent / 100);
+  const holidayRate =
+    Number(document.getElementById("holidayRate").value);
 
-const weekendPay =
-  weekendHours * hourlyRate *
-  (1 + weekendPercent / 100);
+  const holidayOvertimeRate =
+    Number(document.getElementById("holidayOvertimeRate").value);
 
-const weekendOvertimePay =
-  weekendOvertimeHours * hourlyRate *
-  (1 + weekendPercent / 100) *
-  (1 + overtimePercent / 100);
 
-const holidayPayAmount =
-  holidayHours * hourlyRate *
-  (1 + holidayPercent / 100);
+  // Porez i godišnji
+  const tax =
+    Number(document.getElementById("tax").value);
 
-const holidayOvertimePay =
-  holidayOvertimeHours * hourlyRate *
-  (1 + holidayPercent / 100) *
-  (1 + overtimePercent / 100);
+  const holidayPay =
+    Number(document.getElementById("holidayPay").value);
 
-const nightPay =
-  nightHours * hourlyRate *
-  (1 + nightPercent / 100);
 
-const nightOvertimePay =
-  nightOvertimeHours * hourlyRate *
-  (1 + nightPercent / 100) *
-  (1 + overtimePercent / 100);
-     const baseGross =
-  regularPay +
-  regularOvertimePay +
-  weekendPay +
-  weekendOvertimePay +
-  holidayPayAmount +
-  holidayOvertimePay +
-  nightPay +
-  nightOvertimePay;
+  // Obračun
+  const regularPay =
+    regularHours * regularRate;
 
-      const vacationPay =
-        baseGross * holidayPay / 100;
+  const regularOvertimePay =
+    regularOvertimeHours * regularOvertimeRate;
 
-      const grossSalary =
-        baseGross + vacationPay;
+  const nightPay =
+    nightHours * nightRate;
 
-      const taxAmount =
-        grossSalary * tax / 100;
+  const nightOvertimePay =
+    nightOvertimeHours * nightOvertimeRate;
 
-      const netSalary =
-        grossSalary - taxAmount;
+  const weekendPay =
+    weekendHours * weekendRate;
 
-      document.getElementById("result").innerHTML = `
+  const weekendOvertimePay =
+    weekendOvertimeHours * weekendOvertimeRate;
 
-        <p class="gross">
-          <strong>Bruttolön:</strong>
-          ${grossSalary.toFixed(2)} kr
-        </p>
+  const holidayPayAmount =
+    holidayHours * holidayRate;
 
-        <p class="vacation">
-          <strong>Semesterersättning:</strong>
-          ${vacationPay.toFixed(2)} kr
-        </p>
+  const holidayOvertimePay =
+    holidayOvertimeHours * holidayOvertimeRate;
 
-        <p class="tax">
-          <strong>Skatt:</strong>
-          ${taxAmount.toFixed(2)} kr
-        </p>
 
-        <div class="net-box">
-          <span class="net-label">Nettolön</span>
-          <p class="total">
-            ${netSalary.toFixed(2)} kr
-          </p>
-        </div>
+  const baseGross =
+    regularPay +
+    regularOvertimePay +
+    nightPay +
+    nightOvertimePay +
+    weekendPay +
+    weekendOvertimePay +
+    holidayPayAmount +
+    holidayOvertimePay;
 
-      `;
-    }
+
+  const vacationPay =
+    baseGross * holidayPay / 100;
+
+  const grossSalary =
+    baseGross + vacationPay;
+
+  const taxAmount =
+    grossSalary * tax / 100;
+
+  const netSalary =
+    grossSalary - taxAmount;
+
+
+  document.getElementById("result").innerHTML = `
+
+    <p class="gross">
+      <strong>Bruttolön:</strong>
+      ${grossSalary.toFixed(2)} kr
+    </p>
+
+    <p class="vacation">
+      <strong>Semesterersättning:</strong>
+      ${vacationPay.toFixed(2)} kr
+    </p>
+
+    <p class="tax">
+      <strong>Skatt:</strong>
+      ${taxAmount.toFixed(2)} kr
+    </p>
+
+    <div class="net-box">
+      <span class="net-label">Nettolön</span>
+      <p class="total">
+        ${netSalary.toFixed(2)} kr
+      </p>
+    </div>
+
+  `;
+}
   </script>
 
 </body>
