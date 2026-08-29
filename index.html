@@ -510,7 +510,39 @@
   document.getElementById("holidayOvertimeHours").value =
     hours.holidayOvertimeHours || 0;
 }
-}function calculateSalary() {
+}function loadCalendarHours() {
+
+  const saved =
+    localStorage.getItem("salaryHours");
+
+  if (!saved) {
+    return;
+  }
+
+  const hours =
+    JSON.parse(saved);
+
+  document.getElementById("regularHours").value =
+    hours.regularHours || 0;
+
+  document.getElementById("regularOvertimeHours").value =
+    hours.regularOvertimeHours || 0;
+
+  document.getElementById("weekendHours").value =
+    hours.weekendHours || 0;
+
+  document.getElementById("weekendOvertimeHours").value =
+    hours.weekendOvertimeHours || 0;
+
+  document.getElementById("holidayHours").value =
+    hours.holidayHours || 0;
+
+  document.getElementById("holidayOvertimeHours").value =
+    hours.holidayOvertimeHours || 0;
+}
+
+function calculateSalary() {
+    
 
   const regularHours =
     Number(document.getElementById("regularHours").value);
@@ -646,7 +678,7 @@
     </div>
 
   `;
-}
+}loadCalendarHours();
   </script>
 
 </body>
