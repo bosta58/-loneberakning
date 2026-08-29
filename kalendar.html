@@ -797,10 +797,17 @@ function updateSummary() {
     total.toFixed(1);
 
 
-  document.getElementById(
-    "workDays"
-  ).textContent =
-    workDays;
+  localStorage.setItem(
+  "salaryHours",
+  JSON.stringify({
+    regularHours: regularWeekday,
+    regularOvertimeHours: overtimeWeekday,
+    weekendHours: regularWeekend,
+    weekendOvertimeHours: overtimeWeekend,
+    holidayHours: regularHoliday,
+    holidayOvertimeHours: overtimeHoliday
+  })
+);
 
 }
 
