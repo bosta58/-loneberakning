@@ -263,6 +263,21 @@
   </div>
 
 </div>
+<script>
+  function loadCalendarHours() {
 
+    const saved = localStorage.getItem("salaryHours");
+
+    if (!saved) {
+      return;
+    }
+
+    const hours = JSON.parse(saved);
+
+    console.log("Sati iz kalendara:", hours);
+  }
+
+  loadCalendarHours();
+</script>
 </body>
 </html>
