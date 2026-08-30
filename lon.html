@@ -1,1 +1,268 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Genie – Löneuppgifter</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(180deg, #eef2f7 0%, #f8f9fb 100%);
+      color: #1f2937;
+    }
+
+    .container {
+      max-width: 640px;
+      margin: auto;
+      padding: 18px;
+    }
+
+    .card {
+      background: #ffffff;
+      padding: 16px;
+      border-radius: 22px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .header-icon {
+      width: 58px;
+      height: 58px;
+      margin: 0 auto 10px;
+      border-radius: 16px;
+      background: #1f2937;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 27px;
+      color: #111827;
+    }
+
+    .subtitle {
+      margin-top: 6px;
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .section-title {
+      margin-top: 24px;
+      margin-bottom: 12px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #111827;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 8px;
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .value-field {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .value-field label {
+      min-height: 42px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .value-field input {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 16px;
+      text-align: center;
+      background: #f9fafb;
+    }
+
+    .value-field input:focus {
+      border-color: #6b7280;
+      background: #ffffff;
+      outline: none;
+    }
+
+    .navigation-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 25px;
+    }
+
+    .navigation-buttons button {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 11px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .back-button {
+      background: #ddd;
+      color: #222;
+    }
+
+    .calculate-button {
+      background: #111827;
+      color: white;
+    }
+
+    .navigation-buttons button:active {
+      transform: scale(0.98);
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: #9ca3af;
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        padding: 10px;
+      }
+
+      .card {
+        padding: 14px;
+      }
+
+      .values-grid {
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="card">
+
+    <div class="header">
+
+      <div class="header-icon">✨</div>
+
+      <h1>Genie</h1>
+
+      <div class="subtitle">
+        Löneuppgifter – Timlön
+      </div>
+
+    </div>
+
+
+    <div class="section-title">
+      Löneuppgifter
+    </div>
+
+
+    <div class="values-grid">
+
+      <div class="value-field">
+        <label>Redovni sati (kr)</label>
+        <input type="number" id="regularRate" value="146">
+      </div>
+
+      <div class="value-field">
+        <label>Prekovremeni sati (kr)</label>
+        <input type="number" id="regularOvertimeRate" value="156">
+      </div>
+
+      <div class="value-field">
+        <label>Noćni sati (kr)</label>
+        <input type="number" id="nightRate" value="146">
+      </div>
+
+      <div class="value-field">
+        <label>Noćni prekovremeni (kr)</label>
+        <input type="number" id="nightOvertimeRate" value="156">
+      </div>
+
+      <div class="value-field">
+        <label>Vikend sati (kr)</label>
+        <input type="number" id="weekendRate" value="146">
+      </div>
+
+      <div class="value-field">
+        <label>Vikend prekovremeni (kr)</label>
+        <input type="number" id="weekendOvertimeRate" value="156">
+      </div>
+
+      <div class="value-field">
+        <label>Praznični sati (kr)</label>
+        <input type="number" id="holidayRate" value="146">
+      </div>
+
+      <div class="value-field">
+        <label>Praznični prekovremeni (kr)</label>
+        <input type="number" id="holidayOvertimeRate" value="156">
+      </div>
+
+      <div class="value-field">
+        <label>Porez (%)</label>
+        <input type="number" id="tax" value="21">
+      </div>
+
+      <div class="value-field">
+        <label>Godišnji (%)</label>
+        <input type="number" id="holidayPay" value="13">
+      </div>
+
+    </div>
+
+
+    <div class="navigation-buttons">
+
+      <button
+        class="back-button"
+        type="button"
+        onclick="window.location.href='kalendar.html'">
+        ← Tillbaka
+      </button>
+
+      <button
+        class="calculate-button"
+        type="button">
+        Beräkna lön
+      </button>
+
+    </div>
+
+
+    <div class="footer">
+      Genie
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
