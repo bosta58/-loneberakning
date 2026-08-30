@@ -352,6 +352,128 @@
 }
 
 loadCalendarHours();
+  function calculateSalary() {
+
+  const saved = localStorage.getItem("salaryHours");
+
+  if (!saved) {
+    alert("Ingen arbetstid hittades från kalendern.");
+    return;
+  }
+
+  const hours = JSON.parse(saved);
+
+  const regularHours =
+    Number(hours.regularHours || 0);
+
+  const regularOvertimeHours =
+    Number(hours.regularOvertimeHours || 0);
+
+  const weekendHours =
+    Number(hours.weekendHours || 0);
+
+  const weekendOvertimeHours =
+    Number(hours.weekendOvertimeHours || 0);
+
+  const holidayHours =
+    Number(hours.holidayHours || 0);
+
+  const holidayOvertimeHours =
+    Number(hours.holidayOvertimeHours || 0);
+
+
+  const regularRate =
+    Number(document.getElementById("regularRate").value);
+
+  const regularOvertimeRate =
+    Number(document.getElementById("regularOvertimeRate").value);
+
+  const weekendRate =
+    Number(document.getElementById("weekendRate").value);
+
+  const weekendOvertimeRate =
+    Number(document.getElementById("weekendOvertimeRate").value);
+
+  const holidayRate =
+    Number(document.getElementById("holidayRate").value);
+
+  const holidayOvertimeRate =
+    Number(document.getElementById("holidayOvertimeRate").value);
+
+  const tax =
+    Number(document.getElementById("tax").value);
+
+  const holidayPay =
+    Number(document.getElementById("holidayPay").value);
+
+
+  const regularPay =
+    regularHours * regularRate;
+
+  const regularOvertimePay =
+    regularOvertimeHours * regularOvertimeRate;
+
+  const weekendPay =
+    weekendHours * weekendRate;
+
+  const weekendOvertimePay =
+    weekendOvertimeHours * weekendOvertimeRate;
+
+  const holidayPayAmount =
+    holidayHours * holidayRate;
+
+  const holidayOvertimePay =
+    holidayOvertimeHours * holidayOvertimeRate;
+
+
+  const baseGross =
+    regularPay +
+    regularOvertimePay +
+    weekendPay +
+    weekendOvertimePay +
+    holidayPayAmount +
+    holidayOvertimePay;
+
+
+  const vacationPay =
+    baseGross * holidayPay / 100;
+
+  const grossSalary =
+    baseGross + vacationPay;
+
+  const taxAmount =
+    grossSalary * tax / 100;
+
+  const netSalary =
+    grossSalary - taxAmount;
+
+
+  document.getElementById("result").innerHTML = `
+
+    <p class="gross">
+      <strong>Bruttolön:</strong>
+      ${grossSalary.toFixed(2)} kr
+    </p>
+
+    <p class="vacation">
+      <strong>Semesterersättning:</strong>
+      ${vacationPay.toFixed(2)} kr
+    </p>
+
+    <p class="tax">
+      <strong>Skatt:</strong>
+      ${taxAmount.toFixed(2)} kr
+    </p>
+
+    <div class="net-box">
+      <span class="net-label">Nettolön</span>
+      <p class="total">
+        ${netSalary.toFixed(2)} kr
+      </p>
+    </div>
+
+  `;
+}
 </script>
 </body>
 </html>
