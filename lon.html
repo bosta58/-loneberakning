@@ -302,18 +302,34 @@
 <script>
   function loadCalendarHours() {
 
-    const saved = localStorage.getItem("salaryHours");
+  const saved = localStorage.getItem("salaryHours");
 
-    if (!saved) {
-      return;
-    }
-
-    const hours = JSON.parse(saved);
-
-    console.log("Sati iz kalendara:", hours);
+  if (!saved) {
+    return;
   }
 
-  loadCalendarHours();
+  const hours = JSON.parse(saved);
+
+  document.getElementById("lonRegularHours").textContent =
+    Number(hours.regularHours || 0).toFixed(1) + " h";
+
+  document.getElementById("lonOvertimeHours").textContent =
+    Number(hours.regularOvertimeHours || 0).toFixed(1) + " h";
+
+  document.getElementById("lonWeekendHours").textContent =
+    Number(hours.weekendHours || 0).toFixed(1) + " h";
+
+  document.getElementById("lonWeekendOvertimeHours").textContent =
+    Number(hours.weekendOvertimeHours || 0).toFixed(1) + " h";
+
+  document.getElementById("lonHolidayHours").textContent =
+    Number(hours.holidayHours || 0).toFixed(1) + " h";
+
+  document.getElementById("lonHolidayOvertimeHours").textContent =
+    Number(hours.holidayOvertimeHours || 0).toFixed(1) + " h";
+}
+
+loadCalendarHours();
 </script>
 </body>
 </html>
