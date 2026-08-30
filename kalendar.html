@@ -209,6 +209,37 @@
         font-size: 10px;
       }
     }
+    /* Navigacija između stranica */
+
+.navigation-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.navigation-buttons button {
+  flex: 1;
+  padding: 13px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.back-button {
+  background: #ddd;
+  color: #222;
+}
+
+.next-button {
+  background: #1f2937;
+  color: white;
+}
+
+.navigation-buttons button:active {
+  transform: scale(0.98);
+}
   </style>
 </head>
 
