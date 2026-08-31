@@ -177,21 +177,20 @@
 .summary-item strong {
   font-size: 14px;
 }
-    .personuppgifter-grid {
+   .personuppgifter-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  gap: 10px;
   width: 100%;
   margin-top: 10px;
   margin-bottom: 20px;
-  align-items: start;
 }
 
 .person-card {
-  background: #f5f7fa;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
   border-radius: 12px;
   padding: 10px;
-  min-width: 0;
 }
 
 .person-title {
@@ -199,7 +198,7 @@
   font-weight: bold;
   text-align: center;
   color: #111827;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .person-card label {
@@ -213,22 +212,26 @@
 
 .person-card input,
 .person-card textarea {
+  display: block;
   width: 100%;
-  padding: 9px;
+  height: 40px;
+  padding: 8px 9px;
   border: 1px solid #d1d5db;
   border-radius: 9px;
   font-size: 14px;
-  background: #ffffff;
+  background: #f9fafb;
 }
 
 .person-card textarea {
-  min-height: 58px;
-  resize: vertical;
+  height: 40px;
+  min-height: 40px;
+  resize: none;
 }
 
 .person-card input:focus,
 .person-card textarea:focus {
   border-color: #6b7280;
+  background: #ffffff;
   outline: none;
 }
   </style>
