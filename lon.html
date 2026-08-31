@@ -229,6 +229,32 @@
   background: #ffffff;
   outline: none;
 }
+    .input-box {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 42px;
+  padding: 0 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #f9fafb;
+}
+
+.input-box span {
+  flex: 1;
+  font-size: 13px;
+  color: #374151;
+}
+
+.input-box input {
+  width: 65px;
+  padding: 6px;
+  border: none;
+  background: transparent;
+  text-align: right;
+  font-size: 16px;
+  outline: none;
+}
   </style>
 </head>
 
@@ -323,10 +349,18 @@
 
  <div class="values-grid">
 
-  <div class="value-field">
-    <div class="input-label">Redovna timlön (kr)</div>
-    <input type="number" id="regularRate" value="146">
+<div class="value-field">
+
+  <div class="input-box">
+    <span>Redovna timlön (kr)</span>
+
+    <input
+      type="number"
+      id="regularRate"
+      value="146">
   </div>
+
+</div>
 
   <div class="value-field">
     <div class="input-label">Övertid vardag (kr)</div>
