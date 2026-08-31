@@ -252,156 +252,27 @@
       <div class="subtitle">
         Löneuppgifter – Timlön
       </div>
-      <div class="personuppgifter-grid">
+    <div class="personuppgifter-grid">
 
   <div class="person-card">
     <div class="person-title">Arbetsgivare</div>
 
-    <label>Namn</label>
-    <input type="text" id="employerName" placeholder="Ange namn">
-
-    <label>Adress</label>
-    <textarea id="employerAddress" placeholder="Ange adress"></textarea>
+    <textarea
+      id="employerInfo"
+      placeholder="Ange uppgifter om arbetsgivaren">
+    </textarea>
   </div>
 
   <div class="person-card">
     <div class="person-title">Arbetstagare</div>
 
-    <label>Namn</label>
-    <input type="text" id="employeeName" placeholder="Ange namn">
-
-    <label>Personnummer</label>
-    <input type="text" id="employeeNumber" placeholder="Ange personnummer">
+    <textarea
+      id="employeeInfo"
+      placeholder="Ange uppgifter om arbetstagaren">
+    </textarea>
   </div>
 
 </div>
-<div class="section-title">
-  Arbetstid från kalender
-</div>
-
-<div class="hours-summary">
-
-  <div class="summary-item">
-    <span>Ordinarie vardag</span>
-    <strong id="lonRegularHours">0.0 h</strong>
-  </div>
-
-  <div class="summary-item">
-    <span>Övertid vardag</span>
-    <strong id="lonOvertimeHours">0.0 h</strong>
-  </div>
-
-  <div class="summary-item">
-    <span>Ordinarie helg</span>
-    <strong id="lonWeekendHours">0.0 h</strong>
-  </div>
-
-  <div class="summary-item">
-    <span>Övertid helg</span>
-    <strong id="lonWeekendOvertimeHours">0.0 h</strong>
-  </div>
-
-  <div class="summary-item">
-    <span>Ordinarie helgdag</span>
-    <strong id="lonHolidayHours">0.0 h</strong>
-  </div>
-
-  <div class="summary-item">
-    <span>Övertid helgdag</span>
-    <strong id="lonHolidayOvertimeHours">0.0 h</strong>
-  </div>
-
-</div>
-    </div>
-
-
-    <div class="section-title">
-      Löneuppgifter
-    </div>
-
-
-    <div class="values-grid">
-
-      <div class="value-field">
-        <label>Redovni sati (kr)</label>
-        <input type="number" id="regularRate" value="146">
-      </div>
-
-      <div class="value-field">
-        <label>Prekovremeni sati (kr)</label>
-        <input type="number" id="regularOvertimeRate" value="156">
-      </div>
-
-      <div class="value-field">
-        <label>Noćni sati (kr)</label>
-        <input type="number" id="nightRate" value="146">
-      </div>
-
-      <div class="value-field">
-        <label>Noćni prekovremeni (kr)</label>
-        <input type="number" id="nightOvertimeRate" value="156">
-      </div>
-
-      <div class="value-field">
-        <label>Vikend sati (kr)</label>
-        <input type="number" id="weekendRate" value="146">
-      </div>
-
-      <div class="value-field">
-        <label>Vikend prekovremeni (kr)</label>
-        <input type="number" id="weekendOvertimeRate" value="156">
-      </div>
-
-      <div class="value-field">
-        <label>Praznični sati (kr)</label>
-        <input type="number" id="holidayRate" value="146">
-      </div>
-
-      <div class="value-field">
-        <label>Praznični prekovremeni (kr)</label>
-        <input type="number" id="holidayOvertimeRate" value="156">
-      </div>
-
-      <div class="value-field">
-        <label>Porez (%)</label>
-        <input type="number" id="tax" value="21">
-      </div>
-
-      <div class="value-field">
-        <label>Godišnji (%)</label>
-        <input type="number" id="holidayPay" value="13">
-      </div>
-
-    </div>
-
-
-    <div class="navigation-buttons">
-
-      <button
-        class="back-button"
-        type="button"
-        onclick="window.location.href='kalendar.html'">
-        ← Tillbaka
-      </button>
-
-     <button
-  class="calculate-button"
-  type="button"
-  onclick="calculateSalary()">
-  Beräkna lön
-</button>
-
-    </div>
-<div class="result" id="result">
-  <p>Rezultat će se prikazati ovde.</p>
-</div>
-
-    <div class="footer">
-      Genie
-    </div>
-
-  </div>
-
 </div>
 <script>
   function loadCalendarHours() {
