@@ -247,25 +247,147 @@
       <div class="subtitle">
         Löneuppgifter – Timlön
       </div>
-      </div>
+
+    </div>
+
+
+    <!-- ARBETSGIVARE / ARBETSTAGARE -->
+
     <div class="personuppgifter-grid">
 
-  <div class="person-card">
-    <div class="person-title">Arbetsgivare</div>
+      <div class="person-card">
+        <div class="person-title">Arbetsgivare</div>
 
-    <textarea
-      id="employerInfo"
-      placeholder="Ange uppgifter om arbetsgivaren">
-    </textarea>
-  </div>
+        <textarea
+          id="employerInfo"
+          placeholder="Ange uppgifter om arbetsgivaren"></textarea>
+      </div>
 
-  <div class="person-card">
-    <div class="person-title">Arbetstagare</div>
+      <div class="person-card">
+        <div class="person-title">Arbetstagare</div>
 
-    <textarea
-      id="employeeInfo"
-      placeholder="Ange uppgifter om arbetstagaren">
-    </textarea>
+        <textarea
+          id="employeeInfo"
+          placeholder="Ange uppgifter om arbetstagaren"></textarea>
+      </div>
+
+    </div>
+
+
+    <!-- ARBETSTID -->
+
+    <div class="section-title">
+      Arbetstid
+    </div>
+
+    <div class="hours-summary">
+
+      <div class="summary-item">
+        <span>Ordinarie vardag</span>
+        <strong id="lonRegularHours">0.0 h</strong>
+      </div>
+
+      <div class="summary-item">
+        <span>Övertid vardag</span>
+        <strong id="lonOvertimeHours">0.0 h</strong>
+      </div>
+
+      <div class="summary-item">
+        <span>Vardag/helg</span>
+        <strong id="lonWeekendHours">0.0 h</strong>
+      </div>
+
+      <div class="summary-item">
+        <span>Övertid helg</span>
+        <strong id="lonWeekendOvertimeHours">0.0 h</strong>
+      </div>
+
+      <div class="summary-item">
+        <span>Helgdag</span>
+        <strong id="lonHolidayHours">0.0 h</strong>
+      </div>
+
+      <div class="summary-item">
+        <span>Övertid helgdag</span>
+        <strong id="lonHolidayOvertimeHours">0.0 h</strong>
+      </div>
+
+    </div>
+
+
+    <!-- LÖNEUPPGIFTER -->
+
+    <div class="section-title">
+      Löneuppgifter
+    </div>
+
+    <div class="values-grid">
+
+      <div class="value-field">
+        <label>Redovisad timlön (kr)</label>
+        <input type="number" id="regularRate" value="146">
+      </div>
+
+      <div class="value-field">
+        <label>Övertid vardag (kr)</label>
+        <input type="number" id="regularOvertimeRate" value="156">
+      </div>
+
+      <div class="value-field">
+        <label>Vardag/helg (kr)</label>
+        <input type="number" id="weekendRate" value="186">
+      </div>
+
+      <div class="value-field">
+        <label>Övertid helg (kr)</label>
+        <input type="number" id="weekendOvertimeRate" value="196">
+      </div>
+
+      <div class="value-field">
+        <label>Helgdag (kr)</label>
+        <input type="number" id="holidayRate" value="246">
+      </div>
+
+      <div class="value-field">
+        <label>Övertid helgdag (kr)</label>
+        <input type="number" id="holidayOvertimeRate" value="256">
+      </div>
+
+      <div class="value-field">
+        <label>Semesterersättning (%)</label>
+        <input type="number" id="holidayPay" value="13">
+      </div>
+
+      <div class="value-field">
+        <label>Skatt (%)</label>
+        <input type="number" id="tax" value="21">
+      </div>
+
+    </div>
+
+
+    <!-- KNAPP -->
+
+    <div class="navigation-buttons">
+
+      <button
+        class="calculate-button"
+        onclick="calculateSalary()">
+        Beräkna lön
+      </button>
+
+    </div>
+
+
+    <!-- RESULTAT -->
+
+    <div id="result"></div>
+
+
+    <div class="footer">
+      Genie
+    </div>
+
   </div>
 
 </div>
