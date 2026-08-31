@@ -177,6 +177,60 @@
 .summary-item strong {
   font-size: 14px;
 }
+    .personuppgifter-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  align-items: start;
+}
+
+.person-card {
+  background: #f5f7fa;
+  border-radius: 12px;
+  padding: 10px;
+  min-width: 0;
+}
+
+.person-title {
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+  color: #111827;
+  margin-bottom: 10px;
+}
+
+.person-card label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+  margin-top: 7px;
+  margin-bottom: 4px;
+}
+
+.person-card input,
+.person-card textarea {
+  width: 100%;
+  padding: 9px;
+  border: 1px solid #d1d5db;
+  border-radius: 9px;
+  font-size: 14px;
+  background: #ffffff;
+}
+
+.person-card textarea {
+  min-height: 58px;
+  resize: vertical;
+}
+
+.person-card input:focus,
+.person-card textarea:focus {
+  border-color: #6b7280;
+  outline: none;
+}
   </style>
 </head>
 
