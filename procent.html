@@ -1,1 +1,666 @@
 
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Genie – Kollektivavtal</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(180deg, #eef2f7 0%, #f8f9fb 100%);
+      color: #1f2937;
+    }
+
+    .container {
+      max-width: 640px;
+      margin: auto;
+      padding: 18px;
+    }
+
+    .card {
+      background: #ffffff;
+      padding: 16px;
+      border-radius: 22px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .header-icon {
+      width: 58px;
+      height: 58px;
+      margin: 0 auto 10px;
+      border-radius: 16px;
+      background: #1f2937;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 27px;
+      color: #111827;
+    }
+
+    .subtitle {
+      margin-top: 6px;
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .section-title {
+      margin-top: 24px;
+      margin-bottom: 12px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #111827;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 8px;
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .value-field {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .input-box {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      min-width: 0;
+      height: 42px;
+      padding: 0 8px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      background: #f9fafb;
+      overflow: hidden;
+    }
+
+    .input-box span {
+      flex: 1;
+      min-width: 0;
+      font-size: 12px;
+      color: #374151;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .input-box input {
+      flex: 0 0 55px;
+      width: 55px;
+      min-width: 0;
+      padding: 5px 2px;
+      border: none;
+      background: transparent;
+      text-align: right;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .navigation-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 25px;
+    }
+
+    .navigation-buttons button {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 11px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .back-button {
+      background: #ddd;
+      color: #222;
+    }
+
+    .calculate-button {
+      background: #111827;
+      color: white;
+    }
+
+    .navigation-buttons button:active {
+      transform: scale(0.98);
+    }
+
+    .hours-summary {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background: #f5f7fa;
+      border-radius: 9px;
+      font-size: 13px;
+    }
+
+    .summary-item strong {
+      font-size: 14px;
+    }
+
+    .result {
+      margin-top: 25px;
+      padding: 20px;
+      background: #f3f4f6;
+      border-radius: 15px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .result p {
+      margin: 10px 0;
+      font-size: 16px;
+    }
+
+    .gross {
+      color: #374151;
+    }
+
+    .tax {
+      color: #b91c1c;
+    }
+
+    .vacation {
+      color: #374151;
+    }
+
+    .net-box {
+      margin-top: 16px;
+      padding: 16px;
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #d1d5db;
+      text-align: center;
+    }
+
+    .net-label {
+      display: block;
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 5px;
+    }
+
+    .total {
+      font-size: 25px !important;
+      font-weight: bold;
+      color: #111827;
+      margin: 0 !important;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: #9ca3af;
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        padding: 10px;
+      }
+
+      .card {
+        padding: 14px;
+      }
+
+      .values-grid,
+      .hours-summary {
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="card">
+
+    <div class="header">
+
+      <div class="header-icon">✨</div>
+
+      <h1>Genie</h1>
+
+      <div class="subtitle">
+        Löneuppgifter – Kollektivavtal
+      </div>
+
+    </div>
+
+
+    <!-- ARBETSTID -->
+
+    <div class="section-title">
+      Arbetstid
+    </div>
+
+    <div class="hours-summary">
+
+      <div class="summary-item">
+        <span>Ordinarie vardag</span>
+        <strong id="lonRegularHours">0.0 h</strong>
+      </div>
+
+      <div class="summary-item">
+        <span>Övertid vardag</span>
+        <strong id="lonOvertimeHours">0.0 h</strong>
+      </div>
+
+      <div class="summary-item">
+        <span>Vardag/helg</span>
+        <strong id="lonWeekendHours">0.0 h</strong>
+      </div>
+
+      <div class="summary-item">
+        <span>Övertid helg</span>
+        <strong id="lonWeekendOvertimeHours">0.0 h</strong>
+      </div>
+
+      <div class="summary-item">
+        <span>Helgdag</span>
+        <strong id="lonHolidayHours">0.0 h</strong>
+      </div>
+
+      <div class="summary-item">
+        <span>Övertid helgdag</span>
+        <strong id="lonHolidayOvertimeHours">0.0 h</strong>
+      </div>
+
+    </div>
+
+
+    <!-- KOLLEKTIVAVTAL -->
+
+    <div class="section-title">
+      Kollektivavtal
+    </div>
+
+    <div class="values-grid">
+
+      <div class="value-field">
+
+        <div class="input-box">
+          <span>Ordinarie timlön (kr)</span>
+
+          <input
+            type="number"
+            id="regularRate"
+            value="146">
+        </div>
+
+      </div>
+
+
+      <div class="value-field">
+
+        <div class="input-box">
+          <span>Övertid vardag (%)</span>
+
+          <input
+            type="number"
+            id="regularOvertimePercent"
+            value="10">
+        </div>
+
+      </div>
+
+
+      <div class="value-field">
+
+        <div class="input-box">
+          <span>Vardag/helg (%)</span>
+
+          <input
+            type="number"
+            id="weekendPercent"
+            value="50">
+        </div>
+
+      </div>
+
+
+      <div class="value-field">
+
+        <div class="input-box">
+          <span>Övertid helg (%)</span>
+
+          <input
+            type="number"
+            id="weekendOvertimePercent"
+            value="60">
+        </div>
+
+      </div>
+
+
+      <div class="value-field">
+
+        <div class="input-box">
+          <span>Helgdag (%)</span>
+
+          <input
+            type="number"
+            id="holidayPercent"
+            value="100">
+        </div>
+
+      </div>
+
+
+      <div class="value-field">
+
+        <div class="input-box">
+          <span>Övertid helgdag (%)</span>
+
+          <input
+            type="number"
+            id="holidayOvertimePercent"
+            value="110">
+        </div>
+
+      </div>
+
+
+      <div class="value-field">
+
+        <div class="input-box">
+          <span>Semesterersättning (%)</span>
+
+          <input
+            type="number"
+            id="holidayPay"
+            value="13">
+        </div>
+
+      </div>
+
+
+      <div class="value-field">
+
+        <div class="input-box">
+          <span>Skatt (%)</span>
+
+          <input
+            type="number"
+            id="tax"
+            value="21">
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- KNAPPAR -->
+
+    <div class="navigation-buttons">
+
+      <button
+        class="back-button"
+        onclick="history.back()">
+        Tillbaka
+      </button>
+
+      <button
+        class="calculate-button"
+        onclick="calculateSalary()">
+        Beräkna lön
+      </button>
+
+    </div>
+
+
+    <!-- RESULTAT -->
+
+    <div class="result" id="result">
+
+      <p>
+        Fyll i uppgifterna och tryck på "Beräkna lön".
+      </p>
+
+    </div>
+
+
+    <div class="footer">
+      Genie
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+function loadCalendarHours() {
+
+  const saved = localStorage.getItem("salaryHours");
+
+  if (!saved) {
+    return;
+  }
+
+  const hours = JSON.parse(saved);
+
+  document.getElementById("lonRegularHours").textContent =
+    Number(hours.regularHours || 0).toFixed(1) + " h";
+
+  document.getElementById("lonOvertimeHours").textContent =
+    Number(hours.regularOvertimeHours || 0).toFixed(1) + " h";
+
+  document.getElementById("lonWeekendHours").textContent =
+    Number(hours.weekendHours || 0).toFixed(1) + " h";
+
+  document.getElementById("lonWeekendOvertimeHours").textContent =
+    Number(hours.weekendOvertimeHours || 0).toFixed(1) + " h";
+
+  document.getElementById("lonHolidayHours").textContent =
+    Number(hours.holidayHours || 0).toFixed(1) + " h";
+
+  document.getElementById("lonHolidayOvertimeHours").textContent =
+    Number(hours.holidayOvertimeHours || 0).toFixed(1) + " h";
+}
+
+
+function calculateSalary() {
+
+  const saved = localStorage.getItem("salaryHours");
+
+  if (!saved) {
+
+    alert("Ingen arbetstid hittades från kalendern.");
+
+    return;
+  }
+
+
+  const hours = JSON.parse(saved);
+
+
+  const regularHours =
+    Number(hours.regularHours || 0);
+
+  const regularOvertimeHours =
+    Number(hours.regularOvertimeHours || 0);
+
+  const weekendHours =
+    Number(hours.weekendHours || 0);
+
+  const weekendOvertimeHours =
+    Number(hours.weekendOvertimeHours || 0);
+
+  const holidayHours =
+    Number(hours.holidayHours || 0);
+
+  const holidayOvertimeHours =
+    Number(hours.holidayOvertimeHours || 0);
+
+
+  /* GRUNDLÖN */
+
+  const regularRate =
+    Number(document.getElementById("regularRate").value);
+
+
+  /* PROCENT */
+
+  const regularOvertimePercent =
+    Number(document.getElementById("regularOvertimePercent").value);
+
+  const weekendPercent =
+    Number(document.getElementById("weekendPercent").value);
+
+  const weekendOvertimePercent =
+    Number(document.getElementById("weekendOvertimePercent").value);
+
+  const holidayPercent =
+    Number(document.getElementById("holidayPercent").value);
+
+  const holidayOvertimePercent =
+    Number(document.getElementById("holidayOvertimePercent").value);
+
+
+  const tax =
+    Number(document.getElementById("tax").value);
+
+  const holidayPay =
+    Number(document.getElementById("holidayPay").value);
+
+
+  /* TIMPRISER */
+
+  const regularOvertimeRate =
+    regularRate * (1 + regularOvertimePercent / 100);
+
+  const weekendRate =
+    regularRate * (1 + weekendPercent / 100);
+
+  const weekendOvertimeRate =
+    regularRate * (1 + weekendOvertimePercent / 100);
+
+  const holidayRate =
+    regularRate * (1 + holidayPercent / 100);
+
+  const holidayOvertimeRate =
+    regularRate * (1 + holidayOvertimePercent / 100);
+
+
+  /* LÖN */
+
+  const regularPay =
+    regularHours * regularRate;
+
+  const regularOvertimePay =
+    regularOvertimeHours * regularOvertimeRate;
+
+  const weekendPay =
+    weekendHours * weekendRate;
+
+  const weekendOvertimePay =
+    weekendOvertimeHours * weekendOvertimeRate;
+
+  const holidayPayAmount =
+    holidayHours * holidayRate;
+
+  const holidayOvertimePay =
+    holidayOvertimeHours * holidayOvertimeRate;
+
+
+  const baseGross =
+    regularPay +
+    regularOvertimePay +
+    weekendPay +
+    weekendOvertimePay +
+    holidayPayAmount +
+    holidayOvertimePay;
+
+
+  const vacationPay =
+    baseGross * holidayPay / 100;
+
+
+  const grossSalary =
+    baseGross + vacationPay;
+
+
+  const taxAmount =
+    grossSalary * tax / 100;
+
+
+  const netSalary =
+    grossSalary - taxAmount;
+
+
+  document.getElementById("result").innerHTML = `
+
+    <p class="gross">
+      <strong>Bruttolön:</strong>
+      ${grossSalary.toFixed(2)} kr
+    </p>
+
+    <p class="vacation">
+      <strong>Semesterersättning:</strong>
+      ${vacationPay.toFixed(2)} kr
+    </p>
+
+    <p class="tax">
+      <strong>Skatt:</strong>
+      ${taxAmount.toFixed(2)} kr
+    </p>
+
+    <div class="net-box">
+
+      <span class="net-label">
+        Nettolön
+      </span>
+
+      <p class="total">
+        ${netSalary.toFixed(2)} kr
+      </p>
+
+    </div>
+
+  `;
+}
+
+
+loadCalendarHours();
+
+</script>
+
+</body>
+</html>
