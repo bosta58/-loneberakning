@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Genie</title>
+  <title>Genie</title>
 
   <style>
     * {
@@ -18,18 +18,18 @@
       color: #1f2937;
     }
 
-   .container {
-  max-width: 640px;
-  margin: auto;
-  padding: 18px;
-}
+    .container {
+      max-width: 640px;
+      margin: auto;
+      padding: 18px;
+    }
 
- .card {
-  background: #ffffff;
-  padding: 16px;
-  border-radius: 22px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-}
+    .card {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 22px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    }
 
     .header {
       text-align: center;
@@ -62,296 +62,71 @@
       font-size: 15px;
     }
 
-    .section-title {
-      margin-top: 26px;
-      margin-bottom: 12px;
-      font-size: 18px;
-      font-weight: bold;
-      color: #111827;
-      border-bottom: 1px solid #e5e7eb;
-      padding-bottom: 8px;
-    }
-    .percent-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 10px;
-    }
-.values-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 10px;
-}
+    /* JEZIK */
 
-.value-field {
-  display: flex;
-  flex-direction: column;
-}
-
-.value-field label {
-  margin-bottom: 5px;
-  font-size: 13px;
-}
-
-.value-field input {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 8px;
-  font-size: 14px;
-  text-align: center;
-}
-    .percent-row label {
-      flex: 1;
-      margin: 0;
-      font-size: 14px;
+    .language-menu {
+      width: 100%;
+      margin: 10px 0 24px;
     }
 
-    .percent-row input {
-      width: 90px;
-      padding: 8px;
-      font-size: 14px;
-      text-align: center;
-    }
-    label {
-      display: block;
-      margin-top: 14px;
-      font-weight: 600;
-      font-size: 14px;
-      color: #374151;
-    }
-
-    input {
+    .language-menu select {
       width: 100%;
       padding: 13px 14px;
-      margin-top: 6px;
       border: 1px solid #d1d5db;
       border-radius: 11px;
       font-size: 16px;
       background: #f9fafb;
       color: #111827;
-      outline: none;
-    }
-
-    input:focus {
-      border-color: #6b7280;
-      background: #ffffff;
-    }
-
-    button {
-      width: 100%;
-      margin-top: 28px;
-      padding: 15px;
-      border: none;
-      border-radius: 12px;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .calculate {
-      background: #111827;
-      color: white;
-      box-shadow: 0 5px 15px rgba(17, 24, 39, 0.18);
-    }
-
-    .calculate:active {
-      transform: scale(0.99);
-    }
-
-    .result {
-      margin-top: 25px;
-      padding: 20px;
-      background: #f3f4f6;
-      border-radius: 15px;
-      border: 1px solid #e5e7eb;
-    }
-
-    .result p {
-      margin: 10px 0;
-      font-size: 16px;
-    }
-
-    .result .gross {
-      color: #374151;
-    }
-
-    .result .tax {
-      color: #b91c1c;
-    }
-
-    .result .vacation {
-      color: #374151;
-    }
-
-    .net-box {
-      margin-top: 16px;
-      padding: 16px;
-      background: #ffffff;
-      border-radius: 12px;
-      border: 1px solid #d1d5db;
       text-align: center;
     }
 
-    .net-label {
-      display: block;
-      font-size: 14px;
-      color: #6b7280;
-      margin-bottom: 5px;
+    /* GLAVNI MENI */
+
+    .main-menu {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 10px;
     }
 
-    .total {
-      font-size: 25px !important;
-      font-weight: bold;
+    .menu-button {
+      width: 100%;
+      min-height: 115px;
+      margin-top: 0;
+      padding: 12px 6px;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      background: #f9fafb;
       color: #111827;
-      margin: 0 !important;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+      cursor: pointer;
+    }
+
+    .menu-symbol {
+      font-size: 30px;
+      font-weight: bold;
+    }
+
+    .menu-text {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .menu-button:active {
+      transform: scale(0.98);
     }
 
     .footer {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 25px;
       font-size: 12px;
       color: #9ca3af;
-    }.hours-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 15px;
-}
-
-.hours-field {
-  display: flex;
-  flex-direction: column;
-}
-
-.hours-field label {
-  font-size: 12px;
-  margin-bottom: 3px;
-}
-
-.hours-field input {
-  width: 100%;
-  padding: 6px;
-  font-size: 14px;
-}.hours-grid .hours-field {
-  width: 100%;
-}
-
-.hours-grid {
-  width: 100%;
-  display: grid !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-}/* Poravnanje svih polja u dve kolone */
-.values-grid {
-  align-items: start;
-}
-
-.value-field {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-
-.value-field label {
-  min-height: 58px;
-  display: flex;
-  align-items: flex-start;
-}
-
-.value-field input {
-  margin-top: 0;
-}/* Personuppgifter - två kolumner */
-
-.personuppgifter-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0 !important;
-  width: calc(100% + 24px);
-  margin-left: -12px;
-  margin-right: -12px;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  align-items: start;
-}
-
-.person-card {
-  background: #ffffff;
-  border-radius: 10px;
-  padding: 10px;
-  box-sizing: border-box;
-  align-self: start;
-  width: 100%;
-}
-
-.person-card textarea {
-  display: block;
-  width: 100%;
-  height: 105px !important;
-  min-height: 105px !important;
-  max-height: 105px !important;
-  box-sizing: border-box;
-  resize: none;
-  padding: 10px;
-  font-size: 16px;
-  line-height: 1.35;
-  border: 2px solid #ccc;
-  border-radius: 10px;
-}/* Početni meni Genie */
-
-.language-menu {
-  width: 100%;
-  margin: 10px 0 20px;
-}
-
-.language-menu select {
-  width: 100%;
-  padding: 13px 14px;
-  border: 1px solid #d1d5db;
-  border-radius: 11px;
-  font-size: 16px;
-  background: #f9fafb;
-  color: #111827;
-  text-align: center;
-}
-
-.main-menu {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.menu-button {
-  width: 100%;
-  min-height: 105px;
-  margin-top: 0;
-  padding: 12px 6px;
-  border: 1px solid #e5e7eb;
-  border-radius: 16px;
-  background: #f9fafb;
-  color: #111827;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
-}
-
-.menu-symbol {
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.menu-text {
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.menu-button:active {
-  transform: scale(0.98);
-}
+    }
   </style>
 </head>
 
@@ -361,408 +136,99 @@
 
     <div class="card">
 
-      <div class="header">
-       <div class="header-icon">✨</div>
+      <!-- HEADER -->
 
-       <h1>Genie</h1>
+      <div class="header">
+
+        <div class="header-icon">✨</div>
+
+        <h1>Genie</h1>
 
         <div class="subtitle">
           Enkel och professionell löneberäkning
         </div>
-           </div>
 
-      <!-- Početni meni -->
-      <div class="language-menu">
-        <select id="languageSelect">
-          <option value="sv">🇸🇪 Svenska</option>
-          <option value="en">🇬🇧 English</option>
-          <option value="sr">🇷🇸 Srpski</option>
-        </select>
       </div>
+
+
+      <!-- SPRÅK -->
+
+      <div class="language-menu">
+
+        <select id="languageSelect">
+
+          <option value="sv">🇸🇪 Svenska</option>
+
+          <option value="en">🇬🇧 English</option>
+
+          <option value="sr">🇷🇸 Srpski</option>
+
+        </select>
+
+      </div>
+
+
+      <!-- HUVUDMENY -->
 
       <div class="main-menu">
 
-     <button type="button" class="menu-button" onclick="window.location.href='kalendar.html'">
-  <span class="menu-symbol">T</span>
-  <span class="menu-text">Timlön</span>
-</button>
+        <!-- TIMLÖN -->
 
-        <button type="button" class="menu-button">
+        <button
+          type="button"
+          class="menu-button"
+          onclick="window.location.href='kalendar.html'">
+
+          <span class="menu-symbol">T</span>
+
+          <span class="menu-text">
+            Timlön
+          </span>
+
+        </button>
+
+
+        <!-- MÅNADSLÖN -->
+
+        <button
+          type="button"
+          class="menu-button">
+
           <span class="menu-symbol">M</span>
-          <span class="menu-text">Månadslön</span>
+
+          <span class="menu-text">
+            Månadslön
+          </span>
+
         </button>
 
-        <button type="button" class="menu-button">
+
+        <!-- KOLLEKTIVAVTAL -->
+
+        <button
+          type="button"
+          class="menu-button">
+
           <span class="menu-symbol">%</span>
-          <span class="menu-text">Kollektivavtal</span>
+
+          <span class="menu-text">
+            Kollektivavtal
+          </span>
+
         </button>
 
       </div>
 
-      <div style="text-align:center; margin:15px 0;">
-        <button type="button" onclick="window.location.href='kalendar.html'">
-          📅 Kalendar
-        </button>
+
+      <!-- FOOTER -->
+
+      <div class="footer">
+        Genie
       </div>
 
-     <div class="personuppgifter-grid">
-
-  <!-- Arbetsgivare -->
-  <div class="person-card">
-    <div class="section-title">
-      Arbetsgivare
     </div>
 
-    <textarea
-      id="employerInfo"
-      placeholder="Skriv arbetsgivarens grunduppgifter här..."></textarea>
   </div>
-
-
-  <!-- Arbetstagare -->
-  <div class="person-card">
-    <div class="section-title">
-      Arbetstagare
-    </div>
-
-    <textarea
-      id="employeeInfo"
-      placeholder="Skriv arbetstagarens grunduppgifter här..."></textarea>
-  </div>
-
-</div>
-
-      <div class="section-title">
-        Arbetstid
-      </div>
-
-<div class="hours-grid">
-
-  <div class="hours-field">
-    <label>Ordinarie timmar</label>
-    <input type="number" id="regularHours" value="0">
-  </div>
-
-  <div class="hours-field">
-    <label>Ordinarie övertid</label>
-    <input type="number" id="regularOvertimeHours" value="0">
-  </div>
-
-  <div class="hours-field">
-    <label>Helg timmar</label>
-    <input type="number" id="weekendHours" value="0">
-  </div>
-
-  <div class="hours-field">
-    <label>Helg övertid</label>
-    <input type="number" id="weekendOvertimeHours" value="0">
-  </div>
-
-  <div class="hours-field">
-    <label>Helgdag timmar</label>
-    <input type="number" id="holidayHours" value="0">
-  </div>
-
-  <div class="hours-field">
-    <label>Helgdag övertid</label>
-    <input type="number" id="holidayOvertimeHours" value="0">
-  </div>
-
-  <div class="hours-field">
-    <label>Natt timmar</label>
-    <input type="number" id="nightHours" value="0">
-  </div>
-
-  <div class="hours-field">
-    <label>Natt övertid</label>
-    <input type="number" id="nightOvertimeHours" value="0">
-  </div>
-
-</div>
-      <div class="section-title">
-        Löneuppgifter
-      </div>
-
-    <div class="values-grid">
-
-  <div class="value-field">
-    <label>Redovni sati (kr)</label>
-    <input type="number" id="regularRate" value="146">
-  </div>
-
-  <div class="value-field">
-    <label>Prekovremeni sati (kr)</label>
-    <input type="number" id="regularOvertimeRate" value="156">
-  </div>
-
-  <div class="value-field">
-    <label>Noćni sati (kr)</label>
-    <input type="number" id="nightRate" value="146">
-  </div>
-
-  <div class="value-field">
-    <label>Noćni prekovremeni (kr)</label>
-    <input type="number" id="nightOvertimeRate" value="156">
-  </div>
-
-  <div class="value-field">
-    <label>Vikend sati (kr)</label>
-    <input type="number" id="weekendRate" value="146">
-  </div>
-
-  <div class="value-field">
-    <label>Vikend prekovremeni (kr)</label>
-    <input type="number" id="weekendOvertimeRate" value="156">
-  </div>
-
-  <div class="value-field">
-    <label>Praznični sati (kr)</label>
-    <input type="number" id="holidayRate" value="146">
-  </div>
-
-  <div class="value-field">
-    <label>Praznični prekovremeni (kr)</label>
-    <input type="number" id="holidayOvertimeRate" value="156">
-  </div>
-
-  <div class="value-field">
-    <label>Porez (%)</label>
-    <input type="number" id="tax" value="21">
-  </div>
-
-  <div class="value-field">
-    <label>Godišnji (%)</label>
-    <input type="number" id="holidayPay" value="13">
-  </div>
-
-</div>
-      <button class="calculate" onclick="calculateSalary()">
-        Beräkna lön
-      </button>
-
-      <div class="result" id="result">
-        <p>Fyll i uppgifterna och tryck på "Beräkna lön".</p>
-      </div>
-
-    <div class="footer">
-  Genie
-</div>
-  </div>
-
-  <script>
-    function openCalendar(type) {
-  let title = "";
-
-  if (type === "regular") {
-    title = "Redovni sati";
-  } else if (type === "overtime") {
-    title = "Prekovremeni sati";
-  } else {
-    title = "Ostali sati";
-  }
-
-  function loadCalendarHours() {
-
-  const saved =
-    localStorage.getItem("salaryHours");
-
-  if (!saved) {
-    return;
-  }
-
-  const hours =
-    JSON.parse(saved);
-
-  document.getElementById("regularHours").value =
-    hours.regularHours || 0;
-
-  document.getElementById("regularOvertimeHours").value =
-    hours.regularOvertimeHours || 0;
-
-  document.getElementById("weekendHours").value =
-    hours.weekendHours || 0;
-
-  document.getElementById("weekendOvertimeHours").value =
-    hours.weekendOvertimeHours || 0;
-
-  document.getElementById("holidayHours").value =
-    hours.holidayHours || 0;
-
-  document.getElementById("holidayOvertimeHours").value =
-    hours.holidayOvertimeHours || 0;
-}
-}function loadCalendarHours() {
-
-  const saved =
-    localStorage.getItem("salaryHours");
-
-  if (!saved) {
-    return;
-  }
-
-  const hours =
-    JSON.parse(saved);
-
-  document.getElementById("regularHours").value =
-    hours.regularHours || 0;
-
-  document.getElementById("regularOvertimeHours").value =
-    hours.regularOvertimeHours || 0;
-
-  document.getElementById("weekendHours").value =
-    hours.weekendHours || 0;
-
-  document.getElementById("weekendOvertimeHours").value =
-    hours.weekendOvertimeHours || 0;
-
-  document.getElementById("holidayHours").value =
-    hours.holidayHours || 0;
-
-  document.getElementById("holidayOvertimeHours").value =
-    hours.holidayOvertimeHours || 0;
-}
-
-function calculateSalary() {
-    
-
-  const regularHours =
-    Number(document.getElementById("regularHours").value);
-
-  const regularOvertimeHours =
-    Number(document.getElementById("regularOvertimeHours").value);
-
-  const weekendHours =
-    Number(document.getElementById("weekendHours").value);
-
-  const weekendOvertimeHours =
-    Number(document.getElementById("weekendOvertimeHours").value);
-
-  const holidayHours =
-    Number(document.getElementById("holidayHours").value);
-
-  const holidayOvertimeHours =
-    Number(document.getElementById("holidayOvertimeHours").value);
-
-  const nightHours =
-    Number(document.getElementById("nightHours").value);
-
-  const nightOvertimeHours =
-    Number(document.getElementById("nightOvertimeHours").value);
-
-
-  // Satnice
-  const regularRate =
-    Number(document.getElementById("regularRate").value);
-
-  const regularOvertimeRate =
-    Number(document.getElementById("regularOvertimeRate").value);
-
-  const nightRate =
-    Number(document.getElementById("nightRate").value);
-
-  const nightOvertimeRate =
-    Number(document.getElementById("nightOvertimeRate").value);
-
-  const weekendRate =
-    Number(document.getElementById("weekendRate").value);
-
-  const weekendOvertimeRate =
-    Number(document.getElementById("weekendOvertimeRate").value);
-
-  const holidayRate =
-    Number(document.getElementById("holidayRate").value);
-
-  const holidayOvertimeRate =
-    Number(document.getElementById("holidayOvertimeRate").value);
-
-
-  // Porez i godišnji
-  const tax =
-    Number(document.getElementById("tax").value);
-
-  const holidayPay =
-    Number(document.getElementById("holidayPay").value);
-
-
-  // Obračun
-  const regularPay =
-    regularHours * regularRate;
-
-  const regularOvertimePay =
-    regularOvertimeHours * regularOvertimeRate;
-
-  const nightPay =
-    nightHours * nightRate;
-
-  const nightOvertimePay =
-    nightOvertimeHours * nightOvertimeRate;
-
-  const weekendPay =
-    weekendHours * weekendRate;
-
-  const weekendOvertimePay =
-    weekendOvertimeHours * weekendOvertimeRate;
-
-  const holidayPayAmount =
-    holidayHours * holidayRate;
-
-  const holidayOvertimePay =
-    holidayOvertimeHours * holidayOvertimeRate;
-
-
-  const baseGross =
-    regularPay +
-    regularOvertimePay +
-    nightPay +
-    nightOvertimePay +
-    weekendPay +
-    weekendOvertimePay +
-    holidayPayAmount +
-    holidayOvertimePay;
-
-
-  const vacationPay =
-    baseGross * holidayPay / 100;
-
-  const grossSalary =
-    baseGross + vacationPay;
-
-  const taxAmount =
-    grossSalary * tax / 100;
-
-  const netSalary =
-    grossSalary - taxAmount;
-
-
-  document.getElementById("result").innerHTML = `
-
-    <p class="gross">
-      <strong>Bruttolön:</strong>
-      ${grossSalary.toFixed(2)} kr
-    </p>
-
-    <p class="vacation">
-      <strong>Semesterersättning:</strong>
-      ${vacationPay.toFixed(2)} kr
-    </p>
-
-    <p class="tax">
-      <strong>Skatt:</strong>
-      ${taxAmount.toFixed(2)} kr
-    </p>
-
-    <div class="net-box">
-      <span class="net-label">Nettolön</span>
-      <p class="total">
-        ${netSalary.toFixed(2)} kr
-      </p>
-    </div>
-
-  `;
-}loadCalendarHours();
-    
-}
-  </script>
 
 </body>
-</html> 
+</html>
