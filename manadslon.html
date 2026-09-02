@@ -96,11 +96,21 @@
 
     /* PERIOD */
 
-    .period-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
+  .period-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+}
+
+.period-grid .field {
+  min-width: 0;
+}
+
+.period-grid input {
+  width: 100%;
+  max-width: 100%;
+}
 
     /* ARBETSTID */
 
