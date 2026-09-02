@@ -1,1 +1,495 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Genie – Månadslön</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(180deg, #eef2f7 0%, #f8f9fb 100%);
+      color: #1f2937;
+    }
+
+    .container {
+      max-width: 640px;
+      margin: auto;
+      padding: 18px;
+    }
+
+    .card {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 22px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .header-icon {
+      width: 58px;
+      height: 58px;
+      margin: 0 auto 10px;
+      border-radius: 17px;
+      background: #1f2937;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      font-weight: bold;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 28px;
+      color: #111827;
+    }
+
+    .subtitle {
+      margin-top: 7px;
+      color: #6b7280;
+      font-size: 15px;
+    }
+
+    /* OSNOVNI PODACI */
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #111827;
+      margin: 22px 0 12px;
+      text-align: center;
+    }
+
+    .field {
+      margin-bottom: 12px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #4b5563;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 11px;
+      font-size: 16px;
+      background: #f9fafb;
+      color: #111827;
+    }
+
+    /* PERIOD */
+
+    .period-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    /* ARBETSTID */
+
+    .work-section {
+      margin-top: 24px;
+      padding-top: 4px;
+    }
+
+    .time-button {
+      width: 100%;
+      min-height: 58px;
+      margin-bottom: 10px;
+      border: none;
+      border-radius: 14px;
+      background: #f3f4f6;
+      color: #111827;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+    }
+
+    .time-button:active {
+      transform: scale(0.98);
+    }
+
+    .time-display {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .time-label {
+      display: block;
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 4px;
+    }
+
+    .time-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    /* DNEVNO VREME */
+
+    .daily-result {
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 16px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      text-align: center;
+    }
+
+    .daily-result-title {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 6px;
+    }
+
+    .daily-result-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    /* UKUPNO */
+
+    .summary {
+      margin-top: 24px;
+      padding: 18px;
+      border-radius: 17px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 15px;
+    }
+
+    .summary-row:last-child {
+      border-bottom: none;
+    }
+
+    .summary-value {
+      font-weight: 700;
+      color: #111827;
+    }
+
+    /* TILLBAKA */
+
+    .back-button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 13px;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      background: #ffffff;
+      color: #374151;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .back-button:active {
+      transform: scale(0.98);
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 25px;
+      font-size: 12px;
+      color: #9ca3af;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="card">
+
+      <!-- HEADER -->
+
+      <div class="header">
+
+        <div class="header-icon">M</div>
+
+        <h1>Månadslön</h1>
+
+        <div class="subtitle">
+          Enkel registrering av arbetstid
+        </div>
+
+      </div>
+
+
+      <!-- GRUNDUPPGIFTER -->
+
+      <div class="section-title">
+        Löneuppgifter
+      </div>
+
+      <div class="field">
+
+        <label for="monthlySalary">
+          Månadslön (kr)
+        </label>
+
+        <input
+          type="number"
+          id="monthlySalary"
+          placeholder="Ange månadslön"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="workTarget">
+          Arbetstidsmål (timmar)
+        </label>
+
+        <input
+          type="number"
+          id="workTarget"
+          step="0.5"
+          placeholder="Ange arbetstidsmål"
+        >
+
+      </div>
+
+
+      <!-- LÖNEPERIOD -->
+
+      <div class="section-title">
+        Löneperiod
+      </div>
+
+      <div class="period-grid">
+
+        <div class="field">
+
+          <label for="periodStart">
+            Från
+          </label>
+
+          <input
+            type="date"
+            id="periodStart"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="periodEnd">
+            Till
+          </label>
+
+          <input
+            type="date"
+            id="periodEnd"
+          >
+
+        </div>
+
+      </div>
+
+
+      <!-- ARBETSTID -->
+
+      <div class="work-section">
+
+        <div class="section-title">
+          Registrera arbetstid
+        </div>
+
+
+        <button
+          type="button"
+          class="time-button"
+          id="startButton">
+
+          ▶ STARTA ARBETE
+
+        </button>
+
+
+        <div class="time-display">
+
+          <span class="time-label">
+            Starttid
+          </span>
+
+          <span
+            class="time-value"
+            id="startTime">
+
+            --:--
+
+          </span>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="time-button"
+          id="stopButton">
+
+          ■ SLUTA ARBETE
+
+        </button>
+
+
+        <div class="time-display">
+
+          <span class="time-label">
+            Sluttid
+          </span>
+
+          <span
+            class="time-value"
+            id="endTime">
+
+            --:--
+
+          </span>
+
+        </div>
+
+
+        <!-- DAGEN -->
+
+        <div class="daily-result">
+
+          <div class="daily-result-title">
+            Dagens arbetstid
+          </div>
+
+          <div
+            class="daily-result-value"
+            id="dailyHours">
+
+            0 h 00 min
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- SAMMANFATTNING -->
+
+      <div class="section-title">
+        Arbetstid
+      </div>
+
+      <div class="summary">
+
+        <div class="summary-row">
+
+          <span>
+            Totalt arbetad tid
+          </span>
+
+          <span
+            class="summary-value"
+            id="totalHours">
+
+            0 h 00 min
+
+          </span>
+
+        </div>
+
+
+        <div class="summary-row">
+
+          <span>
+            Arbetstidsmål
+          </span>
+
+          <span
+            class="summary-value"
+            id="targetHours">
+
+            0 h 00 min
+
+          </span>
+
+        </div>
+
+
+        <div class="summary-row">
+
+          <span>
+            Skillnad
+          </span>
+
+          <span
+            class="summary-value"
+            id="differenceHours">
+
+            0 h 00 min
+
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- TILLBAKA -->
+
+      <button
+        type="button"
+        class="back-button"
+        onclick="window.location.href='index.html'">
+
+        ← Tillbaka
+
+      </button>
+
+
+      <!-- FOOTER -->
+
+      <div class="footer">
+        Genie
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
