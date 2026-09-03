@@ -533,28 +533,28 @@
   dailyHoursDisplay.textContent = "0 h 00 min";
 };
 
-  stopButton.addEventListener("click", function () {
-    if (!startTimeValue) {
-      return;
-    }
+  stopButton.onclick = function () {
+  if (!startTimeValue) {
+    return;
+  }
 
-    const endTimeValue = new Date();
+  const endTimeValue = new Date();
 
-    endTimeDisplay.textContent = formatTime(endTimeValue);
+  endTimeDisplay.textContent = formatTime(endTimeValue);
 
-    let difference =
-      endTimeValue.getTime() - startTimeValue.getTime();
+  let difference =
+    endTimeValue.getTime() - startTimeValue.getTime();
 
-    let totalMinutes = Math.floor(difference / 60000);
+  let totalMinutes = Math.floor(difference / 60000);
 
-    let hours = Math.floor(totalMinutes / 60);
-    let minutes = totalMinutes % 60;
+  let hours = Math.floor(totalMinutes / 60);
+  let minutes = totalMinutes % 60;
 
-    dailyHoursDisplay.textContent =
-      hours + " h " +
-      String(minutes).padStart(2, "0") +
-      " min";
-  });
+  dailyHoursDisplay.textContent =
+    hours + " h " +
+    String(minutes).padStart(2, "0") +
+    " min";
+};
 </script>
 </body>
 </html>
