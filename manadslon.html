@@ -508,6 +508,53 @@
     </div>
 
   </div>
+<script>
+  let startTimeValue = null;
 
+  const startButton = document.getElementById("startButton");
+  const stopButton = document.getElementById("stopButton");
+
+  const startTimeDisplay = document.getElementById("startTime");
+  const endTimeDisplay = document.getElementById("endTime");
+  const dailyHoursDisplay = document.getElementById("dailyHours");
+
+  function formatTime(date) {
+    return date.toLocaleTimeString("sv-SE", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+  }
+
+  startButton.addEventListener("click", function () {
+    startTimeValue = new Date();
+
+    startTimeDisplay.textContent = formatTime(startTimeValue);
+    endTimeDisplay.textContent = "--:--";
+    dailyHoursDisplay.textContent = "0 h 00 min";
+  });
+
+  stopButton.addEventListener("click", function () {
+    if (!startTimeValue) {
+      return;
+    }
+
+    const endTimeValue = new Date();
+
+    endTimeDisplay.textContent = formatTime(endTimeValue);
+
+    let difference =
+      endTimeValue.getTime() - startTimeValue.getTime();
+
+    let totalMinutes = Math.floor(difference / 60000);
+
+    let hours = Math.floor(totalMinutes / 60);
+    let minutes = totalMinutes % 60;
+
+    dailyHoursDisplay.textContent =
+      hours + " h " +
+      String(minutes).padStart(2, "0") +
+      " min";
+  });
+</script>
 </body>
 </html>
