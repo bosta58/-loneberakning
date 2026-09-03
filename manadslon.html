@@ -525,13 +525,13 @@
     });
   }
 
-  startButton.addEventListener("click", function () {
-    startTimeValue = new Date();
+  startButton.onclick = function () {
+  startTimeValue = new Date();
 
-    startTimeDisplay.textContent = formatTime(startTimeValue);
-    endTimeDisplay.textContent = "--:--";
-    dailyHoursDisplay.textContent = "0 h 00 min";
-  });
+  startTimeDisplay.textContent = formatTime(startTimeValue);
+  endTimeDisplay.textContent = "--:--";
+  dailyHoursDisplay.textContent = "0 h 00 min";
+};
 
   stopButton.addEventListener("click", function () {
     if (!startTimeValue) {
