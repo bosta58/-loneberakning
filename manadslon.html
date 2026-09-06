@@ -570,6 +570,9 @@
   let startTimeValue = null;
   let totalMinutesWorked = 0;
 
+  const STORAGE_KEY = "genie_manadslon_workdays";
+  const ACTIVE_START_KEY = "genie_manadslon_active_start";
+
   const startButton = document.getElementById("startButton");
   const stopButton = document.getElementById("stopButton");
 
@@ -594,19 +597,96 @@
       " min";
   }
 
+  // ==============================
+  // UČITAVANJE SAČUVANIH DANA
+  // ==============================
+
+  function loadSavedWorkdays() {
+
+    const savedData =
+      localStorage.getItem(STORAGE_KEY);
+
+    if (!savedData) {
+      totalMinutesWorked = 0;
+
+      totalHoursDisplay.textContent =
+        formatDuration(0);
+
+      return;
+    }
+
+    try {
+
+      const workdays = JSON.parse(savedData);
+
+      totalMinutesWorked =
+        workdays.reduce(
+          (sum, day) => sum + day.minutes,
+          0
+        );
+
+      totalHoursDisplay.textContent =
+        formatDuration(totalMinutesWorked);
+
+    } catch (error) {
+
+      console.error(
+        "Kunde inte läsa sparad arbetstid.",
+        error
+      );
+
+      totalMinutesWorked = 0;
+
+      totalHoursDisplay.textContent =
+        formatDuration(0);
+    }
+  }
+
+  // ==============================
+  // STARTA ARBETE
+  // ==============================
+
   startButton.onclick = function () {
+
     startTimeValue = new Date();
+
+    // Spara starttiden direkt
+    localStorage.setItem(
+      ACTIVE_START_KEY,
+      startTimeValue.toISOString()
+    );
 
     startTimeDisplay.textContent =
       formatTime(startTimeValue);
 
-    endTimeDisplay.textContent = "--:--";
+    endTimeDisplay.textContent =
+      "--:--";
 
     dailyHoursDisplay.textContent =
       "0 h 00 min";
   };
 
+  // ==============================
+  // SLUTA ARBETE
+  // ==============================
+
   stopButton.onclick = function () {
+
+    // Om sidan har laddats om efter START
+    // hämtas den sparade starttiden
+    if (!startTimeValue) {
+
+      const savedStart =
+        localStorage.getItem(
+          ACTIVE_START_KEY
+        );
+
+      if (savedStart) {
+        startTimeValue =
+          new Date(savedStart);
+      }
+    }
+
     if (!startTimeValue) {
       return;
     }
@@ -616,23 +696,112 @@
     endTimeDisplay.textContent =
       formatTime(endTimeValue);
 
-    let difference =
+    const difference =
       endTimeValue.getTime() -
       startTimeValue.getTime();
 
-    let dailyMinutes =
+    const dailyMinutes =
       Math.floor(difference / 60000);
 
     dailyHoursDisplay.textContent =
       formatDuration(dailyMinutes);
 
-    totalMinutesWorked += dailyMinutes;
+    // ==============================
+    // HÄMTA TIDIGARE ARBETSDAGAR
+    // ==============================
+
+    let workdays = [];
+
+    const savedData =
+      localStorage.getItem(STORAGE_KEY);
+
+    if (savedData) {
+
+      try {
+        workdays = JSON.parse(savedData);
+      } catch (error) {
+        workdays = [];
+      }
+    }
+
+    // ==============================
+    // SPARA NY ARBETSDAG
+    // ==============================
+
+    const workday = {
+      date:
+        startTimeValue
+          .toISOString()
+          .split("T")[0],
+
+      start:
+        formatTime(startTimeValue),
+
+      end:
+        formatTime(endTimeValue),
+
+      minutes:
+        dailyMinutes
+    };
+
+    workdays.push(workday);
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(workdays)
+    );
+
+    // ==============================
+    // UPPDATERA TOTAL TID
+    // ==============================
+
+    totalMinutesWorked +=
+      dailyMinutes;
 
     totalHoursDisplay.textContent =
       formatDuration(totalMinutesWorked);
 
+    // Ta bort aktiv starttid
+    localStorage.removeItem(
+      ACTIVE_START_KEY
+    );
+
     startTimeValue = null;
   };
+
+  // ==============================
+  // NÄR MÅNADSLÖN ÖPPNAS
+  // ==============================
+
+  window.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+      loadSavedWorkdays();
+
+      // Kontrollera om ett arbete redan
+      // har startats före refresh/stängning
+      const savedStart =
+        localStorage.getItem(
+          ACTIVE_START_KEY
+        );
+
+      if (savedStart) {
+
+        startTimeValue =
+          new Date(savedStart);
+
+        startTimeDisplay.textContent =
+          formatTime(startTimeValue);
+
+        endTimeDisplay.textContent =
+          "--:--";
+
+        dailyHoursDisplay.textContent =
+          "0 h 00 min";
+      }
+    }
+  );
 </script>
 </body>
 </html>
