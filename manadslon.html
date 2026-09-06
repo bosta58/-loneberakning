@@ -93,7 +93,49 @@
       background: #f9fafb;
       color: #111827;
     }
+.personuppgifter-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
 
+.person-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.person-title {
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+  color: #111827;
+  margin-bottom: 12px;
+}
+
+.person-card textarea {
+  display: block;
+  width: 100%;
+  height: 150px;
+  min-height: 150px;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 9px;
+  font-size: 14px;
+  background: #f9fafb;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.person-card textarea:focus {
+  border-color: #6b7280;
+  background: #ffffff;
+  outline: none;
+}
     /* PERIOD */
 
 .period-grid {
