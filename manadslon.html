@@ -593,13 +593,12 @@
     const minutes = totalMinutes % 60;
 
     return hours + " h " +
-      String(minutes).padStart(2, "0") +
-      " min";
+      String(minutes).padStart(2, "0") + " min";
   }
 
-  // ==============================
-  // UČITAVANJE SAČUVANIH DANA
-  // ==============================
+  // =================================
+  // UČITAJ SAČUVANE RADNE DANE
+  // =================================
 
   function loadSavedWorkdays() {
 
@@ -608,20 +607,20 @@
 
     if (!savedData) {
       totalMinutesWorked = 0;
-
       totalHoursDisplay.textContent =
         formatDuration(0);
-
       return;
     }
 
     try {
 
-      const workdays = JSON.parse(savedData);
+      const workdays =
+        JSON.parse(savedData);
 
       totalMinutesWorked =
         workdays.reduce(
-          (sum, day) => sum + day.minutes,
+          (sum, day) =>
+            sum + Number(day.minutes || 0),
           0
         );
 
@@ -630,8 +629,8 @@
 
     } catch (error) {
 
-      console.error(
-        "Kunde inte läsa sparad arbetstid.",
+      console.log(
+        "Greška pri učitavanju podataka:",
         error
       );
 
@@ -642,15 +641,42 @@
     }
   }
 
-  // ==============================
+  // =================================
+  // UČITAJ AKTIVAN RAD
+  // =================================
+
+  function loadActiveStart() {
+
+    const savedStart =
+      localStorage.getItem(
+        ACTIVE_START_KEY
+      );
+
+    if (!savedStart) {
+      return;
+    }
+
+    startTimeValue =
+      new Date(savedStart);
+
+    startTimeDisplay.textContent =
+      formatTime(startTimeValue);
+
+    endTimeDisplay.textContent =
+      "--:--";
+
+    dailyHoursDisplay.textContent =
+      "0 h 00 min";
+  }
+
+  // =================================
   // STARTA ARBETE
-  // ==============================
+  // =================================
 
   startButton.onclick = function () {
 
     startTimeValue = new Date();
 
-    // Spara starttiden direkt
     localStorage.setItem(
       ACTIVE_START_KEY,
       startTimeValue.toISOString()
@@ -666,14 +692,14 @@
       "0 h 00 min";
   };
 
-  // ==============================
+  // =================================
   // SLUTA ARBETE
-  // ==============================
+  // =================================
 
   stopButton.onclick = function () {
 
-    // Om sidan har laddats om efter START
-    // hämtas den sparade starttiden
+    // Ako je stranica bila osvežena,
+    // pokušaj ponovo da pronađeš START
     if (!startTimeValue) {
 
       const savedStart =
@@ -691,7 +717,8 @@
       return;
     }
 
-    const endTimeValue = new Date();
+    const endTimeValue =
+      new Date();
 
     endTimeDisplay.textContent =
       formatTime(endTimeValue);
@@ -701,34 +728,46 @@
       startTimeValue.getTime();
 
     const dailyMinutes =
-      Math.floor(difference / 60000);
+      Math.max(
+        0,
+        Math.floor(difference / 60000)
+      );
 
     dailyHoursDisplay.textContent =
       formatDuration(dailyMinutes);
 
-    // ==============================
-    // HÄMTA TIDIGARE ARBETSDAGAR
-    // ==============================
+    // =================================
+    // UČITAJ POSTOJEĆE DANE
+    // =================================
 
     let workdays = [];
 
     const savedData =
-      localStorage.getItem(STORAGE_KEY);
+      localStorage.getItem(
+        STORAGE_KEY
+      );
 
     if (savedData) {
 
       try {
-        workdays = JSON.parse(savedData);
+        workdays =
+          JSON.parse(savedData);
+
+        if (!Array.isArray(workdays)) {
+          workdays = [];
+        }
+
       } catch (error) {
         workdays = [];
       }
     }
 
-    // ==============================
-    // SPARA NY ARBETSDAG
-    // ==============================
+    // =================================
+    // NOVI RADNI DAN
+    // =================================
 
     const workday = {
+
       date:
         startTimeValue
           .toISOString()
@@ -746,22 +785,33 @@
 
     workdays.push(workday);
 
+    // =================================
+    // SAČUVAJ SVE RADNE DANE
+    // =================================
+
     localStorage.setItem(
       STORAGE_KEY,
       JSON.stringify(workdays)
     );
 
-    // ==============================
-    // UPPDATERA TOTAL TID
-    // ==============================
+    // =================================
+    // IZRAČUNAJ UKUPNO
+    // =================================
 
-    totalMinutesWorked +=
-      dailyMinutes;
+    totalMinutesWorked =
+      workdays.reduce(
+        (sum, day) =>
+          sum + Number(day.minutes || 0),
+        0
+      );
 
     totalHoursDisplay.textContent =
       formatDuration(totalMinutesWorked);
 
-    // Ta bort aktiv starttid
+    // =================================
+    // OBRIŠI SAMO AKTIVNI START
+    // =================================
+
     localStorage.removeItem(
       ACTIVE_START_KEY
     );
@@ -769,39 +819,13 @@
     startTimeValue = null;
   };
 
-  // ==============================
-  // NÄR MÅNADSLÖN ÖPPNAS
-  // ==============================
+  // =================================
+  // ODMAH UČITAJ PODATKE
+  // =================================
 
-  window.addEventListener(
-    "DOMContentLoaded",
-    function () {
+  loadSavedWorkdays();
+  loadActiveStart();
 
-      loadSavedWorkdays();
-
-      // Kontrollera om ett arbete redan
-      // har startats före refresh/stängning
-      const savedStart =
-        localStorage.getItem(
-          ACTIVE_START_KEY
-        );
-
-      if (savedStart) {
-
-        startTimeValue =
-          new Date(savedStart);
-
-        startTimeDisplay.textContent =
-          formatTime(startTimeValue);
-
-        endTimeDisplay.textContent =
-          "--:--";
-
-        dailyHoursDisplay.textContent =
-          "0 h 00 min";
-      }
-    }
-  );
 </script>
 </body>
 </html>
