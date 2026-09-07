@@ -1,1 +1,162 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Genie – Arbetsgivare</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #222;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 30px;
+    }
+
+    .header p {
+      margin-top: 8px;
+      color: #666;
+      font-size: 16px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      font-size: 21px;
+    }
+
+    .button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .add-button {
+      background: #222;
+      color: white;
+    }
+
+    .back-button {
+      background: #e5e5e5;
+      color: #222;
+    }
+
+    .employee-count {
+      font-size: 18px;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="header">
+      <h1>🏢 Arbetsgivare</h1>
+      <p>Genie – Löneberäkning och kommunikation</p>
+    </div>
+
+    <div class="card">
+      <h2>🏢 Företag</h2>
+
+      <p class="employee-count">
+        Antal anställda: <strong id="employeeCount">0</strong>
+      </p>
+
+      <button class="button add-button" onclick="addEmployee()">
+        ➕ Lägg till anställd
+      </button>
+    </div>
+
+    <div class="card">
+      <h2>👥 Anställda</h2>
+
+      <div id="employeeList">
+        <p>Inga anställda tillagda ännu.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>💬 Kommunikation</h2>
+      <p>
+        Här kan arbetsgivaren kommunicera med sina anställda
+        och begära kontroll eller förklaring av registrerade uppgifter.
+      </p>
+    </div>
+
+    <button class="button back-button" onclick="history.back()">
+      ← Tillbaka
+    </button>
+
+  </div>
+
+  <script>
+    let employees = [];
+
+    function addEmployee() {
+      const name = prompt("Ange namn på den anställde:");
+
+      if (!name || name.trim() === "") {
+        return;
+      }
+
+      employees.push(name.trim());
+
+      updateEmployeeList();
+    }
+
+    function updateEmployeeList() {
+      const count = document.getElementById("employeeCount");
+      const list = document.getElementById("employeeList");
+
+      count.textContent = employees.length;
+
+      list.innerHTML = "";
+
+      employees.forEach(function(employee, index) {
+
+        const item = document.createElement("p");
+
+        item.innerHTML =
+          "👤 " + employee;
+
+        list.appendChild(item);
+      });
+    }
+  </script>
+
+</body>
+</html>
