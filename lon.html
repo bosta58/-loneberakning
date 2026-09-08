@@ -316,7 +316,7 @@
 
     <div class="header">
 
-      <div class="header-icon">✨</div>
+   <div class="header-icon">T</div>
 
       <h1>Genie</h1>
 
@@ -367,9 +367,17 @@
         <span>Övertid vardag</span>
         <strong id="lonOvertimeHours">0.0 h</strong>
       </div>
+<div class="summary-item">
+  <span>Natt</span>
+  <strong id="lonNightHours">0.0 h</strong>
+</div>
 
+<div class="summary-item">
+  <span>Nattövertid</span>
+  <strong id="lonNightOvertimeHours">0.0 h</strong>
+</div>
       <div class="summary-item">
-        <span>Vardag/helg</span>
+      <span>Helg</span>
         <strong id="lonWeekendHours">0.0 h</strong>
       </div>
 
@@ -424,12 +432,37 @@
   </div>
 
 </div>
+<div class="value-field">
+
+  <div class="input-box">
+    <span>Natt (kr)</span>
+
+    <input
+      type="number"
+      id="nightRate"
+      value="0">
+  </div>
+
+</div>
 
 
 <div class="value-field">
 
   <div class="input-box">
-    <span>Vardag/helg (kr)</span>
+    <span>Nattövertid (kr)</span>
+
+    <input
+      type="number"
+      id="nightOvertimeRate"
+      value="0">
+  </div>
+
+</div>
+
+<div class="value-field">
+
+  <div class="input-box">
+  <span>Helg (kr)</span>
 
     <input
       type="number"
@@ -689,6 +722,60 @@
 
   `;
 }loadCalendarHours();
+  function saveFormData() {
+
+  const inputs = document.querySelectorAll(
+    "input, textarea"
+  );
+
+  inputs.forEach(function(input) {
+
+    localStorage.setItem(
+      "timlon_" + input.id,
+      input.value
+    );
+
+  });
+
+}
+
+
+function loadFormData() {
+
+  const inputs = document.querySelectorAll(
+    "input, textarea"
+  );
+
+  inputs.forEach(function(input) {
+
+    const savedValue = localStorage.getItem(
+      "timlon_" + input.id
+    );
+
+    if (savedValue !== null) {
+
+      input.value = savedValue;
+
+    }
+
+  });
+
+}
+
+
+document.querySelectorAll(
+  "input, textarea"
+).forEach(function(input) {
+
+  input.addEventListener(
+    "input",
+    saveFormData
+  );
+
+});
+
+
+loadFormData();
 </script>
 </body>
 </html>
