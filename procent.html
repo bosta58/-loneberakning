@@ -692,7 +692,60 @@ function calculateSalary() {
 
 
 loadCalendarHours();
+function saveFormData() {
 
+  const inputs = document.querySelectorAll(
+    "input, textarea"
+  );
+
+  inputs.forEach(function(input) {
+
+    localStorage.setItem(
+      "kollektiv_" + input.id,
+      input.value
+    );
+
+  });
+
+}
+
+
+function loadFormData() {
+
+  const inputs = document.querySelectorAll(
+    "input, textarea"
+  );
+
+  inputs.forEach(function(input) {
+
+    const savedValue = localStorage.getItem(
+      "kollektiv_" + input.id
+    );
+
+    if (savedValue !== null) {
+
+      input.value = savedValue;
+
+    }
+
+  });
+
+}
+
+
+document.querySelectorAll(
+  "input, textarea"
+).forEach(function(input) {
+
+  input.addEventListener(
+    "input",
+    saveFormData
+  );
+
+});
+
+
+loadFormData();
 </script>
 
 </body>
