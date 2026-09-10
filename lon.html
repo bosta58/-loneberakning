@@ -811,6 +811,73 @@
 
   });
 
+
+  // GENIE – SPARA ANSTÄLLDENS TIMLÖN-DATA
+
+  const employeeInfo =
+    document.getElementById("employeeInfo").value.trim();
+
+  if (!employeeInfo) {
+    return;
+  }
+
+
+  const timlonData = {
+
+    employee: employeeInfo,
+
+    type: "Timlön",
+
+    periodStart:
+      document.getElementById("periodStart").value,
+
+    periodEnd:
+      document.getElementById("periodEnd").value,
+
+    regularHours:
+      Number(
+        document.getElementById("lonRegularHours")
+          .textContent.replace(" h", "")
+      ),
+
+    regularOvertimeHours:
+      Number(
+        document.getElementById("lonOvertimeHours")
+          .textContent.replace(" h", "")
+      ),
+
+    weekendHours:
+      Number(
+        document.getElementById("lonWeekendHours")
+          .textContent.replace(" h", "")
+      ),
+
+    weekendOvertimeHours:
+      Number(
+        document.getElementById("lonWeekendOvertimeHours")
+          .textContent.replace(" h", "")
+      ),
+
+    holidayHours:
+      Number(
+        document.getElementById("lonHolidayHours")
+          .textContent.replace(" h", "")
+      ),
+
+    holidayOvertimeHours:
+      Number(
+        document.getElementById("lonHolidayOvertimeHours")
+          .textContent.replace(" h", "")
+      )
+
+  };
+
+
+  localStorage.setItem(
+    "genieTimlonData",
+    JSON.stringify(timlonData)
+  );
+
 }
 
 
