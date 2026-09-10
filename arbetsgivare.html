@@ -268,57 +268,119 @@
 
 
     function viewEmployee(index) {
+
   const employee = employees[index];
 
-  const savedTimlon = localStorage.getItem("genieTimlonData");
-  const timlonData = savedTimlon ? JSON.parse(savedTimlon) : null;
+  const savedTimlon =
+    localStorage.getItem("genieTimlonData");
 
-  const container = document.querySelector(".container");
+  const timlonData =
+    savedTimlon ? JSON.parse(savedTimlon) : null;
+
+  const container =
+    document.querySelector(".container");
+
 
   if (!timlonData) {
+
     container.innerHTML = `
       <div class="card">
+
         <h2>👤 ${employee.name}</h2>
 
         <div class="employee-details">
-          <p><strong>🔒 Endast visning för arbetsgivaren</strong></p>
 
-          <p>Inga löneuppgifter registrerade ännu.</p>
+          <p>
+            <strong>
+              🔒 Endast visning för arbetsgivaren
+            </strong>
+          </p>
+
+          <p>
+            Inga löneuppgifter registrerade ännu.
+          </p>
+
         </div>
 
-        <button onclick="location.reload()">← Tillbaka</button>
+        <button
+          class="button back-button"
+          onclick="location.reload()">
+          ← Tillbaka
+        </button>
+
       </div>
     `;
+
     return;
   }
 
-  if (timlonData.employee.trim() !== employee.name.trim()) {
+
+  const employeeName =
+    String(timlonData.employee || "")
+      .trim()
+      .toLowerCase();
+
+  const registeredName =
+    String(employee.name || "")
+      .trim()
+      .toLowerCase();
+
+
+  if (employeeName !== registeredName) {
+
     container.innerHTML = `
       <div class="card">
+
         <h2>👤 ${employee.name}</h2>
 
         <div class="employee-details">
-          <p><strong>🔒 Endast visning för arbetsgivaren</strong></p>
 
-          <p>Inga löneuppgifter finns registrerade för denna anställd.</p>
+          <p>
+            <strong>
+              🔒 Endast visning för arbetsgivaren
+            </strong>
+          </p>
+
+          <p>
+            Inga löneuppgifter finns registrerade
+            för denna anställd.
+          </p>
+
         </div>
 
-        <button onclick="location.reload()">← Tillbaka</button>
+        <button
+          class="button back-button"
+          onclick="location.reload()">
+          ← Tillbaka
+        </button>
+
       </div>
     `;
+
     return;
   }
+
 
   container.innerHTML = `
     <div class="card">
+
       <h2>👤 ${employee.name}</h2>
 
       <div class="employee-details">
-        <p><strong>🔒 Endast visning för arbetsgivaren</strong></p>
 
-        <p><strong>Typ av lön:</strong> ${timlonData.type}</p>
+        <p>
+          <strong>
+            🔒 Endast visning för arbetsgivaren
+          </strong>
+        </p>
 
-        <p><strong>Löneperiod:</strong>
+        <p>
+          <strong>Typ av lön:</strong>
+          ${timlonData.type || "Timlön"}
+        </p>
+
+        <p>
+          <strong>Löneperiod:</strong>
           ${timlonData.periodStart || "Inte registrerad ännu"}
           –
           ${timlonData.periodEnd || "Inte registrerad ännu"}
@@ -326,24 +388,57 @@
 
         <hr>
 
-        <p><strong>Ordinarie vardag:</strong> ${timlonData.regularHours.toFixed(1)} h</p>
+        <p>
+          <strong>Ordinarie vardag:</strong>
+          ${Number(timlonData.regularHours || 0).toFixed(1)} h
+        </p>
 
-        <p><strong>Övertid vardag:</strong> ${timlonData.regularOvertimeHours.toFixed(1)} h</p>
+        <p>
+          <strong>Övertid vardag:</strong>
+          ${Number(timlonData.regularOvertimeHours || 0).toFixed(1)} h
+        </p>
 
-        <p><strong>Helg:</strong> ${timlonData.weekendHours.toFixed(1)} h</p>
+        <p>
+          <strong>Natt:</strong>
+          ${Number(timlonData.nightHours || 0).toFixed(1)} h
+        </p>
 
-        <p><strong>Övertid helg:</strong> ${timlonData.weekendOvertimeHours.toFixed(1)} h</p>
+        <p>
+          <strong>Nattövertid:</strong>
+          ${Number(timlonData.nightOvertimeHours || 0).toFixed(1)} h
+        </p>
 
-        <p><strong>Helgdag:</strong> ${timlonData.holidayHours.toFixed(1)} h</p>
+        <p>
+          <strong>Helg:</strong>
+          ${Number(timlonData.weekendHours || 0).toFixed(1)} h
+        </p>
 
-        <p><strong>Övertid helgdag:</strong> ${timlonData.holidayOvertimeHours.toFixed(1)} h</p>
+        <p>
+          <strong>Övertid helg:</strong>
+          ${Number(timlonData.weekendOvertimeHours || 0).toFixed(1)} h
+        </p>
+
+        <p>
+          <strong>Helgdag:</strong>
+          ${Number(timlonData.holidayHours || 0).toFixed(1)} h
+        </p>
+
+        <p>
+          <strong>Övertid helgdag:</strong>
+          ${Number(timlonData.holidayOvertimeHours || 0).toFixed(1)} h
+        </p>
+
       </div>
 
-      <button onclick="location.reload()">← Tillbaka</button>
+      <button
+        class="button back-button"
+        onclick="location.reload()">
+        ← Tillbaka
+      </button>
+
     </div>
   `;
 }
-
     function contactEmployee(index) {
 
       const employee =
