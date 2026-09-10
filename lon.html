@@ -76,33 +76,50 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
     }
 
     .value-field {
       display: flex;
       flex-direction: column;
-    }
-
-    .value-field label {
-      min-height: 42px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #374151;
-    }
-
-    .value-field input {
       width: 100%;
-      padding: 11px;
+      min-width: 0;
+    }
+
+    .input-box {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      min-width: 0;
+      height: 42px;
+      padding: 0 8px;
       border: 1px solid #d1d5db;
       border-radius: 10px;
-      font-size: 16px;
-      text-align: center;
       background: #f9fafb;
+      overflow: hidden;
     }
 
-    .value-field input:focus {
-      border-color: #6b7280;
-      background: #ffffff;
+    .input-box span {
+      flex: 1;
+      min-width: 0;
+      font-size: 12px;
+      color: #374151;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .input-box input {
+      flex: 0 0 55px;
+      width: 55px;
+      min-width: 0;
+      padding: 5px 2px;
+      border: none;
+      background: transparent;
+      text-align: right;
+      font-size: 15px;
       outline: none;
     }
 
@@ -127,7 +144,7 @@
       color: #222;
     }
 
-    .calculate-button {
+    .calculate {
       background: #111827;
       color: white;
     }
@@ -143,6 +160,134 @@
       color: #9ca3af;
     }
 
+    .hours-summary {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background: #f5f7fa;
+      border-radius: 9px;
+      font-size: 13px;
+    }
+
+    .summary-item strong {
+      font-size: 14px;
+    }
+
+    .personuppgifter-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      width: 100%;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+
+    .person-card {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 10px;
+    }
+
+    .person-title {
+      font-size: 15px;
+      font-weight: bold;
+      text-align: center;
+      color: #111827;
+      margin-bottom: 12px;
+    }
+
+    .person-card textarea {
+      display: block;
+      width: 100%;
+      height: 150px;
+      min-height: 150px;
+      padding: 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 9px;
+      font-size: 14px;
+      background: #f9fafb;
+      resize: vertical;
+    }
+
+    .person-card textarea:focus {
+      border-color: #6b7280;
+      background: #ffffff;
+      outline: none;
+    }
+
+    .period-grid {
+      display: grid;
+      grid-template-columns: 140px 140px;
+      gap: 10px;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .period-grid .field {
+      width: 140px;
+      min-width: 0;
+    }
+
+    .period-grid label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #4b5563;
+    }
+
+    .period-grid input[type="date"] {
+      display: block;
+      width: 140px;
+      height: 48px;
+      padding: 8px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 15px;
+      background: #f9fafb;
+      color: #111827;
+    }
+
+    .period-grid input[type="date"]:focus {
+      border-color: #6b7280;
+      background: #ffffff;
+      outline: none;
+    }
+
+    #result {
+      margin-top: 20px;
+    }
+
+    .net-box {
+      margin-top: 15px;
+      padding: 15px;
+      border-radius: 14px;
+      background: #f5f7fa;
+      text-align: center;
+    }
+
+    .net-label {
+      display: block;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .total {
+      margin: 6px 0 0;
+      font-size: 25px;
+      font-weight: bold;
+    }
+
     @media (max-width: 500px) {
       .container {
         padding: 10px;
@@ -156,195 +301,6 @@
         gap: 8px;
       }
     }
-    .hours-summary {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-top: 10px;
-  margin-bottom: 20px;
-}
-
-.summary-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  background: #f5f7fa;
-  border-radius: 9px;
-  font-size: 13px;
-}
-
-.summary-item strong {
-  font-size: 14px;
-}
-   .personuppgifter-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  width: 100%;
-  margin-top: 10px;
-  margin-bottom: 20px;
-}
-
-.person-card {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 10px;
-}
-
-.person-title {
-  font-size: 15px;
-  font-weight: bold;
-  text-align: center;
-  color: #111827;
-  margin-bottom: 12px;
-}
-
-.person-card label {
-  display: block;
-  font-size: 12px;
-  font-weight: 600;
-  color: #374151;
-  margin-top: 7px;
-  margin-bottom: 4px;
-}
-
-.person-card input,
-.person-card textarea {
-  display: block;
-  width: 100%;
-  height: 150px !important;
-  min-height: 150px !important;
-  padding: 10px;
-  border: 1px solid #d1d5db;
-  border-radius: 9px;
-  font-size: 14px;
-  background: #f9fafb;
-  resize: vertical;
-}
-.person-card input:focus,
-.person-card textarea:focus {
-  border-color: #6b7280;
-  background: #ffffff;
-  outline: none;
-}
-    .input-box {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  min-height: 42px;
-  padding: 0 10px;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
-  background: #f9fafb;
-}
-
-.input-box span {
-  flex: 1;
-  font-size: 13px;
-  color: #374151;
-}
-
-.input-box input {
-  width: 65px;
-  padding: 6px;
-  border: none;
-  background: transparent;
-  text-align: right;
-  font-size: 16px;
-  outline: none;
-}
-    .input-box {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  min-width: 0;
-  height: 42px;
-  padding: 0 8px;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
-  background: #f9fafb;
-  overflow: hidden;
-}
-
-.input-box span {
-  flex: 1;
-  min-width: 0;
-  font-size: 12px;
-  color: #374151;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.input-box input {
-  flex: 0 0 55px;
-  width: 55px;
-  min-width: 0;
-  padding: 5px 2px;
-  border: none;
-  background: transparent;
-  text-align: right;
-  font-size: 15px;
-  outline: none;
-}
-    .values-grid {
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-}
-
-.value-field {
-  width: 100%;
-  min-width: 0;
-}
-
-.input-box {
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-}
-    /* LÖNEPERIOD */
-
-.period-grid {
-  display: grid;
-  grid-template-columns: 140px 140px;
-  gap: 10px;
-  justify-content: center;
-  width: 100%;
-}
-
-.period-grid .field {
-  width: 140px;
-  min-width: 0;
-}
-
-.period-grid label {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #4b5563;
-}
-
-.period-grid input[type="date"] {
-  display: block;
-  width: 140px;
-  height: 48px;
-  padding: 8px;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
-  font-size: 15px;
-  background: #f9fafb;
-  color: #111827;
-}
-
-.period-grid input[type="date"]:focus {
-  border-color: #6b7280;
-  background: #ffffff;
-  outline: none;
-}
   </style>
 </head>
 
@@ -355,17 +311,12 @@
   <div class="card">
 
     <div class="header">
-
-   <div class="header-icon">T</div>
-
-    
+      <div class="header-icon">T</div>
 
       <div class="subtitle">
         Löneuppgifter – Timlön
       </div>
-
     </div>
-
 
     <!-- ARBETSGIVARE / ARBETSTAGARE -->
 
@@ -388,41 +339,36 @@
       </div>
 
     </div>
-<!-- LÖNEPERIOD -->
 
-<div class="section-title">
-  Löneperiod
-</div>
+    <!-- LÖNEPERIOD -->
 
-<div class="period-grid">
+    <div class="section-title">
+      Löneperiod
+    </div>
 
-  <div class="field">
+    <div class="period-grid">
 
-    <label for="periodStart">
-      Från
-    </label>
+      <div class="field">
+        <label for="periodStart">
+          Från
+        </label>
 
-    <input
-      type="date"
-      id="periodStart"
-    >
+        <input
+          type="date"
+          id="periodStart">
+      </div>
 
-  </div>
+      <div class="field">
+        <label for="periodEnd">
+          Till
+        </label>
 
-  <div class="field">
+        <input
+          type="date"
+          id="periodEnd">
+      </div>
 
-    <label for="periodEnd">
-      Till
-    </label>
-
-    <input
-      type="date"
-      id="periodEnd"
-    >
-
-  </div>
-
-</div>
+    </div>
 
     <!-- ARBETSTID -->
 
@@ -441,17 +387,19 @@
         <span>Övertid vardag</span>
         <strong id="lonOvertimeHours">0.0 h</strong>
       </div>
-<div class="summary-item">
-  <span>Natt</span>
-  <strong id="lonNightHours">0.0 h</strong>
-</div>
 
-<div class="summary-item">
-  <span>Nattövertid</span>
-  <strong id="lonNightOvertimeHours">0.0 h</strong>
-</div>
       <div class="summary-item">
-      <span>Helg</span>
+        <span>Natt</span>
+        <strong id="lonNightHours">0.0 h</strong>
+      </div>
+
+      <div class="summary-item">
+        <span>Nattövertid</span>
+        <strong id="lonNightOvertimeHours">0.0 h</strong>
+      </div>
+
+      <div class="summary-item">
+        <span>Helg</span>
         <strong id="lonWeekendHours">0.0 h</strong>
       </div>
 
@@ -472,168 +420,137 @@
 
     </div>
 
-
     <!-- LÖNEUPPGIFTER -->
 
     <div class="section-title">
       Löneuppgifter
     </div>
 
- <div class="values-grid">
+    <div class="values-grid">
 
-<div class="value-field">
+      <div class="value-field">
+        <div class="input-box">
+          <span>Ordinarie timlön (kr)</span>
+          <input
+            type="number"
+            id="regularRate"
+            value="146">
+        </div>
+      </div>
 
-  <div class="input-box">
-  <span>Ordinarie timlön (kr)</span>
+      <div class="value-field">
+        <div class="input-box">
+          <span>Övertid vardag (kr)</span>
+          <input
+            type="number"
+            id="regularOvertimeRate"
+            value="156">
+        </div>
+      </div>
 
-    <input
-      type="number"
-      id="regularRate"
-      value="146">
-  </div>
+      <div class="value-field">
+        <div class="input-box">
+          <span>Natt (kr)</span>
+          <input
+            type="number"
+            id="nightRate"
+            value="0">
+        </div>
+      </div>
 
-</div>
+      <div class="value-field">
+        <div class="input-box">
+          <span>Nattövertid (kr)</span>
+          <input
+            type="number"
+            id="nightOvertimeRate"
+            value="0">
+        </div>
+      </div>
 
- <div class="value-field">
+      <div class="value-field">
+        <div class="input-box">
+          <span>Helg (kr)</span>
+          <input
+            type="number"
+            id="weekendRate"
+            value="186">
+        </div>
+      </div>
 
-  <div class="input-box">
-    <span>Övertid vardag (kr)</span>
+      <div class="value-field">
+        <div class="input-box">
+          <span>Övertid helg (kr)</span>
+          <input
+            type="number"
+            id="weekendOvertimeRate"
+            value="196">
+        </div>
+      </div>
 
-    <input
-      type="number"
-      id="regularOvertimeRate"
-      value="156">
-  </div>
+      <div class="value-field">
+        <div class="input-box">
+          <span>Helgdag (kr)</span>
+          <input
+            type="number"
+            id="holidayRate"
+            value="246">
+        </div>
+      </div>
 
-</div>
-<div class="value-field">
+      <div class="value-field">
+        <div class="input-box">
+          <span>Övertid helgdag (kr)</span>
+          <input
+            type="number"
+            id="holidayOvertimeRate"
+            value="256">
+        </div>
+      </div>
 
-  <div class="input-box">
-    <span>Natt (kr)</span>
+      <div class="value-field">
+        <div class="input-box">
+          <span>Semesterersättning (%)</span>
+          <input
+            type="number"
+            id="holidayPay"
+            value="13">
+        </div>
+      </div>
 
-    <input
-      type="number"
-      id="nightRate"
-      value="0">
-  </div>
+      <div class="value-field">
+        <div class="input-box">
+          <span>Skatt (%)</span>
+          <input
+            type="number"
+            id="tax"
+            value="21">
+        </div>
+      </div>
 
-</div>
+    </div>
 
+    <!-- KNAPPAR -->
 
-<div class="value-field">
+    <div class="navigation-buttons">
 
-  <div class="input-box">
-    <span>Nattövertid (kr)</span>
+      <button
+        class="back-button"
+        onclick="history.back()">
+        Tillbaka
+      </button>
 
-    <input
-      type="number"
-      id="nightOvertimeRate"
-      value="0">
-  </div>
+      <button
+        class="calculate"
+        onclick="calculateSalary()">
+        Beräkna lön
+      </button>
 
-</div>
-
-<div class="value-field">
-
-  <div class="input-box">
-  <span>Helg (kr)</span>
-
-    <input
-      type="number"
-      id="weekendRate"
-      value="186">
-  </div>
-
-</div>
-
-
-<div class="value-field">
-
-  <div class="input-box">
-    <span>Övertid helg (kr)</span>
-
-    <input
-      type="number"
-      id="weekendOvertimeRate"
-      value="196">
-  </div>
-
-</div>
-
-
-<div class="value-field">
-
-  <div class="input-box">
-    <span>Helgdag (kr)</span>
-
-    <input
-      type="number"
-      id="holidayRate"
-      value="246">
-  </div>
-
-</div>
-
-
-<div class="value-field">
-
-  <div class="input-box">
-    <span>Övertid helgdag (kr)</span>
-
-    <input
-      type="number"
-      id="holidayOvertimeRate"
-      value="256">
-  </div>
-
-</div>
-
-
-<div class="value-field">
-
-  <div class="input-box">
-    <span>Semesterersättning (%)</span>
-
-    <input
-      type="number"
-      id="holidayPay"
-      value="13">
-  </div>
-
-</div>
-
-
-<div class="value-field">
-
-  <div class="input-box">
-    <span>Skatt (%)</span>
-
-    <input
-      type="number"
-      id="tax"
-      value="21">
-  </div>
-
-</div>
-</div>
-</<!-- KNAPP -->
-
-<div class="navigation-buttons">
-
-  <button class="back-button" onclick="history.back()">
-    Tillbaka
-  </button>
-
-  <button class="calculate" onclick="calculateSalary()">
-    Beräkna lön
-  </button>
-
-</div>
+    </div>
 
     <!-- RESULTAT -->
 
     <div id="result"></div>
-
 
     <div class="footer">
       Genie
@@ -644,7 +561,8 @@
 </div>
 
 <script>
-  function loadCalendarHours() {
+
+function loadCalendarHours() {
 
   const saved = localStorage.getItem("salaryHours");
 
@@ -660,6 +578,12 @@
   document.getElementById("lonOvertimeHours").textContent =
     Number(hours.regularOvertimeHours || 0).toFixed(1) + " h";
 
+  document.getElementById("lonNightHours").textContent =
+    Number(hours.nightHours || 0).toFixed(1) + " h";
+
+  document.getElementById("lonNightOvertimeHours").textContent =
+    Number(hours.nightOvertimeHours || 0).toFixed(1) + " h";
+
   document.getElementById("lonWeekendHours").textContent =
     Number(hours.weekendHours || 0).toFixed(1) + " h";
 
@@ -674,7 +598,7 @@
 }
 
 
-  function calculateSalary() {
+function calculateSalary() {
 
   const saved = localStorage.getItem("salaryHours");
 
@@ -789,14 +713,17 @@
 
     <div class="net-box">
       <span class="net-label">Nettolön</span>
+
       <p class="total">
         ${netSalary.toFixed(2)} kr
       </p>
     </div>
 
   `;
-}loadCalendarHours();
-  function saveFormData() {
+}
+
+
+function saveFormData() {
 
   const inputs = document.querySelectorAll(
     "input, textarea"
@@ -811,68 +738,6 @@
 
   });
 
-  const employeeInfo =
-    document.getElementById("employeeInfo").value.trim();
-
-  if (!employeeInfo) {
-    return;
-  }
-
-  const timlonData = {
-    employee: employeeInfo,
-    type: "Timlön",
-
-    periodStart:
-      document.getElementById("periodStart").value,
-
-    periodEnd:
-      document.getElementById("periodEnd").value,
-
-    regularHours:
-      Number(
-        document.getElementById("lonRegularHours")
-          .textContent.replace(" h", "")
-      ),
-
-    regularOvertimeHours:
-      Number(
-        document.getElementById("lonOvertimeHours")
-          .textContent.replace(" h", "")
-      ),
-
-    weekendHours:
-      Number(
-        document.getElementById("lonWeekendHours")
-          .textContent.replace(" h", "")
-      ),
-
-    weekendOvertimeHours:
-      Number(
-        document.getElementById("lonWeekendOvertimeHours")
-          .textContent.replace(" h", "")
-      ),
-
-    holidayHours:
-      Number(
-        document.getElementById("lonHolidayHours")
-          .textContent.replace(" h", "")
-      ),
-
-    holidayOvertimeHours:
-      Number(
-        document.getElementById("lonHolidayOvertimeHours")
-          .textContent.replace(" h", "")
-      )
-  };
-
-  localStorage.setItem(
-    "genieTimlonData",
-    JSON.stringify(timlonData)
-  );
-}
-
-
-  // GENIE – SPARA ANSTÄLLDENS TIMLÖN-DATA
 
   const employeeInfo =
     document.getElementById("employeeInfo").value.trim();
@@ -903,6 +768,18 @@
     regularOvertimeHours:
       Number(
         document.getElementById("lonOvertimeHours")
+          .textContent.replace(" h", "")
+      ),
+
+    nightHours:
+      Number(
+        document.getElementById("lonNightHours")
+          .textContent.replace(" h", "")
+      ),
+
+    nightOvertimeHours:
+      Number(
+        document.getElementById("lonNightOvertimeHours")
           .textContent.replace(" h", "")
       ),
 
@@ -937,7 +814,6 @@
     "genieTimlonData",
     JSON.stringify(timlonData)
   );
-
 }
 
 
@@ -949,14 +825,13 @@ function loadFormData() {
 
   inputs.forEach(function(input) {
 
-    const savedValue = localStorage.getItem(
-      "timlon_" + input.id
-    );
+    const savedValue =
+      localStorage.getItem(
+        "timlon_" + input.id
+      );
 
     if (savedValue !== null) {
-
       input.value = savedValue;
-
     }
 
   });
@@ -976,7 +851,10 @@ document.querySelectorAll(
 });
 
 
+loadCalendarHours();
 loadFormData();
+
 </script>
+
 </body>
 </html>
