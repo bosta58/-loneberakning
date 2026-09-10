@@ -77,6 +77,37 @@
       font-size: 18px;
       margin: 10px 0;
     }
+
+    .employee-card {
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 15px;
+      margin-top: 12px;
+      background: #fafafa;
+    }
+
+    .employee-name {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .employee-info {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .employee-button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #e5e5e5;
+      font-size: 15px;
+      margin-top: 8px;
+      cursor: pointer;
+    }
   </style>
 </head>
 
@@ -85,36 +116,49 @@
   <div class="container">
 
     <div class="header">
-      <h1>🏢 Arbetsgivare</h1>
-      <p>Genie – Löneberäkning och kommunikation</p>
+      <h1>🏢 Genie – Arbetsgivare</h1>
+      <p>Löneberäkning och kommunikation</p>
     </div>
 
     <div class="card">
+
       <h2>🏢 Företag</h2>
 
       <p class="employee-count">
-        Antal anställda: <strong id="employeeCount">0</strong>
+        Antal anställda:
+        <strong id="employeeCount">0</strong>
       </p>
 
       <button class="button add-button" onclick="addEmployee()">
         ➕ Lägg till anställd
       </button>
+
     </div>
 
     <div class="card">
+
       <h2>👥 Anställda</h2>
 
       <div id="employeeList">
         <p>Inga anställda tillagda ännu.</p>
       </div>
+
     </div>
 
     <div class="card">
+
       <h2>💬 Kommunikation</h2>
+
       <p>
-        Här kan arbetsgivaren kommunicera med sina anställda
-        och begära kontroll eller förklaring av registrerade uppgifter.
+        Arbetsgivaren kan se de anställdas registrerade
+        löneuppgifter men kan inte ändra dem.
       </p>
+
+      <p>
+        Om något verkar fel kan arbetsgivaren be den
+        anställde att kontrollera eller förklara uppgifterna.
+      </p>
+
     </div>
 
     <button class="button back-button" onclick="history.back()">
@@ -123,39 +167,157 @@
 
   </div>
 
+
   <script>
-    let employees = [];
+
+    let employees =
+      JSON.parse(localStorage.getItem("genieEmployees")) || [];
+
 
     function addEmployee() {
-      const name = prompt("Ange namn på den anställde:");
+
+      const name =
+        prompt("Ange namn på den anställde:");
 
       if (!name || name.trim() === "") {
         return;
       }
 
-      employees.push(name.trim());
+
+      const employee = {
+        name: name.trim(),
+        added: new Date().toLocaleDateString("sv-SE")
+      };
+
+
+      employees.push(employee);
+
+
+      localStorage.setItem(
+        "genieEmployees",
+        JSON.stringify(employees)
+      );
+
 
       updateEmployeeList();
+
     }
 
+
     function updateEmployeeList() {
-      const count = document.getElementById("employeeCount");
-      const list = document.getElementById("employeeList");
+
+      const count =
+        document.getElementById("employeeCount");
+
+      const list =
+        document.getElementById("employeeList");
+
 
       count.textContent = employees.length;
 
+
       list.innerHTML = "";
+
+
+      if (employees.length === 0) {
+
+        list.innerHTML =
+          "<p>Inga anställda tillagda ännu.</p>";
+
+        return;
+
+      }
+
 
       employees.forEach(function(employee, index) {
 
-        const item = document.createElement("p");
+        const card =
+          document.createElement("div");
 
-        item.innerHTML =
-          "👤 " + employee;
 
-        list.appendChild(item);
+        card.className =
+          "employee-card";
+
+
+        card.innerHTML =
+
+          '<div class="employee-name">' +
+          '👤 ' + employee.name +
+          '</div>' +
+
+          '<div class="employee-info">' +
+          'Tillagd: ' + employee.added +
+          '</div>' +
+
+          '<button class="employee-button" ' +
+          'onclick="viewEmployee(' + index + ')">' +
+          '👁 Visa uppgifter' +
+          '</button>' +
+
+          '<button class="employee-button" ' +
+          'onclick="contactEmployee(' + index + ')">' +
+          '💬 Kontakta anställd' +
+          '</button>';
+
+
+        list.appendChild(card);
+
       });
+
     }
+
+
+    function viewEmployee(index) {
+
+      const employee =
+        employees[index];
+
+
+      alert(
+        "Anställd: " +
+        employee.name +
+
+        "\n\nHär kommer arbetsgivaren senare kunna se:" +
+
+        "\n• Arbetstid" +
+        "\n• Löneperiod" +
+        "\n• Typ av lön" +
+        "\n• Löneberäkning"
+      );
+
+    }
+
+
+    function contactEmployee(index) {
+
+      const employee =
+        employees[index];
+
+
+      const message =
+        prompt(
+          "Skriv ett meddelande till " +
+          employee.name + ":"
+        );
+
+
+      if (
+        message &&
+        message.trim() !== ""
+      ) {
+
+        alert(
+          "Meddelande sparat till " +
+          employee.name
+        );
+
+      }
+
+    }
+
+
+    updateEmployeeList();
+
   </script>
 
 </body>
