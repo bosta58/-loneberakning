@@ -268,64 +268,81 @@
 
 
     function viewEmployee(index) {
-
   const employee = employees[index];
 
-  const list =
-    document.getElementById("employeeList");
+  const savedTimlon = localStorage.getItem("genieTimlonData");
+  const timlonData = savedTimlon ? JSON.parse(savedTimlon) : null;
 
+  const container = document.querySelector(".container");
 
-  list.innerHTML =
+  if (!timlonData) {
+    container.innerHTML = `
+      <div class="card">
+        <h2>👤 ${employee.name}</h2>
 
-    '<div class="employee-card">' +
+        <div class="employee-details">
+          <p><strong>🔒 Endast visning för arbetsgivaren</strong></p>
 
-      '<div class="employee-name">' +
-        '👤 ' + employee.name +
-      '</div>' +
+          <p>Inga löneuppgifter registrerade ännu.</p>
+        </div>
 
+        <button onclick="location.reload()">← Tillbaka</button>
+      </div>
+    `;
+    return;
+  }
 
-      '<div class="employee-info">' +
-        '🔒 Endast visning för arbetsgivaren' +
-      '</div>' +
+  if (timlonData.employee.trim() !== employee.name.trim()) {
+    container.innerHTML = `
+      <div class="card">
+        <h2>👤 ${employee.name}</h2>
 
+        <div class="employee-details">
+          <p><strong>🔒 Endast visning för arbetsgivaren</strong></p>
 
-      '<hr>' +
+          <p>Inga löneuppgifter finns registrerade för denna anställd.</p>
+        </div>
 
+        <button onclick="location.reload()">← Tillbaka</button>
+      </div>
+    `;
+    return;
+  }
 
-      '<p><strong>💰 Typ av lön</strong></p>' +
+  container.innerHTML = `
+    <div class="card">
+      <h2>👤 ${employee.name}</h2>
 
-      '<p>Timlön / Kollektivavtal / Månadslön</p>' +
+      <div class="employee-details">
+        <p><strong>🔒 Endast visning för arbetsgivaren</strong></p>
 
+        <p><strong>Typ av lön:</strong> ${timlonData.type}</p>
 
-      '<p><strong>📅 Löneperiod</strong></p>' +
+        <p><strong>Löneperiod:</strong>
+          ${timlonData.periodStart || "Inte registrerad ännu"}
+          –
+          ${timlonData.periodEnd || "Inte registrerad ännu"}
+        </p>
 
-      '<p>Inte registrerad ännu</p>' +
+        <hr>
 
+        <p><strong>Ordinarie vardag:</strong> ${timlonData.regularHours.toFixed(1)} h</p>
 
-      '<p><strong>⏱️ Arbetade timmar</strong></p>' +
+        <p><strong>Övertid vardag:</strong> ${timlonData.regularOvertimeHours.toFixed(1)} h</p>
 
-      '<p>Inte registrerat ännu</p>' +
+        <p><strong>Helg:</strong> ${timlonData.weekendHours.toFixed(1)} h</p>
 
+        <p><strong>Övertid helg:</strong> ${timlonData.weekendOvertimeHours.toFixed(1)} h</p>
 
-      '<p><strong>💵 Beräknad lön</strong></p>' +
+        <p><strong>Helgdag:</strong> ${timlonData.holidayHours.toFixed(1)} h</p>
 
-      '<p>Inte beräknad ännu</p>' +
+        <p><strong>Övertid helgdag:</strong> ${timlonData.holidayOvertimeHours.toFixed(1)} h</p>
+      </div>
 
-
-      '<p><strong>💬 Kommunikation</strong></p>' +
-
-      '<p>Kontakta den anställde vid behov.</p>' +
-
-
-      '<button class="employee-button" ' +
-        'onclick="updateEmployeeList()">' +
-        '← Tillbaka till anställda' +
-      '</button>' +
-
-    '</div>';
-
+      <button onclick="location.reload()">← Tillbaka</button>
+    </div>
+  `;
 }
-
 
     function contactEmployee(index) {
 
