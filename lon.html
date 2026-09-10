@@ -615,6 +615,12 @@ function calculateSalary() {
   const regularOvertimeHours =
     Number(hours.regularOvertimeHours || 0);
 
+  const nightHours =
+    Number(hours.nightHours || 0);
+
+  const nightOvertimeHours =
+    Number(hours.nightOvertimeHours || 0);
+
   const weekendHours =
     Number(hours.weekendHours || 0);
 
@@ -633,6 +639,12 @@ function calculateSalary() {
 
   const regularOvertimeRate =
     Number(document.getElementById("regularOvertimeRate").value);
+
+  const nightRate =
+    Number(document.getElementById("nightRate").value);
+
+  const nightOvertimeRate =
+    Number(document.getElementById("nightOvertimeRate").value);
 
   const weekendRate =
     Number(document.getElementById("weekendRate").value);
@@ -659,6 +671,12 @@ function calculateSalary() {
   const regularOvertimePay =
     regularOvertimeHours * regularOvertimeRate;
 
+  const nightPay =
+    nightHours * nightRate;
+
+  const nightOvertimePay =
+    nightOvertimeHours * nightOvertimeRate;
+
   const weekendPay =
     weekendHours * weekendRate;
 
@@ -675,6 +693,8 @@ function calculateSalary() {
   const baseGross =
     regularPay +
     regularOvertimePay +
+    nightPay +
+    nightOvertimePay +
     weekendPay +
     weekendOvertimePay +
     holidayPayAmount +
@@ -692,6 +712,22 @@ function calculateSalary() {
 
   const netSalary =
     grossSalary - taxAmount;
+
+
+  const calculation = {
+
+    grossSalary: grossSalary,
+    vacationPay: vacationPay,
+    taxAmount: taxAmount,
+    netSalary: netSalary
+
+  };
+
+
+  localStorage.setItem(
+    "genieSalaryCalculation",
+    JSON.stringify(calculation)
+  );
 
 
   document.getElementById("result").innerHTML = `
@@ -712,17 +748,19 @@ function calculateSalary() {
     </p>
 
     <div class="net-box">
-      <span class="net-label">Nettolön</span>
+
+      <span class="net-label">
+        Nettolön
+      </span>
 
       <p class="total">
         ${netSalary.toFixed(2)} kr
       </p>
+
     </div>
 
   `;
 }
-
-
 function saveFormData() {
 
   const inputs = document.querySelectorAll(
