@@ -269,23 +269,62 @@
 
     function viewEmployee(index) {
 
-      const employee =
-        employees[index];
+  const employee = employees[index];
+
+  const list =
+    document.getElementById("employeeList");
 
 
-      alert(
-        "Anställd: " +
-        employee.name +
+  list.innerHTML =
 
-        "\n\nHär kommer arbetsgivaren senare kunna se:" +
+    '<div class="employee-card">' +
 
-        "\n• Arbetstid" +
-        "\n• Löneperiod" +
-        "\n• Typ av lön" +
-        "\n• Löneberäkning"
-      );
+      '<div class="employee-name">' +
+        '👤 ' + employee.name +
+      '</div>' +
 
-    }
+
+      '<div class="employee-info">' +
+        '🔒 Endast visning för arbetsgivaren' +
+      '</div>' +
+
+
+      '<hr>' +
+
+
+      '<p><strong>💰 Typ av lön</strong></p>' +
+
+      '<p>Timlön / Kollektivavtal / Månadslön</p>' +
+
+
+      '<p><strong>📅 Löneperiod</strong></p>' +
+
+      '<p>Inte registrerad ännu</p>' +
+
+
+      '<p><strong>⏱️ Arbetade timmar</strong></p>' +
+
+      '<p>Inte registrerat ännu</p>' +
+
+
+      '<p><strong>💵 Beräknad lön</strong></p>' +
+
+      '<p>Inte beräknad ännu</p>' +
+
+
+      '<p><strong>💬 Kommunikation</strong></p>' +
+
+      '<p>Kontakta den anställde vid behov.</p>' +
+
+
+      '<button class="employee-button" ' +
+        'onclick="updateEmployeeList()">' +
+        '← Tillbaka till anställda' +
+      '</button>' +
+
+    '</div>';
+
+}
 
 
     function contactEmployee(index) {
