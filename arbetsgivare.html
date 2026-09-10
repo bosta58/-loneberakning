@@ -273,7 +273,7 @@
 
   const savedTimlon =
     localStorage.getItem("genieTimlonData");
-
+alert(savedTimlon ? "ARBETSGIVARE SER DATA" : "ARBETSGIVARE SER INGEN DATA");
   const timlonData =
     savedTimlon ? JSON.parse(savedTimlon) : null;
 
