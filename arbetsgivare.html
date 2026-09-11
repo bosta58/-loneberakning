@@ -288,19 +288,15 @@
 
         <h2>👤 ${employee.name}</h2>
 
-        <div class="employee-details">
+        <p>
+          <strong>
+            🔒 Endast visning för arbetsgivaren
+          </strong>
+        </p>
 
-          <p>
-            <strong>
-              🔒 Endast visning för arbetsgivaren
-            </strong>
-          </p>
-
-          <p>
-            Inga löneuppgifter registrerade ännu.
-          </p>
-
-        </div>
+        <p>
+          Inga löneuppgifter registrerade ännu.
+        </p>
 
         <button
           class="button back-button"
@@ -333,20 +329,16 @@
 
         <h2>👤 ${employee.name}</h2>
 
-        <div class="employee-details">
+        <p>
+          <strong>
+            🔒 Endast visning för arbetsgivaren
+          </strong>
+        </p>
 
-          <p>
-            <strong>
-              🔒 Endast visning för arbetsgivaren
-            </strong>
-          </p>
-
-          <p>
-            Inga löneuppgifter finns registrerade
-            för denna anställd.
-          </p>
-
-        </div>
+        <p>
+          Inga löneuppgifter finns registrerade
+          för denna anställd.
+        </p>
 
         <button
           class="button back-button"
@@ -361,85 +353,226 @@
   }
 
 
+  const regularHours =
+    Number(timlonData.regularHours || 0);
+
+  const regularRate =
+    Number(timlonData.regularRate || 0);
+
+  const regularPay =
+    Number(timlonData.regularPay || 0);
+
+
+  const regularOvertimeHours =
+    Number(timlonData.regularOvertimeHours || 0);
+
+  const regularOvertimeRate =
+    Number(timlonData.regularOvertimeRate || 0);
+
+  const regularOvertimePay =
+    Number(timlonData.regularOvertimePay || 0);
+
+
+  const nightHours =
+    Number(timlonData.nightHours || 0);
+
+  const nightRate =
+    Number(timlonData.nightRate || 0);
+
+  const nightPay =
+    Number(timlonData.nightPay || 0);
+
+
+  const nightOvertimeHours =
+    Number(timlonData.nightOvertimeHours || 0);
+
+  const nightOvertimeRate =
+    Number(timlonData.nightOvertimeRate || 0);
+
+  const nightOvertimePay =
+    Number(timlonData.nightOvertimePay || 0);
+
+
+  const weekendHours =
+    Number(timlonData.weekendHours || 0);
+
+  const weekendRate =
+    Number(timlonData.weekendRate || 0);
+
+  const weekendPay =
+    Number(timlonData.weekendPay || 0);
+
+
+  const weekendOvertimeHours =
+    Number(timlonData.weekendOvertimeHours || 0);
+
+  const weekendOvertimeRate =
+    Number(timlonData.weekendOvertimeRate || 0);
+
+  const weekendOvertimePay =
+    Number(timlonData.weekendOvertimePay || 0);
+
+
+  const holidayHours =
+    Number(timlonData.holidayHours || 0);
+
+  const holidayRate =
+    Number(timlonData.holidayRate || 0);
+
+  const holidayPay =
+    Number(timlonData.holidayPay || 0);
+
+
+  const holidayOvertimeHours =
+    Number(timlonData.holidayOvertimeHours || 0);
+
+  const holidayOvertimeRate =
+    Number(timlonData.holidayOvertimeRate || 0);
+
+  const holidayOvertimePay =
+    Number(timlonData.holidayOvertimePay || 0);
+
+
+  const grossSalary =
+    Number(timlonData.grossSalary || 0);
+
+  const vacationPay =
+    Number(timlonData.vacationPay || 0);
+
+  const taxAmount =
+    Number(timlonData.taxAmount || 0);
+
+  const netSalary =
+    Number(timlonData.netSalary || 0);
+
+
   container.innerHTML = `
+
     <div class="card">
 
       <h2>👤 ${employee.name}</h2>
 
-      <div class="employee-details">
+      <p>
+        <strong>
+          🔒 Endast visning för arbetsgivaren
+        </strong>
+      </p>
 
-        <p>
-          <strong>
-            🔒 Endast visning för arbetsgivaren
-          </strong>
-        </p>
+      <p>
+        <strong>Typ av lön:</strong>
+        ${timlonData.type || "Timlön"}
+      </p>
 
-        <p>
-          <strong>Typ av lön:</strong>
-          ${timlonData.type || "Timlön"}
-        </p>
-
-        <p>
-          <strong>Löneperiod:</strong>
-          ${timlonData.periodStart || "Inte registrerad ännu"}
-          –
-          ${timlonData.periodEnd || "Inte registrerad ännu"}
-        </p>
-
-        <hr>
-
-        <p>
-          <strong>Ordinarie vardag:</strong>
-          ${Number(timlonData.regularHours || 0).toFixed(1)} h
-        </p>
-
-        <p>
-          <strong>Övertid vardag:</strong>
-          ${Number(timlonData.regularOvertimeHours || 0).toFixed(1)} h
-        </p>
-
-        <p>
-          <strong>Natt:</strong>
-          ${Number(timlonData.nightHours || 0).toFixed(1)} h
-        </p>
-
-        <p>
-          <strong>Nattövertid:</strong>
-          ${Number(timlonData.nightOvertimeHours || 0).toFixed(1)} h
-        </p>
-
-        <p>
-          <strong>Helg:</strong>
-          ${Number(timlonData.weekendHours || 0).toFixed(1)} h
-        </p>
-
-        <p>
-          <strong>Övertid helg:</strong>
-          ${Number(timlonData.weekendOvertimeHours || 0).toFixed(1)} h
-        </p>
-
-        <p>
-          <strong>Helgdag:</strong>
-          ${Number(timlonData.holidayHours || 0).toFixed(1)} h
-        </p>
-
-        <p>
-          <strong>Övertid helgdag:</strong>
-          ${Number(timlonData.holidayOvertimeHours || 0).toFixed(1)} h
-        </p>
-
-      </div>
-
-      <button
-        class="button back-button"
-        onclick="location.reload()">
-        ← Tillbaka
-      </button>
+      <p>
+        <strong>Löneperiod:</strong>
+        ${timlonData.periodStart || "Inte registrerad"}
+        –
+        ${timlonData.periodEnd || "Inte registrerad"}
+      </p>
 
     </div>
+
+
+    <div class="card">
+
+      <h2>⏱ Arbetstid och värde</h2>
+
+      <p>
+        <strong>Ordinarie vardag:</strong><br>
+        ${regularHours.toFixed(1)} h ×
+        ${regularRate.toFixed(2)} kr =
+        <strong>${regularPay.toFixed(2)} kr</strong>
+      </p>
+
+      <p>
+        <strong>Övertid vardag:</strong><br>
+        ${regularOvertimeHours.toFixed(1)} h ×
+        ${regularOvertimeRate.toFixed(2)} kr =
+        <strong>${regularOvertimePay.toFixed(2)} kr</strong>
+      </p>
+
+      <p>
+        <strong>Natt:</strong><br>
+        ${nightHours.toFixed(1)} h ×
+        ${nightRate.toFixed(2)} kr =
+        <strong>${nightPay.toFixed(2)} kr</strong>
+      </p>
+
+      <p>
+        <strong>Nattövertid:</strong><br>
+        ${nightOvertimeHours.toFixed(1)} h ×
+        ${nightOvertimeRate.toFixed(2)} kr =
+        <strong>${nightOvertimePay.toFixed(2)} kr</strong>
+      </p>
+
+      <p>
+        <strong>Helg:</strong><br>
+        ${weekendHours.toFixed(1)} h ×
+        ${weekendRate.toFixed(2)} kr =
+        <strong>${weekendPay.toFixed(2)} kr</strong>
+      </p>
+
+      <p>
+        <strong>Övertid helg:</strong><br>
+        ${weekendOvertimeHours.toFixed(1)} h ×
+        ${weekendOvertimeRate.toFixed(2)} kr =
+        <strong>${weekendOvertimePay.toFixed(2)} kr</strong>
+      </p>
+
+      <p>
+        <strong>Helgdag:</strong><br>
+        ${holidayHours.toFixed(1)} h ×
+        ${holidayRate.toFixed(2)} kr =
+        <strong>${holidayPay.toFixed(2)} kr</strong>
+      </p>
+
+      <p>
+        <strong>Övertid helgdag:</strong><br>
+        ${holidayOvertimeHours.toFixed(1)} h ×
+        ${holidayOvertimeRate.toFixed(2)} kr =
+        <strong>${holidayOvertimePay.toFixed(2)} kr</strong>
+      </p>
+
+    </div>
+
+
+    <div class="card">
+
+      <h2>💰 Löneberäkning</h2>
+
+      <p>
+        <strong>Bruttolön:</strong>
+        ${grossSalary.toFixed(2)} kr
+      </p>
+
+      <p>
+        <strong>Semesterersättning:</strong>
+        ${vacationPay.toFixed(2)} kr
+      </p>
+
+      <p>
+        <strong>Skatt:</strong>
+        ${taxAmount.toFixed(2)} kr
+      </p>
+
+      <hr>
+
+      <p style="font-size:22px;">
+        <strong>Nettolön:</strong>
+        ${netSalary.toFixed(2)} kr
+      </p>
+
+    </div>
+
+
+    <button
+      class="button back-button"
+      onclick="location.reload()">
+      ← Tillbaka
+    </button>
+
   `;
-}
-    function contactEmployee(index) {
+}    function contactEmployee(index) {
 
       const employee =
         employees[index];
