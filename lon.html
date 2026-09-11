@@ -785,11 +785,102 @@ function saveFormData() {
   }
 
 
+  const regularHours =
+    Number(
+      document.getElementById("lonRegularHours")
+        .textContent.replace(" h", "")
+    );
+
+  const regularOvertimeHours =
+    Number(
+      document.getElementById("lonOvertimeHours")
+        .textContent.replace(" h", "")
+    );
+
+  const nightHours =
+    Number(
+      document.getElementById("lonNightHours")
+        .textContent.replace(" h", "")
+    );
+
+  const nightOvertimeHours =
+    Number(
+      document.getElementById("lonNightOvertimeHours")
+        .textContent.replace(" h", "")
+    );
+
+  const weekendHours =
+    Number(
+      document.getElementById("lonWeekendHours")
+        .textContent.replace(" h", "")
+    );
+
+  const weekendOvertimeHours =
+    Number(
+      document.getElementById("lonWeekendOvertimeHours")
+        .textContent.replace(" h", "")
+    );
+
+  const holidayHours =
+    Number(
+      document.getElementById("lonHolidayHours")
+        .textContent.replace(" h", "")
+    );
+
+  const holidayOvertimeHours =
+    Number(
+      document.getElementById("lonHolidayOvertimeHours")
+        .textContent.replace(" h", "")
+    );
+
+
+  const regularRate =
+    Number(document.getElementById("regularRate").value);
+
+  const regularOvertimeRate =
+    Number(
+      document.getElementById("regularOvertimeRate").value
+    );
+
+  const nightRate =
+    Number(document.getElementById("nightRate").value);
+
+  const nightOvertimeRate =
+    Number(
+      document.getElementById("nightOvertimeRate").value
+    );
+
+  const weekendRate =
+    Number(document.getElementById("weekendRate").value);
+
+  const weekendOvertimeRate =
+    Number(
+      document.getElementById("weekendOvertimeRate").value
+    );
+
+  const holidayRate =
+    Number(document.getElementById("holidayRate").value);
+
+  const holidayOvertimeRate =
+    Number(
+      document.getElementById("holidayOvertimeRate").value
+    );
+
+
+  const calculation =
+    JSON.parse(
+      localStorage.getItem(
+        "genieSalaryCalculation"
+      )
+    ) || {};
+
+
   const timlonData = {
 
     employee: employeeInfo,
 
     type: "Timlön",
+
 
     periodStart:
       document.getElementById("periodStart").value,
@@ -797,53 +888,102 @@ function saveFormData() {
     periodEnd:
       document.getElementById("periodEnd").value,
 
+
     regularHours:
-      Number(
-        document.getElementById("lonRegularHours")
-          .textContent.replace(" h", "")
-      ),
+      regularHours,
+
+    regularRate:
+      regularRate,
+
+    regularPay:
+      regularHours * regularRate,
+
 
     regularOvertimeHours:
-      Number(
-        document.getElementById("lonOvertimeHours")
-          .textContent.replace(" h", "")
-      ),
+      regularOvertimeHours,
+
+    regularOvertimeRate:
+      regularOvertimeRate,
+
+    regularOvertimePay:
+      regularOvertimeHours *
+      regularOvertimeRate,
+
 
     nightHours:
-      Number(
-        document.getElementById("lonNightHours")
-          .textContent.replace(" h", "")
-      ),
+      nightHours,
+
+    nightRate:
+      nightRate,
+
+    nightPay:
+      nightHours * nightRate,
+
 
     nightOvertimeHours:
-      Number(
-        document.getElementById("lonNightOvertimeHours")
-          .textContent.replace(" h", "")
-      ),
+      nightOvertimeHours,
+
+    nightOvertimeRate:
+      nightOvertimeRate,
+
+    nightOvertimePay:
+      nightOvertimeHours *
+      nightOvertimeRate,
+
 
     weekendHours:
-      Number(
-        document.getElementById("lonWeekendHours")
-          .textContent.replace(" h", "")
-      ),
+      weekendHours,
+
+    weekendRate:
+      weekendRate,
+
+    weekendPay:
+      weekendHours * weekendRate,
+
 
     weekendOvertimeHours:
-      Number(
-        document.getElementById("lonWeekendOvertimeHours")
-          .textContent.replace(" h", "")
-      ),
+      weekendOvertimeHours,
+
+    weekendOvertimeRate:
+      weekendOvertimeRate,
+
+    weekendOvertimePay:
+      weekendOvertimeHours *
+      weekendOvertimeRate,
+
 
     holidayHours:
-      Number(
-        document.getElementById("lonHolidayHours")
-          .textContent.replace(" h", "")
-      ),
+      holidayHours,
+
+    holidayRate:
+      holidayRate,
+
+    holidayPay:
+      holidayHours * holidayRate,
+
 
     holidayOvertimeHours:
-      Number(
-        document.getElementById("lonHolidayOvertimeHours")
-          .textContent.replace(" h", "")
-      )
+      holidayOvertimeHours,
+
+    holidayOvertimeRate:
+      holidayOvertimeRate,
+
+    holidayOvertimePay:
+      holidayOvertimeHours *
+      holidayOvertimeRate,
+
+
+    grossSalary:
+      calculation.grossSalary || 0,
+
+    vacationPay:
+      calculation.vacationPay || 0,
+
+    taxAmount:
+      calculation.taxAmount || 0,
+
+    netSalary:
+      calculation.netSalary || 0
 
   };
 
@@ -852,9 +992,8 @@ function saveFormData() {
     "genieTimlonData",
     JSON.stringify(timlonData)
   );
+
 }
-
-
 function loadFormData() {
 
   const inputs = document.querySelectorAll(
