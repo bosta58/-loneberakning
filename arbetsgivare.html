@@ -362,7 +362,6 @@
   const regularPay =
     Number(timlonData.regularPay || 0);
 
-
   const regularOvertimeHours =
     Number(timlonData.regularOvertimeHours || 0);
 
@@ -371,7 +370,6 @@
 
   const regularOvertimePay =
     Number(timlonData.regularOvertimePay || 0);
-
 
   const nightHours =
     Number(timlonData.nightHours || 0);
@@ -382,7 +380,6 @@
   const nightPay =
     Number(timlonData.nightPay || 0);
 
-
   const nightOvertimeHours =
     Number(timlonData.nightOvertimeHours || 0);
 
@@ -391,7 +388,6 @@
 
   const nightOvertimePay =
     Number(timlonData.nightOvertimePay || 0);
-
 
   const weekendHours =
     Number(timlonData.weekendHours || 0);
@@ -402,7 +398,6 @@
   const weekendPay =
     Number(timlonData.weekendPay || 0);
 
-
   const weekendOvertimeHours =
     Number(timlonData.weekendOvertimeHours || 0);
 
@@ -411,7 +406,6 @@
 
   const weekendOvertimePay =
     Number(timlonData.weekendOvertimePay || 0);
-
 
   const holidayHours =
     Number(timlonData.holidayHours || 0);
@@ -422,7 +416,6 @@
   const holidayPay =
     Number(timlonData.holidayPay || 0);
 
-
   const holidayOvertimeHours =
     Number(timlonData.holidayOvertimeHours || 0);
 
@@ -431,7 +424,6 @@
 
   const holidayOvertimePay =
     Number(timlonData.holidayOvertimePay || 0);
-
 
   const grossSalary =
     Number(timlonData.grossSalary || 0);
@@ -444,6 +436,88 @@
 
   const netSalary =
     Number(timlonData.netSalary || 0);
+
+
+  const messages =
+    JSON.parse(
+      localStorage.getItem("genieMessages")
+    ) || [];
+
+  const employeeMessages =
+    messages.filter(function(item) {
+      return item.employee === employee.name;
+    });
+
+
+  let messageHTML = "";
+
+
+  if (employeeMessages.length > 0) {
+
+    const lastMessage =
+      employeeMessages[employeeMessages.length - 1];
+
+    messageHTML = `
+
+      <div class="card">
+
+        <h2>💬 Kommunikation</h2>
+
+        <p>
+          <strong>Arbetsgivarens meddelande:</strong>
+        </p>
+
+        <p>
+          ${lastMessage.message}
+        </p>
+
+        <p>
+          <strong>Datum:</strong>
+          ${lastMessage.date}
+        </p>
+
+        <p>
+          <strong>Status:</strong>
+          ${lastMessage.status}
+        </p>
+
+        ${
+          lastMessage.reply
+          ? `
+            <hr>
+
+            <p>
+              <strong>👤 Arbetstagarens svar:</strong>
+            </p>
+
+            <p>
+              ${lastMessage.reply}
+            </p>
+
+            ${
+              lastMessage.replyDate
+              ? `
+                <p>
+                  <strong>Datum:</strong>
+                  ${lastMessage.replyDate}
+                </p>
+              `
+              : ""
+            }
+          `
+          : `
+            <p>
+              <strong>
+                ⏳ Väntar på svar från arbetstagaren
+              </strong>
+            </p>
+          `
+        }
+
+      </div>
+
+    `;
+  }
 
 
   container.innerHTML = `
@@ -564,6 +638,7 @@
 
     </div>
 
+    ${messageHTML}
 
     <button
       class="button back-button"
@@ -572,7 +647,7 @@
     </button>
 
   `;
-}    function contactEmployee(index) {
+}  function contactEmployee(index) {
 
   const employee = employees[index];
 
