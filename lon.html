@@ -551,7 +551,26 @@
     <!-- RESULTAT -->
 
     <div id="result"></div>
+<!-- MEDDELANDE FRÅN ARBETSGIVARE -->
 
+<div id="employerMessageBox" class="card" style="display:none;">
+
+  <h3>💬 Meddelande från arbetsgivare</h3>
+
+  <div id="employerMessageContent"></div>
+
+  <textarea
+    id="employeeReply"
+    placeholder="Skriv ditt svar, din förklaring eller information om rättelse..."
+    rows="4"></textarea>
+
+  <button
+    class="calculate"
+    onclick="replyToEmployer()">
+    Skicka svar
+  </button>
+
+</div>
     <div class="footer">
       Genie
     </div>
