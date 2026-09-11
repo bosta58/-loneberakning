@@ -586,12 +586,10 @@
     return;
   }
 
-
   const messages =
     JSON.parse(
       localStorage.getItem("genieMessages")
     ) || [];
-
 
   const newMessage = {
 
@@ -610,25 +608,27 @@
 
     status: "Ny kommentar",
 
-    reply: ""
+    reply: "",
+
+    replyDate: "",
+
+    replyTime: ""
 
   };
 
-
   messages.push(newMessage);
-
 
   localStorage.setItem(
     "genieMessages",
     JSON.stringify(messages)
   );
 
-
   alert(
     "Meddelandet är skickat till " +
     employee.name
   );
 
+  updateEmployeeList();
 }
     updateEmployeeList();
   </script>
