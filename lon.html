@@ -1051,7 +1051,93 @@ document.querySelectorAll(
 loadCalendarHours();
 loadFormData();
 saveFormData();
+function loadEmployerMessage() {
 
+  const employeeInfo =
+    document.getElementById("employeeInfo").value.trim();
+
+  if (!employeeInfo) {
+    return;
+  }
+
+  const messages =
+    JSON.parse(
+      localStorage.getItem("genieMessages")
+    ) || [];
+
+  const employeeMessages =
+    messages.filter(function(item) {
+      return item.employee === employeeInfo;
+    });
+
+  if (employeeMessages.length === 0) {
+    return;
+  }
+
+  const lastMessage =
+    employeeMessages[employeeMessages.length - 1];
+
+  document.getElementById(
+    "employerMessageBox"
+  ).style.display = "block";
+
+  document.getElementById(
+    "employerMessageContent"
+  ).innerHTML = `
+    <p><strong>Datum:</strong> ${lastMessage.date}</p>
+    <p><strong>Tid:</strong> ${lastMessage.time}</p>
+    <p><strong>Meddelande:</strong></p>
+    <p>${lastMessage.message}</p>
+    <p><strong>Status:</strong> ${lastMessage.status}</p>
+  `;
+}
+
+
+function replyToEmployer() {
+
+  const employeeInfo =
+    document.getElementById("employeeInfo").value.trim();
+
+  const reply =
+    document.getElementById("employeeReply").value.trim();
+
+  if (!reply) {
+    alert("Skriv ett svar först.");
+    return;
+  }
+
+  const messages =
+    JSON.parse(
+      localStorage.getItem("genieMessages")
+    ) || [];
+
+  for (let i = messages.length - 1; i >= 0; i--) {
+
+    if (messages[i].employee === employeeInfo) {
+
+      messages[i].reply = reply;
+      messages[i].status = "Besvarad";
+
+      break;
+    }
+  }
+
+  localStorage.setItem(
+    "genieMessages",
+    JSON.stringify(messages)
+  );
+
+  document.getElementById(
+    "employeeReply"
+  ).value = "";
+
+  loadEmployerMessage();
+
+  alert("Ditt svar är skickat till arbetsgivaren.");
+}
+
+
+loadEmployerMessage();
 </script>
 
 </body>
