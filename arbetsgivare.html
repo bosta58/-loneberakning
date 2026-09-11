@@ -574,34 +574,63 @@
   `;
 }    function contactEmployee(index) {
 
-      const employee =
-        employees[index];
+  const employee = employees[index];
+
+  const message =
+    prompt(
+      "Skriv ett meddelande eller en kommentar till " +
+      employee.name + ":"
+    );
+
+  if (!message || message.trim() === "") {
+    return;
+  }
 
 
-      const message =
-        prompt(
-          "Skriv ett meddelande till " +
-          employee.name + ":"
-        );
+  const messages =
+    JSON.parse(
+      localStorage.getItem("genieMessages")
+    ) || [];
 
 
-      if (
-        message &&
-        message.trim() !== ""
-      ) {
+  const newMessage = {
 
-        alert(
-          "Meddelande sparat till " +
-          employee.name
-        );
+    employee: employee.name,
 
-      }
+    message: message.trim(),
 
-    }
+    date:
+      new Date().toLocaleDateString("sv-SE"),
+
+    time:
+      new Date().toLocaleTimeString("sv-SE", {
+        hour: "2-digit",
+        minute: "2-digit"
+      }),
+
+    status: "Ny kommentar",
+
+    reply: ""
+
+  };
 
 
+  messages.push(newMessage);
+
+
+  localStorage.setItem(
+    "genieMessages",
+    JSON.stringify(messages)
+  );
+
+
+  alert(
+    "Meddelandet är skickat till " +
+    employee.name
+  );
+
+}
     updateEmployeeList();
-
   </script>
 
 </body>
