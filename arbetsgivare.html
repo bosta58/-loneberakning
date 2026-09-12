@@ -288,17 +288,22 @@
     ) || [];
 
 
-  const kollektivData =
-    salaryList.find(function(item) {
+  const kollektivMatches =
+  salaryList.filter(function(item) {
 
-      return (
-        String(item.employee || "")
-          .trim()
-          .toLowerCase() === registeredName
-      );
+    return (
+      String(item.employee || "")
+        .trim()
+        .toLowerCase() === registeredName
+    );
 
-    });
+  });
 
+
+const kollektivData =
+  kollektivMatches.length > 0
+    ? kollektivMatches[kollektivMatches.length - 1]
+    : null;
 
   /* TIMLÖN */
 
