@@ -617,11 +617,11 @@
         Tillbaka
       </button>
 
-      <button
-        class="calculate-button"
-        onclick="calculateSalary()">
-        Beräkna lön
-      </button>
+    <button
+  class="calculate-button"
+  onclick="calculateAndSaveSalary()">
+  Beräkna lön
+</button>
 
     </div>
 
@@ -838,7 +838,13 @@ function calculateSalary() {
 
   `;
 }
+function calculateAndSaveSalary() {
 
+  calculateSalary();
+
+  saveSalaryToEmployer();
+
+}
 
 loadCalendarHours();
 function saveFormData() {
@@ -895,6 +901,46 @@ document.querySelectorAll(
 
 
 loadFormData();
+  function saveSalaryToEmployer() {
+
+  const employerInfo =
+    document.getElementById("employerInfo").value;
+
+  const employeeInfo =
+    document.getElementById("employeeInfo").value;
+
+  const periodStart =
+    document.getElementById("periodStart").value;
+
+  const periodEnd =
+    document.getElementById("periodEnd").value;
+
+  const result =
+    document.getElementById("result").innerText;
+
+  const salaryData = {
+    type: "Kollektivavtal",
+    employer: employerInfo,
+    employee: employeeInfo,
+    periodStart: periodStart,
+    periodEnd: periodEnd,
+    result: result,
+    date: new Date().toLocaleDateString()
+  };
+
+  let salaryList =
+    JSON.parse(
+      localStorage.getItem("employerSalaryList")
+    ) || [];
+
+  salaryList.push(salaryData);
+
+  localStorage.setItem(
+    "employerSalaryList",
+    JSON.stringify(salaryList)
+  );
+
+}
 </script>
 
 </body>
