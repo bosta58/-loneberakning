@@ -903,6 +903,16 @@ document.querySelectorAll(
 loadFormData();
   function saveSalaryToEmployer() {
 
+  const saved =
+    localStorage.getItem("salaryHours");
+
+  if (!saved) {
+    return;
+  }
+
+  const hours = JSON.parse(saved);
+
+
   const employerInfo =
     document.getElementById("employerInfo").value;
 
@@ -915,25 +925,203 @@ loadFormData();
   const periodEnd =
     document.getElementById("periodEnd").value;
 
-  const result =
-    document.getElementById("result").innerText;
+
+  const regularHours =
+    Number(hours.regularHours || 0);
+
+  const regularOvertimeHours =
+    Number(hours.regularOvertimeHours || 0);
+
+  const weekendHours =
+    Number(hours.weekendHours || 0);
+
+  const weekendOvertimeHours =
+    Number(hours.weekendOvertimeHours || 0);
+
+  const holidayHours =
+    Number(hours.holidayHours || 0);
+
+  const holidayOvertimeHours =
+    Number(hours.holidayOvertimeHours || 0);
+
+
+  const regularRate =
+    Number(document.getElementById("regularRate").value);
+
+  const regularOvertimePercent =
+    Number(document.getElementById("regularOvertimePercent").value);
+
+  const weekendPercent =
+    Number(document.getElementById("weekendPercent").value);
+
+  const weekendOvertimePercent =
+    Number(document.getElementById("weekendOvertimePercent").value);
+
+  const holidayPercent =
+    Number(document.getElementById("holidayPercent").value);
+
+  const holidayOvertimePercent =
+    Number(document.getElementById("holidayOvertimePercent").value);
+
+  const holidayPayPercent =
+    Number(document.getElementById("holidayPay").value);
+
+  const tax =
+    Number(document.getElementById("tax").value);
+
+
+  const regularOvertimeRate =
+    regularRate *
+    (1 + regularOvertimePercent / 100);
+
+  const weekendRate =
+    regularRate *
+    (1 + weekendPercent / 100);
+
+  const weekendOvertimeRate =
+    regularRate *
+    (1 + weekendOvertimePercent / 100);
+
+  const holidayRate =
+    regularRate *
+    (1 + holidayPercent / 100);
+
+  const holidayOvertimeRate =
+    regularRate *
+    (1 + holidayOvertimePercent / 100);
+
+
+  const regularPay =
+    regularHours * regularRate;
+
+  const regularOvertimePay =
+    regularOvertimeHours *
+    regularOvertimeRate;
+
+  const weekendPay =
+    weekendHours * weekendRate;
+
+  const weekendOvertimePay =
+    weekendOvertimeHours *
+    weekendOvertimeRate;
+
+  const holidayPayAmount =
+    holidayHours * holidayRate;
+
+  const holidayOvertimePay =
+    holidayOvertimeHours *
+    holidayOvertimeRate;
+
+
+  const baseGross =
+    regularPay +
+    regularOvertimePay +
+    weekendPay +
+    weekendOvertimePay +
+    holidayPayAmount +
+    holidayOvertimePay;
+
+
+  const vacationPay =
+    baseGross *
+    holidayPayPercent / 100;
+
+  const grossSalary =
+    baseGross + vacationPay;
+
+  const taxAmount =
+    grossSalary * tax / 100;
+
+  const netSalary =
+    grossSalary - taxAmount;
+
 
   const salaryData = {
+
     type: "Kollektivavtal",
+
     employer: employerInfo,
+
     employee: employeeInfo,
+
     periodStart: periodStart,
+
     periodEnd: periodEnd,
-    result: result,
-    date: new Date().toLocaleDateString()
+
+
+    regularHours: regularHours,
+
+    regularRate: regularRate,
+
+    regularPay: regularPay,
+
+
+    regularOvertimeHours:
+      regularOvertimeHours,
+
+    regularOvertimeRate:
+      regularOvertimeRate,
+
+    regularOvertimePay:
+      regularOvertimePay,
+
+
+    weekendHours: weekendHours,
+
+    weekendRate: weekendRate,
+
+    weekendPay: weekendPay,
+
+
+    weekendOvertimeHours:
+      weekendOvertimeHours,
+
+    weekendOvertimeRate:
+      weekendOvertimeRate,
+
+    weekendOvertimePay:
+      weekendOvertimePay,
+
+
+    holidayHours: holidayHours,
+
+    holidayRate: holidayRate,
+
+    holidayPay: holidayPayAmount,
+
+
+    holidayOvertimeHours:
+      holidayOvertimeHours,
+
+    holidayOvertimeRate:
+      holidayOvertimeRate,
+
+    holidayOvertimePay:
+      holidayOvertimePay,
+
+
+    vacationPay: vacationPay,
+
+    grossSalary: grossSalary,
+
+    taxAmount: taxAmount,
+
+    netSalary: netSalary,
+
+    date:
+      new Date().toLocaleDateString()
+
   };
+
 
   let salaryList =
     JSON.parse(
       localStorage.getItem("employerSalaryList")
     ) || [];
 
+
   salaryList.push(salaryData);
+
 
   localStorage.setItem(
     "employerSalaryList",
