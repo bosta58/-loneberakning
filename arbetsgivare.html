@@ -328,17 +328,29 @@ const kollektivData =
   let salaryData = null;
 
 
-  if (kollektivData) {
+const allSalaryData = [];
 
-    salaryData = kollektivData;
 
-  }
+if (hasTimlon) {
 
-  else if (hasTimlon) {
+  allSalaryData.push(timlonData);
 
-    salaryData = timlonData;
+}
 
-  }
+
+if (kollektivData) {
+
+  allSalaryData.push(kollektivData);
+
+}
+
+
+if (allSalaryData.length > 0) {
+
+  salaryData =
+    allSalaryData[allSalaryData.length - 1];
+
+}
 
 
   /* INGA UPPGIFTER */
