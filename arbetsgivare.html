@@ -325,32 +325,19 @@ const kollektivData =
 
   /* VÄLJ LÖNETYP */
 
+   /* VÄLJ LÖNETYP */
+
   let salaryData = null;
 
+  if (hasTimlon) {
 
-const allSalaryData = [];
+    salaryData = timlonData;
 
+  } else if (kollektivData) {
 
-if (hasTimlon) {
+    salaryData = kollektivData;
 
-  allSalaryData.push(timlonData);
-
-}
-
-
-if (kollektivData) {
-
-  allSalaryData.push(kollektivData);
-
-}
-
-
-if (allSalaryData.length > 0) {
-
-  salaryData =
-    allSalaryData[allSalaryData.length - 1];
-
-}
+  }
 
 
   /* INGA UPPGIFTER */
