@@ -115,10 +115,77 @@
 
   <div class="container">
 
-    <div class="header">
-      <h1>🏢 Genie – Arbetsgivare</h1>
-      <p>Löneberäkning och kommunikation</p>
-    </div>
+  <div class="header">
+
+  <div style="
+    border:2px dashed #c9a227;
+    border-radius:14px;
+    padding:25px 15px;
+    margin-bottom:12px;
+    text-align:center;
+    background:#fffdf5;
+  ">
+
+    <label
+      for="employerLogoInput"
+      style="
+        display:block;
+        cursor:pointer;
+      "
+    >
+
+      <img
+        id="employerLogo"
+        src=""
+        alt="Arbetsgivarens logotyp"
+        style="
+          display:none;
+          max-width:220px;
+          max-height:100px;
+          margin:0 auto 10px;
+          object-fit:contain;
+        "
+      >
+
+      <div id="logoPlaceholder">
+
+        <div style="
+          font-size:38px;
+          margin-bottom:8px;
+        ">
+          🏢
+        </div>
+
+        <strong>
+          Lägg till arbetsgivarens logotyp
+        </strong>
+
+        <div style="
+          font-size:13px;
+          margin-top:6px;
+        ">
+          Tryck här för att välja en logotyp
+        </div>
+
+      </div>
+
+    </label>
+
+    <input
+      type="file"
+      id="employerLogoInput"
+      accept="image/*"
+      style="display:none;"
+      onchange="loadEmployerLogo(event)"
+    >
+
+  </div>
+
+  <p>
+    Löneberäkning och kommunikation
+  </p>
+
+</div>
 
     <div class="card">
 
