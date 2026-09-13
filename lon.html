@@ -1138,6 +1138,125 @@ function loadEmployerMessage() {
 
 }
   loadEmployerMessage();
+  function replyToEmployer() {
+
+  const replyBox =
+    document.getElementById("employeeReply");
+
+  const reply =
+    replyBox.value.trim();
+
+  if (reply === "") {
+
+    alert("Skriv ett svar först.");
+
+    return;
+  }
+
+
+  const messages =
+    JSON.parse(
+      localStorage.getItem("genieMessages")
+    ) || [];
+
+
+  const timlonMessages =
+    messages.filter(function(item) {
+
+      return item.type === "Timlön";
+
+    });
+
+
+  if (timlonMessages.length === 0) {
+
+    alert("Ingen arbetsgivarmeddelande hittades.");
+
+    return;
+  }
+
+
+  const lastMessage =
+    timlonMessages[
+      timlonMessages.length - 1
+    ];
+
+
+  lastMessage.reply = reply;
+
+  lastMessage.replyDate =
+    new Date().toLocaleDateString("sv-SE");
+
+  lastMessage.replyTime =
+    new Date().toLocaleTimeString("sv-SE", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+
+  lastMessage.status =
+    "Svar från arbetstagaren";
+
+
+  localStorage.setItem(
+    "genieMessages",
+    JSON.stringify(messages)
+  );
+
+
+  alert("Svaret är skickat till arbetsgivaren.");
+
+  replyBox.value = "";
+
+  loadEmployerMessage();
+
+}
+
+
+function markEmployerMessageAsFixed() {
+
+  const messages =
+    JSON.parse(
+      localStorage.getItem("genieMessages")
+    ) || [];
+
+
+  const timlonMessages =
+    messages.filter(function(item) {
+
+      return item.type === "Timlön";
+
+    });
+
+
+  if (timlonMessages.length === 0) {
+
+    alert("Ingen arbetsgivarmeddelande hittades.");
+
+    return;
+  }
+
+
+  const lastMessage =
+    timlonMessages[
+      timlonMessages.length - 1
+    ];
+
+
+  lastMessage.status =
+    "Åtgärdad";
+
+
+  localStorage.setItem(
+    "genieMessages",
+    JSON.stringify(messages)
+  );
+
+
+  alert("Meddelandet är markerat som åtgärdat.");
+
+  loadEmployerMessage();
+
+}
 </script>
 
 </body>
