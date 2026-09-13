@@ -557,18 +557,41 @@
 
   <h3>💬 Meddelande från arbetsgivare</h3>
 
+<!-- KOMMUNIKATION MED ARBETSGIVAREN -->
+
+<div id="employerMessageBox"
+     class="card"
+     style="display:none; margin-top:20px;">
+
+  <h3 style="margin-top:0;">
+    💬 Kommunikation med arbetsgivaren
+  </h3>
+
   <div id="employerMessageContent"></div>
 
   <textarea
     id="employeeReply"
     placeholder="Skriv ditt svar, din förklaring eller information om rättelse..."
-    rows="4"></textarea>
+    rows="4"
+    style="width:100%; margin-top:10px; padding:10px; border:1px solid #d1d5db; border-radius:9px;"></textarea>
 
-<button
-  class="calculate"
-  onclick="markEmployerMessageAsFixed()">
-  ✅ Markera som åtgärdad
-</button>
+  <div class="navigation-buttons">
+
+    <button
+      class="back-button"
+      onclick="replyToEmployer()">
+      💬 Skicka svar
+    </button>
+
+    <button
+      class="calculate"
+      onclick="markEmployerMessageAsFixed()">
+      ✅ Åtgärdad
+    </button>
+
+  </div>
+
+</div>
 
 </div>
     <div class="footer">
