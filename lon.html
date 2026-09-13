@@ -1088,19 +1088,22 @@ function loadEmployerMessage() {
     ) || [];
 
 
-  const employeeName =
-  employeeInfo
-    .split("\n")[0]
-    .trim()
-    .toLowerCase();
-
-const employeeMessages =
+  const employeeMessages =
   messages.filter(function(item) {
 
-    return (
+    const messageEmployee =
       String(item.employee || "")
         .trim()
-        .toLowerCase() === employeeName &&
+        .toLowerCase();
+
+    const employeeText =
+      employeeInfo
+        .trim()
+        .toLowerCase();
+
+    return (
+      messageEmployee &&
+      employeeText.includes(messageEmployee) &&
       item.type === "Timlön"
     );
 
