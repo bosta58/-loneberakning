@@ -1075,61 +1075,37 @@ loadFormData();
 saveFormData();
 function loadEmployerMessage() {
 
-  const employeeInfo =
-    document.getElementById("employeeInfo").value.trim();
-
-  if (!employeeInfo) {
-    return;
-  }
-
   const messages =
     JSON.parse(
       localStorage.getItem("genieMessages")
     ) || [];
 
+  const timlonMessages =
+    messages.filter(function(item) {
+      return item.type === "Timlön";
+    });
 
-  const employeeMessages =
-  messages.filter(function(item) {
-
-    const messageEmployee =
-      String(item.employee || "")
-        .trim()
-        .toLowerCase();
-
-    const employeeText =
-      employeeInfo
-        .trim()
-        .toLowerCase();
-
-    return (
-      messageEmployee &&
-      employeeText.includes(messageEmployee) &&
-      item.type === "Timlön"
-    );
-
-  });
-
-
-  if (employeeMessages.length === 0) {
+  if (timlonMessages.length === 0) {
 
     document.getElementById(
       "employerMessageBox"
     ).style.display = "none";
 
+    alert(
+      "Genie test: Nema sačuvane Timlön poruke."
+    );
+
     return;
   }
 
-
   const lastMessage =
-    employeeMessages[
-      employeeMessages.length - 1
+    timlonMessages[
+      timlonMessages.length - 1
     ];
-
 
   document.getElementById(
     "employerMessageBox"
   ).style.display = "block";
-
 
   document.getElementById(
     "employerMessageContent"
