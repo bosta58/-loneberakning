@@ -845,7 +845,87 @@ function contactEmployee(index) {
 
 }
 
+function saveCompanyInfo() {
 
+  const companyInfo = {
+
+    name:
+      document.getElementById("companyName").value.trim(),
+
+    org:
+      document.getElementById("companyOrg").value.trim(),
+
+    address:
+      document.getElementById("companyAddress").value.trim(),
+
+    phone:
+      document.getElementById("companyPhone").value.trim(),
+
+    email:
+      document.getElementById("companyEmail").value.trim()
+
+  };
+
+  localStorage.setItem(
+    "genieCompanyInfo",
+    JSON.stringify(companyInfo)
+  );
+
+}
+
+
+function loadCompanyInfo() {
+
+  const saved =
+    localStorage.getItem("genieCompanyInfo");
+
+  if (!saved) {
+    return;
+  }
+
+  const companyInfo =
+    JSON.parse(saved);
+
+  document.getElementById("companyName").value =
+    companyInfo.name || "";
+
+  document.getElementById("companyOrg").value =
+    companyInfo.org || "";
+
+  document.getElementById("companyAddress").value =
+    companyInfo.address || "";
+
+  document.getElementById("companyPhone").value =
+    companyInfo.phone || "";
+
+  document.getElementById("companyEmail").value =
+    companyInfo.email || "";
+
+}
+
+
+document
+  .getElementById("companyName")
+  .addEventListener("input", saveCompanyInfo);
+
+document
+  .getElementById("companyOrg")
+  .addEventListener("input", saveCompanyInfo);
+
+document
+  .getElementById("companyAddress")
+  .addEventListener("input", saveCompanyInfo);
+
+document
+  .getElementById("companyPhone")
+  .addEventListener("input", saveCompanyInfo);
+
+document
+  .getElementById("companyEmail")
+  .addEventListener("input", saveCompanyInfo);
+
+
+loadCompanyInfo();
 updateEmployeeList();
 
 </script>
