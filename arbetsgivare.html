@@ -168,106 +168,202 @@
   </div>
 
 
-  <script>
+ <script>
 
-    let employees =
-      JSON.parse(localStorage.getItem("genieEmployees")) || [];
-
-
-    function addEmployee() {
-
-      const name =
-        prompt("Ange namn på den anställde:");
-
-      if (!name || name.trim() === "") {
-        return;
-      }
+let employees =
+  JSON.parse(localStorage.getItem("genieEmployees")) || [];
 
 
-      const employee = {
-        name: name.trim(),
-        added: new Date().toLocaleDateString("sv-SE")
-      };
+function addEmployee() {
+
+  const name =
+    prompt("Ange namn på den anställde:");
+
+  if (!name || name.trim() === "") {
+    return;
+  }
+
+  const employee = {
+    name: name.trim(),
+    added: new Date().toLocaleDateString("sv-SE")
+  };
+
+  employees.push(employee);
+
+  localStorage.setItem(
+    "genieEmployees",
+    JSON.stringify(employees)
+  );
+
+  updateEmployeeList();
+
+}
 
 
-      employees.push(employee);
+function updateEmployeeList() {
+
+  const count =
+    document.getElementById("employeeCount");
+
+  const list =
+    document.getElementById("employeeList");
+
+  count.textContent = employees.length;
+
+  list.innerHTML = "";
+
+  if (employees.length === 0) {
+
+    list.innerHTML =
+      "<p>Inga anställda tillagda ännu.</p>";
+
+    return;
+
+  }
 
 
-      localStorage.setItem(
-        "genieEmployees",
-        JSON.stringify(employees)
-      );
+  employees.forEach(function(employee, index) {
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "employee-card";
 
 
-      updateEmployeeList();
-
-    }
+    let communicationHTML = "";
 
 
-    function updateEmployeeList() {
-
-      const count =
-        document.getElementById("employeeCount");
-
-      const list =
-        document.getElementById("employeeList");
+    const messages =
+      JSON.parse(
+        localStorage.getItem("genieMessages")
+      ) || [];
 
 
-      count.textContent = employees.length;
+    const employeeMessages =
+      messages.filter(function(item) {
 
-
-      list.innerHTML = "";
-
-
-      if (employees.length === 0) {
-
-        list.innerHTML =
-          "<p>Inga anställda tillagda ännu.</p>";
-
-        return;
-
-      }
-
-
-      employees.forEach(function(employee, index) {
-
-        const card =
-          document.createElement("div");
-
-
-        card.className =
-          "employee-card";
-
-
-        card.innerHTML =
-
-          '<div class="employee-name">' +
-          '👤 ' + employee.name +
-          '</div>' +
-
-          '<div class="employee-info">' +
-          'Tillagd: ' + employee.added +
-          '</div>' +
-
-          '<button class="employee-button" ' +
-          'onclick="viewEmployee(' + index + ')">' +
-          '👁 Visa uppgifter' +
-          '</button>' +
-
-          '<button class="employee-button" ' +
-          'onclick="contactEmployee(' + index + ')">' +
-          '💬 Kontakta anställd' +
-          '</button>';
-
-
-        list.appendChild(card);
+        return (
+          String(item.employee || "")
+            .trim()
+            .toLowerCase() ===
+          String(employee.name || "")
+            .trim()
+            .toLowerCase()
+        );
 
       });
 
+
+    if (employeeMessages.length > 0) {
+
+      communicationHTML +=
+        '<div style="margin-top:15px; padding:12px; border:1px solid #d1d5db; border-radius:10px;">';
+
+      communicationHTML +=
+        '<h3 style="margin-top:0;">💬 Kommunikation</h3>';
+
+
+      employeeMessages.forEach(function(item) {
+
+        communicationHTML +=
+          '<div style="margin-bottom:15px;">';
+
+
+        communicationHTML +=
+          '<p><strong>📤 Skickat meddelande</strong></p>';
+
+
+        communicationHTML +=
+          '<p>' +
+          String(item.message || "") +
+          '</p>';
+
+
+        communicationHTML +=
+          '<p style="font-size:13px;">' +
+          String(item.date || "") +
+          ' ' +
+          String(item.time || "") +
+          '</p>';
+
+
+        communicationHTML +=
+          '<p><strong>Status:</strong> ' +
+          String(item.status || "Ny kommentar") +
+          '</p>';
+
+
+        if (
+          item.reply &&
+          String(item.reply).trim() !== ""
+        ) {
+
+          communicationHTML +=
+            '<hr>';
+
+          communicationHTML +=
+            '<p><strong>↩️ Svar från arbetstagaren</strong></p>';
+
+          communicationHTML +=
+            '<p>' +
+            String(item.reply) +
+            '</p>';
+
+
+          communicationHTML +=
+            '<p style="font-size:13px;">' +
+            String(item.replyDate || "") +
+            ' ' +
+            String(item.replyTime || "") +
+            '</p>';
+
+        }
+
+
+        communicationHTML +=
+          '</div>';
+
+      });
+
+
+      communicationHTML +=
+        '</div>';
+
     }
 
 
-    function viewEmployee(index) {
+    card.innerHTML =
+
+      '<div class="employee-name">' +
+      '👤 ' + employee.name +
+      '</div>' +
+
+      '<div class="employee-info">' +
+      'Tillagd: ' + employee.added +
+      '</div>' +
+
+      '<button class="employee-button" ' +
+      'onclick="viewEmployee(' + index + ')">' +
+      '👁 Visa uppgifter' +
+      '</button>' +
+
+      '<button class="employee-button" ' +
+      'onclick="contactEmployee(' + index + ')">' +
+      '💬 Kontakta anställd' +
+      '</button>' +
+
+      communicationHTML;
+
+
+    list.appendChild(card);
+
+  });
+
+}
+
+
+function viewEmployee(index) {
 
   const employee = employees[index];
 
@@ -289,21 +385,22 @@
 
 
   const kollektivMatches =
-  salaryList.filter(function(item) {
+    salaryList.filter(function(item) {
 
-    return (
-      String(item.employee || "")
-        .trim()
-        .toLowerCase() === registeredName
-    );
+      return (
+        String(item.employee || "")
+          .trim()
+          .toLowerCase() === registeredName
+      );
 
-  });
+    });
 
 
-const kollektivData =
-  kollektivMatches.length > 0
-    ? kollektivMatches[kollektivMatches.length - 1]
-    : null;
+  const kollektivData =
+    kollektivMatches.length > 0
+      ? kollektivMatches[kollektivMatches.length - 1]
+      : null;
+
 
   /* TIMLÖN */
 
@@ -311,7 +408,9 @@ const kollektivData =
     localStorage.getItem("genieTimlonData");
 
   const timlonData =
-    savedTimlon ? JSON.parse(savedTimlon) : null;
+    savedTimlon
+      ? JSON.parse(savedTimlon)
+      : null;
 
 
   const hasTimlon =
@@ -325,9 +424,8 @@ const kollektivData =
 
   /* VÄLJ LÖNETYP */
 
-   /* VÄLJ LÖNETYP */
-
   let salaryData = null;
+
 
   if (hasTimlon) {
 
@@ -462,31 +560,21 @@ const kollektivData =
       <h2>👤 ${employee.name}</h2>
 
       <p>
-
         <strong>
           🔒 Endast visning för arbetsgivaren
         </strong>
-
       </p>
 
       <p>
-
         <strong>Typ av lön:</strong>
-
         ${salaryData.type || "Timlön"}
-
       </p>
 
       <p>
-
         <strong>Löneperiod:</strong>
-
         ${salaryData.periodStart || "Inte registrerad"}
-
         –
-
         ${salaryData.periodEnd || "Inte registrerad"}
-
       </p>
 
     </div>
@@ -496,94 +584,46 @@ const kollektivData =
 
       <h2>⏱ Arbetstid och värde</h2>
 
-
       <p>
-
         <strong>Ordinarie vardag:</strong><br>
-
         ${regularHours.toFixed(1)} h ×
-
         ${regularRate.toFixed(2)} kr =
-
-        <strong>
-          ${regularPay.toFixed(2)} kr
-        </strong>
-
+        <strong>${regularPay.toFixed(2)} kr</strong>
       </p>
 
-
       <p>
-
         <strong>Övertid vardag:</strong><br>
-
         ${regularOvertimeHours.toFixed(1)} h ×
-
         ${regularOvertimeRate.toFixed(2)} kr =
-
-        <strong>
-          ${regularOvertimePay.toFixed(2)} kr
-        </strong>
-
+        <strong>${regularOvertimePay.toFixed(2)} kr</strong>
       </p>
 
-
       <p>
-
         <strong>Helg:</strong><br>
-
         ${weekendHours.toFixed(1)} h ×
-
         ${weekendRate.toFixed(2)} kr =
-
-        <strong>
-          ${weekendPay.toFixed(2)} kr
-        </strong>
-
+        <strong>${weekendPay.toFixed(2)} kr</strong>
       </p>
 
-
       <p>
-
         <strong>Övertid helg:</strong><br>
-
         ${weekendOvertimeHours.toFixed(1)} h ×
-
         ${weekendOvertimeRate.toFixed(2)} kr =
-
-        <strong>
-          ${weekendOvertimePay.toFixed(2)} kr
-        </strong>
-
+        <strong>${weekendOvertimePay.toFixed(2)} kr</strong>
       </p>
 
-
       <p>
-
         <strong>Helgdag:</strong><br>
-
         ${holidayHours.toFixed(1)} h ×
-
         ${holidayRate.toFixed(2)} kr =
-
-        <strong>
-          ${holidayPay.toFixed(2)} kr
-        </strong>
-
+        <strong>${holidayPay.toFixed(2)} kr</strong>
       </p>
 
-
       <p>
-
         <strong>Övertid helgdag:</strong><br>
-
         ${holidayOvertimeHours.toFixed(1)} h ×
-
         ${holidayOvertimeRate.toFixed(2)} kr =
-
-        <strong>
-          ${holidayOvertimePay.toFixed(2)} kr
-        </strong>
-
+        <strong>${holidayOvertimePay.toFixed(2)} kr</strong>
       </p>
 
     </div>
@@ -593,43 +633,26 @@ const kollektivData =
 
       <h2>💰 Löneberäkning</h2>
 
-
       <p>
-
         <strong>Bruttolön:</strong>
-
         ${grossSalary.toFixed(2)} kr
-
       </p>
 
-
       <p>
-
         <strong>Semesterersättning:</strong>
-
         ${vacationPay.toFixed(2)} kr
-
       </p>
-
 
       <p>
-
         <strong>Skatt:</strong>
-
         ${taxAmount.toFixed(2)} kr
-
       </p>
-
 
       <hr>
 
-
       <p style="font-size:22px;">
-
         <strong>Nettolön:</strong>
-
         ${netSalary.toFixed(2)} kr
-
       </p>
 
     </div>
@@ -645,7 +668,10 @@ const kollektivData =
 
   `;
 
-}  function contactEmployee(index) {
+}
+
+
+function contactEmployee(index) {
 
   const employee = employees[index];
 
@@ -659,54 +685,63 @@ const kollektivData =
     return;
   }
 
+
   const messages =
     JSON.parse(
       localStorage.getItem("genieMessages")
     ) || [];
 
+
   const newMessage = {
 
-  employee: employee.name,
+    employee: employee.name,
 
-  type: "Timlön",
+    type: "Timlön",
 
-  message: message.trim(),
+    message: message.trim(),
 
-  date:
-    new Date().toLocaleDateString("sv-SE"),
+    date:
+      new Date().toLocaleDateString("sv-SE"),
 
-  time:
-    new Date().toLocaleTimeString("sv-SE", {
-      hour: "2-digit",
-      minute: "2-digit"
-    }),
+    time:
+      new Date().toLocaleTimeString("sv-SE", {
+        hour: "2-digit",
+        minute: "2-digit"
+      }),
 
-  status: "Ny kommentar",
+    status: "Ny kommentar",
 
-  reply: "",
+    reply: "",
 
-  replyDate: "",
+    replyDate: "",
 
-  replyTime: ""
+    replyTime: ""
 
-};
+  };
+
 
   messages.push(newMessage);
+
 
   localStorage.setItem(
     "genieMessages",
     JSON.stringify(messages)
   );
 
+
   alert(
     "Meddelandet är skickat till " +
     employee.name
   );
 
-  updateEmployeeList();
-}
-    updateEmployeeList();
-  </script>
 
+  updateEmployeeList();
+
+}
+
+
+updateEmployeeList();
+
+</script>
 </body>
 </html>
