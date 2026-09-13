@@ -679,28 +679,30 @@ if (allSalaryData.length > 0) {
 
   const newMessage = {
 
-    employee: employee.name,
+  employee: employee.name,
 
-    message: message.trim(),
+  type: "Timlön",
 
-    date:
-      new Date().toLocaleDateString("sv-SE"),
+  message: message.trim(),
 
-    time:
-      new Date().toLocaleTimeString("sv-SE", {
-        hour: "2-digit",
-        minute: "2-digit"
-      }),
+  date:
+    new Date().toLocaleDateString("sv-SE"),
 
-    status: "Ny kommentar",
+  time:
+    new Date().toLocaleTimeString("sv-SE", {
+      hour: "2-digit",
+      minute: "2-digit"
+    }),
 
-    reply: "",
+  status: "Ny kommentar",
 
-    replyDate: "",
+  reply: "",
 
-    replyTime: ""
+  replyDate: "",
 
-  };
+  replyTime: ""
+
+};
 
   messages.push(newMessage);
 
