@@ -864,7 +864,7 @@
 
     dailyHoursDisplay.textContent =
       formatDuration(dailyMinutes);
-
+    saveMonthlySalaryToEmployer();
 
     // =================================
     // UČITAJ POSTOJEĆE DANE
@@ -957,12 +957,13 @@
     // OBRIŠI SAMO AKTIVNI START
     // =================================
 
-    localStorage.removeItem(
+        localStorage.removeItem(
       ACTIVE_START_KEY
     );
 
     startTimeValue = null;
-  };
+
+    saveMonthlySalaryToEmployer();
 
 
   // =================================
