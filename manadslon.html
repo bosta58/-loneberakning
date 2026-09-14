@@ -573,13 +573,23 @@
   const STORAGE_KEY = "genie_manadslon_workdays";
   const ACTIVE_START_KEY = "genie_manadslon_active_start";
 
-  const startButton = document.getElementById("startButton");
-  const stopButton = document.getElementById("stopButton");
+  const startButton =
+    document.getElementById("startButton");
 
-  const startTimeDisplay = document.getElementById("startTime");
-  const endTimeDisplay = document.getElementById("endTime");
-  const dailyHoursDisplay = document.getElementById("dailyHours");
-  const totalHoursDisplay = document.getElementById("totalHours");
+  const stopButton =
+    document.getElementById("stopButton");
+
+  const startTimeDisplay =
+    document.getElementById("startTime");
+
+  const endTimeDisplay =
+    document.getElementById("endTime");
+
+  const dailyHoursDisplay =
+    document.getElementById("dailyHours");
+
+  const totalHoursDisplay =
+    document.getElementById("totalHours");
 
   const workTargetInput =
     document.getElementById("workTarget");
@@ -596,10 +606,12 @@
   // =================================
 
   function formatTime(date) {
+
     return date.toLocaleTimeString("sv-SE", {
       hour: "2-digit",
       minute: "2-digit"
     });
+
   }
 
 
@@ -623,368 +635,10 @@
     return hours + " h " +
       String(minutes).padStart(2, "0") +
       " min";
+
   }
 
 
-  // =================================
-  // AŽURIRAJ CILJ I RAZLIKU
-  // =================================
-
-  function updateTargetAndDifference() {
-
-    const targetHours =
-      Number(workTargetInput.value) || 0;
-
-    const targetMinutes =
-      Math.round(targetHours * 60);
-
-    targetHoursDisplay.textContent =
-      formatDuration(targetMinutes);
-
-    const differenceMinutes =
-      totalMinutesWorked - targetMinutes;
-
-    const sign =
-      differenceMinutes > 0 ? "+" :
-      differenceMinutes < 0 ? "-" : "";
-
-    differenceHoursDisplay.textContent =
-      sign +
-      formatDuration(
-        Math.abs(differenceMinutes)
-      );
-  }
-
-
-  // =================================
-  // AUTOMATSKO ČUVANJE SVIH PODATAKA
-  // =================================
-
-    function saveFormData() {
-
-    const inputs =
-      document.querySelectorAll(
-        "input, textarea"
-      );
-
-    inputs.forEach(function(input) {
-
-      localStorage.setItem(
-        "manadslon_" + input.id,
-        input.value
-      );
-
-    });
-
-    updateTargetAndDifference();
-
-    saveMonthlySalaryToEmployer();
-  }
-  // =================================
-  // UČITAJ SAČUVANE PODATKE
-  // =================================
-
-  function loadFormData() {
-
-    const inputs =
-      document.querySelectorAll(
-        "input, textarea"
-      );
-
-    inputs.forEach(function(input) {
-
-      const savedValue =
-        localStorage.getItem(
-          "manadslon_" + input.id
-        );
-
-      if (savedValue !== null) {
-
-        input.value = savedValue;
-
-      }
-
-    });
-
-    updateTargetAndDifference();
-  }
-
-
-  // =================================
-  // UČITAJ SAČUVANE RADNE DANE
-  // =================================
-
-  function loadSavedWorkdays() {
-
-    const savedData =
-      localStorage.getItem(STORAGE_KEY);
-
-    if (!savedData) {
-
-      totalMinutesWorked = 0;
-
-      totalHoursDisplay.textContent =
-        formatDuration(0);
-
-      updateTargetAndDifference();
-
-      return;
-    }
-
-    try {
-
-      const workdays =
-        JSON.parse(savedData);
-
-      totalMinutesWorked =
-        workdays.reduce(
-          (sum, day) =>
-            sum + Number(day.minutes || 0),
-          0
-        );
-
-      totalHoursDisplay.textContent =
-        formatDuration(totalMinutesWorked);
-
-      updateTargetAndDifference();
-
-    } catch (error) {
-
-      console.log(
-        "Greška pri učitavanju podataka:",
-        error
-      );
-
-      totalMinutesWorked = 0;
-
-      totalHoursDisplay.textContent =
-        formatDuration(0);
-
-      updateTargetAndDifference();
-    }
-  }
-
-
-  // =================================
-  // UČITAJ AKTIVAN RAD
-  // =================================
-
-  function loadActiveStart() {
-
-    const savedStart =
-      localStorage.getItem(
-        ACTIVE_START_KEY
-      );
-
-    if (!savedStart) {
-      return;
-    }
-
-    startTimeValue =
-      new Date(savedStart);
-
-    startTimeDisplay.textContent =
-      formatTime(startTimeValue);
-
-    endTimeDisplay.textContent =
-      "--:--";
-
-    dailyHoursDisplay.textContent =
-      "0 h 00 min";
-  }
-
-
-  // =================================
-  // STARTA ARBETE
-  // =================================
-
-  startButton.onclick = function() {
-
-    startTimeValue = new Date();
-
-    localStorage.setItem(
-      ACTIVE_START_KEY,
-      startTimeValue.toISOString()
-    );
-
-    startTimeDisplay.textContent =
-      formatTime(startTimeValue);
-
-    endTimeDisplay.textContent =
-      "--:--";
-
-    dailyHoursDisplay.textContent =
-      "0 h 00 min";
-  };
-
-
-  // =================================
-  // SLUTA ARBETE
-  // =================================
-
-  stopButton.onclick = function() {
-
-    // Ako je stranica osvežena,
-    // pronađi sačuvani START
-
-    if (!startTimeValue) {
-
-      const savedStart =
-        localStorage.getItem(
-          ACTIVE_START_KEY
-        );
-
-      if (savedStart) {
-
-        startTimeValue =
-          new Date(savedStart);
-
-      }
-    }
-
-    if (!startTimeValue) {
-      return;
-    }
-
-    const endTimeValue =
-      new Date();
-
-    endTimeDisplay.textContent =
-      formatTime(endTimeValue);
-
-    const difference =
-      endTimeValue.getTime() -
-      startTimeValue.getTime();
-
-    const dailyMinutes =
-      Math.max(
-        0,
-        Math.floor(difference / 60000)
-      );
-
-    dailyHoursDisplay.textContent =
-      formatDuration(dailyMinutes);
-    saveMonthlySalaryToEmployer();
-
-    // =================================
-    // UČITAJ POSTOJEĆE DANE
-    // =================================
-
-    let workdays = [];
-
-    const savedData =
-      localStorage.getItem(
-        STORAGE_KEY
-      );
-
-    if (savedData) {
-
-      try {
-
-        workdays =
-          JSON.parse(savedData);
-
-        if (!Array.isArray(workdays)) {
-          workdays = [];
-        }
-
-      } catch (error) {
-
-        workdays = [];
-
-      }
-    }
-
-
-    // =================================
-    // NOVI RADNI DAN
-    // =================================
-
-    const workday = {
-
-      date:
-        startTimeValue
-          .toISOString()
-          .split("T")[0],
-
-      start:
-        formatTime(startTimeValue),
-
-      end:
-        formatTime(endTimeValue),
-
-      minutes:
-        dailyMinutes
-    };
-
-
-    workdays.push(workday);
-
-
-    // =================================
-    // SAČUVAJ SVE RADNE DANE
-    // =================================
-
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(workdays)
-    );
-
-
-    // =================================
-    // IZRAČUNAJ UKUPNO
-    // =================================
-
-    totalMinutesWorked =
-      workdays.reduce(
-        (sum, day) =>
-          sum + Number(day.minutes || 0),
-        0
-      );
-
-    totalHoursDisplay.textContent =
-      formatDuration(totalMinutesWorked);
-
-
-    // =================================
-    // ODMAH AŽURIRAJ RAZLIKU
-    // =================================
-
-    updateTargetAndDifference();
-
-
-    // =================================
-    // OBRIŠI SAMO AKTIVNI START
-    // =================================
-
-        localStorage.removeItem(
-      ACTIVE_START_KEY
-    );
-
-    startTimeValue = null;
-
-    saveMonthlySalaryToEmployer();
-
-
-  // =================================
-  // AUTOMATSKO ČUVANJE UNOSA
-  // =================================
-
-  document.querySelectorAll(
-    "input, textarea"
-  ).forEach(function(input) {
-
-    input.addEventListener(
-      "input",
-      saveFormData
-    );
-
-    input.addEventListener(
-      "change",
-      saveFormData
-    );
-
-  });
   // =================================
   // SAČUVAJ MÅNADSLÖN ZA ARBETSGIVARE
   // =================================
@@ -1056,6 +710,386 @@
 
   }
 
+
+  // =================================
+  // AŽURIRAJ CILJ I RAZLIKU
+  // =================================
+
+  function updateTargetAndDifference() {
+
+    const targetHours =
+      Number(workTargetInput.value) || 0;
+
+    const targetMinutes =
+      Math.round(targetHours * 60);
+
+    targetHoursDisplay.textContent =
+      formatDuration(targetMinutes);
+
+    const differenceMinutes =
+      totalMinutesWorked - targetMinutes;
+
+    const sign =
+      differenceMinutes > 0 ? "+" :
+      differenceMinutes < 0 ? "-" : "";
+
+    differenceHoursDisplay.textContent =
+      sign +
+      formatDuration(
+        Math.abs(differenceMinutes)
+      );
+
+  }
+
+
+  // =================================
+  // AUTOMATSKO ČUVANJE PODATAKA
+  // =================================
+
+  function saveFormData() {
+
+    const inputs =
+      document.querySelectorAll(
+        "input, textarea"
+      );
+
+    inputs.forEach(function(input) {
+
+      localStorage.setItem(
+        "manadslon_" + input.id,
+        input.value
+      );
+
+    });
+
+    updateTargetAndDifference();
+
+    saveMonthlySalaryToEmployer();
+
+  }
+
+
+  // =================================
+  // UČITAJ SAČUVANE PODATKE
+  // =================================
+
+  function loadFormData() {
+
+    const inputs =
+      document.querySelectorAll(
+        "input, textarea"
+      );
+
+    inputs.forEach(function(input) {
+
+      const savedValue =
+        localStorage.getItem(
+          "manadslon_" + input.id
+        );
+
+      if (savedValue !== null) {
+
+        input.value = savedValue;
+
+      }
+
+    });
+
+    updateTargetAndDifference();
+
+  }
+
+
+  // =================================
+  // UČITAJ SAČUVANE RADNE DANE
+  // =================================
+
+  function loadSavedWorkdays() {
+
+    const savedData =
+      localStorage.getItem(STORAGE_KEY);
+
+    if (!savedData) {
+
+      totalMinutesWorked = 0;
+
+      totalHoursDisplay.textContent =
+        formatDuration(0);
+
+      updateTargetAndDifference();
+
+      return;
+
+    }
+
+    try {
+
+      const workdays =
+        JSON.parse(savedData);
+
+      totalMinutesWorked =
+        workdays.reduce(
+          (sum, day) =>
+            sum + Number(day.minutes || 0),
+          0
+        );
+
+      totalHoursDisplay.textContent =
+        formatDuration(totalMinutesWorked);
+
+      updateTargetAndDifference();
+
+    } catch (error) {
+
+      totalMinutesWorked = 0;
+
+      totalHoursDisplay.textContent =
+        formatDuration(0);
+
+      updateTargetAndDifference();
+
+    }
+
+  }
+
+
+  // =================================
+  // UČITAJ AKTIVAN RAD
+  // =================================
+
+  function loadActiveStart() {
+
+    const savedStart =
+      localStorage.getItem(
+        ACTIVE_START_KEY
+      );
+
+    if (!savedStart) {
+      return;
+    }
+
+    startTimeValue =
+      new Date(savedStart);
+
+    startTimeDisplay.textContent =
+      formatTime(startTimeValue);
+
+    endTimeDisplay.textContent =
+      "--:--";
+
+    dailyHoursDisplay.textContent =
+      "0 h 00 min";
+
+  }
+
+
+  // =================================
+  // STARTA ARBETE
+  // =================================
+
+  startButton.onclick = function() {
+
+    startTimeValue = new Date();
+
+    localStorage.setItem(
+      ACTIVE_START_KEY,
+      startTimeValue.toISOString()
+    );
+
+    startTimeDisplay.textContent =
+      formatTime(startTimeValue);
+
+    endTimeDisplay.textContent =
+      "--:--";
+
+    dailyHoursDisplay.textContent =
+      "0 h 00 min";
+
+  };
+
+
+  // =================================
+  // SLUTA ARBETE
+  // =================================
+
+  stopButton.onclick = function() {
+
+    if (!startTimeValue) {
+
+      const savedStart =
+        localStorage.getItem(
+          ACTIVE_START_KEY
+        );
+
+      if (savedStart) {
+
+        startTimeValue =
+          new Date(savedStart);
+
+      }
+
+    }
+
+
+    if (!startTimeValue) {
+      return;
+    }
+
+
+    const endTimeValue =
+      new Date();
+
+    endTimeDisplay.textContent =
+      formatTime(endTimeValue);
+
+
+    const difference =
+      endTimeValue.getTime() -
+      startTimeValue.getTime();
+
+
+    const dailyMinutes =
+      Math.max(
+        0,
+        Math.floor(difference / 60000)
+      );
+
+
+    dailyHoursDisplay.textContent =
+      formatDuration(dailyMinutes);
+
+
+    // =================================
+    // UČITAJ POSTOJEĆE DANE
+    // =================================
+
+    let workdays = [];
+
+    const savedData =
+      localStorage.getItem(
+        STORAGE_KEY
+      );
+
+
+    if (savedData) {
+
+      try {
+
+        workdays =
+          JSON.parse(savedData);
+
+        if (!Array.isArray(workdays)) {
+
+          workdays = [];
+
+        }
+
+      } catch (error) {
+
+        workdays = [];
+
+      }
+
+    }
+
+
+    // =================================
+    // NOVI RADNI DAN
+    // =================================
+
+    const workday = {
+
+      date:
+        startTimeValue
+          .toISOString()
+          .split("T")[0],
+
+      start:
+        formatTime(startTimeValue),
+
+      end:
+        formatTime(endTimeValue),
+
+      minutes:
+        dailyMinutes
+
+    };
+
+
+    workdays.push(workday);
+
+
+    // =================================
+    // SAČUVAJ RADNE DANE
+    // =================================
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(workdays)
+    );
+
+
+    // =================================
+    // IZRAČUNAJ UKUPNO
+    // =================================
+
+    totalMinutesWorked =
+      workdays.reduce(
+        (sum, day) =>
+          sum + Number(day.minutes || 0),
+        0
+      );
+
+
+    totalHoursDisplay.textContent =
+      formatDuration(totalMinutesWorked);
+
+
+    updateTargetAndDifference();
+
+
+    // =================================
+    // OBRIŠI AKTIVNI START
+    // =================================
+
+    localStorage.removeItem(
+      ACTIVE_START_KEY
+    );
+
+
+    startTimeValue = null;
+
+
+    // =================================
+    // SAČUVAJ ZA ARBETSGIVARE
+    // =================================
+
+    saveMonthlySalaryToEmployer();
+
+  };
+
+
+  // =================================
+  // AUTOMATSKO ČUVANJE UNOSA
+  // =================================
+
+  document.querySelectorAll(
+    "input, textarea"
+  ).forEach(function(input) {
+
+    input.addEventListener(
+      "input",
+      saveFormData
+    );
+
+    input.addEventListener(
+      "change",
+      saveFormData
+    );
+
+  });
+
+
   // =================================
   // ODMAH UČITAJ PODATKE
   // =================================
@@ -1065,7 +1099,10 @@
   loadSavedWorkdays();
 
   loadActiveStart();
+
   saveMonthlySalaryToEmployer();
+
 </script>
+
 </body>
 </html>
