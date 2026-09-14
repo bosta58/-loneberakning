@@ -13,1587 +13,1974 @@
 
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      color: #222;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(180deg, #eef2f7 0%, #f8f9fb 100%);
+      color: #1f2937;
     }
 
     .container {
-      max-width: 600px;
-      margin: 0 auto;
+      max-width: 640px;
+      margin: auto;
+      padding: 18px;
+    }
+
+    .card {
+      background: #ffffff;
       padding: 20px;
+      border-radius: 22px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
     }
 
     .header {
       text-align: center;
-      margin-bottom: 25px;
+      margin-bottom: 22px;
     }
 
-    .header h1 {
+    .header-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 10px;
+      border-radius: 18px;
+      background: #1f2937;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    h1 {
       margin: 0;
-      font-size: 30px;
+      font-size: 28px;
+      color: #111827;
     }
 
-    .header p {
-      margin-top: 8px;
-      color: #666;
-      font-size: 16px;
+    .subtitle {
+      margin-top: 7px;
+      color: #6b7280;
+      font-size: 15px;
     }
 
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    .company-card {
+      margin-bottom: 22px;
+      padding: 18px;
+      border-radius: 17px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      text-align: center;
     }
 
-    .card h2 {
-      margin-top: 0;
-      font-size: 21px;
+    .company-logo {
+      display: block;
+      max-width: 180px;
+      max-height: 100px;
+      margin: 0 auto 14px;
+      border-radius: 12px;
+      object-fit: contain;
     }
 
-    .button {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 10px;
-      font-size: 17px;
-      cursor: pointer;
-      margin-top: 10px;
+    .company-name {
+      font-size: 19px;
+      font-weight: 700;
+      color: #111827;
+      white-space: pre-wrap;
     }
 
-    .add-button {
-      background: #222;
-      color: white;
+    .company-info {
+      margin-top: 7px;
+      color: #6b7280;
+      font-size: 14px;
+      white-space: pre-wrap;
     }
 
-    .back-button {
-      background: #e5e5e5;
-      color: #222;
+    .section-title {
+      font-size: 19px;
+      font-weight: 700;
+      color: #111827;
+      text-align: center;
+      margin: 22px 0 12px;
     }
 
     .employee-count {
-      font-size: 18px;
-      margin: 10px 0;
+      text-align: center;
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 14px;
     }
 
     .employee-card {
-      border: 1px solid #ddd;
-      border-radius: 12px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
       padding: 15px;
-      margin-top: 12px;
-      background: #fafafa;
+      margin-bottom: 12px;
     }
 
     .employee-name {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 8px;
+      font-size: 17px;
+      font-weight: 700;
+      color: #111827;
+      white-space: pre-wrap;
     }
 
-    .employee-info {
-      color: #666;
-      font-size: 14px;
-      margin-bottom: 10px;
+    .employee-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-top: 12px;
     }
 
-    .employee-button {
+    button {
       width: 100%;
-      padding: 10px;
+      padding: 13px;
       border: none;
-      border-radius: 8px;
-      background: #e5e5e5;
+      border-radius: 11px;
       font-size: 15px;
-      margin-top: 8px;
+      font-weight: 600;
       cursor: pointer;
+    }
+
+    .view-button {
+      background: #1f2937;
+      color: #ffffff;
+    }
+
+    .contact-button {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .add-button {
+      margin-top: 8px;
+      background: #f3f4f6;
+      color: #111827;
+      border: 1px solid #d1d5db;
+    }
+
+    .back-button {
+      margin-top: 20px;
+      background: #ffffff;
+      color: #374151;
+      border: 1px solid #d1d5db;
+    }
+
+    .message-status {
+      margin-top: 10px;
+      padding: 9px;
+      border-radius: 9px;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      font-size: 13px;
+      color: #6b7280;
+      white-space: pre-wrap;
+    }
+
+    .details-card {
+      display: none;
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: 17px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+    }
+
+    .details-title {
+      text-align: center;
+      font-size: 21px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 18px;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 14px;
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .info-label {
+      color: #6b7280;
+    }
+
+    .info-value {
+      color: #111827;
+      font-weight: 700;
+      text-align: right;
+      white-space: pre-wrap;
+    }
+
+    .pay-type {
+      margin: 0 auto 16px;
+      width: fit-content;
+      padding: 8px 14px;
+      border-radius: 20px;
+      background: #1f2937;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .salary-section {
+      margin-top: 18px;
+      padding-top: 8px;
+    }
+
+    .salary-section-title {
+      text-align: center;
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #111827;
+    }
+
+    .message-card {
+      margin-top: 12px;
+      padding: 13px;
+      background: #ffffff;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+    }
+
+    .message-text {
+      white-space: pre-wrap;
+      margin: 8px 0;
+    }
+
+    .reply-text {
+      white-space: pre-wrap;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .status-fixed {
+      color: #166534;
+      font-weight: 700;
+    }
+
+    .status-new {
+      color: #92400e;
+      font-weight: 700;
+    }
+
+    .close-button {
+      margin-top: 18px;
+      background: #ffffff;
+      color: #374151;
+      border: 1px solid #d1d5db;
+    }
+
+    .empty {
+      text-align: center;
+      color: #6b7280;
+      padding: 15px;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 25px;
+      font-size: 12px;
+      color: #9ca3af;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="container">
+<div class="container">
+
+  <div class="card">
 
     <div class="header">
 
-      <div style="
-        border:2px dashed #c9a227;
-        border-radius:14px;
-        padding:25px 15px;
-        margin-bottom:12px;
-        text-align:center;
-        background:#fffdf5;
-      ">
-
-        <label
-          for="employerLogoInput"
-          style="
-            display:block;
-            cursor:pointer;
-          "
-        >
-
-          <img
-            id="employerLogo"
-            src=""
-            alt="Arbetsgivarens logotyp"
-            style="
-              display:none;
-              max-width:220px;
-              max-height:100px;
-              margin:0 auto 10px;
-              object-fit:contain;
-            "
-          >
-
-          <div id="logoPlaceholder">
-
-            <div style="
-              font-size:38px;
-              margin-bottom:8px;
-            ">
-              🏢
-            </div>
-
-            <strong>
-              Lägg till arbetsgivarens logotyp
-            </strong>
-
-            <div style="
-              font-size:13px;
-              margin-top:6px;
-            ">
-              Tryck här för att välja en logotyp
-            </div>
-
-          </div>
-
-        </label>
-
-        <input
-          type="file"
-          id="employerLogoInput"
-          accept="image/*"
-          style="display:none;"
-          onchange="loadEmployerLogo(event)"
-        >
-
+      <div class="header-icon">
+        G
       </div>
 
-      <p>
-        Löneberäkning och kommunikation
-      </p>
+      <h1>
+        Genie
+      </h1>
 
-      <div class="card" style="margin-top:15px;">
-
-        <h3>🏢 Företagsuppgifter</h3>
-
-        <input
-          id="companyName"
-          type="text"
-          placeholder="Företagsnamn"
-          style="width:100%; margin-bottom:10px; padding:10px; box-sizing:border-box;"
-        >
-
-        <input
-          id="companyOrg"
-          type="text"
-          placeholder="Organisationsnummer"
-          style="width:100%; margin-bottom:10px; padding:10px; box-sizing:border-box;"
-        >
-
-        <input
-          id="companyAddress"
-          type="text"
-          placeholder="Adress"
-          style="width:100%; margin-bottom:10px; padding:10px; box-sizing:border-box;"
-        >
-
-        <input
-          id="companyPhone"
-          type="text"
-          placeholder="Telefon"
-          style="width:100%; margin-bottom:10px; padding:10px; box-sizing:border-box;"
-        >
-
-        <input
-          id="companyEmail"
-          type="email"
-          placeholder="E-post"
-          style="width:100%; padding:10px; box-sizing:border-box;"
-        >
-
+      <div class="subtitle">
+        Arbetsgivare
       </div>
 
     </div>
 
 
-    <div class="card">
+    <!-- FÖRETAGSINFORMATION -->
 
-      <h2>🏢 Företag</h2>
+    <div class="company-card">
 
-      <p class="employee-count">
-        Antal anställda:
-        <strong id="employeeCount">0</strong>
-      </p>
+      <img
+        id="companyLogo"
+        class="company-logo"
+        style="display:none;"
+        alt="Företagslogotyp">
 
-      <button class="button add-button" onclick="addEmployee()">
-        ➕ Lägg till anställd
+      <div
+        id="companyName"
+        class="company-name">
+      </div>
+
+      <div
+        id="companyInfo"
+        class="company-info">
+      </div>
+
+    </div>
+
+
+    <!-- ANSTÄLLDA -->
+
+    <div class="section-title">
+      Anställda
+    </div>
+
+    <div
+      id="employeeCount"
+      class="employee-count">
+    </div>
+
+    <div id="employeeList"></div>
+
+    <button
+      type="button"
+      class="add-button"
+      onclick="addEmployee()">
+
+      ＋ Lägg till anställd
+
+    </button>
+
+
+    <!-- DETALJER -->
+
+    <div
+      id="detailsCard"
+      class="details-card">
+
+      <div
+        id="detailsTitle"
+        class="details-title">
+      </div>
+
+      <div
+        id="payType"
+        class="pay-type">
+      </div>
+
+      <div id="detailsContent"></div>
+
+      <div class="salary-section">
+
+        <div class="salary-section-title">
+          💬 Kommunikation
+        </div>
+
+        <div id="employeeMessages"></div>
+
+      </div>
+
+      <button
+        type="button"
+        class="close-button"
+        onclick="closeEmployee()">
+
+        ← Stäng
+
       </button>
 
     </div>
 
 
-    <div class="card">
+    <!-- TILLBAKA -->
 
-      <h2>👥 Anställda</h2>
+    <button
+      type="button"
+      class="back-button"
+      onclick="window.location.href='index.html'">
 
-      <div id="employeeList">
-        <p>Inga anställda tillagda ännu.</p>
-      </div>
-
-    </div>
-
-
-    <div class="card">
-
-      <h2>💬 Kommunikation</h2>
-
-      <p>
-        Arbetsgivaren kan se de anställdas registrerade
-        löneuppgifter men kan inte ändra dem.
-      </p>
-
-      <p>
-        Om något verkar fel kan arbetsgivaren be den
-        anställde att kontrollera eller förklara uppgifterna.
-      </p>
-
-    </div>
-
-
-    <button class="button back-button" onclick="history.back()">
       ← Tillbaka
+
     </button>
 
+
+    <div class="footer">
+      Genie – Enkel och transparent löneberäkning
+    </div>
+
   </div>
+
+</div>
 
 
 <script>
 
-let employees =
-  JSON.parse(localStorage.getItem("genieEmployees")) || [];
+  // ==========================================
+  // DATA
+  // ==========================================
+
+  let employees =
+    JSON.parse(
+      localStorage.getItem("genieEmployees")
+    ) || [];
+
+  let selectedEmployeeIndex = null;
 
 
-/* =========================
-   ARBETSGIVARENS LOGOTYP
-========================= */
+  // ==========================================
+  // HJÄLPFUNKTIONER
+  // ==========================================
 
-function loadEmployerLogo(event) {
+  function normalizeName(name) {
 
-  const file =
-    event.target.files[0];
+    return String(name || "")
+      .trim()
+      .toLowerCase();
 
-  if (!file) {
-    return;
   }
 
-  const reader =
-    new FileReader();
 
-  reader.onload = function(e) {
+  function getEmployeeNameFromData(data) {
 
-    const logo =
-      document.getElementById("employerLogo");
-
-    const placeholder =
-      document.getElementById("logoPlaceholder");
-
-    logo.src =
-      e.target.result;
-
-    logo.style.display =
-      "block";
-
-    placeholder.style.display =
-      "none";
-
-    localStorage.setItem(
-      "genieEmployerLogo",
-      e.target.result
+    return normalizeName(
+      data && data.employee
+        ? data.employee
+        : ""
     );
 
-  };
-
-  reader.readAsDataURL(file);
-
-}
-
-
-function loadSavedEmployerLogo() {
-
-  const savedLogo =
-    localStorage.getItem("genieEmployerLogo");
-
-  if (!savedLogo) {
-    return;
-  }
-
-  const logo =
-    document.getElementById("employerLogo");
-
-  const placeholder =
-    document.getElementById("logoPlaceholder");
-
-  logo.src =
-    savedLogo;
-
-  logo.style.display =
-    "block";
-
-  placeholder.style.display =
-    "none";
-
-}
-
-
-/* =========================
-   LÄGG TILL ANSTÄLLD
-========================= */
-
-function addEmployee() {
-
-  const name =
-    prompt("Ange namn på den anställde:");
-
-  if (!name || name.trim() === "") {
-    return;
-  }
-
-  const employee = {
-
-    name:
-      name.trim(),
-
-    added:
-      new Date().toLocaleDateString("sv-SE")
-
-  };
-
-  employees.push(employee);
-
-  localStorage.setItem(
-    "genieEmployees",
-    JSON.stringify(employees)
-  );
-
-  updateEmployeeList();
-
-}
-
-
-/* =========================
-   VISA ALLA ANSTÄLLDA
-========================= */
-
-function updateEmployeeList() {
-
-  const count =
-    document.getElementById("employeeCount");
-
-  const list =
-    document.getElementById("employeeList");
-
-  count.textContent =
-    employees.length;
-
-  list.innerHTML = "";
-
-  if (employees.length === 0) {
-
-    list.innerHTML =
-      "<p>Inga anställda tillagda ännu.</p>";
-
-    return;
-
   }
 
 
-  employees.forEach(function(employee, index) {
+  function getActiveSalaryRecord(employeeName) {
 
-    const card =
-      document.createElement("div");
-
-    card.className =
-      "employee-card";
+    const normalized =
+      normalizeName(employeeName);
 
 
-    let communicationHTML = "";
-
-
-    const messages =
+    const activeMap =
       JSON.parse(
-        localStorage.getItem("genieMessages")
-      ) || [];
+        localStorage.getItem(
+          "genieActiveSalaryTypes"
+        )
+      ) || {};
 
 
-    const employeeMessages =
-      messages.filter(function(item) {
-
-        return (
-          String(item.employee || "")
-            .trim()
-            .toLowerCase() ===
-          String(employee.name || "")
-            .trim()
-            .toLowerCase()
-        );
-
-      });
+    const active =
+      activeMap[normalized];
 
 
-    if (employeeMessages.length > 0) {
+    if (
+      active &&
+      active.type
+    ) {
 
-      communicationHTML +=
-        '<div style="margin-top:15px; padding:12px; border:1px solid #d1d5db; border-radius:10px;">';
-
-      communicationHTML +=
-        '<h3 style="margin-top:0;">💬 Kommunikation</h3>';
-
-
-      employeeMessages.forEach(function(item) {
-
-        communicationHTML +=
-          '<div style="margin-bottom:15px;">';
-
-        communicationHTML +=
-          '<p><strong>📤 Skickat meddelande</strong></p>';
-
-        communicationHTML +=
-          '<p>' +
-          String(item.message || "") +
-          '</p>';
-
-        communicationHTML +=
-          '<p style="font-size:13px;">' +
-          String(item.date || "") +
-          ' ' +
-          String(item.time || "") +
-          '</p>';
-
-        communicationHTML +=
-          '<p><strong>Status:</strong> ' +
-          String(item.status || "Ny kommentar") +
-          '</p>';
-
-
-        if (
-          item.reply &&
-          String(item.reply).trim() !== ""
-        ) {
-
-          communicationHTML +=
-            '<hr>';
-
-          communicationHTML +=
-            '<p><strong>↩️ Svar från arbetstagaren</strong></p>';
-
-          communicationHTML +=
-            '<p>' +
-            String(item.reply) +
-            '</p>';
-
-          communicationHTML +=
-            '<p style="font-size:13px;">' +
-            String(item.replyDate || "") +
-            ' ' +
-            String(item.replyTime || "") +
-            '</p>';
-
-        }
-
-
-        communicationHTML +=
-          '</div>';
-
-      });
-
-
-      communicationHTML +=
-        '</div>';
+      return active;
 
     }
 
 
-    card.innerHTML =
+    /*
+      Äldre data utan aktiv markering.
 
-      '<div class="employee-name">' +
-      '👤 ' + employee.name +
-      '</div>' +
+      Vi använder endast denna fallback
+      om ingen aktiv typ ännu finns.
+    */
 
-      '<div class="employee-info">' +
-      'Tillagd: ' + employee.added +
-      '</div>' +
+    const monthlyData =
+      JSON.parse(
+        localStorage.getItem(
+          "genieManadslonData"
+        )
+      ) || null;
 
-      '<button class="employee-button" ' +
-      'onclick="viewEmployee(' + index + ')">' +
-      '👁 Visa uppgifter' +
-      '</button>' +
 
-      '<button class="employee-button" ' +
-      'onclick="contactEmployee(' + index + ')">' +
-      '💬 Kontakta anställd' +
-      '</button>' +
+    const timlonData =
+      JSON.parse(
+        localStorage.getItem(
+          "genieTimlonData"
+        )
+      ) || null;
 
-      communicationHTML;
 
+    const kollektivList =
+      JSON.parse(
+        localStorage.getItem(
+          "employerSalaryList"
+        )
+      ) || [];
 
-    list.appendChild(card);
 
-  });
+    const kollektivData =
+      kollektivList
+        .filter(function(item) {
 
-}
+          return (
+            getEmployeeNameFromData(item)
+            ===
+            normalized
+          );
 
+        })
+        .pop() || null;
 
-/* =========================
-   VISA ANSTÄLLDS LÖNEUPPGIFTER
-========================= */
 
-function viewEmployee(index) {
+    /*
+      För gamla data använder vi den senast
+      uppdaterade posten där tidsstämpel finns.
+    */
 
-  const employee =
-    employees[index];
+    const candidates = [];
 
-  const container =
-    document.querySelector(".container");
 
-  const registeredName =
-    String(employee.name || "")
-      .trim()
-      .toLowerCase();
+    if (
+      monthlyData &&
+      getEmployeeNameFromData(monthlyData)
+        === normalized
+    ) {
 
+      candidates.push({
 
-  /* =========================
-     KOLLEKTIVAVTAL
-  ========================= */
+        type: "Månadslön",
 
-  const salaryList =
-    JSON.parse(
-      localStorage.getItem("employerSalaryList")
-    ) || [];
+        data: monthlyData,
 
+        updated:
+          monthlyData.updated ||
+          ""
 
-  const kollektivMatches =
-    salaryList.filter(function(item) {
+      });
 
-      return (
-        String(item.employee || "")
-          .trim()
-          .toLowerCase() === registeredName
-      );
+    }
 
-    });
 
+    if (
+      timlonData &&
+      getEmployeeNameFromData(timlonData)
+        === normalized
+    ) {
 
-  const kollektivData =
-    kollektivMatches.length > 0
-      ? kollektivMatches[kollektivMatches.length - 1]
-      : null;
+      candidates.push({
 
+        type: "Timlön",
 
-  /* =========================
-     TIMLÖN
-  ========================= */
+        data: timlonData,
 
-  const savedTimlon =
-    localStorage.getItem("genieTimlonData");
+        updated:
+          timlonData.updated ||
+          timlonData.date ||
+          ""
 
+      });
 
-  const timlonData =
-    savedTimlon
-      ? JSON.parse(savedTimlon)
-      : null;
+    }
 
 
-  const hasTimlon =
+    if (kollektivData) {
 
-    timlonData &&
+      candidates.push({
 
-    String(timlonData.employee || "")
-      .trim()
-      .toLowerCase() === registeredName;
+        type: "Kollektivavtal",
 
+        data: kollektivData,
 
-  /* =========================
-     MÅNADSLÖN
-  ========================= */
+        updated:
+          kollektivData.updated ||
+          kollektivData.date ||
+          ""
 
-  const savedManadslon =
-    localStorage.getItem("genieManadslonData");
+      });
 
+    }
 
-  const manadslonData =
-    savedManadslon
-      ? JSON.parse(savedManadslon)
-      : null;
 
+    if (candidates.length === 0) {
 
-  const hasManadslon =
+      return null;
 
-    manadslonData &&
+    }
 
-    String(manadslonData.employee || "")
-      .trim()
-      .toLowerCase() === registeredName;
 
+    candidates.sort(
+      function(a, b) {
 
-  /* =========================
-     VÄLJ RÄTT LÖNETYP
-  ========================= */
-
-  let salaryData =
-    null;
-
-
-  if (hasManadslon) {
-
-    salaryData =
-      manadslonData;
-
-  } else if (hasTimlon) {
-
-    salaryData =
-      timlonData;
-
-  } else if (kollektivData) {
-
-    salaryData =
-      kollektivData;
-
-  }
-
-
-  /* =========================
-     INGA UPPGIFTER
-  ========================= */
-
-  if (!salaryData) {
-
-    container.innerHTML = `
-
-      <div class="card">
-
-        <h2>👤 ${employee.name}</h2>
-
-        <p>
-          <strong>
-            🔒 Endast visning för arbetsgivaren
-          </strong>
-        </p>
-
-        <p>
-          Inga löneuppgifter finns registrerade
-          för denna anställd ännu.
-        </p>
-
-        <button
-          class="button back-button"
-          onclick="location.reload()">
-
-          ← Tillbaka
-
-        </button>
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  /* =========================
-     SÄRSKILT VISA MÅNADSLÖN
-  ========================= */
-
-  if (
-    salaryData.type === "Månadslön"
-  ) {
-
-    const monthlySalary =
-      Number(
-        salaryData.monthlySalary || 0
-      );
-
-
-    const workTarget =
-      salaryData.workTarget || "";
-
-
-    const totalHours =
-      salaryData.totalHours || "0 h";
-
-
-    const targetHours =
-      salaryData.targetHours || "0 h";
-
-
-    const difference =
-      salaryData.difference || "0 h";
-
-
-    container.innerHTML = `
-
-      <div class="card">
-
-        <h2>👤 ${employee.name}</h2>
-
-        <p>
-          <strong>
-            🔒 Endast visning för arbetsgivaren
-          </strong>
-        </p>
-
-        <p>
-          <strong>Typ av lön:</strong>
-          Månadslön
-        </p>
-
-        <p>
-          <strong>Löneperiod:</strong><br>
-          ${salaryData.periodStart || "Inte registrerad"}
-          –
-          ${salaryData.periodEnd || "Inte registrerad"}
-        </p>
-
-      </div>
-
-
-      <div class="card">
-
-        <h2>💰 Löneuppgifter</h2>
-
-        <p>
-          <strong>Månadslön:</strong><br>
-          ${monthlySalary.toFixed(2)} kr
-        </p>
-
-        <p>
-          <strong>Arbetstidsmål:</strong><br>
-          ${workTarget || targetHours || "Inte registrerat"}
-        </p>
-
-      </div>
-
-
-      <div class="card">
-
-        <h2>⏱ Arbetstid</h2>
-
-        <p>
-          <strong>Totalt arbetad tid:</strong><br>
-          ${totalHours}
-        </p>
-
-        <p>
-          <strong>Arbetstidsmål:</strong><br>
-          ${targetHours}
-        </p>
-
-        <p>
-          <strong>Skillnad:</strong><br>
-          ${difference}
-        </p>
-
-      </div>
-
-
-      <button
-        class="button back-button"
-        onclick="location.reload()">
-
-        ← Tillbaka
-
-      </button>
-
-    `;
-
-    return;
-
-  }
-
-
-  /* =========================
-     TIMLÖN / KOLLEKTIVAVTAL
-  ========================= */
-
-  const regularHours =
-    Number(
-      salaryData.regularHours || 0
-    );
-
-
-  const regularRate =
-    Number(
-      salaryData.regularRate || 0
-    );
-
-
-  const regularPay =
-    Number(
-      salaryData.regularPay || 0
-    );
-
-
-  const regularOvertimeHours =
-    Number(
-      salaryData.regularOvertimeHours || 0
-    );
-
-
-  const regularOvertimeRate =
-    Number(
-      salaryData.regularOvertimeRate || 0
-    );
-
-
-  const regularOvertimePay =
-    Number(
-      salaryData.regularOvertimePay || 0
-    );
-
-
-  const weekendHours =
-    Number(
-      salaryData.weekendHours || 0
-    );
-
-
-  const weekendRate =
-    Number(
-      salaryData.weekendRate || 0
-    );
-
-
-  const weekendPay =
-    Number(
-      salaryData.weekendPay || 0
-    );
-
-
-  const weekendOvertimeHours =
-    Number(
-      salaryData.weekendOvertimeHours || 0
-    );
-
-
-  const weekendOvertimeRate =
-    Number(
-      salaryData.weekendOvertimeRate || 0
-    );
-
-
-  const weekendOvertimePay =
-    Number(
-      salaryData.weekendOvertimePay || 0
-    );
-
-
-  const holidayHours =
-    Number(
-      salaryData.holidayHours || 0
-    );
-
-
-  const holidayRate =
-    Number(
-      salaryData.holidayRate || 0
-    );
-
-
-  const holidayPay =
-    Number(
-      salaryData.holidayPay || 0
-    );
-
-
-  const holidayOvertimeHours =
-    Number(
-      salaryData.holidayOvertimeHours || 0
-    );
-
-
-  const holidayOvertimeRate =
-    Number(
-      salaryData.holidayOvertimeRate || 0
-    );
-
-
-  const holidayOvertimePay =
-    Number(
-      salaryData.holidayOvertimePay || 0
-    );
-
-
-  const grossSalary =
-    Number(
-      salaryData.grossSalary || 0
-    );
-
-
-  const vacationPay =
-    Number(
-      salaryData.vacationPay || 0
-    );
-
-
-  const taxAmount =
-    Number(
-      salaryData.taxAmount || 0
-    );
-
-
-  const netSalary =
-    Number(
-      salaryData.netSalary || 0
-    );
-
-
-  /* =========================
-     VISA UPPGIFTER
-  ========================= */
-
-  container.innerHTML = `
-
-    <div class="card">
-
-      <h2>👤 ${employee.name}</h2>
-
-      <p>
-        <strong>
-          🔒 Endast visning för arbetsgivaren
-        </strong>
-      </p>
-
-      <p>
-        <strong>Typ av lön:</strong>
-        ${salaryData.type || "Timlön"}
-      </p>
-
-      <p>
-        <strong>Löneperiod:</strong>
-        ${salaryData.periodStart || "Inte registrerad"}
-        –
-        ${salaryData.periodEnd || "Inte registrerad"}
-      </p>
-
-    </div>
-
-
-    <div class="card">
-
-      <h2>⏱ Arbetstid och värde</h2>
-
-      <p>
-        <strong>Ordinarie vardag:</strong><br>
-        ${regularHours.toFixed(1)} h ×
-        ${regularRate.toFixed(2)} kr =
-        <strong>${regularPay.toFixed(2)} kr</strong>
-      </p>
-
-      <p>
-        <strong>Övertid vardag:</strong><br>
-        ${regularOvertimeHours.toFixed(1)} h ×
-        ${regularOvertimeRate.toFixed(2)} kr =
-        <strong>${regularOvertimePay.toFixed(2)} kr</strong>
-      </p>
-
-      <p>
-        <strong>Helg:</strong><br>
-        ${weekendHours.toFixed(1)} h ×
-        ${weekendRate.toFixed(2)} kr =
-        <strong>${weekendPay.toFixed(2)} kr</strong>
-      </p>
-
-      <p>
-        <strong>Övertid helg:</strong><br>
-        ${weekendOvertimeHours.toFixed(1)} h ×
-        ${weekendOvertimeRate.toFixed(2)} kr =
-        <strong>${weekendOvertimePay.toFixed(2)} kr</strong>
-      </p>
-
-      <p>
-        <strong>Helgdag:</strong><br>
-        ${holidayHours.toFixed(1)} h ×
-        ${holidayRate.toFixed(2)} kr =
-        <strong>${holidayPay.toFixed(2)} kr</strong>
-      </p>
-
-      <p>
-        <strong>Övertid helgdag:</strong><br>
-        ${holidayOvertimeHours.toFixed(1)} h ×
-        ${holidayOvertimeRate.toFixed(2)} kr =
-        <strong>${holidayOvertimePay.toFixed(2)} kr</strong>
-      </p>
-
-    </div>
-
-
-    <div class="card">
-
-      <h2>💰 Löneberäkning</h2>
-
-      <p>
-        <strong>Bruttolön:</strong>
-        ${grossSalary.toFixed(2)} kr
-      </p>
-
-      <p>
-        <strong>Semesterersättning:</strong>
-        ${vacationPay.toFixed(2)} kr
-      </p>
-
-      <p>
-        <strong>Skatt:</strong>
-        ${taxAmount.toFixed(2)} kr
-      </p>
-
-      <hr>
-
-      <p style="font-size:22px;">
-        <strong>Nettolön:</strong>
-        ${netSalary.toFixed(2)} kr
-      </p>
-
-    </div>
-
-
-    <button
-      class="button back-button"
-      onclick="location.reload()">
-
-      ← Tillbaka
-
-    </button>
-
-  `;
-
-}
-
-
-/* =========================
-   HÄMTA ANSTÄLLDS LÖNEPERIOD
-========================= */
-
-function getEmployeePayPeriod(employeeName) {
-
-  const registeredName =
-    String(employeeName || "")
-      .trim()
-      .toLowerCase();
-
-
-  let latestData = null;
-
-
-  /* KOLLEKTIVAVTAL */
-
-  const salaryList =
-    JSON.parse(
-      localStorage.getItem("employerSalaryList")
-    ) || [];
-
-
-  const kollektivMatches =
-    salaryList.filter(function(item) {
-
-      return (
-        String(item.employee || "")
-          .trim()
-          .toLowerCase() === registeredName
-      );
-
-    });
-
-
-  if (kollektivMatches.length > 0) {
-
-    latestData =
-      kollektivMatches[kollektivMatches.length - 1];
-
-  }
-
-
-  /* TIMLÖN */
-
-  const savedTimlon =
-    localStorage.getItem("genieTimlonData");
-
-
-  const timlon =
-    savedTimlon
-      ? JSON.parse(savedTimlon)
-      : null;
-
-
-  if (
-    timlon &&
-    String(timlon.employee || "")
-      .trim()
-      .toLowerCase() === registeredName
-  ) {
-
-    latestData =
-      timlon;
-
-  }
-
-
-  /* MÅNADSLÖN */
-
-  const savedManadslon =
-    localStorage.getItem("genieManadslonData");
-
-
-  const manadslon =
-    savedManadslon
-      ? JSON.parse(savedManadslon)
-      : null;
-
-
-  if (
-    manadslon &&
-    String(manadslon.employee || "")
-      .trim()
-      .toLowerCase() === registeredName
-  ) {
-
-    latestData =
-      manadslon;
-
-  }
-
-
-  if (!latestData) {
-    return null;
-  }
-
-
-  const start =
-    String(latestData.periodStart || "")
-      .trim();
-
-
-  const end =
-    String(latestData.periodEnd || "")
-      .trim();
-
-
-  if (!start || !end) {
-    return null;
-  }
-
-
-  return {
-
-    start:
-      start,
-
-    end:
-      end,
-
-    key:
-      start + "_" + end
-
-  };
-
-}
-
-
-/* =========================
-   RÄTTA OCH RENSAR GAMLA MEDDELANDEN
-========================= */
-
-function cleanOldMessages() {
-
-  const messages =
-    JSON.parse(
-      localStorage.getItem("genieMessages")
-    ) || [];
-
-
-  let changed = false;
-
-
-  const cleanedMessages =
-    messages.filter(function(item) {
-
-      const period =
-        getEmployeePayPeriod(
-          item.employee
-        );
-
-
-      /*
-        Om ingen löneperiod finns
-        rör vi inte meddelandet.
-      */
-
-      if (!period) {
-        return true;
-      }
-
-
-      /*
-        Gamla meddelanden som saknar
-        period får den aktuella perioden.
-      */
-
-      if (!item.periodKey) {
-
-        item.periodStart =
-          period.start;
-
-        item.periodEnd =
-          period.end;
-
-        item.periodKey =
-          period.key;
-
-        changed = true;
-
-        return true;
+        return String(b.updated)
+          .localeCompare(
+            String(a.updated)
+          );
 
       }
-
-
-      /*
-        Behåll endast meddelanden
-        från aktuell löneperiod.
-      */
-
-      if (
-        item.periodKey === period.key
-      ) {
-
-        return true;
-
-      }
-
-
-      /*
-        Meddelandet tillhör en äldre
-        löneperiod och tas bort.
-      */
-
-      changed = true;
-
-      return false;
-
-    });
-
-
-  if (changed) {
-
-    localStorage.setItem(
-      "genieMessages",
-      JSON.stringify(cleanedMessages)
     );
 
-  }
-
-}
-
-
-/* =========================
-   AKTUELL LÖNEPERIOD
-========================= */
-
-function getCurrentEmployeePeriod(employeeName) {
-
-  const period =
-    getEmployeePayPeriod(
-      employeeName
-    );
-
-
-  if (!period) {
 
     return {
 
-      start: "",
+      type:
+        candidates[0].type,
 
-      end: "",
+      periodStart:
+        candidates[0].data.periodStart ||
+        "",
 
-      key: ""
+      periodEnd:
+        candidates[0].data.periodEnd ||
+        "",
+
+      savedAt:
+        candidates[0].updated ||
+        ""
 
     };
 
   }
 
 
-  return period;
+  function getSalaryDataForEmployee(employeeName) {
 
-}
-
-
-/* =========================
-   KONTAKTA ANSTÄLLD
-========================= */
-
-function contactEmployee(index) {
-
-  const employee =
-    employees[index];
+    const active =
+      getActiveSalaryRecord(
+        employeeName
+      );
 
 
-  const message =
-    prompt(
-      "Skriv ett meddelande eller en kommentar till " +
-      employee.name + ":"
-    );
+    if (!active) {
+
+      return null;
+
+    }
 
 
-  if (!message || message.trim() === "") {
-    return;
+    const type =
+      active.type;
+
+
+    const normalized =
+      normalizeName(employeeName);
+
+
+    if (type === "Timlön") {
+
+      const data =
+        JSON.parse(
+          localStorage.getItem(
+            "genieTimlonData"
+          )
+        ) || null;
+
+
+      if (
+        data &&
+        getEmployeeNameFromData(data)
+          === normalized
+      ) {
+
+        return {
+
+          type: "Timlön",
+
+          data: data
+
+        };
+
+      }
+
+    }
+
+
+    if (type === "Månadslön") {
+
+      const data =
+        JSON.parse(
+          localStorage.getItem(
+            "genieManadslonData"
+          )
+        ) || null;
+
+
+      if (
+        data &&
+        getEmployeeNameFromData(data)
+          === normalized
+      ) {
+
+        return {
+
+          type: "Månadslön",
+
+          data: data
+
+        };
+
+      }
+
+    }
+
+
+    if (type === "Kollektivavtal") {
+
+      const list =
+        JSON.parse(
+          localStorage.getItem(
+            "employerSalaryList"
+          )
+        ) || [];
+
+
+      const matches =
+        list.filter(function(item) {
+
+          return (
+            getEmployeeNameFromData(item)
+              === normalized
+          );
+
+        });
+
+
+      if (matches.length > 0) {
+
+        return {
+
+          type: "Kollektivavtal",
+
+          data:
+            matches[matches.length - 1]
+
+        };
+
+      }
+
+    }
+
+
+    return null;
+
   }
 
 
-  const messages =
-    JSON.parse(
-      localStorage.getItem("genieMessages")
-    ) || [];
+  // ==========================================
+  // FÖRETAGSINFO
+  // ==========================================
+
+  function loadCompanyInfo() {
+
+    const saved =
+      JSON.parse(
+        localStorage.getItem(
+          "genieCompanyInfo"
+        )
+      ) || {};
 
 
-  const period =
-    getCurrentEmployeePeriod(
+    document.getElementById(
+      "companyName"
+    ).textContent =
+      saved.name || "";
+
+
+    document.getElementById(
+      "companyInfo"
+    ).textContent =
+      saved.info || "";
+
+  }
+
+
+  function loadSavedEmployerLogo() {
+
+    const logo =
+      localStorage.getItem(
+        "genieEmployerLogo"
+      );
+
+
+    const image =
+      document.getElementById(
+        "companyLogo"
+      );
+
+
+    if (logo) {
+
+      image.src =
+        logo;
+
+      image.style.display =
+        "block";
+
+    }
+
+  }
+
+
+  // ==========================================
+  // ANSTÄLLDA
+  // ==========================================
+
+  function saveEmployees() {
+
+    localStorage.setItem(
+
+      "genieEmployees",
+
+      JSON.stringify(
+        employees
+      )
+
+    );
+
+  }
+
+
+  function addEmployee() {
+
+    const name =
+      prompt(
+        "Ange arbetstagarens namn:"
+      );
+
+
+    if (
+      !name ||
+      name.trim() === ""
+    ) {
+
+      return;
+
+    }
+
+
+    const cleanName =
+      name.trim();
+
+
+    employees.push({
+
+      name:
+        cleanName,
+
+      created:
+        new Date().toISOString()
+
+    });
+
+
+    saveEmployees();
+
+    updateEmployeeList();
+
+  }
+
+
+  function updateEmployeeList() {
+
+    const list =
+      document.getElementById(
+        "employeeList"
+      );
+
+
+    const count =
+      document.getElementById(
+        "employeeCount"
+      );
+
+
+    list.innerHTML =
+      "";
+
+
+    count.textContent =
+      employees.length === 0
+
+        ? "Inga anställda registrerade"
+
+        : employees.length +
+          " anställd" +
+          (
+            employees.length === 1
+              ? ""
+              : "a"
+          );
+
+
+    if (employees.length === 0) {
+
+      list.innerHTML =
+
+        '<div class="empty">' +
+        'Lägg till en anställd för att börja.' +
+        '</div>';
+
+      return;
+
+    }
+
+
+    const messages =
+      JSON.parse(
+        localStorage.getItem(
+          "genieMessages"
+        )
+      ) || [];
+
+
+    employees.forEach(
+      function(employee, index) {
+
+        const card =
+          document.createElement(
+            "div"
+          );
+
+
+        card.className =
+          "employee-card";
+
+
+        const name =
+          employee.name || "Okänd anställd";
+
+
+        card.innerHTML =
+
+          '<div class="employee-name">' +
+          escapeHtml(name) +
+          '</div>' +
+
+          '<div class="employee-actions">' +
+
+          '<button class="view-button" ' +
+          'onclick="viewEmployee(' +
+          index +
+          ')">' +
+          '👁 Visa uppgifter' +
+          '</button>' +
+
+          '<button class="contact-button" ' +
+          'onclick="contactEmployee(' +
+          index +
+          ')">' +
+          '💬 Kontakta anställd' +
+          '</button>' +
+
+          '</div>';
+
+
+        const normalized =
+          normalizeName(name);
+
+
+        const employeeMessages =
+          messages.filter(
+            function(item) {
+
+              return (
+                normalizeName(
+                  item.employee
+                )
+                ===
+                normalized
+              );
+
+            }
+          );
+
+
+        if (
+          employeeMessages.length > 0
+        ) {
+
+          const latest =
+            employeeMessages[
+              employeeMessages.length - 1
+            ];
+
+
+          const status =
+            latest.status ||
+            "Ny kommentar";
+
+
+          const statusClass =
+            status === "Åtgärdad"
+              ? "status-fixed"
+              : "status-new";
+
+
+          const messageBox =
+            document.createElement(
+              "div"
+            );
+
+
+          messageBox.className =
+            "message-status";
+
+
+          messageBox.innerHTML =
+
+            "<strong>💬 Senaste meddelande:</strong><br>" +
+
+            escapeHtml(
+              latest.message || ""
+            ) +
+
+            "<br><span class='" +
+            statusClass +
+            "'>Status: " +
+            escapeHtml(
+              status
+            ) +
+            "</span>";
+
+
+          card.appendChild(
+            messageBox
+          );
+
+        }
+
+
+        list.appendChild(
+          card
+        );
+
+      }
+    );
+
+  }
+
+
+  // ==========================================
+  // VISA ANSTÄLLD
+  // ==========================================
+
+  function viewEmployee(index) {
+
+    selectedEmployeeIndex =
+      index;
+
+
+    const employee =
+      employees[index];
+
+
+    if (!employee) {
+
+      return;
+
+    }
+
+
+    const detailsCard =
+      document.getElementById(
+        "detailsCard"
+      );
+
+
+    const detailsTitle =
+      document.getElementById(
+        "detailsTitle"
+      );
+
+
+    const payType =
+      document.getElementById(
+        "payType"
+      );
+
+
+    const detailsContent =
+      document.getElementById(
+        "detailsContent"
+      );
+
+
+    detailsTitle.textContent =
+      employee.name;
+
+
+    const salary =
+      getSalaryDataForEmployee(
+        employee.name
+      );
+
+
+    detailsContent.innerHTML =
+      "";
+
+
+    if (!salary) {
+
+      payType.textContent =
+        "Ingen löneuppgift registrerad";
+
+
+      detailsContent.innerHTML =
+
+        '<div class="empty">' +
+        'Det finns ännu inga sparade löneuppgifter för denna anställd.' +
+        '</div>';
+
+    }
+
+    else {
+
+      payType.textContent =
+        salary.type;
+
+
+      renderSalaryDetails(
+        salary.type,
+        salary.data,
+        detailsContent
+      );
+
+    }
+
+
+    loadEmployeeMessages(
       employee.name
     );
 
 
-  const now =
-    new Date();
+    detailsCard.style.display =
+      "block";
 
 
-  const newMessage = {
+    detailsCard.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
 
-    employee:
-      employee.name,
-
-    type:
-      "Arbetsgivare",
-
-    message:
-      message.trim(),
-
-    date:
-      now.toLocaleDateString("sv-SE"),
-
-    time:
-      now.toLocaleTimeString("sv-SE", {
-        hour: "2-digit",
-        minute: "2-digit"
-      }),
-
-    status:
-      "Ny kommentar",
-
-    reply:
-      "",
-
-    replyDate:
-      "",
-
-    replyTime:
-      "",
-
-    periodStart:
-      period.start,
-
-    periodEnd:
-      period.end,
-
-    periodKey:
-      period.key
-
-  };
-
-
-  messages.push(newMessage);
-
-
-  localStorage.setItem(
-    "genieMessages",
-    JSON.stringify(messages)
-  );
-
-
-  alert(
-    "Meddelandet är skickat till " +
-    employee.name
-  );
-
-
-  updateEmployeeList();
-
-}
-
-
-/* =========================
-   FÖRETAGSUPPGIFTER
-========================= */
-
-function saveCompanyInfo() {
-
-  const companyInfo = {
-
-    name:
-      document
-        .getElementById("companyName")
-        .value
-        .trim(),
-
-    org:
-      document
-        .getElementById("companyOrg")
-        .value
-        .trim(),
-
-    address:
-      document
-        .getElementById("companyAddress")
-        .value
-        .trim(),
-
-    phone:
-      document
-        .getElementById("companyPhone")
-        .value
-        .trim(),
-
-    email:
-      document
-        .getElementById("companyEmail")
-        .value
-        .trim()
-
-  };
-
-
-  localStorage.setItem(
-    "genieCompanyInfo",
-    JSON.stringify(companyInfo)
-  );
-
-}
-
-
-function loadCompanyInfo() {
-
-  const saved =
-    localStorage.getItem(
-      "genieCompanyInfo"
-    );
-
-
-  if (!saved) {
-    return;
   }
 
 
-  const companyInfo =
-    JSON.parse(saved);
+  // ==========================================
+  // VISA LÖNEUPPGIFTER
+  // ==========================================
+
+  function renderSalaryDetails(
+    type,
+    data,
+    container
+  ) {
+
+    if (type === "Timlön") {
+
+      renderTimlon(
+        data,
+        container
+      );
+
+      return;
+
+    }
 
 
-  document
-    .getElementById("companyName")
-    .value =
-    companyInfo.name || "";
+    if (type === "Kollektivavtal") {
+
+      renderKollektivavtal(
+        data,
+        container
+      );
+
+      return;
+
+    }
 
 
-  document
-    .getElementById("companyOrg")
-    .value =
-    companyInfo.org || "";
+    if (type === "Månadslön") {
+
+      renderManadslon(
+        data,
+        container
+      );
+
+      return;
+
+    }
+
+  }
 
 
-  document
-    .getElementById("companyAddress")
-    .value =
-    companyInfo.address || "";
+  function addInfoRow(
+    container,
+    label,
+    value
+  ) {
+
+    const row =
+      document.createElement(
+        "div"
+      );
 
 
-  document
-    .getElementById("companyPhone")
-    .value =
-    companyInfo.phone || "";
+    row.className =
+      "info-row";
 
 
-  document
-    .getElementById("companyEmail")
-    .value =
-    companyInfo.email || "";
+    row.innerHTML =
 
-}
+      '<span class="info-label">' +
+      escapeHtml(label) +
+      '</span>' +
 
-
-/* =========================
-   AUTOSPARA FÖRETAGSINFO
-========================= */
-
-document
-  .getElementById("companyName")
-  .addEventListener(
-    "input",
-    saveCompanyInfo
-  );
+      '<span class="info-value">' +
+      escapeHtml(
+        value === undefined ||
+        value === null ||
+        value === ""
+          ? "-"
+          : String(value)
+      ) +
+      '</span>';
 
 
-document
-  .getElementById("companyOrg")
-  .addEventListener(
-    "input",
-    saveCompanyInfo
-  );
+    container.appendChild(
+      row
+    );
+
+  }
 
 
-document
-  .getElementById("companyAddress")
-  .addEventListener(
-    "input",
-    saveCompanyInfo
-  );
+  function renderTimlon(
+    data,
+    container
+  ) {
+
+    addInfoRow(
+      container,
+      "Löneperiod",
+      formatPeriod(
+        data.periodStart,
+        data.periodEnd
+      )
+    );
 
 
-document
-  .getElementById("companyPhone")
-  .addEventListener(
-    "input",
-    saveCompanyInfo
-  );
+    addInfoRow(
+      container,
+      "Vanliga timmar",
+      data.regularHours
+    );
 
 
-document
-  .getElementById("companyEmail")
-  .addEventListener(
-    "input",
-    saveCompanyInfo
-  );
+    addInfoRow(
+      container,
+      "Övertid",
+      data.regularOvertimeHours
+    );
 
 
-/* =========================
-   START
-========================= */
+    addInfoRow(
+      container,
+      "Natt",
+      data.nightHours
+    );
 
-loadCompanyInfo();
 
-loadSavedEmployerLogo();
+    addInfoRow(
+      container,
+      "Nattövertid",
+      data.nightOvertimeHours
+    );
 
-cleanOldMessages();
 
-updateEmployeeList();
+    addInfoRow(
+      container,
+      "Helg",
+      data.weekendHours
+    );
+
+
+    addInfoRow(
+      container,
+      "Helgövertid",
+      data.weekendOvertimeHours
+    );
+
+
+    addInfoRow(
+      container,
+      "Helgdag",
+      data.holidayHours
+    );
+
+
+    addInfoRow(
+      container,
+      "Helgdagsövertid",
+      data.holidayOvertimeHours
+    );
+
+
+    addInfoRow(
+      container,
+      "Semesterersättning",
+      data.vacationPay !== undefined
+        ? data.vacationPay + " %"
+        : "-"
+    );
+
+
+    addInfoRow(
+      container,
+      "Bruttolön",
+      data.grossSalary !== undefined
+        ? data.grossSalary + " kr"
+        : "-"
+    );
+
+
+    addInfoRow(
+      container,
+      "Skatt",
+      data.taxAmount !== undefined
+        ? data.taxAmount + " kr"
+        : "-"
+    );
+
+
+    addInfoRow(
+      container,
+      "Nettolön",
+      data.netSalary !== undefined
+        ? data.netSalary + " kr"
+        : "-"
+    );
+
+  }
+
+
+  function renderKollektivavtal(
+    data,
+    container
+  ) {
+
+    addInfoRow(
+      container,
+      "Löneperiod",
+      formatPeriod(
+        data.periodStart,
+        data.periodEnd
+      )
+    );
+
+
+    addInfoRow(
+      container,
+      "Vanliga timmar",
+      data.regularHours
+    );
+
+
+    addInfoRow(
+      container,
+      "Vanlig lön",
+      data.regularPay !== undefined
+        ? data.regularPay + " kr"
+        : "-"
+    );
+
+
+    addInfoRow(
+      container,
+      "Övertid",
+      data.regularOvertimeHours
+    );
+
+
+    addInfoRow(
+      container,
+      "Övertidslön",
+      data.regularOvertimePay !== undefined
+        ? data.regularOvertimePay + " kr"
+        : "-"
+    );
+
+
+    addInfoRow(
+      container,
+      "Helg",
+      data.weekendHours
+    );
+
+
+    addInfoRow(
+      container,
+      "Helglön",
+      data.weekendPay !== undefined
+        ? data.weekendPay + " kr"
+        : "-"
+    );
+
+
+    addInfoRow(
+      container,
+      "Helgövertid",
+      data.weekendOvertimeHours
+    );
+
+
+    addInfoRow(
+      container,
+      "Helgövertidslön",
+      data.weekendOvertimePay !== undefined
+        ? data.weekendOvertimePay + " kr"
+        : "-"
+    );
+
+
+    addInfoRow(
+      container,
+      "Helgdag",
+      data.holidayHours
+    );
+
+
+    addInfoRow(
+      container,
+      "Helgdagslön",
+      data.holidayPayAmount !== undefined
+        ? data.holidayPayAmount + " kr"
+        : "-"
+    );
+
+
+    addInfoRow(
+      container,
+      "Helgdagsövertid",
+      data.holidayOvertimeHours
+    );
+
+
+    addInfoRow(
+      container,
+      "Helgdagsövertidslön",
+      data.holidayOvertimePay !== undefined
+        ? data.holidayOvertimePay + " kr"
+        : "-"
+    );
+
+
+    addInfoRow(
+      container,
+      "Semesterersättning",
+      data.vacationPay !== undefined
+        ? data.vacationPay + " %"
+        : "-"
+    );
+
+
+    addInfoRow(
+      container,
+      "Bruttolön",
+      data.grossSalary !== undefined
+        ? data.grossSalary + " kr"
+        : "-"
+    );
+
+
+    addInfoRow(
+      container,
+      "Skatt",
+      data.taxAmount !== undefined
+        ? data.taxAmount + " kr"
+        : "-"
+    );
+
+
+    addInfoRow(
+      container,
+      "Nettolön",
+      data.netSalary !== undefined
+        ? data.netSalary + " kr"
+        : "-"
+    );
+
+  }
+
+
+  function renderManadslon(
+    data,
+    container
+  ) {
+
+    addInfoRow(
+      container,
+      "Löneperiod",
+      formatPeriod(
+        data.periodStart,
+        data.periodEnd
+      )
+    );
+
+
+    addInfoRow(
+      container,
+      "Månadslön",
+      data.monthlySalary !== undefined
+        ? data.monthlySalary + " kr"
+        : "-"
+    );
+
+
+    addInfoRow(
+      container,
+      "Arbetstidsmål",
+      data.workTarget !== undefined
+        ? data.workTarget + " timmar"
+        : "-"
+    );
+
+
+    addInfoRow(
+      container,
+      "Totalt arbetad tid",
+      data.totalHours
+    );
+
+
+    addInfoRow(
+      container,
+      "Måltid",
+      data.targetHours
+    );
+
+
+    addInfoRow(
+      container,
+      "Skillnad",
+      data.difference
+    );
+
+  }
+
+
+  // ==========================================
+  // PERIOD
+  // ==========================================
+
+  function formatPeriod(
+    start,
+    end
+  ) {
+
+    if (!start && !end) {
+
+      return "-";
+
+    }
+
+
+    if (start && end) {
+
+      return start +
+        " – " +
+        end;
+
+    }
+
+
+    return start || end;
+
+  }
+
+
+  // ==========================================
+  // KOMMUNIKATION
+  // ==========================================
+
+  function contactEmployee(index) {
+
+    const employee =
+      employees[index];
+
+
+    if (!employee) {
+
+      return;
+
+    }
+
+
+    const salary =
+      getSalaryDataForEmployee(
+        employee.name
+      );
+
+
+    const message =
+      prompt(
+        "Skriv ett meddelande till " +
+        employee.name +
+        ":"
+      );
+
+
+    if (
+      !message ||
+      message.trim() === ""
+    ) {
+
+      return;
+
+    }
+
+
+    const messages =
+      JSON.parse(
+        localStorage.getItem(
+          "genieMessages"
+        )
+      ) || [];
+
+
+    const now =
+      new Date();
+
+
+    const activeType =
+      salary
+        ? salary.type
+        : "";
+
+
+    const periodStart =
+      salary &&
+      salary.data
+        ? salary.data.periodStart || ""
+        : "";
+
+
+    const periodEnd =
+      salary &&
+      salary.data
+        ? salary.data.periodEnd || ""
+        : "";
+
+
+    messages.push({
+
+      employee:
+        employee.name,
+
+      type:
+        "Arbetsgivare",
+
+      payType:
+        activeType,
+
+      message:
+        message.trim(),
+
+      date:
+        now.toLocaleDateString(
+          "sv-SE"
+        ),
+
+      time:
+        now.toLocaleTimeString(
+          "sv-SE",
+          {
+            hour: "2-digit",
+            minute: "2-digit"
+          }
+        ),
+
+      status:
+        "Ny kommentar",
+
+      reply:
+        "",
+
+      replyDate:
+        "",
+
+      replyTime:
+        "",
+
+      periodStart:
+        periodStart,
+
+      periodEnd:
+        periodEnd,
+
+      periodKey:
+        periodStart +
+        "_" +
+        periodEnd
+
+    });
+
+
+    localStorage.setItem(
+
+      "genieMessages",
+
+      JSON.stringify(
+        messages
+      )
+
+    );
+
+
+    alert(
+      "Meddelandet har skickats till " +
+      employee.name + "."
+    );
+
+
+    updateEmployeeList();
+
+
+    if (
+      selectedEmployeeIndex === index
+    ) {
+
+      loadEmployeeMessages(
+        employee.name
+      );
+
+    }
+
+  }
+
+
+  function loadEmployeeMessages(
+    employeeName
+  ) {
+
+    const container =
+      document.getElementById(
+        "employeeMessages"
+      );
+
+
+    container.innerHTML =
+      "";
+
+
+    const messages =
+      JSON.parse(
+        localStorage.getItem(
+          "genieMessages"
+        )
+      ) || [];
+
+
+    const normalized =
+      normalizeName(
+        employeeName
+      );
+
+
+    const employeeMessages =
+      messages.filter(
+        function(item) {
+
+          return (
+            normalizeName(
+              item.employee
+            )
+            ===
+            normalized
+          );
+
+        }
+      );
+
+
+    if (
+      employeeMessages.length === 0
+    ) {
+
+      container.innerHTML =
+
+        '<div class="empty">' +
+        'Inga meddelanden ännu.' +
+        '</div>';
+
+      return;
+
+    }
+
+
+    employeeMessages.forEach(
+      function(item) {
+
+        const card =
+          document.createElement(
+            "div"
+          );
+
+
+        card.className =
+          "message-card";
+
+
+        const status =
+          item.status ||
+          "Ny kommentar";
+
+
+        const statusClass =
+          status === "Åtgärdad"
+            ? "status-fixed"
+            : "status-new";
+
+
+        let html =
+
+          "<strong>📤 Meddelande från arbetsgivaren</strong>" +
+
+          "<div class='message-text'>" +
+          escapeHtml(
+            item.message || ""
+          ) +
+          "</div>" +
+
+          "<div style='font-size:13px;color:#6b7280;'>" +
+          escapeHtml(
+            item.date || ""
+          ) +
+          " " +
+          escapeHtml(
+            item.time || ""
+          ) +
+          "</div>" +
+
+          "<div style='margin-top:8px;'>" +
+          "<strong>Status:</strong> " +
+
+          "<span class='" +
+          statusClass +
+          "'>" +
+          escapeHtml(
+            status
+          ) +
+          "</span>" +
+
+          "</div>";
+
+
+        if (
+          item.reply &&
+          String(
+            item.reply
+          ).trim() !== ""
+        ) {
+
+          html +=
+
+            "<div class='reply-text'>" +
+
+            "<strong>↩️ Svar från arbetstagaren</strong>" +
+
+            "<div style='margin-top:5px;'>" +
+            escapeHtml(
+              item.reply
+            ) +
+            "</div>" +
+
+            "<div style='font-size:13px;color:#6b7280;margin-top:5px;'>" +
+            escapeHtml(
+              item.replyDate || ""
+            ) +
+            " " +
+            escapeHtml(
+              item.replyTime || ""
+            ) +
+            "</div>" +
+
+            "</div>";
+
+        }
+
+
+        card.innerHTML =
+          html;
+
+
+        container.appendChild(
+          card
+        );
+
+      }
+    );
+
+  }
+
+
+  // ==========================================
+  // STÄNG DETALJER
+  // ==========================================
+
+  function closeEmployee() {
+
+    document.getElementById(
+      "detailsCard"
+    ).style.display =
+      "none";
+
+
+    selectedEmployeeIndex =
+      null;
+
+  }
+
+
+  // ==========================================
+  // SKYDDA HTML
+  // ==========================================
+
+  function escapeHtml(value) {
+
+    return String(value || "")
+      .replace(
+        /&/g,
+        "&amp;"
+      )
+      .replace(
+        /</g,
+        "&lt;"
+      )
+      .replace(
+        />/g,
+        "&gt;"
+      )
+      .replace(
+        /"/g,
+        "&quot;"
+      )
+      .replace(
+        /'/g,
+        "&#039;"
+      );
+
+  }
+
+
+  // ==========================================
+  // START
+  // ==========================================
+
+  loadCompanyInfo();
+
+  loadSavedEmployerLogo();
+
+  updateEmployeeList();
 
 </script>
 
