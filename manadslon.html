@@ -180,6 +180,11 @@
       transform: scale(0.98);
     }
 
+    .time-button:disabled {
+      opacity: 0.45;
+      cursor: default;
+    }
+
     .time-display {
       background: #f9fafb;
       border: 1px solid #e5e7eb;
@@ -482,7 +487,47 @@
       <button
         type="button"
         class="time-button"
-        id="stopButton">
+        id="pauseButton"
+        disabled>
+
+        ⏸ PAUS
+
+      </button>
+
+
+      <button
+        type="button"
+        class="time-button"
+        id="resumeButton"
+        disabled>
+
+        ▶ FORTSÄTT
+
+      </button>
+
+
+      <div class="time-display">
+
+        <span class="time-label">
+          Paus
+        </span>
+
+        <span
+          class="time-value"
+          id="pauseTime">
+
+          0 h 00 min
+
+        </span>
+
+      </div>
+
+
+      <button
+        type="button"
+        class="time-button"
+        id="stopButton"
+        disabled>
 
         ■ SLUTA ARBETE
 
@@ -631,6 +676,12 @@
 
   let totalMinutesWorked = 0;
 
+  let pauseStartTimeValue = null;
+
+  let totalPauseMinutes = 0;
+
+  let pauseCount = 0;
+
 
   const STORAGE_KEY =
     "genie_manadslon_workdays";
@@ -638,9 +689,24 @@
   const ACTIVE_START_KEY =
     "genie_manadslon_active_start";
 
+  const PAUSE_START_KEY =
+    "genie_manadslon_pause_start";
+
+  const PAUSE_TOTAL_KEY =
+    "genie_manadslon_pause_total";
+
+  const PAUSE_COUNT_KEY =
+    "genie_manadslon_pause_count";
+
 
   const startButton =
     document.getElementById("startButton");
+
+  const pauseButton =
+    document.getElementById("pauseButton");
+
+  const resumeButton =
+    document.getElementById("resumeButton");
 
   const stopButton =
     document.getElementById("stopButton");
@@ -650,6 +716,9 @@
 
   const endTimeDisplay =
     document.getElementById("endTime");
+
+  const pauseTimeDisplay =
+    document.getElementById("pauseTime");
 
   const dailyHoursDisplay =
     document.getElementById("dailyHours");
@@ -709,6 +778,75 @@
       " h " +
       String(minutes).padStart(2, "0") +
       " min";
+
+  }
+
+
+  // =================================
+  // UPRAVLJANJE DUGMADIMA
+  // =================================
+
+  function updateWorkButtons() {
+
+    const working =
+      !!startTimeValue;
+
+    const paused =
+      !!pauseStartTimeValue;
+
+
+    startButton.disabled =
+      working;
+
+    pauseButton.disabled =
+      !working ||
+      paused ||
+      pauseCount >= 2;
+
+    resumeButton.disabled =
+      !working ||
+      !paused;
+
+    stopButton.disabled =
+      !working;
+
+  }
+
+
+  // =================================
+  // PRIKAŽI PAUZU
+  // =================================
+
+  function updatePauseDisplay() {
+
+    let displayedPauseMinutes =
+      totalPauseMinutes;
+
+
+    if (pauseStartTimeValue) {
+
+      const currentPauseMinutes =
+        Math.floor(
+          (
+            new Date().getTime() -
+            pauseStartTimeValue.getTime()
+          ) / 60000
+        );
+
+
+      displayedPauseMinutes +=
+        Math.max(
+          0,
+          currentPauseMinutes
+        );
+
+    }
+
+
+    pauseTimeDisplay.textContent =
+      formatDuration(
+        displayedPauseMinutes
+      );
 
   }
 
@@ -784,50 +922,56 @@
         monthlySalaryData
       )
     );
-// =================================
-// POSTAVI AKTIVNI TIP PLAĆANJA
-// =================================
 
-const employeeName =
-  String(
-    monthlySalaryData.employee || ""
-  )
-    .trim()
-    .toLowerCase();
 
-if (employeeName) {
+    // =================================
+    // POSTAVI AKTIVNI TIP PLAĆANJA
+    // =================================
 
-  const activeTypes =
-    JSON.parse(
-      localStorage.getItem(
-        "genieActiveSalaryTypes"
+    const employeeName =
+      String(
+        monthlySalaryData.employee || ""
       )
-    ) || {};
+        .trim()
+        .toLowerCase();
 
-  activeTypes[employeeName] = {
 
-    type:
-      "Månadslön",
+    if (employeeName) {
 
-    periodStart:
-      monthlySalaryData.periodStart || "",
+      const activeTypes =
+        JSON.parse(
+          localStorage.getItem(
+            "genieActiveSalaryTypes"
+          )
+        ) || {};
 
-    periodEnd:
-      monthlySalaryData.periodEnd || "",
 
-    savedAt:
-      new Date().toISOString()
+      activeTypes[employeeName] = {
 
-  };
+        type:
+          "Månadslön",
 
-  localStorage.setItem(
-    "genieActiveSalaryTypes",
-    JSON.stringify(
-      activeTypes
-    )
-  );
+        periodStart:
+          monthlySalaryData.periodStart || "",
 
-}
+        periodEnd:
+          monthlySalaryData.periodEnd || "",
+
+        savedAt:
+          new Date().toISOString()
+
+      };
+
+
+      localStorage.setItem(
+        "genieActiveSalaryTypes",
+        JSON.stringify(
+          activeTypes
+        )
+      );
+
+    }
+
   }
 
 
@@ -1031,7 +1175,7 @@ if (employeeName) {
 
 
   // =================================
-  // LÄS AKTIV STARTTID
+  // LÄS AKTIV STARTTID OCH PAUS
   // =================================
 
   function loadActiveStart() {
@@ -1043,6 +1187,8 @@ if (employeeName) {
 
 
     if (!savedStart) {
+
+      updateWorkButtons();
 
       return;
 
@@ -1068,6 +1214,49 @@ if (employeeName) {
     dailyHoursDisplay.textContent =
       "0 h 00 min";
 
+
+    totalPauseMinutes =
+      Number(
+        localStorage.getItem(
+          PAUSE_TOTAL_KEY
+        )
+      ) || 0;
+
+
+    pauseCount =
+      Number(
+        localStorage.getItem(
+          PAUSE_COUNT_KEY
+        )
+      ) || 0;
+
+
+    const savedPauseStart =
+      localStorage.getItem(
+        PAUSE_START_KEY
+      );
+
+
+    if (savedPauseStart) {
+
+      pauseStartTimeValue =
+        new Date(
+          savedPauseStart
+        );
+
+    }
+    else {
+
+      pauseStartTimeValue =
+        null;
+
+    }
+
+
+    updatePauseDisplay();
+
+    updateWorkButtons();
+
   }
 
 
@@ -1078,8 +1267,27 @@ if (employeeName) {
   startButton.onclick =
     function() {
 
+      if (startTimeValue) {
+
+        return;
+
+      }
+
+
       startTimeValue =
         new Date();
+
+
+      totalPauseMinutes =
+        0;
+
+
+      pauseStartTimeValue =
+        null;
+
+
+      pauseCount =
+        0;
 
 
       localStorage.setItem(
@@ -1088,6 +1296,29 @@ if (employeeName) {
 
         startTimeValue.toISOString()
 
+      );
+
+
+      localStorage.setItem(
+
+        PAUSE_TOTAL_KEY,
+
+        "0"
+
+      );
+
+
+      localStorage.setItem(
+
+        PAUSE_COUNT_KEY,
+
+        "0"
+
+      );
+
+
+      localStorage.removeItem(
+        PAUSE_START_KEY
       );
 
 
@@ -1101,8 +1332,148 @@ if (employeeName) {
         "--:--";
 
 
+      pauseTimeDisplay.textContent =
+        "0 h 00 min";
+
+
       dailyHoursDisplay.textContent =
         "0 h 00 min";
+
+
+      updateWorkButtons();
+
+    };
+
+
+  // =================================
+  // PAUS
+  // =================================
+
+  pauseButton.onclick =
+    function() {
+
+      if (!startTimeValue) {
+
+        return;
+
+      }
+
+
+      if (pauseStartTimeValue) {
+
+        return;
+
+      }
+
+
+      if (pauseCount >= 2) {
+
+        return;
+
+      }
+
+
+      pauseStartTimeValue =
+        new Date();
+
+
+      pauseCount++;
+
+
+      localStorage.setItem(
+
+        PAUSE_START_KEY,
+
+        pauseStartTimeValue.toISOString()
+
+      );
+
+
+      localStorage.setItem(
+
+        PAUSE_COUNT_KEY,
+
+        String(pauseCount)
+
+      );
+
+
+      updatePauseDisplay();
+
+      updateWorkButtons();
+
+    };
+
+
+  // =================================
+  // FORTSÄTT
+  // =================================
+
+  resumeButton.onclick =
+    function() {
+
+      if (!startTimeValue) {
+
+        return;
+
+      }
+
+
+      if (!pauseStartTimeValue) {
+
+        return;
+
+      }
+
+
+      const resumeTime =
+        new Date();
+
+
+      const pauseMinutes =
+        Math.max(
+
+          0,
+
+          Math.floor(
+
+            (
+              resumeTime.getTime() -
+              pauseStartTimeValue.getTime()
+            ) / 60000
+
+          )
+
+        );
+
+
+      totalPauseMinutes +=
+        pauseMinutes;
+
+
+      pauseStartTimeValue =
+        null;
+
+
+      localStorage.setItem(
+
+        PAUSE_TOTAL_KEY,
+
+        String(
+          totalPauseMinutes
+        )
+
+      );
+
+
+      localStorage.removeItem(
+        PAUSE_START_KEY
+      );
+
+
+      updatePauseDisplay();
+
+      updateWorkButtons();
 
     };
 
@@ -1145,6 +1516,43 @@ if (employeeName) {
         new Date();
 
 
+      // Om arbetstagaren fortfarande har paus
+      // när SLUTA ARBETE trycks, avslutas pausen automatiskt.
+
+      if (pauseStartTimeValue) {
+
+        const finalPauseMinutes =
+          Math.max(
+
+            0,
+
+            Math.floor(
+
+              (
+                endTimeValue.getTime() -
+                pauseStartTimeValue.getTime()
+              ) / 60000
+
+            )
+
+          );
+
+
+        totalPauseMinutes +=
+          finalPauseMinutes;
+
+
+        pauseStartTimeValue =
+          null;
+
+
+        localStorage.removeItem(
+          PAUSE_START_KEY
+        );
+
+      }
+
+
       endTimeDisplay.textContent =
         formatTime(
           endTimeValue
@@ -1156,7 +1564,7 @@ if (employeeName) {
         startTimeValue.getTime();
 
 
-      const dailyMinutes =
+      const totalElapsedMinutes =
         Math.max(
 
           0,
@@ -1168,9 +1576,26 @@ if (employeeName) {
         );
 
 
+      const dailyMinutes =
+        Math.max(
+
+          0,
+
+          totalElapsedMinutes -
+          totalPauseMinutes
+
+        );
+
+
       dailyHoursDisplay.textContent =
         formatDuration(
           dailyMinutes
+        );
+
+
+      pauseTimeDisplay.textContent =
+        formatDuration(
+          totalPauseMinutes
         );
 
 
@@ -1228,7 +1653,13 @@ if (employeeName) {
           ),
 
         minutes:
-          dailyMinutes
+          dailyMinutes,
+
+        pauseMinutes:
+          totalPauseMinutes,
+
+        pauseCount:
+          pauseCount
 
       };
 
@@ -1280,8 +1711,38 @@ if (employeeName) {
       );
 
 
+      localStorage.removeItem(
+        PAUSE_START_KEY
+      );
+
+
+      localStorage.removeItem(
+        PAUSE_TOTAL_KEY
+      );
+
+
+      localStorage.removeItem(
+        PAUSE_COUNT_KEY
+      );
+
+
       startTimeValue =
         null;
+
+
+      pauseStartTimeValue =
+        null;
+
+
+      totalPauseMinutes =
+        0;
+
+
+      pauseCount =
+        0;
+
+
+      updateWorkButtons();
 
 
       saveMonthlySalaryToEmployer();
@@ -1479,14 +1940,14 @@ if (employeeName) {
 
           html +=
             '<p style="font-size:13px;color:#6b7280;">' +
-            String(
-              item.replyDate || ""
-            ) +
-            " " +
-            String(
-              item.replyTime || ""
-            ) +
-            "</p>";
+          String(
+            item.replyDate || ""
+          ) +
+          " " +
+          String(
+            item.replyTime || ""
+          ) +
+          "</p>";
 
         }
 
@@ -1780,6 +2241,10 @@ if (employeeName) {
   loadSavedWorkdays();
 
   loadActiveStart();
+
+  updatePauseDisplay();
+
+  updateWorkButtons();
 
   saveMonthlySalaryToEmployer();
 
