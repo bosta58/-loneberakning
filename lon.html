@@ -552,42 +552,44 @@
 
     <div id="result"></div>
 
-<!-- KOMMUNIKATION MED ARBETSGIVAREN -->
+    <!-- KOMMUNIKATION MED ARBETSGIVAREN -->
 
-<div id="employerMessageBox"
-     class="card"
-     style="display:none; margin-top:20px;">
+    <div
+      id="employerMessageBox"
+      class="card"
+      style="display:none; margin-top:20px;">
 
-  <h3 style="margin-top:0;">
-    💬 Kommunikation med arbetsgivaren
-  </h3>
+      <h3 style="margin-top:0;">
+        💬 Kommunikation med arbetsgivaren
+      </h3>
 
-  <div id="employerMessageContent"></div>
+      <div id="employerMessageContent"></div>
 
-  <textarea
-    id="employeeReply"
-    placeholder="Skriv ditt svar, din förklaring eller information om rättelse..."
-    rows="4"
-    style="width:100%; margin-top:10px; padding:10px; border:1px solid #d1d5db; border-radius:9px;">
-  </textarea>
+      <textarea
+        id="employeeReply"
+        placeholder="Skriv ditt svar, din förklaring eller information om rättelse..."
+        rows="4"
+        style="width:100%; margin-top:10px; padding:10px; border:1px solid #d1d5db; border-radius:9px;">
+      </textarea>
 
-  <div class="navigation-buttons">
+      <div class="navigation-buttons">
 
-    <button
-      class="back-button"
-      onclick="replyToEmployer()">
-      💬 Skicka svar
-    </button>
+        <button
+          class="back-button"
+          onclick="replyToEmployer()">
+          💬 Skicka svar
+        </button>
 
-    <button
-      class="calculate"
-      onclick="markEmployerMessageAsFixed()">
-      ✅ Åtgärdad
-    </button>
+        <button
+          class="calculate"
+          onclick="markEmployerMessageAsFixed()">
+          ✅ Åtgärdad
+        </button>
 
-  </div>
+      </div>
 
-</div>
+    </div>
+
     <div class="footer">
       Genie
     </div>
@@ -598,15 +600,21 @@
 
 <script>
 
+/* =========================
+   KALENDERNS ARBETSTID
+========================= */
+
 function loadCalendarHours() {
 
-  const saved = localStorage.getItem("salaryHours");
+  const saved =
+    localStorage.getItem("salaryHours");
 
   if (!saved) {
     return;
   }
 
-  const hours = JSON.parse(saved);
+  const hours =
+    JSON.parse(saved);
 
   document.getElementById("lonRegularHours").textContent =
     Number(hours.regularHours || 0).toFixed(1) + " h";
@@ -634,16 +642,27 @@ function loadCalendarHours() {
 }
 
 
+/* =========================
+   BERÄKNA LÖN
+========================= */
+
 function calculateSalary() {
 
-  const saved = localStorage.getItem("salaryHours");
+  const saved =
+    localStorage.getItem("salaryHours");
 
   if (!saved) {
-    alert("Ingen arbetstid hittades från kalendern.");
+
+    alert(
+      "Ingen arbetstid hittades från kalendern."
+    );
+
     return;
   }
 
-  const hours = JSON.parse(saved);
+  const hours =
+    JSON.parse(saved);
+
 
   const regularHours =
     Number(hours.regularHours || 0);
@@ -671,59 +690,83 @@ function calculateSalary() {
 
 
   const regularRate =
-    Number(document.getElementById("regularRate").value);
+    Number(
+      document.getElementById("regularRate").value
+    );
 
   const regularOvertimeRate =
-    Number(document.getElementById("regularOvertimeRate").value);
+    Number(
+      document.getElementById("regularOvertimeRate").value
+    );
 
   const nightRate =
-    Number(document.getElementById("nightRate").value);
+    Number(
+      document.getElementById("nightRate").value
+    );
 
   const nightOvertimeRate =
-    Number(document.getElementById("nightOvertimeRate").value);
+    Number(
+      document.getElementById("nightOvertimeRate").value
+    );
 
   const weekendRate =
-    Number(document.getElementById("weekendRate").value);
+    Number(
+      document.getElementById("weekendRate").value
+    );
 
   const weekendOvertimeRate =
-    Number(document.getElementById("weekendOvertimeRate").value);
+    Number(
+      document.getElementById("weekendOvertimeRate").value
+    );
 
   const holidayRate =
-    Number(document.getElementById("holidayRate").value);
+    Number(
+      document.getElementById("holidayRate").value
+    );
 
   const holidayOvertimeRate =
-    Number(document.getElementById("holidayOvertimeRate").value);
+    Number(
+      document.getElementById("holidayOvertimeRate").value
+    );
 
   const tax =
-    Number(document.getElementById("tax").value);
+    Number(
+      document.getElementById("tax").value
+    );
 
   const holidayPay =
-    Number(document.getElementById("holidayPay").value);
+    Number(
+      document.getElementById("holidayPay").value
+    );
 
 
   const regularPay =
     regularHours * regularRate;
 
   const regularOvertimePay =
-    regularOvertimeHours * regularOvertimeRate;
+    regularOvertimeHours *
+    regularOvertimeRate;
 
   const nightPay =
     nightHours * nightRate;
 
   const nightOvertimePay =
-    nightOvertimeHours * nightOvertimeRate;
+    nightOvertimeHours *
+    nightOvertimeRate;
 
   const weekendPay =
     weekendHours * weekendRate;
 
   const weekendOvertimePay =
-    weekendOvertimeHours * weekendOvertimeRate;
+    weekendOvertimeHours *
+    weekendOvertimeRate;
 
   const holidayPayAmount =
     holidayHours * holidayRate;
 
   const holidayOvertimePay =
-    holidayOvertimeHours * holidayOvertimeRate;
+    holidayOvertimeHours *
+    holidayOvertimeRate;
 
 
   const baseGross =
@@ -738,24 +781,37 @@ function calculateSalary() {
 
 
   const vacationPay =
-    baseGross * holidayPay / 100;
+    baseGross *
+    holidayPay /
+    100;
 
   const grossSalary =
-    baseGross + vacationPay;
+    baseGross +
+    vacationPay;
 
   const taxAmount =
-    grossSalary * tax / 100;
+    grossSalary *
+    tax /
+    100;
 
   const netSalary =
-    grossSalary - taxAmount;
+    grossSalary -
+    taxAmount;
 
 
   const calculation = {
 
-    grossSalary: grossSalary,
-    vacationPay: vacationPay,
-    taxAmount: taxAmount,
-    netSalary: netSalary
+    grossSalary:
+      grossSalary,
+
+    vacationPay:
+      vacationPay,
+
+    taxAmount:
+      taxAmount,
+
+    netSalary:
+      netSalary
 
   };
 
@@ -796,13 +852,23 @@ function calculateSalary() {
     </div>
 
   `;
+
   saveFormData();
+
 }
+
+
+/* =========================
+   SPARA TIMLÖN
+========================= */
+
 function saveFormData() {
 
-  const inputs = document.querySelectorAll(
-    "input, textarea"
-  );
+  const inputs =
+    document.querySelectorAll(
+      "input, textarea"
+    );
+
 
   inputs.forEach(function(input) {
 
@@ -815,7 +881,11 @@ function saveFormData() {
 
 
   const employeeInfo =
-    document.getElementById("employeeInfo").value.trim();
+    document
+      .getElementById("employeeInfo")
+      .value
+      .trim();
+
 
   if (!employeeInfo) {
     return;
@@ -824,83 +894,115 @@ function saveFormData() {
 
   const regularHours =
     Number(
-      document.getElementById("lonRegularHours")
-        .textContent.replace(" h", "")
+      document
+        .getElementById("lonRegularHours")
+        .textContent
+        .replace(" h", "")
     );
 
   const regularOvertimeHours =
     Number(
-      document.getElementById("lonOvertimeHours")
-        .textContent.replace(" h", "")
+      document
+        .getElementById("lonOvertimeHours")
+        .textContent
+        .replace(" h", "")
     );
 
   const nightHours =
     Number(
-      document.getElementById("lonNightHours")
-        .textContent.replace(" h", "")
+      document
+        .getElementById("lonNightHours")
+        .textContent
+        .replace(" h", "")
     );
 
   const nightOvertimeHours =
     Number(
-      document.getElementById("lonNightOvertimeHours")
-        .textContent.replace(" h", "")
+      document
+        .getElementById("lonNightOvertimeHours")
+        .textContent
+        .replace(" h", "")
     );
 
   const weekendHours =
     Number(
-      document.getElementById("lonWeekendHours")
-        .textContent.replace(" h", "")
+      document
+        .getElementById("lonWeekendHours")
+        .textContent
+        .replace(" h", "")
     );
 
   const weekendOvertimeHours =
     Number(
-      document.getElementById("lonWeekendOvertimeHours")
-        .textContent.replace(" h", "")
+      document
+        .getElementById("lonWeekendOvertimeHours")
+        .textContent
+        .replace(" h", "")
     );
 
   const holidayHours =
     Number(
-      document.getElementById("lonHolidayHours")
-        .textContent.replace(" h", "")
+      document
+        .getElementById("lonHolidayHours")
+        .textContent
+        .replace(" h", "")
     );
 
   const holidayOvertimeHours =
     Number(
-      document.getElementById("lonHolidayOvertimeHours")
-        .textContent.replace(" h", "")
+      document
+        .getElementById("lonHolidayOvertimeHours")
+        .textContent
+        .replace(" h", "")
     );
 
 
   const regularRate =
-    Number(document.getElementById("regularRate").value);
+    Number(
+      document.getElementById("regularRate").value
+    );
 
   const regularOvertimeRate =
     Number(
-      document.getElementById("regularOvertimeRate").value
+      document
+        .getElementById("regularOvertimeRate")
+        .value
     );
 
   const nightRate =
-    Number(document.getElementById("nightRate").value);
+    Number(
+      document.getElementById("nightRate").value
+    );
 
   const nightOvertimeRate =
     Number(
-      document.getElementById("nightOvertimeRate").value
+      document
+        .getElementById("nightOvertimeRate")
+        .value
     );
 
   const weekendRate =
-    Number(document.getElementById("weekendRate").value);
+    Number(
+      document.getElementById("weekendRate").value
+    );
 
   const weekendOvertimeRate =
     Number(
-      document.getElementById("weekendOvertimeRate").value
+      document
+        .getElementById("weekendOvertimeRate")
+        .value
     );
 
   const holidayRate =
-    Number(document.getElementById("holidayRate").value);
+    Number(
+      document.getElementById("holidayRate").value
+    );
 
   const holidayOvertimeRate =
     Number(
-      document.getElementById("holidayOvertimeRate").value
+      document
+        .getElementById("holidayOvertimeRate")
+        .value
     );
 
 
@@ -914,16 +1016,21 @@ function saveFormData() {
 
   const timlonData = {
 
-    employee: employeeInfo,
+    employee:
+      employeeInfo,
 
-    type: "Timlön",
-
+    type:
+      "Timlön",
 
     periodStart:
-      document.getElementById("periodStart").value,
+      document
+        .getElementById("periodStart")
+        .value,
 
     periodEnd:
-      document.getElementById("periodEnd").value,
+      document
+        .getElementById("periodEnd")
+        .value,
 
 
     regularHours:
@@ -933,7 +1040,8 @@ function saveFormData() {
       regularRate,
 
     regularPay:
-      regularHours * regularRate,
+      regularHours *
+      regularRate,
 
 
     regularOvertimeHours:
@@ -954,7 +1062,8 @@ function saveFormData() {
       nightRate,
 
     nightPay:
-      nightHours * nightRate,
+      nightHours *
+      nightRate,
 
 
     nightOvertimeHours:
@@ -975,7 +1084,8 @@ function saveFormData() {
       weekendRate,
 
     weekendPay:
-      weekendHours * weekendRate,
+      weekendHours *
+      weekendRate,
 
 
     weekendOvertimeHours:
@@ -996,7 +1106,8 @@ function saveFormData() {
       holidayRate,
 
     holidayPay:
-      holidayHours * holidayRate,
+      holidayHours *
+      holidayRate,
 
 
     holidayOvertimeHours:
@@ -1031,11 +1142,19 @@ function saveFormData() {
   );
 
 }
+
+
+/* =========================
+   LÄS IN SPARADE FORMULÄR
+========================= */
+
 function loadFormData() {
 
-  const inputs = document.querySelectorAll(
-    "input, textarea"
-  );
+  const inputs =
+    document.querySelectorAll(
+      "input, textarea"
+    );
+
 
   inputs.forEach(function(input) {
 
@@ -1044,8 +1163,12 @@ function loadFormData() {
         "timlon_" + input.id
       );
 
+
     if (savedValue !== null) {
-      input.value = savedValue;
+
+      input.value =
+        savedValue;
+
     }
 
   });
@@ -1053,72 +1176,307 @@ function loadFormData() {
 }
 
 
-document.querySelectorAll(
-  "input, textarea"
-).forEach(function(input) {
+/* =========================
+   AKTUELL TIMLÖN-PERIOD
+========================= */
 
-  input.addEventListener(
-    "input",
-    saveFormData
-  );
+function getCurrentTimlonPeriod() {
 
-});
+  const saved =
+    localStorage.getItem(
+      "genieTimlonData"
+    );
 
 
-loadCalendarHours();
-loadFormData();
-saveFormData();
-function loadEmployerMessage() {
+  if (!saved) {
+    return null;
+  }
+
+
+  const data =
+    JSON.parse(saved);
+
+
+  const employee =
+    String(
+      data.employee || ""
+    )
+      .trim()
+      .toLowerCase();
+
+
+  const start =
+    String(
+      data.periodStart || ""
+    )
+      .trim();
+
+
+  const end =
+    String(
+      data.periodEnd || ""
+    )
+      .trim();
+
+
+  if (
+    !employee ||
+    !start ||
+    !end
+  ) {
+
+    return null;
+
+  }
+
+
+  return {
+
+    employee:
+      employee,
+
+    start:
+      start,
+
+    end:
+      end,
+
+    key:
+      start + "_" + end
+
+  };
+
+}
+
+
+/* =========================
+   RÄTTA GAMLA MEDDELANDEN
+========================= */
+
+function cleanOldTimlonMessages() {
 
   const messages =
     JSON.parse(
-      localStorage.getItem("genieMessages")
+      localStorage.getItem(
+        "genieMessages"
+      )
     ) || [];
 
-  const timlonMessages =
-    messages.filter(function(item) {
-      return item.type === "Timlön";
-    });
 
-  if (timlonMessages.length === 0) {
+  const period =
+    getCurrentTimlonPeriod();
 
-    document.getElementById(
-      "employerMessageBox"
-    ).style.display = "none";
 
-    alert(
-      "Genie test: Nema sačuvane Timlön poruke."
-    );
-
+  if (!period) {
     return;
   }
 
+
+  let changed =
+    false;
+
+
+  const cleaned =
+    messages.filter(function(item) {
+
+      const employee =
+        String(
+          item.employee || ""
+        )
+          .trim()
+          .toLowerCase();
+
+
+      /*
+        Meddelanden till andra
+        arbetstagare lämnas kvar.
+      */
+
+      if (
+        employee !== period.employee
+      ) {
+
+        return true;
+
+      }
+
+
+      /*
+        Gamla meddelanden som saknar
+        period får aktuell period.
+      */
+
+      if (!item.periodKey) {
+
+        item.periodStart =
+          period.start;
+
+        item.periodEnd =
+          period.end;
+
+        item.periodKey =
+          period.key;
+
+        changed =
+          true;
+
+        return true;
+
+      }
+
+
+      /*
+        Behåll endast aktuell period.
+      */
+
+      if (
+        item.periodKey === period.key
+      ) {
+
+        return true;
+
+      }
+
+
+      changed =
+        true;
+
+      return false;
+
+    });
+
+
+  if (changed) {
+
+    localStorage.setItem(
+      "genieMessages",
+      JSON.stringify(cleaned)
+    );
+
+  }
+
+}
+
+
+/* =========================
+   HÄMTA ARBETSGIVARMEDDELANDEN
+========================= */
+
+function getCurrentTimlonMessages() {
+
+  const messages =
+    JSON.parse(
+      localStorage.getItem(
+        "genieMessages"
+      )
+    ) || [];
+
+
+  const period =
+    getCurrentTimlonPeriod();
+
+
+  if (!period) {
+    return [];
+  }
+
+
+  return messages.filter(function(item) {
+
+    const employee =
+      String(
+        item.employee || ""
+      )
+        .trim()
+        .toLowerCase();
+
+
+    if (
+      employee !== period.employee
+    ) {
+
+      return false;
+
+    }
+
+
+    /*
+      Nya meddelanden har periodKey.
+    */
+
+    if (item.periodKey) {
+
+      return (
+        item.periodKey ===
+        period.key
+      );
+
+    }
+
+
+    /*
+      Äldre meddelande utan periodKey
+      räknas till aktuell period.
+    */
+
+    return true;
+
+  });
+
+}
+
+
+/* =========================
+   VISA ARBETSGIVARMEDDELANDE
+========================= */
+
+function loadEmployerMessage() {
+
+  const messageBox =
+    document.getElementById(
+      "employerMessageBox"
+    );
+
+  const content =
+    document.getElementById(
+      "employerMessageContent"
+    );
+
+
+  const messages =
+    getCurrentTimlonMessages();
+
+
+  if (messages.length === 0) {
+
+    messageBox.style.display =
+      "none";
+
+    return;
+
+  }
+
+
   const lastMessage =
-    timlonMessages[
-      timlonMessages.length - 1
+    messages[
+      messages.length - 1
     ];
 
-  document.getElementById(
-    "employerMessageBox"
-  ).style.display = "block";
 
-  document.getElementById(
-    "employerMessageContent"
-  ).innerHTML = `
+  messageBox.style.display =
+    "block";
 
-    <p>
-      <strong>Typ av lön:</strong>
-      ${lastMessage.type}
-    </p>
+
+  content.innerHTML = `
 
     <p>
       <strong>Datum:</strong>
-      ${lastMessage.date}
+      ${lastMessage.date || ""}
     </p>
 
     <p>
       <strong>Tid:</strong>
-      ${lastMessage.time}
+      ${lastMessage.time || ""}
     </p>
 
     <p>
@@ -1126,74 +1484,143 @@ function loadEmployerMessage() {
     </p>
 
     <p>
-      ${lastMessage.message}
+      ${lastMessage.message || ""}
     </p>
 
     <p>
       <strong>Status:</strong>
-      ${lastMessage.status}
+      ${lastMessage.status || "Ny kommentar"}
     </p>
 
   `;
 
-}
-  loadEmployerMessage();
-  function replyToEmployer() {
+
+  /*
+    Om meddelandet redan är åtgärdat
+    behöver arbetstagaren inte skriva
+    ett nytt svar.
+  */
 
   const replyBox =
-    document.getElementById("employeeReply");
+    document.getElementById(
+      "employeeReply"
+    );
+
+
+  if (
+    lastMessage.status === "Åtgärdad"
+  ) {
+
+    replyBox.style.display =
+      "none";
+
+  } else {
+
+    replyBox.style.display =
+      "block";
+
+  }
+
+}
+
+
+/* =========================
+   SVARA ARBETSGIVAREN
+========================= */
+
+function replyToEmployer() {
+
+  const replyBox =
+    document.getElementById(
+      "employeeReply"
+    );
+
 
   const reply =
     replyBox.value.trim();
 
+
   if (reply === "") {
 
-    alert("Skriv ett svar först.");
+    alert(
+      "Skriv ett svar först."
+    );
 
     return;
+
   }
 
 
   const messages =
     JSON.parse(
-      localStorage.getItem("genieMessages")
+      localStorage.getItem(
+        "genieMessages"
+      )
     ) || [];
 
 
-  const timlonMessages =
-    messages.filter(function(item) {
-
-      return item.type === "Timlön";
-
-    });
+  const currentMessages =
+    getCurrentTimlonMessages();
 
 
-  if (timlonMessages.length === 0) {
+  if (
+    currentMessages.length === 0
+  ) {
 
-    alert("Ingen arbetsgivarmeddelande hittades.");
+    alert(
+      "Ingen aktuell arbetsgivarkommentar hittades."
+    );
 
     return;
+
   }
 
 
   const lastMessage =
-    timlonMessages[
-      timlonMessages.length - 1
+    currentMessages[
+      currentMessages.length - 1
     ];
 
 
-  lastMessage.reply = reply;
+  /*
+    Hitta samma objekt i huvudlistan.
+  */
 
-  lastMessage.replyDate =
-    new Date().toLocaleDateString("sv-SE");
+  const messageIndex =
+    messages.indexOf(
+      lastMessage
+    );
 
-  lastMessage.replyTime =
-    new Date().toLocaleTimeString("sv-SE", {
-      hour: "2-digit",
-      minute: "2-digit"
-    });
 
-  lastMessage.status =
+  if (messageIndex === -1) {
+
+    alert(
+      "Meddelandet kunde inte hittas."
+    );
+
+    return;
+
+  }
+
+
+  messages[messageIndex].reply =
+    reply;
+
+  messages[messageIndex].replyDate =
+    new Date().toLocaleDateString(
+      "sv-SE"
+    );
+
+  messages[messageIndex].replyTime =
+    new Date().toLocaleTimeString(
+      "sv-SE",
+      {
+        hour: "2-digit",
+        minute: "2-digit"
+      }
+    );
+
+  messages[messageIndex].status =
     "Svar från arbetstagaren";
 
 
@@ -1203,46 +1630,75 @@ function loadEmployerMessage() {
   );
 
 
-  alert("Svaret är skickat till arbetsgivaren.");
+  alert(
+    "Svaret är skickat till arbetsgivaren."
+  );
 
-  replyBox.value = "";
+
+  replyBox.value =
+    "";
+
 
   loadEmployerMessage();
 
 }
 
 
+/* =========================
+   MARKERA SOM ÅTGÄRDAD
+========================= */
+
 function markEmployerMessageAsFixed() {
 
   const messages =
     JSON.parse(
-      localStorage.getItem("genieMessages")
+      localStorage.getItem(
+        "genieMessages"
+      )
     ) || [];
 
 
-  const timlonMessages =
-    messages.filter(function(item) {
-
-      return item.type === "Timlön";
-
-    });
+  const currentMessages =
+    getCurrentTimlonMessages();
 
 
-  if (timlonMessages.length === 0) {
+  if (
+    currentMessages.length === 0
+  ) {
 
-    alert("Ingen arbetsgivarmeddelande hittades.");
+    alert(
+      "Ingen aktuell arbetsgivarkommentar hittades."
+    );
 
     return;
+
   }
 
 
   const lastMessage =
-    timlonMessages[
-      timlonMessages.length - 1
+    currentMessages[
+      currentMessages.length - 1
     ];
 
 
-  lastMessage.status =
+  const messageIndex =
+    messages.indexOf(
+      lastMessage
+    );
+
+
+  if (messageIndex === -1) {
+
+    alert(
+      "Meddelandet kunde inte hittas."
+    );
+
+    return;
+
+  }
+
+
+  messages[messageIndex].status =
     "Åtgärdad";
 
 
@@ -1252,11 +1708,48 @@ function markEmployerMessageAsFixed() {
   );
 
 
-  alert("Meddelandet är markerat som åtgärdat.");
+  alert(
+    "Meddelandet är markerat som åtgärdat."
+  );
+
 
   loadEmployerMessage();
 
 }
+
+
+/* =========================
+   AUTOSPARA
+========================= */
+
+document
+  .querySelectorAll(
+    "input, textarea"
+  )
+  .forEach(function(input) {
+
+    input.addEventListener(
+      "input",
+      saveFormData
+    );
+
+  });
+
+
+/* =========================
+   START
+========================= */
+
+loadCalendarHours();
+
+loadFormData();
+
+saveFormData();
+
+cleanOldTimlonMessages();
+
+loadEmployerMessage();
+
 </script>
 
 </body>
