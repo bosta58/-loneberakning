@@ -62,8 +62,6 @@
       font-size: 15px;
     }
 
-    /* OSNOVNI PODACI */
-
     .section-title {
       font-size: 18px;
       font-weight: 700;
@@ -93,72 +91,71 @@
       background: #f9fafb;
       color: #111827;
     }
-.personuppgifter-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  width: 100%;
-  margin-top: 10px;
-  margin-bottom: 20px;
-}
 
-.person-card {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 10px;
-}
+    .personuppgifter-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      width: 100%;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
 
-.person-title {
-  font-size: 15px;
-  font-weight: bold;
-  text-align: center;
-  color: #111827;
-  margin-bottom: 12px;
-}
+    .person-card {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 10px;
+    }
 
-.person-card textarea {
-  display: block;
-  width: 100%;
-  height: 150px;
-  min-height: 150px;
-  padding: 10px;
-  border: 1px solid #d1d5db;
-  border-radius: 9px;
-  font-size: 14px;
-  background: #f9fafb;
-  resize: vertical;
-  box-sizing: border-box;
-}
+    .person-title {
+      font-size: 15px;
+      font-weight: bold;
+      text-align: center;
+      color: #111827;
+      margin-bottom: 12px;
+    }
 
-.person-card textarea:focus {
-  border-color: #6b7280;
-  background: #ffffff;
-  outline: none;
-}
-    /* PERIOD */
+    .person-card textarea {
+      display: block;
+      width: 100%;
+      height: 150px;
+      min-height: 150px;
+      padding: 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 9px;
+      font-size: 14px;
+      background: #f9fafb;
+      resize: vertical;
+      box-sizing: border-box;
+    }
 
-.period-grid {
-  display: grid;
-  grid-template-columns: 140px 140px;
-  gap: 10px;
-  justify-content: center;
-  width: 100%;
-}
+    .person-card textarea:focus {
+      border-color: #6b7280;
+      background: #ffffff;
+      outline: none;
+    }
 
-.period-grid .field {
-  width: 140px;
-  min-width: 0;
-}
+    .period-grid {
+      display: grid;
+      grid-template-columns: 140px 140px;
+      gap: 10px;
+      justify-content: center;
+      width: 100%;
+    }
 
-.period-grid input[type="date"] {
-  display: block;
-  width: 140px;
-  height: 48px;
-  padding: 8px;
-  box-sizing: border-box;
-}
-    /* ARBETSTID */
+    .period-grid .field {
+      width: 140px;
+      min-width: 0;
+    }
+
+    .period-grid input[type="date"] {
+      display: block;
+      width: 140px;
+      height: 48px;
+      padding: 8px;
+      box-sizing: border-box;
+    }
 
     .work-section {
       margin-top: 24px;
@@ -205,8 +202,6 @@
       color: #111827;
     }
 
-    /* DNEVNO VREME */
-
     .daily-result {
       margin-top: 18px;
       padding: 18px;
@@ -227,8 +222,6 @@
       font-weight: 700;
       color: #111827;
     }
-
-    /* UKUPNO */
 
     .summary {
       margin-top: 24px;
@@ -256,7 +249,49 @@
       color: #111827;
     }
 
-    /* TILLBAKA */
+    /* KOMMUNIKATION */
+
+    .communication-card {
+      margin-top: 24px;
+      padding: 18px;
+      border-radius: 17px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+    }
+
+    .communication-message {
+      background: #ffffff;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 12px;
+    }
+
+    .reply-button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: #1f2937;
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .status-button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: #e5e7eb;
+      color: #111827;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
 
     .back-button {
       width: 100%;
@@ -286,292 +321,323 @@
 
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <div class="card">
+  <div class="card">
 
-      <!-- HEADER -->
+    <div class="header">
 
-      <div class="header">
+      <div class="header-icon">M</div>
 
-        <div class="header-icon">M</div>
+      <h1>Månadslön</h1>
 
-        <h1>Månadslön</h1>
-
-        <div class="subtitle">
-          Enkel registrering av arbetstid
-        </div>
-
-      </div>
-<!-- ARBETSGIVARE / ARBETSTAGARE -->
-
-<div class="personuppgifter-grid">
-
-  <div class="person-card">
-    <div class="person-title">Arbetsgivare</div>
-
-    <textarea
-      id="employerInfo"
-      placeholder="Ange uppgifter om arbetsgivaren"></textarea>
-  </div>
-
-  <div class="person-card">
-    <div class="person-title">Arbetstagare</div>
-
-    <textarea
-      id="employeeInfo"
-      placeholder="Ange uppgifter om arbetstagaren"></textarea>
-  </div>
-
-</div>
-
-      <!-- GRUNDUPPGIFTER -->
-
-      <div class="section-title">
-        Löneuppgifter
-      </div>
-
-      <div class="field">
-
-        <label for="monthlySalary">
-          Månadslön (kr)
-        </label>
-
-        <input
-          type="number"
-          id="monthlySalary"
-          placeholder="Ange månadslön"
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label for="workTarget">
-          Arbetstidsmål (timmar)
-        </label>
-
-        <input
-          type="number"
-          id="workTarget"
-          step="0.5"
-          placeholder="Ange arbetstidsmål"
-        >
-
-      </div>
-
-
-      <!-- LÖNEPERIOD -->
-
-      <div class="section-title">
-        Löneperiod
-      </div>
-
-      <div class="period-grid">
-
-        <div class="field">
-
-          <label for="periodStart">
-            Från
-          </label>
-
-          <input
-            type="date"
-            id="periodStart"
-          >
-
-        </div>
-
-
-        <div class="field">
-
-          <label for="periodEnd">
-            Till
-          </label>
-
-          <input
-            type="date"
-            id="periodEnd"
-          >
-
-        </div>
-
-      </div>
-
-
-      <!-- ARBETSTID -->
-
-      <div class="work-section">
-
-        <div class="section-title">
-          Registrera arbetstid
-        </div>
-
-
-        <button
-          type="button"
-          class="time-button"
-          id="startButton">
-
-          ▶ STARTA ARBETE
-
-        </button>
-
-
-        <div class="time-display">
-
-          <span class="time-label">
-            Starttid
-          </span>
-
-          <span
-            class="time-value"
-            id="startTime">
-
-            --:--
-
-          </span>
-
-        </div>
-
-
-        <button
-          type="button"
-          class="time-button"
-          id="stopButton">
-
-          ■ SLUTA ARBETE
-
-        </button>
-
-
-        <div class="time-display">
-
-          <span class="time-label">
-            Sluttid
-          </span>
-
-          <span
-            class="time-value"
-            id="endTime">
-
-            --:--
-
-          </span>
-
-        </div>
-
-
-        <!-- DAGEN -->
-
-        <div class="daily-result">
-
-          <div class="daily-result-title">
-            Dagens arbetstid
-          </div>
-
-          <div
-            class="daily-result-value"
-            id="dailyHours">
-
-            0 h 00 min
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <!-- SAMMANFATTNING -->
-
-      <div class="section-title">
-        Arbetstid
-      </div>
-
-      <div class="summary">
-
-        <div class="summary-row">
-
-          <span>
-            Totalt arbetad tid
-          </span>
-
-          <span
-            class="summary-value"
-            id="totalHours">
-
-            0 h 00 min
-
-          </span>
-
-        </div>
-
-
-        <div class="summary-row">
-
-          <span>
-            Arbetstidsmål
-          </span>
-
-          <span
-            class="summary-value"
-            id="targetHours">
-
-            0 h 00 min
-
-          </span>
-
-        </div>
-
-
-        <div class="summary-row">
-
-          <span>
-            Skillnad
-          </span>
-
-          <span
-            class="summary-value"
-            id="differenceHours">
-
-            0 h 00 min
-
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <!-- TILLBAKA -->
-
-      <button
-        type="button"
-        class="back-button"
-        onclick="window.location.href='index.html'">
-
-        ← Tillbaka
-
-      </button>
-
-
-      <!-- FOOTER -->
-
-      <div class="footer">
-        Genie
+      <div class="subtitle">
+        Enkel registrering av arbetstid
       </div>
 
     </div>
 
+
+    <!-- ARBETSGIVARE / ARBETSTAGARE -->
+
+    <div class="personuppgifter-grid">
+
+      <div class="person-card">
+
+        <div class="person-title">
+          Arbetsgivare
+        </div>
+
+        <textarea
+          id="employerInfo"
+          placeholder="Ange uppgifter om arbetsgivaren"></textarea>
+
+      </div>
+
+
+      <div class="person-card">
+
+        <div class="person-title">
+          Arbetstagare
+        </div>
+
+        <textarea
+          id="employeeInfo"
+          placeholder="Ange uppgifter om arbetstagaren"></textarea>
+
+      </div>
+
+    </div>
+
+
+    <!-- GRUNDUPPGIFTER -->
+
+    <div class="section-title">
+      Löneuppgifter
+    </div>
+
+
+    <div class="field">
+
+      <label for="monthlySalary">
+        Månadslön (kr)
+      </label>
+
+      <input
+        type="number"
+        id="monthlySalary"
+        placeholder="Ange månadslön">
+
+    </div>
+
+
+    <div class="field">
+
+      <label for="workTarget">
+        Arbetstidsmål (timmar)
+      </label>
+
+      <input
+        type="number"
+        id="workTarget"
+        step="0.5"
+        placeholder="Ange arbetstidsmål">
+
+    </div>
+
+
+    <!-- LÖNEPERIOD -->
+
+    <div class="section-title">
+      Löneperiod
+    </div>
+
+
+    <div class="period-grid">
+
+      <div class="field">
+
+        <label for="periodStart">
+          Från
+        </label>
+
+        <input
+          type="date"
+          id="periodStart">
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="periodEnd">
+          Till
+        </label>
+
+        <input
+          type="date"
+          id="periodEnd">
+
+      </div>
+
+    </div>
+
+
+    <!-- ARBETSTID -->
+
+    <div class="work-section">
+
+      <div class="section-title">
+        Registrera arbetstid
+      </div>
+
+
+      <button
+        type="button"
+        class="time-button"
+        id="startButton">
+
+        ▶ STARTA ARBETE
+
+      </button>
+
+
+      <div class="time-display">
+
+        <span class="time-label">
+          Starttid
+        </span>
+
+        <span
+          class="time-value"
+          id="startTime">
+
+          --:--
+
+        </span>
+
+      </div>
+
+
+      <button
+        type="button"
+        class="time-button"
+        id="stopButton">
+
+        ■ SLUTA ARBETE
+
+      </button>
+
+
+      <div class="time-display">
+
+        <span class="time-label">
+          Sluttid
+        </span>
+
+        <span
+          class="time-value"
+          id="endTime">
+
+          --:--
+
+        </span>
+
+      </div>
+
+
+      <div class="daily-result">
+
+        <div class="daily-result-title">
+          Dagens arbetstid
+        </div>
+
+        <div
+          class="daily-result-value"
+          id="dailyHours">
+
+          0 h 00 min
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- SAMMANFATTNING -->
+
+    <div class="section-title">
+      Arbetstid
+    </div>
+
+
+    <div class="summary">
+
+      <div class="summary-row">
+
+        <span>
+          Totalt arbetad tid
+        </span>
+
+        <span
+          class="summary-value"
+          id="totalHours">
+
+          0 h 00 min
+
+        </span>
+
+      </div>
+
+
+      <div class="summary-row">
+
+        <span>
+          Arbetstidsmål
+        </span>
+
+        <span
+          class="summary-value"
+          id="targetHours">
+
+          0 h 00 min
+
+        </span>
+
+      </div>
+
+
+      <div class="summary-row">
+
+        <span>
+          Skillnad
+        </span>
+
+        <span
+          class="summary-value"
+          id="differenceHours">
+
+          0 h 00 min
+
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- KOMMUNIKATION -->
+
+    <div class="communication-card">
+
+      <div class="section-title" style="margin-top:0;">
+        💬 Kommunikation
+      </div>
+
+      <p style="text-align:center; color:#6b7280;">
+        Meddelanden från arbetsgivaren visas här.
+      </p>
+
+      <div id="communicationList"></div>
+
+    </div>
+
+
+    <!-- TILLBAKA -->
+
+    <button
+      type="button"
+      class="back-button"
+      onclick="window.location.href='index.html'">
+
+      ← Tillbaka
+
+    </button>
+
+
+    <div class="footer">
+      Genie
+    </div>
+
   </div>
+
+</div>
+
+
 <script>
+
   let startTimeValue = null;
+
   let totalMinutesWorked = 0;
 
-  const STORAGE_KEY = "genie_manadslon_workdays";
-  const ACTIVE_START_KEY = "genie_manadslon_active_start";
+
+  const STORAGE_KEY =
+    "genie_manadslon_workdays";
+
+  const ACTIVE_START_KEY =
+    "genie_manadslon_active_start";
+
 
   const startButton =
     document.getElementById("startButton");
@@ -608,8 +674,11 @@
   function formatTime(date) {
 
     return date.toLocaleTimeString("sv-SE", {
+
       hour: "2-digit",
+
       minute: "2-digit"
+
     });
 
   }
@@ -621,18 +690,23 @@
 
   function formatDuration(totalMinutes) {
 
-    totalMinutes = Math.max(
-      0,
-      Math.round(totalMinutes)
-    );
+    totalMinutes =
+      Math.max(
+        0,
+        Math.round(totalMinutes)
+      );
+
 
     const hours =
       Math.floor(totalMinutes / 60);
 
+
     const minutes =
       totalMinutes % 60;
 
-    return hours + " h " +
+
+    return hours +
+      " h " +
       String(minutes).padStart(2, "0") +
       " min";
 
@@ -640,14 +714,15 @@
 
 
   // =================================
-  // SAČUVAJ MÅNADSLÖN ZA ARBETSGIVARE
+  // SPREMI MÅNADSLÖN
   // =================================
 
   function saveMonthlySalaryToEmployer() {
 
     const monthlySalaryData = {
 
-      type: "Månadslön",
+      type:
+        "Månadslön",
 
       employer:
         document.getElementById(
@@ -705,45 +780,64 @@
 
     localStorage.setItem(
       "genieManadslonData",
-      JSON.stringify(monthlySalaryData)
+      JSON.stringify(
+        monthlySalaryData
+      )
     );
 
   }
 
 
   // =================================
-  // AŽURIRAJ CILJ I RAZLIKU
+  // UPPDATERA MÅL OCH SKILLNAD
   // =================================
 
   function updateTargetAndDifference() {
 
     const targetHours =
-      Number(workTargetInput.value) || 0;
+      Number(
+        workTargetInput.value
+      ) || 0;
+
 
     const targetMinutes =
-      Math.round(targetHours * 60);
+      Math.round(
+        targetHours * 60
+      );
+
 
     targetHoursDisplay.textContent =
-      formatDuration(targetMinutes);
+      formatDuration(
+        targetMinutes
+      );
+
 
     const differenceMinutes =
-      totalMinutesWorked - targetMinutes;
+      totalMinutesWorked -
+      targetMinutes;
+
 
     const sign =
-      differenceMinutes > 0 ? "+" :
-      differenceMinutes < 0 ? "-" : "";
+      differenceMinutes > 0
+        ? "+"
+        : differenceMinutes < 0
+        ? "-"
+        : "";
+
 
     differenceHoursDisplay.textContent =
       sign +
       formatDuration(
-        Math.abs(differenceMinutes)
+        Math.abs(
+          differenceMinutes
+        )
       );
 
   }
 
 
   // =================================
-  // AUTOMATSKO ČUVANJE PODATAKA
+  // AUTOMATISKT SPARA
   // =================================
 
   function saveFormData() {
@@ -753,14 +847,20 @@
         "input, textarea"
       );
 
+
     inputs.forEach(function(input) {
 
       localStorage.setItem(
-        "manadslon_" + input.id,
+
+        "manadslon_" +
+        input.id,
+
         input.value
+
       );
 
     });
+
 
     updateTargetAndDifference();
 
@@ -770,7 +870,7 @@
 
 
   // =================================
-  // UČITAJ SAČUVANE PODATKE
+  // LADDA DATA
   // =================================
 
   function loadFormData() {
@@ -780,20 +880,25 @@
         "input, textarea"
       );
 
+
     inputs.forEach(function(input) {
 
       const savedValue =
         localStorage.getItem(
-          "manadslon_" + input.id
+          "manadslon_" +
+          input.id
         );
+
 
       if (savedValue !== null) {
 
-        input.value = savedValue;
+        input.value =
+          savedValue;
 
       }
 
     });
+
 
     updateTargetAndDifference();
 
@@ -801,20 +906,26 @@
 
 
   // =================================
-  // UČITAJ SAČUVANE RADNE DANE
+  // LÄS SPARADE ARBETSDAGAR
   // =================================
 
   function loadSavedWorkdays() {
 
     const savedData =
-      localStorage.getItem(STORAGE_KEY);
+      localStorage.getItem(
+        STORAGE_KEY
+      );
+
 
     if (!savedData) {
 
-      totalMinutesWorked = 0;
+      totalMinutesWorked =
+        0;
+
 
       totalHoursDisplay.textContent =
         formatDuration(0);
+
 
       updateTargetAndDifference();
 
@@ -822,29 +933,52 @@
 
     }
 
+
     try {
 
       const workdays =
-        JSON.parse(savedData);
+        JSON.parse(
+          savedData
+        );
+
 
       totalMinutesWorked =
         workdays.reduce(
-          (sum, day) =>
-            sum + Number(day.minutes || 0),
+
+          function(sum, day) {
+
+            return sum +
+              Number(
+                day.minutes || 0
+              );
+
+          },
+
           0
+
         );
 
+
       totalHoursDisplay.textContent =
-        formatDuration(totalMinutesWorked);
+        formatDuration(
+          totalMinutesWorked
+        );
+
 
       updateTargetAndDifference();
 
-    } catch (error) {
+    }
 
-      totalMinutesWorked = 0;
+
+    catch (error) {
+
+      totalMinutesWorked =
+        0;
+
 
       totalHoursDisplay.textContent =
         formatDuration(0);
+
 
       updateTargetAndDifference();
 
@@ -854,7 +988,7 @@
 
 
   // =================================
-  // UČITAJ AKTIVAN RAD
+  // LÄS AKTIV STARTTID
   // =================================
 
   function loadActiveStart() {
@@ -864,18 +998,29 @@
         ACTIVE_START_KEY
       );
 
+
     if (!savedStart) {
+
       return;
+
     }
 
+
     startTimeValue =
-      new Date(savedStart);
+      new Date(
+        savedStart
+      );
+
 
     startTimeDisplay.textContent =
-      formatTime(startTimeValue);
+      formatTime(
+        startTimeValue
+      );
+
 
     endTimeDisplay.textContent =
       "--:--";
+
 
     dailyHoursDisplay.textContent =
       "0 h 00 min";
@@ -887,211 +1032,704 @@
   // STARTA ARBETE
   // =================================
 
-  startButton.onclick = function() {
+  startButton.onclick =
+    function() {
 
-    startTimeValue = new Date();
+      startTimeValue =
+        new Date();
 
-    localStorage.setItem(
-      ACTIVE_START_KEY,
-      startTimeValue.toISOString()
-    );
 
-    startTimeDisplay.textContent =
-      formatTime(startTimeValue);
+      localStorage.setItem(
 
-    endTimeDisplay.textContent =
-      "--:--";
+        ACTIVE_START_KEY,
 
-    dailyHoursDisplay.textContent =
-      "0 h 00 min";
+        startTimeValue.toISOString()
 
-  };
+      );
+
+
+      startTimeDisplay.textContent =
+        formatTime(
+          startTimeValue
+        );
+
+
+      endTimeDisplay.textContent =
+        "--:--";
+
+
+      dailyHoursDisplay.textContent =
+        "0 h 00 min";
+
+    };
 
 
   // =================================
   // SLUTA ARBETE
   // =================================
 
-  stopButton.onclick = function() {
+  stopButton.onclick =
+    function() {
 
-    if (!startTimeValue) {
+      if (!startTimeValue) {
 
-      const savedStart =
-        localStorage.getItem(
-          ACTIVE_START_KEY
-        );
+        const savedStart =
+          localStorage.getItem(
+            ACTIVE_START_KEY
+          );
 
-      if (savedStart) {
 
-        startTimeValue =
-          new Date(savedStart);
+        if (savedStart) {
+
+          startTimeValue =
+            new Date(
+              savedStart
+            );
+
+        }
 
       }
 
-    }
+
+      if (!startTimeValue) {
+
+        return;
+
+      }
 
 
-    if (!startTimeValue) {
-      return;
-    }
+      const endTimeValue =
+        new Date();
 
 
-    const endTimeValue =
-      new Date();
-
-    endTimeDisplay.textContent =
-      formatTime(endTimeValue);
-
-
-    const difference =
-      endTimeValue.getTime() -
-      startTimeValue.getTime();
+      endTimeDisplay.textContent =
+        formatTime(
+          endTimeValue
+        );
 
 
-    const dailyMinutes =
-      Math.max(
-        0,
-        Math.floor(difference / 60000)
-      );
+      const difference =
+        endTimeValue.getTime() -
+        startTimeValue.getTime();
 
 
-    dailyHoursDisplay.textContent =
-      formatDuration(dailyMinutes);
+      const dailyMinutes =
+        Math.max(
+
+          0,
+
+          Math.floor(
+            difference / 60000
+          )
+
+        );
 
 
-    // =================================
-    // UČITAJ POSTOJEĆE DANE
-    // =================================
-
-    let workdays = [];
-
-    const savedData =
-      localStorage.getItem(
-        STORAGE_KEY
-      );
+      dailyHoursDisplay.textContent =
+        formatDuration(
+          dailyMinutes
+        );
 
 
-    if (savedData) {
+      let workdays = [];
 
-      try {
 
-        workdays =
-          JSON.parse(savedData);
+      const savedData =
+        localStorage.getItem(
+          STORAGE_KEY
+        );
 
-        if (!Array.isArray(workdays)) {
+
+      if (savedData) {
+
+        try {
+
+          workdays =
+            JSON.parse(
+              savedData
+            );
+
+
+          if (!Array.isArray(workdays)) {
+
+            workdays = [];
+
+          }
+
+        }
+
+        catch (error) {
 
           workdays = [];
 
         }
 
-      } catch (error) {
-
-        workdays = [];
-
       }
 
-    }
+
+      const workday = {
+
+        date:
+          startTimeValue
+            .toISOString()
+            .split("T")[0],
+
+        start:
+          formatTime(
+            startTimeValue
+          ),
+
+        end:
+          formatTime(
+            endTimeValue
+          ),
+
+        minutes:
+          dailyMinutes
+
+      };
 
 
-    // =================================
-    // NOVI RADNI DAN
-    // =================================
+      workdays.push(
+        workday
+      );
 
-    const workday = {
 
-      date:
-        startTimeValue
-          .toISOString()
-          .split("T")[0],
+      localStorage.setItem(
 
-      start:
-        formatTime(startTimeValue),
+        STORAGE_KEY,
 
-      end:
-        formatTime(endTimeValue),
+        JSON.stringify(
+          workdays
+        )
 
-      minutes:
-        dailyMinutes
+      );
+
+
+      totalMinutesWorked =
+        workdays.reduce(
+
+          function(sum, day) {
+
+            return sum +
+              Number(
+                day.minutes || 0
+              );
+
+          },
+
+          0
+
+        );
+
+
+      totalHoursDisplay.textContent =
+        formatDuration(
+          totalMinutesWorked
+        );
+
+
+      updateTargetAndDifference();
+
+
+      localStorage.removeItem(
+        ACTIVE_START_KEY
+      );
+
+
+      startTimeValue =
+        null;
+
+
+      saveMonthlySalaryToEmployer();
 
     };
 
 
-    workdays.push(workday);
+  // =================================
+  // AUTOMATISKT SPARA ALLA FÄLT
+  // =================================
 
+  document
+    .querySelectorAll(
+      "input, textarea"
+    )
+    .forEach(function(input) {
 
-    // =================================
-    // SAČUVAJ RADNE DANE
-    // =================================
-
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(workdays)
-    );
-
-
-    // =================================
-    // IZRAČUNAJ UKUPNO
-    // =================================
-
-    totalMinutesWorked =
-      workdays.reduce(
-        (sum, day) =>
-          sum + Number(day.minutes || 0),
-        0
+      input.addEventListener(
+        "input",
+        saveFormData
       );
 
 
-    totalHoursDisplay.textContent =
-      formatDuration(totalMinutesWorked);
+      input.addEventListener(
+        "change",
+        saveFormData
+      );
+
+    });
 
 
-    updateTargetAndDifference();
+  // =================================
+  // KOMMUNIKATION
+  // =================================
+
+  function getEmployeeName() {
+
+    return String(
+
+      document.getElementById(
+        "employeeInfo"
+      ).value || ""
+
+    )
+      .trim()
+      .toLowerCase();
+
+  }
 
 
-    // =================================
-    // OBRIŠI AKTIVNI START
-    // =================================
+  function loadCommunication() {
 
-    localStorage.removeItem(
-      ACTIVE_START_KEY
+    const communicationList =
+      document.getElementById(
+        "communicationList"
+      );
+
+
+    communicationList.innerHTML =
+      "";
+
+
+    const employeeName =
+      getEmployeeName();
+
+
+    if (!employeeName) {
+
+      communicationList.innerHTML =
+
+        '<p style="text-align:center;color:#6b7280;">' +
+        'Ange arbetstagarens namn för att visa meddelanden.' +
+        '</p>';
+
+      return;
+
+    }
+
+
+    const messages =
+      JSON.parse(
+
+        localStorage.getItem(
+          "genieMessages"
+        )
+
+      ) || [];
+
+
+    const employeeMessages =
+      messages.filter(function(item) {
+
+        return (
+
+          String(
+            item.employee || ""
+          )
+            .trim()
+            .toLowerCase()
+          ===
+          employeeName
+
+        );
+
+      });
+
+
+    if (
+      employeeMessages.length === 0
+    ) {
+
+      communicationList.innerHTML =
+
+        '<p style="text-align:center;color:#6b7280;">' +
+        'Inga meddelanden ännu.' +
+        '</p>';
+
+      return;
+
+    }
+
+
+    employeeMessages.forEach(
+
+      function(item, index) {
+
+        const wrapper =
+          document.createElement(
+            "div"
+          );
+
+
+        wrapper.className =
+          "communication-message";
+
+
+        let html = "";
+
+
+        html +=
+          "<p><strong>📤 Meddelande från arbetsgivaren</strong></p>";
+
+
+        html +=
+          "<p>" +
+          String(
+            item.message || ""
+          ) +
+          "</p>";
+
+
+        html +=
+          '<p style="font-size:13px;color:#6b7280;">' +
+          String(
+            item.date || ""
+          ) +
+          " " +
+          String(
+            item.time || ""
+          ) +
+          "</p>";
+
+
+        html +=
+          "<p><strong>Status:</strong> " +
+          String(
+            item.status ||
+            "Ny kommentar"
+          ) +
+          "</p>";
+
+
+        if (
+          item.reply &&
+          String(
+            item.reply
+          ).trim() !== ""
+        ) {
+
+          html +=
+            "<hr>";
+
+
+          html +=
+            "<p><strong>↩️ Ditt svar</strong></p>";
+
+
+          html +=
+            "<p>" +
+            String(
+              item.reply
+            ) +
+            "</p>";
+
+
+          html +=
+            '<p style="font-size:13px;color:#6b7280;">' +
+            String(
+              item.replyDate || ""
+            ) +
+            " " +
+            String(
+              item.replyTime || ""
+            ) +
+            "</p>";
+
+        }
+
+
+        html +=
+
+          '<button class="reply-button" ' +
+          'onclick="replyToEmployer(' +
+          index +
+          ')">' +
+          '✍️ Svara arbetsgivaren' +
+          '</button>';
+
+
+        html +=
+
+          '<button class="status-button" ' +
+          'onclick="markMessageHandled(' +
+          index +
+          ')">' +
+          '✅ Markera som åtgärdad' +
+          '</button>';
+
+
+        wrapper.innerHTML =
+          html;
+
+
+        wrapper.dataset.messageIndex =
+          index;
+
+
+        communicationList.appendChild(
+          wrapper
+        );
+
+      }
+
+    );
+
+  }
+
+
+  // =================================
+  // SVARA ARBETSGIVAREN
+  // =================================
+
+  function replyToEmployer(displayIndex) {
+
+    const employeeName =
+      getEmployeeName();
+
+
+    if (!employeeName) {
+
+      return;
+
+    }
+
+
+    const messages =
+      JSON.parse(
+
+        localStorage.getItem(
+          "genieMessages"
+        )
+
+      ) || [];
+
+
+    const matchingIndexes = [];
+
+
+    messages.forEach(
+
+      function(item, index) {
+
+        if (
+
+          String(
+            item.employee || ""
+          )
+            .trim()
+            .toLowerCase()
+          ===
+          employeeName
+
+        ) {
+
+          matchingIndexes.push(
+            index
+          );
+
+        }
+
+      }
+
     );
 
 
-    startTimeValue = null;
+    const realIndex =
+      matchingIndexes[
+        displayIndex
+      ];
 
 
-    // =================================
-    // SAČUVAJ ZA ARBETSGIVARE
-    // =================================
+    if (
+      realIndex === undefined
+    ) {
 
-    saveMonthlySalaryToEmployer();
+      return;
 
-  };
+    }
+
+
+    const reply =
+      prompt(
+        "Skriv ditt svar till arbetsgivaren:"
+      );
+
+
+    if (
+      !reply ||
+      reply.trim() === ""
+    ) {
+
+      return;
+
+    }
+
+
+    messages[
+      realIndex
+    ].reply =
+      reply.trim();
+
+
+    const now =
+      new Date();
+
+
+    messages[
+      realIndex
+    ].replyDate =
+      now.toLocaleDateString(
+        "sv-SE"
+      );
+
+
+    messages[
+      realIndex
+    ].replyTime =
+      now.toLocaleTimeString(
+        "sv-SE",
+        {
+          hour: "2-digit",
+          minute: "2-digit"
+        }
+      );
+
+
+    messages[
+      realIndex
+    ].status =
+      "Svar från arbetstagaren";
+
+
+    localStorage.setItem(
+
+      "genieMessages",
+
+      JSON.stringify(
+        messages
+      )
+
+    );
+
+
+    loadCommunication();
+
+  }
 
 
   // =================================
-  // AUTOMATSKO ČUVANJE UNOSA
+  // MARKERA ÅTGÄRDAD
   // =================================
 
-  document.querySelectorAll(
-    "input, textarea"
-  ).forEach(function(input) {
+  function markMessageHandled(displayIndex) {
 
-    input.addEventListener(
+    const employeeName =
+      getEmployeeName();
+
+
+    const messages =
+      JSON.parse(
+
+        localStorage.getItem(
+          "genieMessages"
+        )
+
+      ) || [];
+
+
+    const matchingIndexes = [];
+
+
+    messages.forEach(
+
+      function(item, index) {
+
+        if (
+
+          String(
+            item.employee || ""
+          )
+            .trim()
+            .toLowerCase()
+          ===
+          employeeName
+
+        ) {
+
+          matchingIndexes.push(
+            index
+          );
+
+        }
+
+      }
+
+    );
+
+
+    const realIndex =
+      matchingIndexes[
+        displayIndex
+      ];
+
+
+    if (
+      realIndex === undefined
+    ) {
+
+      return;
+
+    }
+
+
+    messages[
+      realIndex
+    ].status =
+      "Åtgärdad";
+
+
+    localStorage.setItem(
+
+      "genieMessages",
+
+      JSON.stringify(
+        messages
+      )
+
+    );
+
+
+    loadCommunication();
+
+  }
+
+
+  // =================================
+  // LÄGG TILL NYTT SVAR/UPPDATERING
+  // =================================
+
+  document
+    .getElementById(
+      "employeeInfo"
+    )
+    .addEventListener(
       "input",
-      saveFormData
+      loadCommunication
     );
-
-    input.addEventListener(
-      "change",
-      saveFormData
-    );
-
-  });
 
 
   // =================================
-  // ODMAH UČITAJ PODATKE
+  // START
   // =================================
 
   loadFormData();
@@ -1101,6 +1739,8 @@
   loadActiveStart();
 
   saveMonthlySalaryToEmployer();
+
+  loadCommunication();
 
 </script>
 
