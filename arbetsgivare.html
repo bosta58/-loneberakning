@@ -115,116 +115,119 @@
 
   <div class="container">
 
-  <div class="header">
+    <div class="header">
 
-  <div style="
-    border:2px dashed #c9a227;
-    border-radius:14px;
-    padding:25px 15px;
-    margin-bottom:12px;
-    text-align:center;
-    background:#fffdf5;
-  ">
+      <div style="
+        border:2px dashed #c9a227;
+        border-radius:14px;
+        padding:25px 15px;
+        margin-bottom:12px;
+        text-align:center;
+        background:#fffdf5;
+      ">
 
-    <label
-      for="employerLogoInput"
-      style="
-        display:block;
-        cursor:pointer;
-      "
-    >
+        <label
+          for="employerLogoInput"
+          style="
+            display:block;
+            cursor:pointer;
+          "
+        >
 
-      <img
-        id="employerLogo"
-        src=""
-        alt="Arbetsgivarens logotyp"
-        style="
-          display:none;
-          max-width:220px;
-          max-height:100px;
-          margin:0 auto 10px;
-          object-fit:contain;
-        "
-      >
+          <img
+            id="employerLogo"
+            src=""
+            alt="Arbetsgivarens logotyp"
+            style="
+              display:none;
+              max-width:220px;
+              max-height:100px;
+              margin:0 auto 10px;
+              object-fit:contain;
+            "
+          >
 
-      <div id="logoPlaceholder">
+          <div id="logoPlaceholder">
 
-        <div style="
-          font-size:38px;
-          margin-bottom:8px;
-        ">
-          🏢
-        </div>
+            <div style="
+              font-size:38px;
+              margin-bottom:8px;
+            ">
+              🏢
+            </div>
 
-        <strong>
-          Lägg till arbetsgivarens logotyp
-        </strong>
+            <strong>
+              Lägg till arbetsgivarens logotyp
+            </strong>
 
-        <div style="
-          font-size:13px;
-          margin-top:6px;
-        ">
-          Tryck här för att välja en logotyp
-        </div>
+            <div style="
+              font-size:13px;
+              margin-top:6px;
+            ">
+              Tryck här för att välja en logotyp
+            </div>
+
+          </div>
+
+        </label>
+
+        <input
+          type="file"
+          id="employerLogoInput"
+          accept="image/*"
+          style="display:none;"
+          onchange="loadEmployerLogo(event)"
+        >
 
       </div>
 
-    </label>
+      <p>
+        Löneberäkning och kommunikation
+      </p>
 
-    <input
-      type="file"
-      id="employerLogoInput"
-      accept="image/*"
-      style="display:none;"
-      onchange="loadEmployerLogo(event)"
-    >
+      <div class="card" style="margin-top:15px;">
 
-  </div>
+        <h3>🏢 Företagsuppgifter</h3>
 
-  <p>
-    Löneberäkning och kommunikation
-  </p>
-<div class="card" style="margin-top:15px;">
+        <input
+          id="companyName"
+          type="text"
+          placeholder="Företagsnamn"
+          style="width:100%; margin-bottom:10px; padding:10px; box-sizing:border-box;"
+        >
 
-  <h3>🏢 Företagsuppgifter</h3>
+        <input
+          id="companyOrg"
+          type="text"
+          placeholder="Organisationsnummer"
+          style="width:100%; margin-bottom:10px; padding:10px; box-sizing:border-box;"
+        >
 
-  <input
-    id="companyName"
-    type="text"
-    placeholder="Företagsnamn"
-    style="width:100%; margin-bottom:10px; padding:10px; box-sizing:border-box;"
-  >
+        <input
+          id="companyAddress"
+          type="text"
+          placeholder="Adress"
+          style="width:100%; margin-bottom:10px; padding:10px; box-sizing:border-box;"
+        >
 
-  <input
-    id="companyOrg"
-    type="text"
-    placeholder="Organisationsnummer"
-    style="width:100%; margin-bottom:10px; padding:10px; box-sizing:border-box;"
-  >
+        <input
+          id="companyPhone"
+          type="text"
+          placeholder="Telefon"
+          style="width:100%; margin-bottom:10px; padding:10px; box-sizing:border-box;"
+        >
 
-  <input
-    id="companyAddress"
-    type="text"
-    placeholder="Adress"
-    style="width:100%; margin-bottom:10px; padding:10px; box-sizing:border-box;"
-  >
+        <input
+          id="companyEmail"
+          type="email"
+          placeholder="E-post"
+          style="width:100%; padding:10px; box-sizing:border-box;"
+        >
 
-  <input
-    id="companyPhone"
-    type="text"
-    placeholder="Telefon"
-    style="width:100%; margin-bottom:10px; padding:10px; box-sizing:border-box;"
-  >
+      </div>
 
-  <input
-    id="companyEmail"
-    type="email"
-    placeholder="E-post"
-    style="width:100%; padding:10px; box-sizing:border-box;"
-  >
+    </div>
 
-</div>
-</div>
 
     <div class="card">
 
@@ -241,6 +244,7 @@
 
     </div>
 
+
     <div class="card">
 
       <h2>👥 Anställda</h2>
@@ -250,6 +254,7 @@
       </div>
 
     </div>
+
 
     <div class="card">
 
@@ -267,6 +272,7 @@
 
     </div>
 
+
     <button class="button back-button" onclick="history.back()">
       ← Tillbaka
     </button>
@@ -274,11 +280,87 @@
   </div>
 
 
- <script>
+<script>
 
 let employees =
   JSON.parse(localStorage.getItem("genieEmployees")) || [];
 
+
+/* =========================
+   ARBETSGIVARENS LOGOTYP
+========================= */
+
+function loadEmployerLogo(event) {
+
+  const file =
+    event.target.files[0];
+
+  if (!file) {
+    return;
+  }
+
+  const reader =
+    new FileReader();
+
+  reader.onload = function(e) {
+
+    const logo =
+      document.getElementById("employerLogo");
+
+    const placeholder =
+      document.getElementById("logoPlaceholder");
+
+    logo.src =
+      e.target.result;
+
+    logo.style.display =
+      "block";
+
+    placeholder.style.display =
+      "none";
+
+    localStorage.setItem(
+      "genieEmployerLogo",
+      e.target.result
+    );
+
+  };
+
+  reader.readAsDataURL(file);
+
+}
+
+
+function loadSavedEmployerLogo() {
+
+  const savedLogo =
+    localStorage.getItem("genieEmployerLogo");
+
+  if (!savedLogo) {
+    return;
+  }
+
+  const logo =
+    document.getElementById("employerLogo");
+
+  const placeholder =
+    document.getElementById("logoPlaceholder");
+
+  logo.src =
+    savedLogo;
+
+  logo.style.display =
+    "block";
+
+  placeholder.style.display =
+    "none";
+
+}
+
+
+/* =========================
+   LÄGG TILL ANSTÄLLD
+========================= */
 
 function addEmployee() {
 
@@ -290,8 +372,13 @@ function addEmployee() {
   }
 
   const employee = {
-    name: name.trim(),
-    added: new Date().toLocaleDateString("sv-SE")
+
+    name:
+      name.trim(),
+
+    added:
+      new Date().toLocaleDateString("sv-SE")
+
   };
 
   employees.push(employee);
@@ -306,6 +393,10 @@ function addEmployee() {
 }
 
 
+/* =========================
+   VISA ALLA ANSTÄLLDA
+========================= */
+
 function updateEmployeeList() {
 
   const count =
@@ -314,7 +405,8 @@ function updateEmployeeList() {
   const list =
     document.getElementById("employeeList");
 
-  count.textContent = employees.length;
+  count.textContent =
+    employees.length;
 
   list.innerHTML = "";
 
@@ -375,16 +467,13 @@ function updateEmployeeList() {
         communicationHTML +=
           '<div style="margin-bottom:15px;">';
 
-
         communicationHTML +=
           '<p><strong>📤 Skickat meddelande</strong></p>';
-
 
         communicationHTML +=
           '<p>' +
           String(item.message || "") +
           '</p>';
-
 
         communicationHTML +=
           '<p style="font-size:13px;">' +
@@ -392,7 +481,6 @@ function updateEmployeeList() {
           ' ' +
           String(item.time || "") +
           '</p>';
-
 
         communicationHTML +=
           '<p><strong>Status:</strong> ' +
@@ -415,7 +503,6 @@ function updateEmployeeList() {
             '<p>' +
             String(item.reply) +
             '</p>';
-
 
           communicationHTML +=
             '<p style="font-size:13px;">' +
@@ -469,9 +556,14 @@ function updateEmployeeList() {
 }
 
 
+/* =========================
+   VISA ANSTÄLLDS LÖNEUPPGIFTER
+========================= */
+
 function viewEmployee(index) {
 
-  const employee = employees[index];
+  const employee =
+    employees[index];
 
   const container =
     document.querySelector(".container");
@@ -482,7 +574,9 @@ function viewEmployee(index) {
       .toLowerCase();
 
 
-  /* KOLLEKTIVAVTAL */
+  /* =========================
+     KOLLEKTIVAVTAL
+  ========================= */
 
   const salaryList =
     JSON.parse(
@@ -508,10 +602,13 @@ function viewEmployee(index) {
       : null;
 
 
-  /* TIMLÖN */
+  /* =========================
+     TIMLÖN
+  ========================= */
 
   const savedTimlon =
     localStorage.getItem("genieTimlonData");
+
 
   const timlonData =
     savedTimlon
@@ -528,23 +625,58 @@ function viewEmployee(index) {
       .toLowerCase() === registeredName;
 
 
-  /* VÄLJ LÖNETYP */
+  /* =========================
+     MÅNADSLÖN
+  ========================= */
 
-  let salaryData = null;
+  const savedManadslon =
+    localStorage.getItem("genieManadslonData");
 
 
-  if (hasTimlon) {
+  const manadslonData =
+    savedManadslon
+      ? JSON.parse(savedManadslon)
+      : null;
 
-    salaryData = timlonData;
+
+  const hasManadslon =
+
+    manadslonData &&
+
+    String(manadslonData.employee || "")
+      .trim()
+      .toLowerCase() === registeredName;
+
+
+  /* =========================
+     VÄLJ RÄTT LÖNETYP
+  ========================= */
+
+  let salaryData =
+    null;
+
+
+  if (hasManadslon) {
+
+    salaryData =
+      manadslonData;
+
+  } else if (hasTimlon) {
+
+    salaryData =
+      timlonData;
 
   } else if (kollektivData) {
 
-    salaryData = kollektivData;
+    salaryData =
+      kollektivData;
 
   }
 
 
-  /* INGA UPPGIFTER */
+  /* =========================
+     INGA UPPGIFTER
+  ========================= */
 
   if (!salaryData) {
 
@@ -582,82 +714,256 @@ function viewEmployee(index) {
   }
 
 
-  /* LÖNEUPPGIFTER */
+  /* =========================
+     SÄRSKILT VISA MÅNADSLÖN
+  ========================= */
+
+  if (
+    salaryData.type === "Månadslön"
+  ) {
+
+    const monthlySalary =
+      Number(
+        salaryData.monthlySalary || 0
+      );
+
+
+    const workTarget =
+      salaryData.workTarget || "";
+
+
+    const totalHours =
+      salaryData.totalHours || "0 h";
+
+
+    const targetHours =
+      salaryData.targetHours || "0 h";
+
+
+    const difference =
+      salaryData.difference || "0 h";
+
+
+    container.innerHTML = `
+
+      <div class="card">
+
+        <h2>👤 ${employee.name}</h2>
+
+        <p>
+          <strong>
+            🔒 Endast visning för arbetsgivaren
+          </strong>
+        </p>
+
+        <p>
+          <strong>Typ av lön:</strong>
+          Månadslön
+        </p>
+
+        <p>
+          <strong>Löneperiod:</strong><br>
+          ${salaryData.periodStart || "Inte registrerad"}
+          –
+          ${salaryData.periodEnd || "Inte registrerad"}
+        </p>
+
+      </div>
+
+
+      <div class="card">
+
+        <h2>💰 Löneuppgifter</h2>
+
+        <p>
+          <strong>Månadslön:</strong><br>
+          ${monthlySalary.toFixed(2)} kr
+        </p>
+
+        <p>
+          <strong>Arbetstidsmål:</strong><br>
+          ${workTarget || targetHours || "Inte registrerat"}
+        </p>
+
+      </div>
+
+
+      <div class="card">
+
+        <h2>⏱ Arbetstid</h2>
+
+        <p>
+          <strong>Totalt arbetad tid:</strong><br>
+          ${totalHours}
+        </p>
+
+        <p>
+          <strong>Arbetstidsmål:</strong><br>
+          ${targetHours}
+        </p>
+
+        <p>
+          <strong>Skillnad:</strong><br>
+          ${difference}
+        </p>
+
+      </div>
+
+
+      <button
+        class="button back-button"
+        onclick="location.reload()">
+
+        ← Tillbaka
+
+      </button>
+
+    `;
+
+    return;
+
+  }
+
+
+  /* =========================
+     TIMLÖN / KOLLEKTIVAVTAL
+  ========================= */
 
   const regularHours =
-    Number(salaryData.regularHours || 0);
+    Number(
+      salaryData.regularHours || 0
+    );
+
 
   const regularRate =
-    Number(salaryData.regularRate || 0);
+    Number(
+      salaryData.regularRate || 0
+    );
+
 
   const regularPay =
-    Number(salaryData.regularPay || 0);
+    Number(
+      salaryData.regularPay || 0
+    );
 
 
   const regularOvertimeHours =
-    Number(salaryData.regularOvertimeHours || 0);
+    Number(
+      salaryData.regularOvertimeHours || 0
+    );
+
 
   const regularOvertimeRate =
-    Number(salaryData.regularOvertimeRate || 0);
+    Number(
+      salaryData.regularOvertimeRate || 0
+    );
+
 
   const regularOvertimePay =
-    Number(salaryData.regularOvertimePay || 0);
+    Number(
+      salaryData.regularOvertimePay || 0
+    );
 
 
   const weekendHours =
-    Number(salaryData.weekendHours || 0);
+    Number(
+      salaryData.weekendHours || 0
+    );
+
 
   const weekendRate =
-    Number(salaryData.weekendRate || 0);
+    Number(
+      salaryData.weekendRate || 0
+    );
+
 
   const weekendPay =
-    Number(salaryData.weekendPay || 0);
+    Number(
+      salaryData.weekendPay || 0
+    );
 
 
   const weekendOvertimeHours =
-    Number(salaryData.weekendOvertimeHours || 0);
+    Number(
+      salaryData.weekendOvertimeHours || 0
+    );
+
 
   const weekendOvertimeRate =
-    Number(salaryData.weekendOvertimeRate || 0);
+    Number(
+      salaryData.weekendOvertimeRate || 0
+    );
+
 
   const weekendOvertimePay =
-    Number(salaryData.weekendOvertimePay || 0);
+    Number(
+      salaryData.weekendOvertimePay || 0
+    );
 
 
   const holidayHours =
-    Number(salaryData.holidayHours || 0);
+    Number(
+      salaryData.holidayHours || 0
+    );
+
 
   const holidayRate =
-    Number(salaryData.holidayRate || 0);
+    Number(
+      salaryData.holidayRate || 0
+    );
+
 
   const holidayPay =
-    Number(salaryData.holidayPay || 0);
+    Number(
+      salaryData.holidayPay || 0
+    );
 
 
   const holidayOvertimeHours =
-    Number(salaryData.holidayOvertimeHours || 0);
+    Number(
+      salaryData.holidayOvertimeHours || 0
+    );
+
 
   const holidayOvertimeRate =
-    Number(salaryData.holidayOvertimeRate || 0);
+    Number(
+      salaryData.holidayOvertimeRate || 0
+    );
+
 
   const holidayOvertimePay =
-    Number(salaryData.holidayOvertimePay || 0);
+    Number(
+      salaryData.holidayOvertimePay || 0
+    );
 
 
   const grossSalary =
-    Number(salaryData.grossSalary || 0);
+    Number(
+      salaryData.grossSalary || 0
+    );
+
 
   const vacationPay =
-    Number(salaryData.vacationPay || 0);
+    Number(
+      salaryData.vacationPay || 0
+    );
+
 
   const taxAmount =
-    Number(salaryData.taxAmount || 0);
+    Number(
+      salaryData.taxAmount || 0
+    );
+
 
   const netSalary =
-    Number(salaryData.netSalary || 0);
+    Number(
+      salaryData.netSalary || 0
+    );
 
 
-  /* VISA UPPGIFTER */
+  /* =========================
+     VISA UPPGIFTER
+  ========================= */
 
   container.innerHTML = `
 
@@ -777,15 +1083,22 @@ function viewEmployee(index) {
 }
 
 
+/* =========================
+   KONTAKTA ANSTÄLLD
+========================= */
+
 function contactEmployee(index) {
 
-  const employee = employees[index];
+  const employee =
+    employees[index];
+
 
   const message =
     prompt(
       "Skriv ett meddelande eller en kommentar till " +
       employee.name + ":"
     );
+
 
   if (!message || message.trim() === "") {
     return;
@@ -800,11 +1113,14 @@ function contactEmployee(index) {
 
   const newMessage = {
 
-    employee: employee.name,
+    employee:
+      employee.name,
 
-    type: "Timlön",
+    type:
+      "Arbetsgivare",
 
-    message: message.trim(),
+    message:
+      message.trim(),
 
     date:
       new Date().toLocaleDateString("sv-SE"),
@@ -815,13 +1131,17 @@ function contactEmployee(index) {
         minute: "2-digit"
       }),
 
-    status: "Ny kommentar",
+    status:
+      "Ny kommentar",
 
-    reply: "",
+    reply:
+      "",
 
-    replyDate: "",
+    replyDate:
+      "",
 
-    replyTime: ""
+    replyTime:
+      ""
 
   };
 
@@ -845,26 +1165,47 @@ function contactEmployee(index) {
 
 }
 
+
+/* =========================
+   FÖRETAGSUPPGIFTER
+========================= */
+
 function saveCompanyInfo() {
 
   const companyInfo = {
 
     name:
-      document.getElementById("companyName").value.trim(),
+      document
+        .getElementById("companyName")
+        .value
+        .trim(),
 
     org:
-      document.getElementById("companyOrg").value.trim(),
+      document
+        .getElementById("companyOrg")
+        .value
+        .trim(),
 
     address:
-      document.getElementById("companyAddress").value.trim(),
+      document
+        .getElementById("companyAddress")
+        .value
+        .trim(),
 
     phone:
-      document.getElementById("companyPhone").value.trim(),
+      document
+        .getElementById("companyPhone")
+        .value
+        .trim(),
 
     email:
-      document.getElementById("companyEmail").value.trim()
+      document
+        .getElementById("companyEmail")
+        .value
+        .trim()
 
   };
+
 
   localStorage.setItem(
     "genieCompanyInfo",
@@ -877,57 +1218,107 @@ function saveCompanyInfo() {
 function loadCompanyInfo() {
 
   const saved =
-    localStorage.getItem("genieCompanyInfo");
+    localStorage.getItem(
+      "genieCompanyInfo"
+    );
+
 
   if (!saved) {
     return;
   }
 
+
   const companyInfo =
     JSON.parse(saved);
 
-  document.getElementById("companyName").value =
+
+  document
+    .getElementById("companyName")
+    .value =
     companyInfo.name || "";
 
-  document.getElementById("companyOrg").value =
+
+  document
+    .getElementById("companyOrg")
+    .value =
     companyInfo.org || "";
 
-  document.getElementById("companyAddress").value =
+
+  document
+    .getElementById("companyAddress")
+    .value =
     companyInfo.address || "";
 
-  document.getElementById("companyPhone").value =
+
+  document
+    .getElementById("companyPhone")
+    .value =
     companyInfo.phone || "";
 
-  document.getElementById("companyEmail").value =
+
+  document
+    .getElementById("companyEmail")
+    .value =
     companyInfo.email || "";
 
 }
 
 
+/* =========================
+   AUTOSPARA FÖRETAGSINFO
+========================= */
+
 document
   .getElementById("companyName")
-  .addEventListener("input", saveCompanyInfo);
+  .addEventListener(
+    "input",
+    saveCompanyInfo
+  );
+
 
 document
   .getElementById("companyOrg")
-  .addEventListener("input", saveCompanyInfo);
+  .addEventListener(
+    "input",
+    saveCompanyInfo
+  );
+
 
 document
   .getElementById("companyAddress")
-  .addEventListener("input", saveCompanyInfo);
+  .addEventListener(
+    "input",
+    saveCompanyInfo
+  );
+
 
 document
   .getElementById("companyPhone")
-  .addEventListener("input", saveCompanyInfo);
+  .addEventListener(
+    "input",
+    saveCompanyInfo
+  );
+
 
 document
   .getElementById("companyEmail")
-  .addEventListener("input", saveCompanyInfo);
+  .addEventListener(
+    "input",
+    saveCompanyInfo
+  );
 
+
+/* =========================
+   START
+========================= */
 
 loadCompanyInfo();
+
+loadSavedEmployerLogo();
+
 updateEmployeeList();
 
 </script>
+
 </body>
 </html>
