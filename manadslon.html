@@ -157,6 +157,14 @@
       box-sizing: border-box;
     }
 
+    .period-grid input[type="time"] {
+      display: block;
+      width: 140px;
+      height: 48px;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+
     .work-section {
       margin-top: 24px;
       padding-top: 4px;
@@ -442,6 +450,50 @@
         <input
           type="date"
           id="periodEnd">
+
+      </div>
+
+    </div>
+
+
+    <!-- NATTLIG ARBETSTID -->
+
+    <div class="section-title">
+      🌙 Nattarbete enligt företag/avtal
+    </div>
+
+
+    <p style="text-align:center; color:#6b7280; font-size:13px; margin-top:-4px; margin-bottom:14px;">
+      Ange den tid som enligt ditt företag eller avtal räknas som nattarbete.
+    </p>
+
+
+    <div class="period-grid">
+
+      <div class="field">
+
+        <label for="nightStart">
+          Från
+        </label>
+
+        <input
+          type="time"
+          id="nightStart"
+          value="20:00">
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="nightEnd">
+          Till
+        </label>
+
+        <input
+          type="time"
+          id="nightEnd"
+          value="06:00">
 
       </div>
 
@@ -890,6 +942,16 @@
       periodEnd:
         document.getElementById(
           "periodEnd"
+        ).value,
+
+      nightStart:
+        document.getElementById(
+          "nightStart"
+        ).value,
+
+      nightEnd:
+        document.getElementById(
+          "nightEnd"
         ).value,
 
       totalMinutes:
