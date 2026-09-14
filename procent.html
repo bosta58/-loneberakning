@@ -1127,7 +1127,48 @@ loadFormData();
     "employerSalaryList",
     JSON.stringify(salaryList)
   );
+// =================================
+// POSTAVI AKTIVNI TIP PLAĆANJA
+// =================================
 
+const employeeName =
+  String(salaryData.employee || "")
+    .trim()
+    .toLowerCase();
+
+if (employeeName) {
+
+  const activeTypes =
+    JSON.parse(
+      localStorage.getItem(
+        "genieActiveSalaryTypes"
+      )
+    ) || {};
+
+  activeTypes[employeeName] = {
+
+    type:
+      "Kollektivavtal",
+
+    periodStart:
+      salaryData.periodStart || "",
+
+    periodEnd:
+      salaryData.periodEnd || "",
+
+    savedAt:
+      new Date().toISOString()
+
+  };
+
+  localStorage.setItem(
+    "genieActiveSalaryTypes",
+    JSON.stringify(
+      activeTypes
+    )
+  );
+
+}
 }
 </script>
 
