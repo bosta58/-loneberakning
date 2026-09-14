@@ -1140,7 +1140,48 @@ function saveFormData() {
     "genieTimlonData",
     JSON.stringify(timlonData)
   );
+// =================================
+// POSTAVI AKTIVNI TIP PLAĆANJA
+// =================================
 
+const employeeName =
+  String(timlonData.employee || "")
+    .trim()
+    .toLowerCase();
+
+if (employeeName) {
+
+  const activeTypes =
+    JSON.parse(
+      localStorage.getItem(
+        "genieActiveSalaryTypes"
+      )
+    ) || {};
+
+  activeTypes[employeeName] = {
+
+    type:
+      "Timlön",
+
+    periodStart:
+      timlonData.periodStart || "",
+
+    periodEnd:
+      timlonData.periodEnd || "",
+
+    savedAt:
+      new Date().toISOString()
+
+  };
+
+  localStorage.setItem(
+    "genieActiveSalaryTypes",
+    JSON.stringify(
+      activeTypes
+    )
+  );
+
+}
 }
 
 
