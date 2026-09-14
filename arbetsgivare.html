@@ -1084,6 +1084,262 @@ function viewEmployee(index) {
 
 
 /* =========================
+   HÄMTA ANSTÄLLDS LÖNEPERIOD
+========================= */
+
+function getEmployeePayPeriod(employeeName) {
+
+  const registeredName =
+    String(employeeName || "")
+      .trim()
+      .toLowerCase();
+
+
+  let latestData = null;
+
+
+  /* KOLLEKTIVAVTAL */
+
+  const salaryList =
+    JSON.parse(
+      localStorage.getItem("employerSalaryList")
+    ) || [];
+
+
+  const kollektivMatches =
+    salaryList.filter(function(item) {
+
+      return (
+        String(item.employee || "")
+          .trim()
+          .toLowerCase() === registeredName
+      );
+
+    });
+
+
+  if (kollektivMatches.length > 0) {
+
+    latestData =
+      kollektivMatches[kollektivMatches.length - 1];
+
+  }
+
+
+  /* TIMLÖN */
+
+  const savedTimlon =
+    localStorage.getItem("genieTimlonData");
+
+
+  const timlon =
+    savedTimlon
+      ? JSON.parse(savedTimlon)
+      : null;
+
+
+  if (
+    timlon &&
+    String(timlon.employee || "")
+      .trim()
+      .toLowerCase() === registeredName
+  ) {
+
+    latestData =
+      timlon;
+
+  }
+
+
+  /* MÅNADSLÖN */
+
+  const savedManadslon =
+    localStorage.getItem("genieManadslonData");
+
+
+  const manadslon =
+    savedManadslon
+      ? JSON.parse(savedManadslon)
+      : null;
+
+
+  if (
+    manadslon &&
+    String(manadslon.employee || "")
+      .trim()
+      .toLowerCase() === registeredName
+  ) {
+
+    latestData =
+      manadslon;
+
+  }
+
+
+  if (!latestData) {
+    return null;
+  }
+
+
+  const start =
+    String(latestData.periodStart || "")
+      .trim();
+
+
+  const end =
+    String(latestData.periodEnd || "")
+      .trim();
+
+
+  if (!start || !end) {
+    return null;
+  }
+
+
+  return {
+
+    start:
+      start,
+
+    end:
+      end,
+
+    key:
+      start + "_" + end
+
+  };
+
+}
+
+
+/* =========================
+   RÄTTA OCH RENSAR GAMLA MEDDELANDEN
+========================= */
+
+function cleanOldMessages() {
+
+  const messages =
+    JSON.parse(
+      localStorage.getItem("genieMessages")
+    ) || [];
+
+
+  let changed = false;
+
+
+  const cleanedMessages =
+    messages.filter(function(item) {
+
+      const period =
+        getEmployeePayPeriod(
+          item.employee
+        );
+
+
+      /*
+        Om ingen löneperiod finns
+        rör vi inte meddelandet.
+      */
+
+      if (!period) {
+        return true;
+      }
+
+
+      /*
+        Gamla meddelanden som saknar
+        period får den aktuella perioden.
+      */
+
+      if (!item.periodKey) {
+
+        item.periodStart =
+          period.start;
+
+        item.periodEnd =
+          period.end;
+
+        item.periodKey =
+          period.key;
+
+        changed = true;
+
+        return true;
+
+      }
+
+
+      /*
+        Behåll endast meddelanden
+        från aktuell löneperiod.
+      */
+
+      if (
+        item.periodKey === period.key
+      ) {
+
+        return true;
+
+      }
+
+
+      /*
+        Meddelandet tillhör en äldre
+        löneperiod och tas bort.
+      */
+
+      changed = true;
+
+      return false;
+
+    });
+
+
+  if (changed) {
+
+    localStorage.setItem(
+      "genieMessages",
+      JSON.stringify(cleanedMessages)
+    );
+
+  }
+
+}
+
+
+/* =========================
+   AKTUELL LÖNEPERIOD
+========================= */
+
+function getCurrentEmployeePeriod(employeeName) {
+
+  const period =
+    getEmployeePayPeriod(
+      employeeName
+    );
+
+
+  if (!period) {
+
+    return {
+
+      start: "",
+
+      end: "",
+
+      key: ""
+
+    };
+
+  }
+
+
+  return period;
+
+}
+
+
+/* =========================
    KONTAKTA ANSTÄLLD
 ========================= */
 
@@ -1111,6 +1367,16 @@ function contactEmployee(index) {
     ) || [];
 
 
+  const period =
+    getCurrentEmployeePeriod(
+      employee.name
+    );
+
+
+  const now =
+    new Date();
+
+
   const newMessage = {
 
     employee:
@@ -1123,10 +1389,10 @@ function contactEmployee(index) {
       message.trim(),
 
     date:
-      new Date().toLocaleDateString("sv-SE"),
+      now.toLocaleDateString("sv-SE"),
 
     time:
-      new Date().toLocaleTimeString("sv-SE", {
+      now.toLocaleTimeString("sv-SE", {
         hour: "2-digit",
         minute: "2-digit"
       }),
@@ -1141,7 +1407,16 @@ function contactEmployee(index) {
       "",
 
     replyTime:
-      ""
+      "",
+
+    periodStart:
+      period.start,
+
+    periodEnd:
+      period.end,
+
+    periodKey:
+      period.key
 
   };
 
@@ -1315,6 +1590,8 @@ document
 loadCompanyInfo();
 
 loadSavedEmployerLogo();
+
+cleanOldMessages();
 
 updateEmployeeList();
 
