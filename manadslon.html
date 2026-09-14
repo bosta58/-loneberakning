@@ -984,7 +984,76 @@
     );
 
   });
+  // =================================
+  // SAČUVAJ MÅNADSLÖN ZA ARBETSGIVARE
+  // =================================
 
+  function saveMonthlySalaryToEmployer() {
+
+    const monthlySalaryData = {
+
+      type: "Månadslön",
+
+      employer:
+        document.getElementById(
+          "employerInfo"
+        ).value,
+
+      employee:
+        document.getElementById(
+          "employeeInfo"
+        ).value,
+
+      monthlySalary:
+        document.getElementById(
+          "monthlySalary"
+        ).value,
+
+      workTarget:
+        document.getElementById(
+          "workTarget"
+        ).value,
+
+      periodStart:
+        document.getElementById(
+          "periodStart"
+        ).value,
+
+      periodEnd:
+        document.getElementById(
+          "periodEnd"
+        ).value,
+
+      totalMinutes:
+        totalMinutesWorked,
+
+      totalHours:
+        formatDuration(
+          totalMinutesWorked
+        ),
+
+      targetHours:
+        document.getElementById(
+          "targetHours"
+        ).textContent,
+
+      difference:
+        document.getElementById(
+          "differenceHours"
+        ).textContent,
+
+      updated:
+        new Date().toISOString()
+
+    };
+
+
+    localStorage.setItem(
+      "genieManadslonData",
+      JSON.stringify(monthlySalaryData)
+    );
+
+  }
 
   // =================================
   // ODMAH UČITAJ PODATKE
