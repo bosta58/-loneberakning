@@ -784,7 +784,50 @@
         monthlySalaryData
       )
     );
+// =================================
+// POSTAVI AKTIVNI TIP PLAĆANJA
+// =================================
 
+const employeeName =
+  String(
+    monthlySalaryData.employee || ""
+  )
+    .trim()
+    .toLowerCase();
+
+if (employeeName) {
+
+  const activeTypes =
+    JSON.parse(
+      localStorage.getItem(
+        "genieActiveSalaryTypes"
+      )
+    ) || {};
+
+  activeTypes[employeeName] = {
+
+    type:
+      "Månadslön",
+
+    periodStart:
+      monthlySalaryData.periodStart || "",
+
+    periodEnd:
+      monthlySalaryData.periodEnd || "",
+
+    savedAt:
+      new Date().toISOString()
+
+  };
+
+  localStorage.setItem(
+    "genieActiveSalaryTypes",
+    JSON.stringify(
+      activeTypes
+    )
+  );
+
+}
   }
 
 
