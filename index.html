@@ -36,28 +36,33 @@
       margin-bottom: 28px;
     }
 
-    .header-icon {
-      width: 64px;
-      height: 64px;
-      margin: 0 auto 12px;
-      border-radius: 18px;
-      background: #1f2937;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      font-weight: bold;
+    .genie-header {
+      text-align: center;
+      padding: 18px 12px 20px;
     }
 
-    h1 {
+    .genie-logo {
+      width: 90px;
+      margin: 0 auto 4px;
+    }
+
+    .genie-logo img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .genie-header h1 {
       margin: 0;
       font-size: 30px;
-      color: #111827;
+      font-weight: 800;
+    }
+
+    .genie-header .subtitle {
+      margin-top: 4px;
     }
 
     .subtitle {
-      margin-top: 7px;
       color: #6b7280;
       font-size: 15px;
     }
@@ -121,39 +126,16 @@
       transform: scale(0.98);
     }
 
+    .employer-button {
+      margin-top: 10px;
+    }
+
     .footer {
       text-align: center;
       margin-top: 25px;
       font-size: 12px;
       color: #9ca3af;
     }
-    /* GENIE LOGO */
-
-.genie-header {
-  text-align: center;
-  padding: 18px 12px 20px;
-}
-
-.genie-logo {
-  width: 90px;
-  margin: 0 auto 4px;
-}
-
-.genie-logo img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.genie-header h1 {
-  margin: 0;
-  font-size: 30px;
-  font-weight: 800;
-}
-
-.genie-header .subtitle {
-  margin-top: 4px;
-}
   </style>
 </head>
 
@@ -165,23 +147,19 @@
 
       <!-- HEADER -->
 
-  <div class="header genie-header">
+      <div class="header genie-header">
 
-  <div class="genie-logo">
- <img src="genie-logo.png.PNG" alt="Genie">
-  </div>
+        <div class="genie-logo">
+          <img src="genie-logo.png.PNG" alt="Genie">
+        </div>
 
-  <h1>Genie</h1>
+        <h1>Genie</h1>
 
-  <div class="subtitle">
-    Enkel och professionell löneberäkning
-  </div>
-
-</div>
-
+        <div class="subtitle" id="subtitle">
+          Enkel och professionell löneberäkning
+        </div>
 
       </div>
-
 
       <!-- SPRÅK -->
 
@@ -190,15 +168,12 @@
         <select id="languageSelect">
 
           <option value="sv">🇸🇪 Svenska</option>
-
           <option value="en">🇬🇧 English</option>
-
           <option value="sr">🇷🇸 Srpski</option>
 
         </select>
 
       </div>
-
 
       <!-- HUVUDMENY -->
 
@@ -213,61 +188,58 @@
 
           <span class="menu-symbol">T</span>
 
-          <span class="menu-text">
+          <span class="menu-text" id="timlonText">
             Timlön
           </span>
 
         </button>
 
-
         <!-- MÅNADSLÖN -->
 
-      <!-- MÅNADSLÖN -->
+        <button
+          type="button"
+          class="menu-button"
+          onclick="window.location.href='manadslon.html'">
 
-<button
-  type="button"
-  class="menu-button"
-  onclick="window.location.href='manadslon.html'">
+          <span class="menu-symbol">M</span>
 
-  <span class="menu-symbol">M</span>
+          <span class="menu-text" id="manadslonText">
+            Månadslön
+          </span>
 
-  <span class="menu-text">
-    Månadslön
-  </span>
-
-</button>
-
+        </button>
 
         <!-- KOLLEKTIVAVTAL -->
 
-   <button
-  type="button"
-  class="menu-button"
-  onclick="window.location.href='kalendar.html?mode=procent'">
+        <button
+          type="button"
+          class="menu-button"
+          onclick="window.location.href='kalendar.html?mode=procent'">
 
-  <span class="menu-symbol">%</span>
+          <span class="menu-symbol">%</span>
 
-  <span class="menu-text">
-    Kollektivavtal
-  </span>
+          <span class="menu-text" id="kollektivavtalText">
+            Kollektivavtal
+          </span>
 
-</button>
+        </button>
 
       </div>
-<!-- ARBETSGIVARE -->
 
-<button
-  type="button"
-  class="menu-button"
-  onclick="window.location.href='arbetsgivare.html'">
+      <!-- ARBETSGIVARE -->
 
-  <span class="menu-symbol">🏢</span>
+      <button
+        type="button"
+        class="menu-button employer-button"
+        onclick="window.location.href='arbetsgivare.html'">
 
-  <span class="menu-text">
-    Arbetsgivare
-  </span>
+        <span class="menu-symbol">🏢</span>
 
-</button>
+        <span class="menu-text" id="arbetsgivareText">
+          Arbetsgivare
+        </span>
+
+      </button>
 
       <!-- FOOTER -->
 
@@ -278,6 +250,73 @@
     </div>
 
   </div>
+
+  <script>
+
+    const translations = {
+
+      sv: {
+        subtitle: "Enkel och professionell löneberäkning",
+        timlon: "Timlön",
+        manadslon: "Månadslön",
+        kollektivavtal: "Kollektivavtal",
+        arbetsgivare: "Arbetsgivare"
+      },
+
+      en: {
+        subtitle: "Simple and professional salary calculation",
+        timlon: "Hourly pay",
+        manadslon: "Monthly salary",
+        kollektivavtal: "Collective agreement",
+        arbetsgivare: "Employer"
+      },
+
+      sr: {
+        subtitle: "Jednostavan i profesionalan obračun plate",
+        timlon: "Satnica",
+        manadslon: "Mesečna plata",
+        kollektivavtal: "Kolektivni ugovor",
+        arbetsgivare: "Poslodavac"
+      }
+
+    };
+
+
+    function changeLanguage(language) {
+
+      const t = translations[language];
+
+      if (!t) return;
+
+      document.documentElement.lang = language;
+
+      document.getElementById("subtitle").textContent = t.subtitle;
+      document.getElementById("timlonText").textContent = t.timlon;
+      document.getElementById("manadslonText").textContent = t.manadslon;
+      document.getElementById("kollektivavtalText").textContent = t.kollektivavtal;
+      document.getElementById("arbetsgivareText").textContent = t.arbetsgivare;
+
+      localStorage.setItem("genieLanguage", language);
+    }
+
+
+    const languageSelect = document.getElementById("languageSelect");
+
+    const savedLanguage =
+      localStorage.getItem("genieLanguage") || "sv";
+
+    languageSelect.value = savedLanguage;
+
+    changeLanguage(savedLanguage);
+
+
+    languageSelect.addEventListener("change", function() {
+
+      changeLanguage(this.value);
+
+    });
+
+  </script>
 
 </body>
 </html>
