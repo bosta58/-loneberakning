@@ -36,6 +36,20 @@
       font-size: 25px;
     }
 
+    .language-menu {
+      margin-bottom: 15px;
+    }
+
+    .language-menu select {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background: white;
+      font-size: 16px;
+      text-align: center;
+    }
+
     .top-row {
       display: flex;
       justify-content: space-between;
@@ -183,6 +197,37 @@
       color: #222;
     }
 
+    .navigation-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .navigation-buttons button {
+      flex: 1;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .back-button {
+      background: #ddd;
+      color: #222;
+    }
+
+    .next-button {
+      background: #1f2937;
+      color: #ffffff !important;
+    }
+
+    .navigation-buttons button:active,
+    .buttons button:active {
+      transform: scale(0.98);
+    }
+
     @media (max-width: 500px) {
       .container {
         padding: 8px;
@@ -209,37 +254,6 @@
         font-size: 10px;
       }
     }
-    /* Navigacija između stranica */
-
-.navigation-buttons {
-  display: flex;
-  gap: 10px;
-  margin-top: 15px;
-}
-
-.navigation-buttons button {
-  flex: 1;
-  padding: 13px;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.back-button {
-  background: #ddd;
-  color: #222;
-}
-
-.next-button {
-  background: #1f2937;
-color: #ffffff !important;
-}
-
-.navigation-buttons button:active {
-  transform: scale(0.98);
-}
   </style>
 </head>
 
@@ -248,7 +262,21 @@ color: #ffffff !important;
 <div class="container">
   <div class="card">
 
-    <h1>📅 Arbetstidskalender</h1>
+    <h1 id="pageTitle">📅 Arbetstidskalender</h1>
+
+    <!-- SPRÅK -->
+
+    <div class="language-menu">
+      <select id="languageSelect">
+
+        <option value="sv">🇸🇪 Svenska</option>
+        <option value="en">🇬🇧 English</option>
+        <option value="sr">🇷🇸 Srpski</option>
+
+      </select>
+    </div>
+
+    <!-- MÅNAD / ÅR -->
 
     <div class="top-row">
 
@@ -265,128 +293,262 @@ color: #ffffff !important;
     <div class="calendar">
 
       <div class="weekdays">
-        <div class="weekday">Mån</div>
-        <div class="weekday">Tis</div>
-        <div class="weekday">Ons</div>
-        <div class="weekday">Tor</div>
-        <div class="weekday">Fre</div>
-        <div class="weekday">Lör</div>
-        <div class="weekday">Sön</div>
+
+        <div class="weekday" id="mon">Mån</div>
+        <div class="weekday" id="tue">Tis</div>
+        <div class="weekday" id="wed">Ons</div>
+        <div class="weekday" id="thu">Tor</div>
+        <div class="weekday" id="fri">Fre</div>
+        <div class="weekday" id="sat">Lör</div>
+        <div class="weekday" id="sun">Sön</div>
+
       </div>
 
       <div id="days" class="days"></div>
 
     </div>
 
+    <!-- SAMMANSTÄLLNING -->
+
     <div class="summary">
 
-      <h2>Sammanställning</h2>
+      <h2 id="summaryTitle">Sammanställning</h2>
 
       <div class="summary-row">
-        <span>Ordinarie vardag:</span>
+        <span id="regularWeekdayLabel">Ordinarie vardag:</span>
         <span id="regularWeekday">0.0</span>
       </div>
 
       <div class="summary-row">
-        <span>Övertid vardag:</span>
+        <span id="overtimeWeekdayLabel">Övertid vardag:</span>
         <span id="overtimeWeekday">0.0</span>
       </div>
 
       <div class="summary-row">
-        <span>Ordinarie helg:</span>
+        <span id="regularWeekendLabel">Ordinarie helg:</span>
         <span id="regularWeekend">0.0</span>
       </div>
 
       <div class="summary-row">
-        <span>Övertid helg:</span>
+        <span id="overtimeWeekendLabel">Övertid helg:</span>
         <span id="overtimeWeekend">0.0</span>
       </div>
 
       <div class="summary-row">
-        <span>Ordinarie helgdag:</span>
+        <span id="regularHolidayLabel">Ordinarie helgdag:</span>
         <span id="regularHoliday">0.0</span>
       </div>
 
       <div class="summary-row">
-        <span>Övertid helgdag:</span>
+        <span id="overtimeHolidayLabel">Övertid helgdag:</span>
         <span id="overtimeHoliday">0.0</span>
       </div>
 
       <div class="summary-row">
-        <span>Totalt timmar:</span>
+        <span id="totalHoursLabel">Totalt timmar:</span>
         <span id="totalHours">0.0</span>
       </div>
 
       <div class="summary-row">
-        <span>Antal arbetsdagar:</span>
+        <span id="workDaysLabel">Antal arbetsdagar:</span>
         <span id="workDays">0</span>
       </div>
 
     </div>
 
+    <!-- SPARA / RENSA -->
+
     <div class="buttons">
 
-      <button class="save" onclick="saveCalendar()">
+      <button class="save" onclick="saveCalendar()" id="saveButton">
         💾 Spara
       </button>
 
-      <button class="clear" onclick="clearCalendar()">
+      <button class="clear" onclick="clearCalendar()" id="clearButton">
         🗑️ Rensa
       </button>
 
     </div>
-<div class="navigation-buttons">
 
-  <button class="back-button" type="button"
-    onclick="window.location.href='index.html'">
-    ← Tillbaka
-  </button>
+    <!-- NAVIGATION -->
 
-<button class="next-button" type="button"
-  onclick="continueToSalary()">
-  Fortsätt →
-</button>
+    <div class="navigation-buttons">
 
-</div>
+      <button
+        class="back-button"
+        type="button"
+        onclick="window.location.href='index.html'"
+        id="backButton">
+        ← Tillbaka
+      </button>
+
+      <button
+        class="next-button"
+        type="button"
+        onclick="continueToSalary()"
+        id="nextButton">
+        Fortsätt →
+      </button>
+
+    </div>
+
   </div>
 </div>
 
 <script>
 
-const months = [
-  "Januari",
-  "Februari",
-  "Mars",
-  "April",
-  "Maj",
-  "Juni",
-  "Juli",
-  "Augusti",
-  "September",
-  "Oktober",
-  "November",
-  "December"
-];
+/* =========================
+   JEZIČKI SISTEM
+========================= */
+
+const translations = {
+
+  sv: {
+    title: "📅 Arbetstidskalender",
+    summary: "Sammanställning",
+    weekday: "Vardag",
+    weekend: "Helg",
+    holiday: "Helgdag",
+    hour: "tim",
+    regularWeekday: "Ordinarie vardag:",
+    overtimeWeekday: "Övertid vardag:",
+    regularWeekend: "Ordinarie helg:",
+    overtimeWeekend: "Övertid helg:",
+    regularHoliday: "Ordinarie helgdag:",
+    overtimeHoliday: "Övertid helgdag:",
+    totalHours: "Totalt timmar:",
+    workDays: "Antal arbetsdagar:",
+    save: "💾 Spara",
+    clear: "🗑️ Rensa",
+    back: "← Tillbaka",
+    next: "Fortsätt →",
+    saved: "Kalendern är sparad.",
+    confirmClear: "Vill du rensa alla timmar för denna månad?"
+  },
+
+  en: {
+    title: "📅 Work time calendar",
+    summary: "Summary",
+    weekday: "Weekday",
+    weekend: "Weekend",
+    holiday: "Public holiday",
+    hour: "hours",
+    regularWeekday: "Regular weekday:",
+    overtimeWeekday: "Overtime weekday:",
+    regularWeekend: "Regular weekend:",
+    overtimeWeekend: "Overtime weekend:",
+    regularHoliday: "Regular public holiday:",
+    overtimeHoliday: "Overtime public holiday:",
+    totalHours: "Total hours:",
+    workDays: "Number of workdays:",
+    save: "💾 Save",
+    clear: "🗑️ Clear",
+    back: "← Back",
+    next: "Continue →",
+    saved: "Calendar saved.",
+    confirmClear: "Do you want to clear all hours for this month?"
+  },
+
+  sr: {
+    title: "📅 Kalendar radnog vremena",
+    summary: "Pregled",
+    weekday: "Radni dan",
+    weekend: "Vikend",
+    holiday: "Praznik",
+    hour: "sati",
+    regularWeekday: "Redovni radni dan:",
+    overtimeWeekday: "Prekovremeni radni dan:",
+    regularWeekend: "Redovni vikend:",
+    overtimeWeekend: "Prekovremeni vikend:",
+    regularHoliday: "Redovni praznik:",
+    overtimeHoliday: "Prekovremeni praznik:",
+    totalHours: "Ukupno sati:",
+    workDays: "Broj radnih dana:",
+    save: "💾 Sačuvaj",
+    clear: "🗑️ Obriši",
+    back: "← Nazad",
+    next: "Nastavi →",
+    saved: "Kalendar je sačuvan.",
+    confirmClear: "Da li želiš da obrišeš sve sate za ovaj mesec?"
+  }
+
+};
+
 
 const monthTranslations = {
+
   sv: [
-    "Januari", "Februari", "Mars", "April", "Maj", "Juni",
-    "Juli", "Augusti", "September", "Oktober", "November", "December"
+    "Januari",
+    "Februari",
+    "Mars",
+    "April",
+    "Maj",
+    "Juni",
+    "Juli",
+    "Augusti",
+    "September",
+    "Oktober",
+    "November",
+    "December"
   ],
 
   en: [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
   ],
 
   sr: [
-    "Januar", "Februar", "Mart", "April", "Maj", "Jun",
-    "Jul", "Avgust", "Septembar", "Oktobar", "Novembar", "Decembar"
+    "Januar",
+    "Februar",
+    "Mart",
+    "April",
+    "Maj",
+    "Jun",
+    "Jul",
+    "Avgust",
+    "Septembar",
+    "Oktobar",
+    "Novembar",
+    "Decembar"
   ]
+
 };
 
-const currentLanguage =
+
+const weekdayTranslations = {
+
+  sv: ["Mån", "Tis", "Ons", "Tor", "Fre", "Lör", "Sön"],
+
+  en: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+
+  sr: ["Pon", "Uto", "Sre", "Čet", "Pet", "Sub", "Ned"]
+
+};
+
+
+let currentLanguage =
   localStorage.getItem("genieLanguage") || "sv";
+
+
+const languageSelect =
+  document.getElementById("languageSelect");
+
+languageSelect.value = currentLanguage;
+
+
+/* =========================
+   ELEMENTI
+========================= */
 
 const monthSelect =
   document.getElementById("monthSelect");
@@ -402,17 +564,10 @@ const now = new Date();
 let selectedMonth = now.getMonth();
 let selectedYear = now.getFullYear();
 
-months.forEach((month, index) => {
 
-  const option =
-    document.createElement("option");
-
-  option.value = index;
-  option.textContent = month;
-
-  monthSelect.appendChild(option);
-
-});
+/* =========================
+   GODINE
+========================= */
 
 for (
   let year = selectedYear - 2;
@@ -430,8 +585,132 @@ for (
 
 }
 
-monthSelect.value = selectedMonth;
 yearSelect.value = selectedYear;
+
+
+/* =========================
+   PREVOD STRANICE
+========================= */
+
+function applyLanguage() {
+
+  const t =
+    translations[currentLanguage];
+
+  document.documentElement.lang =
+    currentLanguage;
+
+  document.getElementById("pageTitle").textContent =
+    t.title;
+
+  document.getElementById("summaryTitle").textContent =
+    t.summary;
+
+  document.getElementById("regularWeekdayLabel").textContent =
+    t.regularWeekday;
+
+  document.getElementById("overtimeWeekdayLabel").textContent =
+    t.overtimeWeekday;
+
+  document.getElementById("regularWeekendLabel").textContent =
+    t.regularWeekend;
+
+  document.getElementById("overtimeWeekendLabel").textContent =
+    t.overtimeWeekend;
+
+  document.getElementById("regularHolidayLabel").textContent =
+    t.regularHoliday;
+
+  document.getElementById("overtimeHolidayLabel").textContent =
+    t.overtimeHoliday;
+
+  document.getElementById("totalHoursLabel").textContent =
+    t.totalHours;
+
+  document.getElementById("workDaysLabel").textContent =
+    t.workDays;
+
+  document.getElementById("saveButton").textContent =
+    t.save;
+
+  document.getElementById("clearButton").textContent =
+    t.clear;
+
+  document.getElementById("backButton").textContent =
+    t.back;
+
+  document.getElementById("nextButton").textContent =
+    t.next;
+
+  const weekdays =
+    weekdayTranslations[currentLanguage];
+
+  document.getElementById("mon").textContent = weekdays[0];
+  document.getElementById("tue").textContent = weekdays[1];
+  document.getElementById("wed").textContent = weekdays[2];
+  document.getElementById("thu").textContent = weekdays[3];
+  document.getElementById("fri").textContent = weekdays[4];
+  document.getElementById("sat").textContent = weekdays[5];
+  document.getElementById("sun").textContent = weekdays[6];
+
+  renderMonths();
+
+  renderCalendar();
+
+}
+
+
+/* =========================
+   MESECI
+========================= */
+
+function renderMonths() {
+
+  monthSelect.innerHTML = "";
+
+  monthTranslations[currentLanguage].forEach(
+    (month, index) => {
+
+      const option =
+        document.createElement("option");
+
+      option.value = index;
+      option.textContent = month;
+
+      monthSelect.appendChild(option);
+
+    }
+  );
+
+  monthSelect.value = selectedMonth;
+
+}
+
+
+/* =========================
+   PROMENA JEZIKA
+========================= */
+
+languageSelect.addEventListener(
+  "change",
+  function() {
+
+    currentLanguage = this.value;
+
+    localStorage.setItem(
+      "genieLanguage",
+      currentLanguage
+    );
+
+    applyLanguage();
+
+  }
+);
+
+
+/* =========================
+   PROMENA MESECA / GODINE
+========================= */
 
 monthSelect.addEventListener(
   "change",
@@ -444,6 +723,9 @@ yearSelect.addEventListener(
 );
 
 
+/* =========================
+   SVEDSKI PRAZNICI
+========================= */
 
 function getSwedishHoliday(date) {
 
@@ -451,15 +733,25 @@ function getSwedishHoliday(date) {
   const month = date.getMonth();
   const day = date.getDate();
 
-  // Fiksni praznici
-  if (month === 0 && day === 1) return "Nyårsdagen";
-  if (month === 0 && day === 6) return "Trettondedag jul";
-  if (month === 4 && day === 1) return "Första maj";
-  if (month === 5 && day === 6) return "Sveriges nationaldag";
-  if (month === 11 && day === 25) return "Juldagen";
-  if (month === 11 && day === 26) return "Annandag jul";
+  if (month === 0 && day === 1)
+    return "Nyårsdagen";
 
-  // Uskrs
+  if (month === 0 && day === 6)
+    return "Trettondedag jul";
+
+  if (month === 4 && day === 1)
+    return "Första maj";
+
+  if (month === 5 && day === 6)
+    return "Sveriges nationaldag";
+
+  if (month === 11 && day === 25)
+    return "Juldagen";
+
+  if (month === 11 && day === 26)
+    return "Annandag jul";
+
+
   const a = year % 19;
   const b = Math.floor(year / 100);
   const c = year % 100;
@@ -479,23 +771,32 @@ function getSwedishHoliday(date) {
   const easterDay =
     ((h + l - 7 * m + 114) % 31) + 1;
 
-  const easter = new Date(
-    year,
-    easterMonth,
-    easterDay
-  );
+  const easter =
+    new Date(
+      year,
+      easterMonth,
+      easterDay
+    );
 
-  const diff = Math.round(
-    (date - easter) / 86400000
-  );
+  const diff =
+    Math.round(
+      (date - easter) / 86400000
+    );
 
-  // Pokretni praznici
-  if (diff === -2) return "Långfredagen";
-  if (diff === 0) return "Påskdagen";
-  if (diff === 1) return "Annandag påsk";
-  if (diff === 39) return "Kristi himmelsfärdsdag";
 
-  // Midsommardagen – subota između 20. i 26. juna
+  if (diff === -2)
+    return "Långfredagen";
+
+  if (diff === 0)
+    return "Påskdagen";
+
+  if (diff === 1)
+    return "Annandag påsk";
+
+  if (diff === 39)
+    return "Kristi himmelsfärdsdag";
+
+
   if (
     month === 5 &&
     day >= 20 &&
@@ -505,16 +806,27 @@ function getSwedishHoliday(date) {
     return "Midsommardagen";
   }
 
-  // Alla helgons dag – subota između 31. oktobra i 6. novembra
+
   if (
-    (month === 9 && day >= 31 && date.getDay() === 6) ||
-    (month === 10 && day <= 6 && date.getDay() === 6)
+    (month === 9 &&
+      day >= 31 &&
+      date.getDay() === 6) ||
+    (month === 10 &&
+      day <= 6 &&
+      date.getDay() === 6)
   ) {
     return "Alla helgons dag";
   }
 
+
   return "";
 }
+
+
+/* =========================
+   KALENDAR
+========================= */
+
 function renderCalendar() {
 
   selectedMonth =
@@ -545,6 +857,7 @@ function renderCalendar() {
   if (startDay === 0) {
     startDay = 7;
   }
+
 
   for (
     let i = 1;
@@ -590,9 +903,7 @@ function renderCalendar() {
       weekday === 6
     ) {
 
-      dayBox.classList.add(
-        "weekend"
-      );
+      dayBox.classList.add("weekend");
 
     }
 
@@ -616,7 +927,8 @@ function renderCalendar() {
     input.className =
       "hours-input";
 
-    input.placeholder = "tim";
+    input.placeholder =
+      translations[currentLanguage].hour;
 
     input.dataset.day = day;
 
@@ -627,54 +939,64 @@ function renderCalendar() {
     typeSelect.className =
       "day-type";
 
-    typeSelect.innerHTML = `
-      <option value="weekday">
-        Vardag
-      </option>
-
-      <option value="holiday">
-        Helgdag
-      </option>
-    `;
-
 
     if (
       weekday === 0 ||
       weekday === 6
     ) {
 
-      typeSelect.value =
-        "weekend";
-
       typeSelect.innerHTML = `
         <option value="weekend">
-          Helg
+          ${translations[currentLanguage].weekend}
         </option>
 
         <option value="holiday">
-          Helgdag
+          ${translations[currentLanguage].holiday}
         </option>
       `;
 
+      typeSelect.value = "weekend";
+
+    } else {
+
+      typeSelect.innerHTML = `
+        <option value="weekday">
+          ${translations[currentLanguage].weekday}
+        </option>
+
+        <option value="holiday">
+          ${translations[currentLanguage].holiday}
+        </option>
+      `;
+
+      typeSelect.value = "weekday";
+
     }
-    
-const holidayDate =
-  new Date(
-    selectedYear,
-    selectedMonth,
-    day
-  );
 
-const holidayName =
-  getSwedishHoliday(holidayDate);
 
-if (holidayName) {
+    const holidayDate =
+      new Date(
+        selectedYear,
+        selectedMonth,
+        day
+      );
 
-  typeSelect.value = "holiday";
+    const holidayName =
+      getSwedishHoliday(holidayDate);
 
-  dayBox.classList.add("holiday");
 
-}
+    if (holidayName) {
+
+      typeSelect.value =
+        "holiday";
+
+      dayBox.classList.add(
+        "holiday"
+      );
+
+    }
+
+
     typeSelect.addEventListener(
       "change",
       function() {
@@ -704,11 +1026,16 @@ if (holidayName) {
 
   }
 
+
   loadCalendar();
   updateSummary();
 
 }
 
+
+/* =========================
+   IZGLED DANA
+========================= */
 
 function updateDayAppearance(
   dayBox,
@@ -720,6 +1047,7 @@ function updateDayAppearance(
     "holiday"
   );
 
+
   if (type === "weekend") {
 
     dayBox.classList.add(
@@ -727,6 +1055,7 @@ function updateDayAppearance(
     );
 
   }
+
 
   if (type === "holiday") {
 
@@ -738,6 +1067,10 @@ function updateDayAppearance(
 
 }
 
+
+/* =========================
+   OBRAČUN SATI
+========================= */
 
 function updateSummary() {
 
@@ -796,18 +1129,14 @@ function updateSummary() {
 
       }
 
-      else if (
-        type === "weekend"
-      ) {
+      else if (type === "weekend") {
 
         regularWeekend += regular;
         overtimeWeekend += overtime;
 
       }
 
-      else if (
-        type === "holiday"
-      ) {
+      else if (type === "holiday") {
 
         regularHoliday += regular;
         overtimeHoliday += overtime;
@@ -860,20 +1189,30 @@ function updateSummary() {
     total.toFixed(1);
 
 
+  document.getElementById(
+    "workDays"
+  ).textContent =
+    workDays;
+
+
   localStorage.setItem(
-  "salaryHours",
-  JSON.stringify({
-    regularHours: regularWeekday,
-    regularOvertimeHours: overtimeWeekday,
-    weekendHours: regularWeekend,
-    weekendOvertimeHours: overtimeWeekend,
-    holidayHours: regularHoliday,
-    holidayOvertimeHours: overtimeHoliday
-  })
-);
+    "salaryHours",
+    JSON.stringify({
+      regularHours: regularWeekday,
+      regularOvertimeHours: overtimeWeekday,
+      weekendHours: regularWeekend,
+      weekendOvertimeHours: overtimeWeekend,
+      holidayHours: regularHoliday,
+      holidayOvertimeHours: overtimeHoliday
+    })
+  );
 
 }
 
+
+/* =========================
+   SAČUVAJ KALENDAR
+========================= */
 
 function saveCalendar() {
 
@@ -922,11 +1261,15 @@ function saveCalendar() {
 
 
   alert(
-    "Kalendern är sparad."
+    translations[currentLanguage].saved
   );
 
 }
 
+
+/* =========================
+   UČITAJ KALENDAR
+========================= */
 
 function loadCalendar() {
 
@@ -972,17 +1315,8 @@ function loadCalendar() {
         data[day] !== undefined
       ) {
 
-        /*
-          Nytt format:
-          data[day] = {
-            hours: "10",
-            type: "weekend"
-          }
-        */
-
         if (
-          typeof data[day] ===
-          "object"
+          typeof data[day] === "object"
         ) {
 
           input.value =
@@ -994,17 +1328,13 @@ function loadCalendar() {
 
         }
 
-        /*
-          Stöd för gamla sparade
-          kalendrar med bara timmar.
-        */
-
         else {
 
           input.value =
             data[day];
 
         }
+
 
         updateDayAppearance(
           input.parentElement,
@@ -1019,11 +1349,15 @@ function loadCalendar() {
 }
 
 
+/* =========================
+   OBRIŠI KALENDAR
+========================= */
+
 function clearCalendar() {
 
   if (
     !confirm(
-      "Vill du rensa alla timmar för denna månad?"
+      translations[currentLanguage].confirmClear
     )
   ) {
 
@@ -1061,19 +1395,39 @@ function clearCalendar() {
 }
 
 
-renderCalendar();
+/* =========================
+   NASTAVI NA PLATU
+========================= */
+
 function continueToSalary() {
 
   const mode =
-    new URLSearchParams(window.location.search).get("mode");
+    new URLSearchParams(
+      window.location.search
+    ).get("mode");
+
 
   if (mode === "procent") {
-    window.location.href = "procent.html";
+
+    window.location.href =
+      "procent.html";
+
   } else {
-    window.location.href = "lon.html";
+
+    window.location.href =
+      "lon.html";
+
   }
 
 }
+
+
+/* =========================
+   POKRETANJE
+========================= */
+
+applyLanguage();
+
 </script>
 
 </body>
