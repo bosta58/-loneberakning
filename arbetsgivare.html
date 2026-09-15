@@ -31,6 +31,19 @@
       box-shadow: 0 8px 30px rgba(0,0,0,0.08);
     }
 
+    .language-box {
+      text-align: right;
+      margin-bottom: 10px;
+    }
+
+    .language-box select {
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      background: #ffffff;
+      font-size: 14px;
+    }
+
     .header {
       text-align: center;
       margin-bottom: 22px;
@@ -299,6 +312,14 @@
 
   <div class="card">
 
+    <div class="language-box">
+      <select id="languageSelect" onchange="changeLanguage(this.value)">
+        <option value="sv">🇸🇪 Svenska</option>
+        <option value="en">🇬🇧 English</option>
+        <option value="sr">🇷🇸 Srpski</option>
+      </select>
+    </div>
+
     <div class="header">
 
       <div class="header-icon">
@@ -309,7 +330,7 @@
         Genie
       </h1>
 
-      <div class="subtitle">
+      <div class="subtitle" id="subtitle">
         Arbetsgivare
       </div>
 
@@ -326,36 +347,28 @@
         style="display:none;"
         alt="Företagslogotyp">
 
-      <div
-        id="companyName"
-        class="company-name">
-      </div>
+      <div id="companyName" class="company-name"></div>
 
-      <div
-        id="companyInfo"
-        class="company-info">
-      </div>
+      <div id="companyInfo" class="company-info"></div>
 
     </div>
 
 
     <!-- ANSTÄLLDA -->
 
-    <div class="section-title">
+    <div class="section-title" id="employeesTitle">
       Anställda
     </div>
 
-    <div
-      id="employeeCount"
-      class="employee-count">
-    </div>
+    <div id="employeeCount" class="employee-count"></div>
 
     <div id="employeeList"></div>
 
     <button
       type="button"
       class="add-button"
-      onclick="addEmployee()">
+      onclick="addEmployee()"
+      id="addEmployeeButton">
 
       ＋ Lägg till anställd
 
@@ -364,25 +377,17 @@
 
     <!-- DETALJER -->
 
-    <div
-      id="detailsCard"
-      class="details-card">
+    <div id="detailsCard" class="details-card">
 
-      <div
-        id="detailsTitle"
-        class="details-title">
-      </div>
+      <div id="detailsTitle" class="details-title"></div>
 
-      <div
-        id="payType"
-        class="pay-type">
-      </div>
+      <div id="payType" class="pay-type"></div>
 
       <div id="detailsContent"></div>
 
       <div class="salary-section">
 
-        <div class="salary-section-title">
+        <div class="salary-section-title" id="communicationTitle">
           💬 Kommunikation
         </div>
 
@@ -393,7 +398,8 @@
       <button
         type="button"
         class="close-button"
-        onclick="closeEmployee()">
+        onclick="closeEmployee()"
+        id="closeButton">
 
         ← Stäng
 
@@ -407,14 +413,15 @@
     <button
       type="button"
       class="back-button"
-      onclick="window.location.href='index.html'">
+      onclick="window.location.href='index.html'"
+      id="backButton">
 
       ← Tillbaka
 
     </button>
 
 
-    <div class="footer">
+    <div class="footer" id="footer">
       Genie – Enkel och transparent löneberäkning
     </div>
 
@@ -424,6 +431,303 @@
 
 
 <script>
+
+  // ==========================================
+  // SPRÅK
+  // ==========================================
+
+  const translations = {
+
+    sv: {
+
+      subtitle: "Arbetsgivare",
+      employees: "Anställda",
+      noEmployees: "Inga anställda registrerade",
+      employeeOne: "anställd",
+      employeeMany: "anställda",
+      addEmployee: "＋ Lägg till anställd",
+      addEmployeePrompt: "Ange arbetstagarens namn:",
+      unknownEmployee: "Okänd anställd",
+      startAdd: "Lägg till en anställd för att börja.",
+      view: "👁 Visa uppgifter",
+      contact: "💬 Kontakta anställd",
+      latestMessage: "💬 Senaste meddelande:",
+      status: "Status",
+      noSalary: "Ingen löneuppgift registrerad",
+      noSalaryDetails:
+        "Det finns ännu inga sparade löneuppgifter för denna anställda.",
+      communication: "💬 Kommunikation",
+      close: "← Stäng",
+      back: "← Tillbaka",
+      footer: "Genie – Enkel och transparent löneberäkning",
+      period: "Löneperiod",
+      regularHours: "Vanliga timmar",
+      overtime: "Övertid",
+      night: "Natt",
+      nightOvertime: "Nattövertid",
+      weekend: "Helg",
+      weekendOvertime: "Helgövertid",
+      holiday: "Helgdag",
+      holidayOvertime: "Helgdagsövertid",
+      vacationPay: "Semesterersättning",
+      grossSalary: "Bruttolön",
+      tax: "Skatt",
+      netSalary: "Nettolön",
+      regularPay: "Vanlig lön",
+      overtimePay: "Övertidslön",
+      weekendPay: "Helglön",
+      weekendOvertimePay: "Helgövertidslön",
+      holidayPayAmount: "Helgdagslön",
+      holidayOvertimePay: "Helgdagsövertidslön",
+      monthlySalary: "Månadslön",
+      workTarget: "Arbetstidsmål",
+      totalHours: "Totalt arbetad tid",
+      targetHours: "Måltid",
+      difference: "Skillnad",
+      noMessages: "Inga meddelanden ännu.",
+      employerMessage: "📤 Meddelande från arbetsgivaren",
+      employeeReply: "↩️ Svar från arbetstagaren",
+      messagePrompt: "Skriv ett meddelande till ",
+      messageSent: "Meddelandet har skickats till ",
+      fixed: "Åtgärdad",
+      newComment: "Ny kommentar",
+      replyFromEmployee: "Svar från arbetstagaren"
+
+    },
+
+    en: {
+
+      subtitle: "Employer",
+      employees: "Employees",
+      noEmployees: "No employees registered",
+      employeeOne: "employee",
+      employeeMany: "employees",
+      addEmployee: "＋ Add employee",
+      addEmployeePrompt: "Enter the employee's name:",
+      unknownEmployee: "Unknown employee",
+      startAdd: "Add an employee to get started.",
+      view: "👁 View details",
+      contact: "💬 Contact employee",
+      latestMessage: "💬 Latest message:",
+      status: "Status",
+      noSalary: "No salary information registered",
+      noSalaryDetails:
+        "There are no saved salary details for this employee yet.",
+      communication: "💬 Communication",
+      close: "← Close",
+      back: "← Back",
+      footer: "Genie – Simple and transparent salary calculation",
+      period: "Pay period",
+      regularHours: "Regular hours",
+      overtime: "Overtime",
+      night: "Night",
+      nightOvertime: "Night overtime",
+      weekend: "Weekend",
+      weekendOvertime: "Weekend overtime",
+      holiday: "Holiday",
+      holidayOvertime: "Holiday overtime",
+      vacationPay: "Holiday pay",
+      grossSalary: "Gross salary",
+      tax: "Tax",
+      netSalary: "Net salary",
+      regularPay: "Regular pay",
+      overtimePay: "Overtime pay",
+      weekendPay: "Weekend pay",
+      weekendOvertimePay: "Weekend overtime pay",
+      holidayPayAmount: "Holiday pay",
+      holidayOvertimePay: "Holiday overtime pay",
+      monthlySalary: "Monthly salary",
+      workTarget: "Working time target",
+      totalHours: "Total worked time",
+      targetHours: "Target hours",
+      difference: "Difference",
+      noMessages: "No messages yet.",
+      employerMessage: "📤 Message from employer",
+      employeeReply: "↩️ Reply from employee",
+      messagePrompt: "Write a message to ",
+      messageSent: "Message has been sent to ",
+      fixed: "Handled",
+      newComment: "New comment",
+      replyFromEmployee: "Reply from employee"
+
+    },
+
+    sr: {
+
+      subtitle: "Poslodavac",
+      employees: "Zaposleni",
+      noEmployees: "Nema registrovanih zaposlenih",
+      employeeOne: "zaposleni",
+      employeeMany: "zaposlenih",
+      addEmployee: "＋ Dodaj zaposlenog",
+      addEmployeePrompt: "Unesite ime zaposlenog:",
+      unknownEmployee: "Nepoznat zaposleni",
+      startAdd: "Dodajte zaposlenog da biste počeli.",
+      view: "👁 Prikaži podatke",
+      contact: "💬 Kontaktiraj zaposlenog",
+      latestMessage: "💬 Poslednja poruka:",
+      status: "Status",
+      noSalary: "Nema registrovanih podataka o plati",
+      noSalaryDetails:
+        "Za ovog zaposlenog još nema sačuvanih podataka o plati.",
+      communication: "💬 Komunikacija",
+      close: "← Zatvori",
+      back: "← Nazad",
+      footer: "Genie – Jednostavan i transparentan obračun plate",
+      period: "Obračunski period",
+      regularHours: "Redovni sati",
+      overtime: "Prekovremeni sati",
+      night: "Noćni sati",
+      nightOvertime: "Noćni prekovremeni sati",
+      weekend: "Vikend",
+      weekendOvertime: "Vikend prekovremeni sati",
+      holiday: "Praznik",
+      holidayOvertime: "Praznični prekovremeni sati",
+      vacationPay: "Naknada za godišnji odmor",
+      grossSalary: "Bruto plata",
+      tax: "Porez",
+      netSalary: "Neto plata",
+      regularPay: "Redovna plata",
+      overtimePay: "Prekovremena plata",
+      weekendPay: "Vikend plata",
+      weekendOvertimePay: "Vikend prekovremena plata",
+      holidayPayAmount: "Praznična plata",
+      holidayOvertimePay: "Praznična prekovremena plata",
+      monthlySalary: "Mesečna plata",
+      workTarget: "Radno vreme – cilj",
+      totalHours: "Ukupno radno vreme",
+      targetHours: "Ciljani sati",
+      difference: "Razlika",
+      noMessages: "Još nema poruka.",
+      employerMessage: "📤 Poruka od poslodavca",
+      employeeReply: "↩️ Odgovor zaposlenog",
+      messagePrompt: "Napišite poruku zaposlenom ",
+      messageSent: "Poruka je poslata zaposlenom ",
+      fixed: "Rešeno",
+      newComment: "Nova poruka",
+      replyFromEmployee: "Odgovor zaposlenog"
+
+    }
+
+  };
+
+
+  let currentLanguage =
+    localStorage.getItem("genieLanguage") || "sv";
+
+
+  function t(key) {
+
+    return (
+      translations[currentLanguage] &&
+      translations[currentLanguage][key]
+    )
+    ||
+    translations.sv[key]
+    ||
+    key;
+
+  }
+
+
+  function changeLanguage(language) {
+
+    currentLanguage =
+      language;
+
+    localStorage.setItem(
+      "genieLanguage",
+      language
+    );
+
+    applyLanguage();
+
+  }
+
+
+  function applyLanguage() {
+
+    document.documentElement.lang =
+      currentLanguage;
+
+    document.title =
+      "Genie – " +
+      t("subtitle");
+
+
+    document.getElementById(
+      "languageSelect"
+    ).value =
+      currentLanguage;
+
+
+    document.getElementById(
+      "subtitle"
+    ).textContent =
+      t("subtitle");
+
+
+    document.getElementById(
+      "employeesTitle"
+    ).textContent =
+      t("employees");
+
+
+    document.getElementById(
+      "addEmployeeButton"
+    ).textContent =
+      t("addEmployee");
+
+
+    document.getElementById(
+      "communicationTitle"
+    ).textContent =
+      t("communication");
+
+
+    document.getElementById(
+      "closeButton"
+    ).textContent =
+      t("close");
+
+
+    document.getElementById(
+      "backButton"
+    ).textContent =
+      t("back");
+
+
+    document.getElementById(
+      "footer"
+    ).textContent =
+      t("footer");
+
+
+    updateEmployeeList();
+
+
+    if (
+      selectedEmployeeIndex !== null
+    ) {
+
+      const employee =
+        employees[
+          selectedEmployeeIndex
+        ];
+
+
+      if (employee) {
+
+        viewEmployee(
+          selectedEmployeeIndex
+        );
+
+      }
+
+    }
+
+  }
+
 
   // ==========================================
   // DATA
@@ -489,13 +793,6 @@
     }
 
 
-    /*
-      Äldre data utan aktiv markering.
-
-      Vi använder endast denna fallback
-      om ingen aktiv typ ännu finns.
-    */
-
     const monthlyData =
       JSON.parse(
         localStorage.getItem(
@@ -533,11 +830,6 @@
         })
         .pop() || null;
 
-
-    /*
-      För gamla data använder vi den senast
-      uppdaterade posten där tidsstämpel finns.
-    */
 
     const candidates = [];
 
@@ -684,11 +976,8 @@
       ) {
 
         return {
-
           type: "Timlön",
-
           data: data
-
         };
 
       }
@@ -713,11 +1002,8 @@
       ) {
 
         return {
-
           type: "Månadslön",
-
           data: data
-
         };
 
       }
@@ -829,13 +1115,8 @@
   function saveEmployees() {
 
     localStorage.setItem(
-
       "genieEmployees",
-
-      JSON.stringify(
-        employees
-      )
-
+      JSON.stringify(employees)
     );
 
   }
@@ -845,7 +1126,7 @@
 
     const name =
       prompt(
-        "Ange arbetstagarens namn:"
+        t("addEmployeePrompt")
       );
 
 
@@ -899,26 +1180,38 @@
       "";
 
 
-    count.textContent =
-      employees.length === 0
+    if (employees.length === 0) {
 
-        ? "Inga anställda registrerade"
+      count.textContent =
+        t("noEmployees");
 
-        : employees.length +
-          " anställd" +
-          (
-            employees.length === 1
-              ? ""
-              : "a"
-          );
+    }
+
+    else if (employees.length === 1) {
+
+      count.textContent =
+        "1 " +
+        t("employeeOne");
+
+    }
+
+    else {
+
+      count.textContent =
+        employees.length +
+        " " +
+        t("employeeMany");
+
+    }
 
 
     if (employees.length === 0) {
 
       list.innerHTML =
-
         '<div class="empty">' +
-        'Lägg till en anställd för att börja.' +
+        escapeHtml(
+          t("startAdd")
+        ) +
         '</div>';
 
       return;
@@ -948,7 +1241,8 @@
 
 
         const name =
-          employee.name || "Okänd anställd";
+          employee.name ||
+          t("unknownEmployee");
 
 
         card.innerHTML =
@@ -963,14 +1257,14 @@
           'onclick="viewEmployee(' +
           index +
           ')">' +
-          '👁 Visa uppgifter' +
+          escapeHtml(t("view")) +
           '</button>' +
 
           '<button class="contact-button" ' +
           'onclick="contactEmployee(' +
           index +
           ')">' +
-          '💬 Kontakta anställd' +
+          escapeHtml(t("contact")) +
           '</button>' +
 
           '</div>';
@@ -1029,7 +1323,11 @@
 
           messageBox.innerHTML =
 
-            "<strong>💬 Senaste meddelande:</strong><br>" +
+            "<strong>" +
+            escapeHtml(
+              t("latestMessage")
+            ) +
+            "</strong><br>" +
 
             escapeHtml(
               latest.message || ""
@@ -1037,10 +1335,18 @@
 
             "<br><span class='" +
             statusClass +
-            "'>Status: " +
+            "'>" +
+
             escapeHtml(
-              status
+              t("status")
             ) +
+
+            ": " +
+
+            escapeHtml(
+              translateStatus(status)
+            ) +
+
             "</span>";
 
 
@@ -1123,13 +1429,15 @@
     if (!salary) {
 
       payType.textContent =
-        "Ingen löneuppgift registrerad";
+        t("noSalary");
 
 
       detailsContent.innerHTML =
 
         '<div class="empty">' +
-        'Det finns ännu inga sparade löneuppgifter för denna anställd.' +
+        escapeHtml(
+          t("noSalaryDetails")
+        ) +
         '</div>';
 
     }
@@ -1137,7 +1445,9 @@
     else {
 
       payType.textContent =
-        salary.type;
+        translatePayType(
+          salary.type
+        );
 
 
       renderSalaryDetails(
@@ -1162,6 +1472,73 @@
       behavior: "smooth",
       block: "start"
     });
+
+  }
+
+
+  // ==========================================
+  // ÖVERSÄTTNING AV LÖNETYPER
+  // ==========================================
+
+  function translatePayType(type) {
+
+    if (currentLanguage === "en") {
+
+      if (type === "Timlön")
+        return "Hourly pay";
+
+      if (type === "Kollektivavtal")
+        return "Collective agreement";
+
+      if (type === "Månadslön")
+        return "Monthly salary";
+
+    }
+
+
+    if (currentLanguage === "sr") {
+
+      if (type === "Timlön")
+        return "Satnica";
+
+      if (type === "Kollektivavtal")
+        return "Kolektivni ugovor";
+
+      if (type === "Månadslön")
+        return "Mesečna plata";
+
+    }
+
+
+    return type;
+
+  }
+
+
+  function translateStatus(status) {
+
+    if (status === "Åtgärdad") {
+
+      return t("fixed");
+
+    }
+
+
+    if (status === "Ny kommentar") {
+
+      return t("newComment");
+
+    }
+
+
+    if (status === "Svar från arbetstagaren") {
+
+      return t("replyFromEmployee");
+
+    }
+
+
+    return status;
 
   }
 
@@ -1261,7 +1638,7 @@
 
     addInfoRow(
       container,
-      "Löneperiod",
+      t("period"),
       formatPeriod(
         data.periodStart,
         data.periodEnd
@@ -1271,63 +1648,63 @@
 
     addInfoRow(
       container,
-      "Vanliga timmar",
+      t("regularHours"),
       data.regularHours
     );
 
 
     addInfoRow(
       container,
-      "Övertid",
+      t("overtime"),
       data.regularOvertimeHours
     );
 
 
     addInfoRow(
       container,
-      "Natt",
+      t("night"),
       data.nightHours
     );
 
 
     addInfoRow(
       container,
-      "Nattövertid",
+      t("nightOvertime"),
       data.nightOvertimeHours
     );
 
 
     addInfoRow(
       container,
-      "Helg",
+      t("weekend"),
       data.weekendHours
     );
 
 
     addInfoRow(
       container,
-      "Helgövertid",
+      t("weekendOvertime"),
       data.weekendOvertimeHours
     );
 
 
     addInfoRow(
       container,
-      "Helgdag",
+      t("holiday"),
       data.holidayHours
     );
 
 
     addInfoRow(
       container,
-      "Helgdagsövertid",
+      t("holidayOvertime"),
       data.holidayOvertimeHours
     );
 
 
     addInfoRow(
       container,
-      "Semesterersättning",
+      t("vacationPay"),
       data.vacationPay !== undefined
         ? data.vacationPay + " %"
         : "-"
@@ -1336,7 +1713,7 @@
 
     addInfoRow(
       container,
-      "Bruttolön",
+      t("grossSalary"),
       data.grossSalary !== undefined
         ? data.grossSalary + " kr"
         : "-"
@@ -1345,7 +1722,7 @@
 
     addInfoRow(
       container,
-      "Skatt",
+      t("tax"),
       data.taxAmount !== undefined
         ? data.taxAmount + " kr"
         : "-"
@@ -1354,7 +1731,7 @@
 
     addInfoRow(
       container,
-      "Nettolön",
+      t("netSalary"),
       data.netSalary !== undefined
         ? data.netSalary + " kr"
         : "-"
@@ -1370,7 +1747,7 @@
 
     addInfoRow(
       container,
-      "Löneperiod",
+      t("period"),
       formatPeriod(
         data.periodStart,
         data.periodEnd
@@ -1380,14 +1757,14 @@
 
     addInfoRow(
       container,
-      "Vanliga timmar",
+      t("regularHours"),
       data.regularHours
     );
 
 
     addInfoRow(
       container,
-      "Vanlig lön",
+      t("regularPay"),
       data.regularPay !== undefined
         ? data.regularPay + " kr"
         : "-"
@@ -1396,14 +1773,14 @@
 
     addInfoRow(
       container,
-      "Övertid",
+      t("overtime"),
       data.regularOvertimeHours
     );
 
 
     addInfoRow(
       container,
-      "Övertidslön",
+      t("overtimePay"),
       data.regularOvertimePay !== undefined
         ? data.regularOvertimePay + " kr"
         : "-"
@@ -1412,14 +1789,14 @@
 
     addInfoRow(
       container,
-      "Helg",
+      t("weekend"),
       data.weekendHours
     );
 
 
     addInfoRow(
       container,
-      "Helglön",
+      t("weekendPay"),
       data.weekendPay !== undefined
         ? data.weekendPay + " kr"
         : "-"
@@ -1428,14 +1805,14 @@
 
     addInfoRow(
       container,
-      "Helgövertid",
+      t("weekendOvertime"),
       data.weekendOvertimeHours
     );
 
 
     addInfoRow(
       container,
-      "Helgövertidslön",
+      t("weekendOvertimePay"),
       data.weekendOvertimePay !== undefined
         ? data.weekendOvertimePay + " kr"
         : "-"
@@ -1444,14 +1821,14 @@
 
     addInfoRow(
       container,
-      "Helgdag",
+      t("holiday"),
       data.holidayHours
     );
 
 
     addInfoRow(
       container,
-      "Helgdagslön",
+      t("holidayPayAmount"),
       data.holidayPayAmount !== undefined
         ? data.holidayPayAmount + " kr"
         : "-"
@@ -1460,14 +1837,14 @@
 
     addInfoRow(
       container,
-      "Helgdagsövertid",
+      t("holidayOvertime"),
       data.holidayOvertimeHours
     );
 
 
     addInfoRow(
       container,
-      "Helgdagsövertidslön",
+      t("holidayOvertimePay"),
       data.holidayOvertimePay !== undefined
         ? data.holidayOvertimePay + " kr"
         : "-"
@@ -1476,7 +1853,7 @@
 
     addInfoRow(
       container,
-      "Semesterersättning",
+      t("vacationPay"),
       data.vacationPay !== undefined
         ? data.vacationPay + " %"
         : "-"
@@ -1485,7 +1862,7 @@
 
     addInfoRow(
       container,
-      "Bruttolön",
+      t("grossSalary"),
       data.grossSalary !== undefined
         ? data.grossSalary + " kr"
         : "-"
@@ -1494,7 +1871,7 @@
 
     addInfoRow(
       container,
-      "Skatt",
+      t("tax"),
       data.taxAmount !== undefined
         ? data.taxAmount + " kr"
         : "-"
@@ -1503,7 +1880,7 @@
 
     addInfoRow(
       container,
-      "Nettolön",
+      t("netSalary"),
       data.netSalary !== undefined
         ? data.netSalary + " kr"
         : "-"
@@ -1519,7 +1896,7 @@
 
     addInfoRow(
       container,
-      "Löneperiod",
+      t("period"),
       formatPeriod(
         data.periodStart,
         data.periodEnd
@@ -1529,7 +1906,7 @@
 
     addInfoRow(
       container,
-      "Månadslön",
+      t("monthlySalary"),
       data.monthlySalary !== undefined
         ? data.monthlySalary + " kr"
         : "-"
@@ -1538,7 +1915,7 @@
 
     addInfoRow(
       container,
-      "Arbetstidsmål",
+      t("workTarget"),
       data.workTarget !== undefined
         ? data.workTarget + " timmar"
         : "-"
@@ -1547,21 +1924,21 @@
 
     addInfoRow(
       container,
-      "Totalt arbetad tid",
+      t("totalHours"),
       data.totalHours
     );
 
 
     addInfoRow(
       container,
-      "Måltid",
+      t("targetHours"),
       data.targetHours
     );
 
 
     addInfoRow(
       container,
-      "Skillnad",
+      t("difference"),
       data.difference
     );
 
@@ -1623,7 +2000,7 @@
 
     const message =
       prompt(
-        "Skriv ett meddelande till " +
+        t("messagePrompt") +
         employee.name +
         ":"
       );
@@ -1737,8 +2114,9 @@
 
 
     alert(
-      "Meddelandet har skickats till " +
-      employee.name + "."
+      t("messageSent") +
+      employee.name +
+      "."
     );
 
 
@@ -1809,7 +2187,9 @@
       container.innerHTML =
 
         '<div class="empty">' +
-        'Inga meddelanden ännu.' +
+        escapeHtml(
+          t("noMessages")
+        ) +
         '</div>';
 
       return;
@@ -1843,7 +2223,11 @@
 
         let html =
 
-          "<strong>📤 Meddelande från arbetsgivaren</strong>" +
+          "<strong>" +
+          escapeHtml(
+            t("employerMessage")
+          ) +
+          "</strong>" +
 
           "<div class='message-text'>" +
           escapeHtml(
@@ -1862,14 +2246,21 @@
           "</div>" +
 
           "<div style='margin-top:8px;'>" +
-          "<strong>Status:</strong> " +
+
+          "<strong>" +
+          escapeHtml(
+            t("status")
+          ) +
+          ":</strong> " +
 
           "<span class='" +
           statusClass +
           "'>" +
+
           escapeHtml(
-            status
+            translateStatus(status)
           ) +
+
           "</span>" +
 
           "</div>";
@@ -1886,7 +2277,11 @@
 
             "<div class='reply-text'>" +
 
-            "<strong>↩️ Svar från arbetstagaren</strong>" +
+            "<strong>" +
+            escapeHtml(
+              t("employeeReply")
+            ) +
+            "</strong>" +
 
             "<div style='margin-top:5px;'>" +
             escapeHtml(
@@ -1895,13 +2290,17 @@
             "</div>" +
 
             "<div style='font-size:13px;color:#6b7280;margin-top:5px;'>" +
+
             escapeHtml(
               item.replyDate || ""
             ) +
+
             " " +
+
             escapeHtml(
               item.replyTime || ""
             ) +
+
             "</div>" +
 
             "</div>";
@@ -1981,6 +2380,8 @@
   loadSavedEmployerLogo();
 
   updateEmployeeList();
+
+  applyLanguage();
 
 </script>
 
