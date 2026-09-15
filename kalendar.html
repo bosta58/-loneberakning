@@ -368,6 +368,26 @@ const months = [
   "December"
 ];
 
+const monthTranslations = {
+  sv: [
+    "Januari", "Februari", "Mars", "April", "Maj", "Juni",
+    "Juli", "Augusti", "September", "Oktober", "November", "December"
+  ],
+
+  en: [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ],
+
+  sr: [
+    "Januar", "Februar", "Mart", "April", "Maj", "Jun",
+    "Jul", "Avgust", "Septembar", "Oktobar", "Novembar", "Decembar"
+  ]
+};
+
+const currentLanguage =
+  localStorage.getItem("genieLanguage") || "sv";
+
 const monthSelect =
   document.getElementById("monthSelect");
 
