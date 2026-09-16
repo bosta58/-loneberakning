@@ -476,14 +476,12 @@
         </div>
       </div>
 
-
       <div class="value-field">
         <div class="input-box">
           <span id="regularOvertimeRateLabel">Övertid vardag (kr)</span>
           <input type="number" id="regularOvertimeRate" value="156">
         </div>
       </div>
-
 
       <div class="value-field">
         <div class="input-box">
@@ -492,14 +490,12 @@
         </div>
       </div>
 
-
       <div class="value-field">
         <div class="input-box">
           <span id="nightOvertimeRateLabel">Nattövertid (kr)</span>
           <input type="number" id="nightOvertimeRate" value="0">
         </div>
       </div>
-
 
       <div class="value-field">
         <div class="input-box">
@@ -508,14 +504,12 @@
         </div>
       </div>
 
-
       <div class="value-field">
         <div class="input-box">
           <span id="weekendOvertimeRateLabel">Övertid helg (kr)</span>
           <input type="number" id="weekendOvertimeRate" value="196">
         </div>
       </div>
-
 
       <div class="value-field">
         <div class="input-box">
@@ -524,7 +518,6 @@
         </div>
       </div>
 
-
       <div class="value-field">
         <div class="input-box">
           <span id="holidayOvertimeRateLabel">Övertid helgdag (kr)</span>
@@ -532,14 +525,12 @@
         </div>
       </div>
 
-
       <div class="value-field">
         <div class="input-box">
           <span id="holidayPayLabel">Semesterersättning (%)</span>
           <input type="number" id="holidayPay" value="13">
         </div>
       </div>
-
 
       <div class="value-field">
         <div class="input-box">
@@ -577,7 +568,7 @@
     <div id="result"></div>
 
 
-    <!-- KOMMUNIKATION MED ARBETSGIVAREN -->
+    <!-- KOMMUNIKATION -->
 
     <div
       id="employerMessageBox"
@@ -629,9 +620,133 @@
 
 <script>
 
-/* =========================
+/* =========================================================
+   GEMENSKO GENIE SPREMIŠTE
+   ========================================================= */
+
+const GENIE_EMPLOYEE_DATA_KEY = "genieEmployeesData";
+
+function normalizeEmployeeName(name) {
+
+  return String(name || "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, " ");
+
+}
+
+
+function getGenieEmployeeStore() {
+
+  try {
+
+    return JSON.parse(
+      localStorage.getItem(
+        GENIE_EMPLOYEE_DATA_KEY
+      )
+    ) || {};
+
+  } catch (error) {
+
+    return {};
+
+  }
+
+}
+
+
+function saveGenieEmployeeStore(store) {
+
+  localStorage.setItem(
+    GENIE_EMPLOYEE_DATA_KEY,
+    JSON.stringify(store)
+  );
+
+}
+
+
+function getEmployeeRecord(employeeName) {
+
+  const key =
+    normalizeEmployeeName(employeeName);
+
+  if (!key) {
+    return null;
+  }
+
+  const store =
+    getGenieEmployeeStore();
+
+  return store[key] || null;
+
+}
+
+
+function saveEmployeeTimlonRecord(
+  employeeName,
+  timlonData
+) {
+
+  const key =
+    normalizeEmployeeName(employeeName);
+
+  if (!key) {
+    return;
+  }
+
+  const store =
+    getGenieEmployeeStore();
+
+  if (!store[key]) {
+
+    store[key] = {
+
+      employee:
+        employeeName.trim(),
+
+      activeType:
+        "Timlön",
+
+      Timlön:
+        null,
+
+      Kollektivavtal:
+        null,
+
+      Månadslön:
+        null
+
+    };
+
+  }
+
+  store[key].employee =
+    employeeName.trim();
+
+  store[key].Timlön =
+    timlonData;
+
+  store[key].activeType =
+    "Timlön";
+
+  store[key].updatedAt =
+    new Date().toISOString();
+
+  saveGenieEmployeeStore(
+    store
+  );
+
+  localStorage.setItem(
+    "genieCurrentEmployee",
+    employeeName.trim()
+  );
+
+}
+
+
+/* =========================================================
    SPRÅK
-========================= */
+   ========================================================= */
 
 const translations = {
 
@@ -1081,9 +1196,9 @@ const translations = {
 };
 
 
-/* =========================
+/* =========================================================
    PROMENA JEZIKA
-========================= */
+   ========================================================= */
 
 function changeLanguage(language) {
 
@@ -1097,9 +1212,9 @@ function changeLanguage(language) {
 }
 
 
-/* =========================
+/* =========================================================
    PRIMENA JEZIKA
-========================= */
+   ========================================================= */
 
 function applyLanguage() {
 
@@ -1224,9 +1339,9 @@ function applyLanguage() {
 }
 
 
-/* =========================
+/* =========================================================
    KALENDERNS ARBETSTID
-========================= */
+   ========================================================= */
 
 function loadCalendarHours() {
 
@@ -1237,38 +1352,73 @@ function loadCalendarHours() {
     return;
   }
 
-  const hours =
-    JSON.parse(saved);
+  try {
 
-  document.getElementById("lonRegularHours").textContent =
-    Number(hours.regularHours || 0).toFixed(1) + " h";
+    const hours =
+      JSON.parse(saved);
 
-  document.getElementById("lonOvertimeHours").textContent =
-    Number(hours.regularOvertimeHours || 0).toFixed(1) + " h";
+    document.getElementById("lonRegularHours").textContent =
+      Number(hours.regularHours || 0).toFixed(1) + " h";
 
-  document.getElementById("lonNightHours").textContent =
-    Number(hours.nightHours || 0).toFixed(1) + " h";
+    document.getElementById("lonOvertimeHours").textContent =
+      Number(hours.regularOvertimeHours || 0).toFixed(1) + " h";
 
-  document.getElementById("lonNightOvertimeHours").textContent =
-    Number(hours.nightOvertimeHours || 0).toFixed(1) + " h";
+    document.getElementById("lonNightHours").textContent =
+      Number(hours.nightHours || 0).toFixed(1) + " h";
 
-  document.getElementById("lonWeekendHours").textContent =
-    Number(hours.weekendHours || 0).toFixed(1) + " h";
+    document.getElementById("lonNightOvertimeHours").textContent =
+      Number(hours.nightOvertimeHours || 0).toFixed(1) + " h";
 
-  document.getElementById("lonWeekendOvertimeHours").textContent =
-    Number(hours.weekendOvertimeHours || 0).toFixed(1) + " h";
+    document.getElementById("lonWeekendHours").textContent =
+      Number(hours.weekendHours || 0).toFixed(1) + " h";
 
-  document.getElementById("lonHolidayHours").textContent =
-    Number(hours.holidayHours || 0).toFixed(1) + " h";
+    document.getElementById("lonWeekendOvertimeHours").textContent =
+      Number(hours.weekendOvertimeHours || 0).toFixed(1) + " h";
 
-  document.getElementById("lonHolidayOvertimeHours").textContent =
-    Number(hours.holidayOvertimeHours || 0).toFixed(1) + " h";
+    document.getElementById("lonHolidayHours").textContent =
+      Number(hours.holidayHours || 0).toFixed(1) + " h";
+
+    document.getElementById("lonHolidayOvertimeHours").textContent =
+      Number(hours.holidayOvertimeHours || 0).toFixed(1) + " h";
+
+  } catch (error) {
+
+    console.log(
+      "Kunde inte läsa kalenderdata.",
+      error
+    );
+
+  }
+
 }
 
 
-/* =========================
+/* =========================================================
+   HÄMTA AKTUELL BERÄKNING
+   ========================================================= */
+
+function getSavedCalculation() {
+
+  try {
+
+    return JSON.parse(
+      localStorage.getItem(
+        "genieSalaryCalculation"
+      )
+    ) || {};
+
+  } catch (error) {
+
+    return {};
+
+  }
+
+}
+
+
+/* =========================================================
    BERÄKNA LÖN
-========================= */
+   ========================================================= */
 
 function calculateSalary() {
 
@@ -1286,10 +1436,25 @@ function calculateSalary() {
     alert(t.noHours);
 
     return;
+
   }
 
-  const hours =
-    JSON.parse(saved);
+
+  let hours;
+
+  try {
+
+    hours =
+      JSON.parse(saved);
+
+  } catch (error) {
+
+    alert(t.noHours);
+
+    return;
+
+  }
+
 
   const regularHours =
     Number(hours.regularHours || 0);
@@ -1317,59 +1482,83 @@ function calculateSalary() {
 
 
   const regularRate =
-    Number(document.getElementById("regularRate").value);
+    Number(
+      document.getElementById("regularRate").value
+    );
 
   const regularOvertimeRate =
-    Number(document.getElementById("regularOvertimeRate").value);
+    Number(
+      document.getElementById("regularOvertimeRate").value
+    );
 
   const nightRate =
-    Number(document.getElementById("nightRate").value);
+    Number(
+      document.getElementById("nightRate").value
+    );
 
   const nightOvertimeRate =
-    Number(document.getElementById("nightOvertimeRate").value);
+    Number(
+      document.getElementById("nightOvertimeRate").value
+    );
 
   const weekendRate =
-    Number(document.getElementById("weekendRate").value);
+    Number(
+      document.getElementById("weekendRate").value
+    );
 
   const weekendOvertimeRate =
-    Number(document.getElementById("weekendOvertimeRate").value);
+    Number(
+      document.getElementById("weekendOvertimeRate").value
+    );
 
   const holidayRate =
-    Number(document.getElementById("holidayRate").value);
+    Number(
+      document.getElementById("holidayRate").value
+    );
 
   const holidayOvertimeRate =
-    Number(document.getElementById("holidayOvertimeRate").value);
+    Number(
+      document.getElementById("holidayOvertimeRate").value
+    );
 
   const tax =
-    Number(document.getElementById("tax").value);
+    Number(
+      document.getElementById("tax").value
+    );
 
-  const holidayPay =
-    Number(document.getElementById("holidayPay").value);
+  const holidayPayPercent =
+    Number(
+      document.getElementById("holidayPay").value
+    );
 
 
   const regularPay =
     regularHours * regularRate;
 
   const regularOvertimePay =
-    regularOvertimeHours * regularOvertimeRate;
+    regularOvertimeHours *
+    regularOvertimeRate;
 
   const nightPay =
     nightHours * nightRate;
 
   const nightOvertimePay =
-    nightOvertimeHours * nightOvertimeRate;
+    nightOvertimeHours *
+    nightOvertimeRate;
 
   const weekendPay =
     weekendHours * weekendRate;
 
   const weekendOvertimePay =
-    weekendOvertimeHours * weekendOvertimeRate;
+    weekendOvertimeHours *
+    weekendOvertimeRate;
 
   const holidayPayAmount =
     holidayHours * holidayRate;
 
   const holidayOvertimePay =
-    holidayOvertimeHours * holidayOvertimeRate;
+    holidayOvertimeHours *
+    holidayOvertimeRate;
 
 
   const baseGross =
@@ -1384,16 +1573,25 @@ function calculateSalary() {
 
 
   const vacationPay =
-    baseGross * holidayPay / 100;
+    baseGross *
+    holidayPayPercent /
+    100;
+
 
   const grossSalary =
-    baseGross + vacationPay;
+    baseGross +
+    vacationPay;
+
 
   const taxAmount =
-    grossSalary * tax / 100;
+    grossSalary *
+    tax /
+    100;
+
 
   const netSalary =
-    grossSalary - taxAmount;
+    grossSalary -
+    taxAmount;
 
 
   const calculation = {
@@ -1423,14 +1621,15 @@ function calculateSalary() {
     calculation
   );
 
+
   saveFormData();
 
 }
 
 
-/* =========================
+/* =========================================================
    PRIKAŽI REZULTAT
-========================= */
+   ========================================================= */
 
 function showResult(calculation) {
 
@@ -1440,21 +1639,27 @@ function showResult(calculation) {
   const t =
     translations[language] || translations.sv;
 
+
+  if (!calculation) {
+    return;
+  }
+
+
   document.getElementById("result").innerHTML = `
 
     <p class="gross">
       <strong>${t.gross}</strong>
-      ${calculation.grossSalary.toFixed(2)} kr
+      ${Number(calculation.grossSalary || 0).toFixed(2)} kr
     </p>
 
     <p class="vacation">
       <strong>${t.vacation}</strong>
-      ${calculation.vacationPay.toFixed(2)} kr
+      ${Number(calculation.vacationPay || 0).toFixed(2)} kr
     </p>
 
     <p class="tax">
       <strong>${t.taxResult}</strong>
-      ${calculation.taxAmount.toFixed(2)} kr
+      ${Number(calculation.taxAmount || 0).toFixed(2)} kr
     </p>
 
     <div class="net-box">
@@ -1464,18 +1669,19 @@ function showResult(calculation) {
       </span>
 
       <p class="total">
-        ${calculation.netSalary.toFixed(2)} kr
+        ${Number(calculation.netSalary || 0).toFixed(2)} kr
       </p>
 
     </div>
 
   `;
+
 }
 
 
-/* =========================
+/* =========================================================
    PROMENA JEZIKA REZULTATA
-========================= */
+   ========================================================= */
 
 function updateResultLanguage() {
 
@@ -1504,27 +1710,11 @@ function updateResultLanguage() {
 }
 
 
-/* =========================
-   SPARA TIMLÖN
-========================= */
+/* =========================================================
+   HJÄLPFUNKTION – HÄMTA TIMLÖN-DATA
+   ========================================================= */
 
-function saveFormData() {
-
-  const inputs =
-    document.querySelectorAll(
-      "input, textarea"
-    );
-
-
-  inputs.forEach(function(input) {
-
-    localStorage.setItem(
-      "timlon_" + input.id,
-      input.value
-    );
-
-  });
-
+function buildTimlonData() {
 
   const employeeInfo =
     document
@@ -1533,74 +1723,53 @@ function saveFormData() {
       .trim();
 
 
+  const employerInfo =
+    document
+      .getElementById("employerInfo")
+      .value
+      .trim();
+
+
   if (!employeeInfo) {
-    return;
+    return null;
+  }
+
+
+  function getHours(id) {
+
+    return Number(
+      document
+        .getElementById(id)
+        .textContent
+        .replace(" h", "")
+    ) || 0;
+
   }
 
 
   const regularHours =
-    Number(
-      document
-        .getElementById("lonRegularHours")
-        .textContent
-        .replace(" h", "")
-    );
+    getHours("lonRegularHours");
 
   const regularOvertimeHours =
-    Number(
-      document
-        .getElementById("lonOvertimeHours")
-        .textContent
-        .replace(" h", "")
-    );
+    getHours("lonOvertimeHours");
 
   const nightHours =
-    Number(
-      document
-        .getElementById("lonNightHours")
-        .textContent
-        .replace(" h", "")
-    );
+    getHours("lonNightHours");
 
   const nightOvertimeHours =
-    Number(
-      document
-        .getElementById("lonNightOvertimeHours")
-        .textContent
-        .replace(" h", "")
-    );
+    getHours("lonNightOvertimeHours");
 
   const weekendHours =
-    Number(
-      document
-        .getElementById("lonWeekendHours")
-        .textContent
-        .replace(" h", "")
-    );
+    getHours("lonWeekendHours");
 
   const weekendOvertimeHours =
-    Number(
-      document
-        .getElementById("lonWeekendOvertimeHours")
-        .textContent
-        .replace(" h", "")
-    );
+    getHours("lonWeekendOvertimeHours");
 
   const holidayHours =
-    Number(
-      document
-        .getElementById("lonHolidayHours")
-        .textContent
-        .replace(" h", "")
-    );
+    getHours("lonHolidayHours");
 
   const holidayOvertimeHours =
-    Number(
-      document
-        .getElementById("lonHolidayOvertimeHours")
-        .textContent
-        .replace(" h", "")
-    );
+    getHours("lonHolidayOvertimeHours");
 
 
   const regularRate =
@@ -1653,17 +1822,16 @@ function saveFormData() {
 
 
   const calculation =
-    JSON.parse(
-      localStorage.getItem(
-        "genieSalaryCalculation"
-      )
-    ) || {};
+    getSavedCalculation();
 
 
-  const timlonData = {
+  return {
 
     employee:
       employeeInfo,
+
+    employer:
+      employerInfo,
 
     type:
       "Timlön",
@@ -1751,7 +1919,7 @@ function saveFormData() {
     holidayRate:
       holidayRate,
 
-    holidayPay:
+    holidayPayAmount:
       holidayHours *
       holidayRate,
 
@@ -1767,20 +1935,104 @@ function saveFormData() {
       holidayOvertimeRate,
 
 
+    holidayPayPercent:
+      Number(
+        document
+          .getElementById("holidayPay")
+          .value
+      ),
+
     grossSalary:
-      calculation.grossSalary || 0,
+      Number(
+        calculation.grossSalary || 0
+      ),
 
     vacationPay:
-      calculation.vacationPay || 0,
+      Number(
+        calculation.vacationPay || 0
+      ),
+
+    taxPercent:
+      Number(
+        document
+          .getElementById("tax")
+          .value
+      ),
 
     taxAmount:
-      calculation.taxAmount || 0,
+      Number(
+        calculation.taxAmount || 0
+      ),
 
     netSalary:
-      calculation.netSalary || 0
+      Number(
+        calculation.netSalary || 0
+      ),
+
+    savedAt:
+      new Date().toISOString()
 
   };
 
+}
+
+
+/* =========================================================
+   SPARA TIMLÖN
+   ========================================================= */
+
+function saveFormData() {
+
+  const inputs =
+    document.querySelectorAll(
+      "input, textarea"
+    );
+
+
+  inputs.forEach(function(input) {
+
+    localStorage.setItem(
+      "timlon_" + input.id,
+      input.value
+    );
+
+  });
+
+
+  const employeeInfo =
+    document
+      .getElementById("employeeInfo")
+      .value
+      .trim();
+
+
+  if (!employeeInfo) {
+    return;
+  }
+
+
+  const timlonData =
+    buildTimlonData();
+
+
+  if (!timlonData) {
+    return;
+  }
+
+
+  /* =====================================================
+     NYTT GEMENSAMT GENIE-SPRÄTT
+     ===================================================== */
+
+  saveEmployeeTimlonRecord(
+    employeeInfo,
+    timlonData
+  );
+
+
+  /* =====================================================
+     BEHÅLL GAMLA NYCKLAR FÖR KOMPATIBILITET
+     ===================================================== */
 
   localStorage.setItem(
     "genieTimlonData",
@@ -1788,58 +2040,98 @@ function saveFormData() {
   );
 
 
-  /* =========================
-     POSTAVI AKTIVNI TIP PLAĆANJA
-  ========================= */
+  /* =====================================================
+     AKTIVT LÖNETYP
+     ===================================================== */
 
-  const employeeName =
-    String(timlonData.employee || "")
-      .trim()
-      .toLowerCase();
-
-
-  if (employeeName) {
-
-    const activeTypes =
-      JSON.parse(
-        localStorage.getItem(
-          "genieActiveSalaryTypes"
-        )
-      ) || {};
-
-
-    activeTypes[employeeName] = {
-
-      type:
-        "Timlön",
-
-      periodStart:
-        timlonData.periodStart || "",
-
-      periodEnd:
-        timlonData.periodEnd || "",
-
-      savedAt:
-        new Date().toISOString()
-
-    };
-
-
-    localStorage.setItem(
-      "genieActiveSalaryTypes",
-      JSON.stringify(activeTypes)
+  const employeeKey =
+    normalizeEmployeeName(
+      employeeInfo
     );
 
-  }
+
+  const activeTypes =
+    JSON.parse(
+      localStorage.getItem(
+        "genieActiveSalaryTypes"
+      )
+    ) || {};
+
+
+  activeTypes[employeeKey] = {
+
+    type:
+      "Timlön",
+
+    periodStart:
+      timlonData.periodStart || "",
+
+    periodEnd:
+      timlonData.periodEnd || "",
+
+    savedAt:
+      new Date().toISOString()
+
+  };
+
+
+  localStorage.setItem(
+    "genieActiveSalaryTypes",
+    JSON.stringify(activeTypes)
+  );
+
+
+  localStorage.setItem(
+    "genieCurrentEmployee",
+    employeeInfo
+  );
 
 }
 
 
-/* =========================
+/* =========================================================
    LÄS IN SPARADE FORMULÄR
-========================= */
+   ========================================================= */
 
 function loadFormData() {
+
+  const currentEmployee =
+    localStorage.getItem(
+      "genieCurrentEmployee"
+    );
+
+
+  /* =====================================================
+     OM EN ANVÄNDARE REDAN FINNS I GEMENSAMT LAGER
+     ===================================================== */
+
+  if (currentEmployee) {
+
+    const record =
+      getEmployeeRecord(
+        currentEmployee
+      );
+
+
+    if (
+      record &&
+      record.Timlön
+    ) {
+
+      loadTimlonRecordIntoForm(
+        record.Timlön
+      );
+
+      return;
+
+    }
+
+  }
+
+
+  /* =====================================================
+     GAMLA DATA – BAKÅTKOMPATIBILITET
+     ===================================================== */
 
   const inputs =
     document.querySelectorAll(
@@ -1864,14 +2156,341 @@ function loadFormData() {
 
   });
 
+
+  const oldData =
+    localStorage.getItem(
+      "genieTimlonData"
+    );
+
+
+  if (oldData) {
+
+    try {
+
+      const data =
+        JSON.parse(oldData);
+
+      if (
+        data &&
+        data.employee
+      ) {
+
+        localStorage.setItem(
+          "genieCurrentEmployee",
+          data.employee
+        );
+
+      }
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+
+  }
+
 }
 
 
-/* =========================
+/* =========================================================
+   LÄS TIMLÖN-DATA FÖR EN SPECIFIK ANSTÄLLD
+   ========================================================= */
+
+function loadTimlonRecordIntoForm(
+  data
+) {
+
+  if (!data) {
+    return;
+  }
+
+
+  const fields = {
+
+    employerInfo:
+      data.employer || "",
+
+    employeeInfo:
+      data.employee || "",
+
+    periodStart:
+      data.periodStart || "",
+
+    periodEnd:
+      data.periodEnd || "",
+
+    regularRate:
+      data.regularRate ?? 146,
+
+    regularOvertimeRate:
+      data.regularOvertimeRate ?? 156,
+
+    nightRate:
+      data.nightRate ?? 0,
+
+    nightOvertimeRate:
+      data.nightOvertimeRate ?? 0,
+
+    weekendRate:
+      data.weekendRate ?? 186,
+
+    weekendOvertimeRate:
+      data.weekendOvertimeRate ?? 196,
+
+    holidayRate:
+      data.holidayRate ?? 246,
+
+    holidayOvertimeRate:
+      data.holidayOvertimeRate ?? 256,
+
+    holidayPay:
+      data.holidayPayPercent ?? 13,
+
+    tax:
+      data.taxPercent ?? 21
+
+  };
+
+
+  Object.keys(fields).forEach(
+    function(id) {
+
+      const element =
+        document.getElementById(id);
+
+      if (element) {
+
+        element.value =
+          fields[id];
+
+      }
+
+    }
+  );
+
+
+  document.getElementById(
+    "lonRegularHours"
+  ).textContent =
+    Number(
+      data.regularHours || 0
+    ).toFixed(1) + " h";
+
+
+  document.getElementById(
+    "lonOvertimeHours"
+  ).textContent =
+    Number(
+      data.regularOvertimeHours || 0
+    ).toFixed(1) + " h";
+
+
+  document.getElementById(
+    "lonNightHours"
+  ).textContent =
+    Number(
+      data.nightHours || 0
+    ).toFixed(1) + " h";
+
+
+  document.getElementById(
+    "lonNightOvertimeHours"
+  ).textContent =
+    Number(
+      data.nightOvertimeHours || 0
+    ).toFixed(1) + " h";
+
+
+  document.getElementById(
+    "lonWeekendHours"
+  ).textContent =
+    Number(
+      data.weekendHours || 0
+    ).toFixed(1) + " h";
+
+
+  document.getElementById(
+    "lonWeekendOvertimeHours"
+  ).textContent =
+    Number(
+      data.weekendOvertimeHours || 0
+    ).toFixed(1) + " h";
+
+
+  document.getElementById(
+    "lonHolidayHours"
+  ).textContent =
+    Number(
+      data.holidayHours || 0
+    ).toFixed(1) + " h";
+
+
+  document.getElementById(
+    "lonHolidayOvertimeHours"
+  ).textContent =
+    Number(
+      data.holidayOvertimeHours || 0
+    ).toFixed(1) + " h";
+
+
+  const calculation = {
+
+    grossSalary:
+      Number(data.grossSalary || 0),
+
+    vacationPay:
+      Number(data.vacationPay || 0),
+
+    taxAmount:
+      Number(data.taxAmount || 0),
+
+    netSalary:
+      Number(data.netSalary || 0)
+
+  };
+
+
+  localStorage.setItem(
+    "genieSalaryCalculation",
+    JSON.stringify(calculation)
+  );
+
+
+  showResult(
+    calculation
+  );
+
+
+  localStorage.setItem(
+    "genieTimlonData",
+    JSON.stringify(data)
+  );
+
+}
+
+
+/* =========================================================
+   BYT ANSTÄLLD
+   ========================================================= */
+
+function switchEmployeeData() {
+
+  const employeeInfo =
+    document
+      .getElementById("employeeInfo")
+      .value
+      .trim();
+
+
+  if (!employeeInfo) {
+    return;
+  }
+
+
+  const record =
+    getEmployeeRecord(
+      employeeInfo
+    );
+
+
+  if (
+    record &&
+    record.Timlön
+  ) {
+
+    loadTimlonRecordIntoForm(
+      record.Timlön
+    );
+
+  } else {
+
+    localStorage.setItem(
+      "genieCurrentEmployee",
+      employeeInfo
+    );
+
+  }
+
+
+  loadEmployerMessage();
+
+}
+
+
+/* =========================================================
    AKTUELL TIMLÖN-PERIOD
-========================= */
+   ========================================================= */
 
 function getCurrentTimlonPeriod() {
+
+  const employeeInfo =
+    document
+      .getElementById("employeeInfo")
+      .value
+      .trim();
+
+
+  if (employeeInfo) {
+
+    const record =
+      getEmployeeRecord(
+        employeeInfo
+      );
+
+
+    if (
+      record &&
+      record.Timlön
+    ) {
+
+      const data =
+        record.Timlön;
+
+      const employee =
+        normalizeEmployeeName(
+          data.employee
+        );
+
+      const start =
+        String(
+          data.periodStart || ""
+        ).trim();
+
+      const end =
+        String(
+          data.periodEnd || ""
+        ).trim();
+
+
+      if (
+        employee &&
+        start &&
+        end
+      ) {
+
+        return {
+
+          employee:
+            employee,
+
+          start:
+            start,
+
+          end:
+            end,
+
+          key:
+            start + "_" + end
+
+        };
+
+      }
+
+    }
+
+  }
+
 
   const saved =
     localStorage.getItem(
@@ -1884,65 +2503,66 @@ function getCurrentTimlonPeriod() {
   }
 
 
-  const data =
-    JSON.parse(saved);
+  try {
+
+    const data =
+      JSON.parse(saved);
+
+    const employee =
+      normalizeEmployeeName(
+        data.employee
+      );
+
+    const start =
+      String(
+        data.periodStart || ""
+      ).trim();
+
+    const end =
+      String(
+        data.periodEnd || ""
+      ).trim();
 
 
-  const employee =
-    String(
-      data.employee || ""
-    )
-      .trim()
-      .toLowerCase();
+    if (
+      !employee ||
+      !start ||
+      !end
+    ) {
+
+      return null;
+
+    }
 
 
-  const start =
-    String(
-      data.periodStart || ""
-    )
-      .trim();
+    return {
 
+      employee:
+        employee,
 
-  const end =
-    String(
-      data.periodEnd || ""
-    )
-      .trim();
+      start:
+        start,
 
+      end:
+        end,
 
-  if (
-    !employee ||
-    !start ||
-    !end
-  ) {
+      key:
+        start + "_" + end
+
+    };
+
+  } catch (error) {
 
     return null;
 
   }
 
-
-  return {
-
-    employee:
-      employee,
-
-    start:
-      start,
-
-    end:
-      end,
-
-    key:
-      start + "_" + end
-
-  };
-
 }
 
 
-/* =========================
+/* =========================================================
    RÄTTA GAMLA MEDDELANDEN
-========================= */
+   ========================================================= */
 
 function cleanOldTimlonMessages() {
 
@@ -1971,11 +2591,9 @@ function cleanOldTimlonMessages() {
     messages.filter(function(item) {
 
       const employee =
-        String(
-          item.employee || ""
-        )
-          .trim()
-          .toLowerCase();
+        normalizeEmployeeName(
+          item.employee
+        );
 
 
       if (
@@ -2035,9 +2653,9 @@ function cleanOldTimlonMessages() {
 }
 
 
-/* =========================
-   HÄMTA ARBETSGIVARMEDDELANDEN
-========================= */
+/* =========================================================
+   HÄMTA AKTUELLA MEDDELANDEN
+   ========================================================= */
 
 function getCurrentTimlonMessages() {
 
@@ -2058,45 +2676,45 @@ function getCurrentTimlonMessages() {
   }
 
 
-  return messages.filter(function(item) {
+  return messages.filter(
+    function(item) {
 
-    const employee =
-      String(
-        item.employee || ""
-      )
-        .trim()
-        .toLowerCase();
+      const employee =
+        normalizeEmployeeName(
+          item.employee
+        );
 
 
-    if (
-      employee !== period.employee
-    ) {
+      if (
+        employee !== period.employee
+      ) {
 
-      return false;
+        return false;
+
+      }
+
+
+      if (item.periodKey) {
+
+        return (
+          item.periodKey ===
+          period.key
+        );
+
+      }
+
+
+      return true;
 
     }
-
-
-    if (item.periodKey) {
-
-      return (
-        item.periodKey ===
-        period.key
-      );
-
-    }
-
-
-    return true;
-
-  });
+  );
 
 }
 
 
-/* =========================
+/* =========================================================
    VISA ARBETSGIVARMEDDELANDE
-========================= */
+   ========================================================= */
 
 function loadEmployerMessage() {
 
@@ -2132,10 +2750,13 @@ function loadEmployerMessage() {
 
 
   const language =
-    localStorage.getItem("genieLanguage") || "sv";
+    localStorage.getItem(
+      "genieLanguage"
+    ) || "sv";
 
   const t =
-    translations[language] || translations.sv;
+    translations[language] ||
+    translations.sv;
 
 
   messageBox.style.display =
@@ -2164,7 +2785,10 @@ function loadEmployerMessage() {
 
     <p>
       <strong>${t.status}</strong>
-      ${translateMessageStatus(lastMessage.status, t)}
+      ${translateMessageStatus(
+        lastMessage.status,
+        t
+      )}
     </p>
 
   `;
@@ -2177,7 +2801,8 @@ function loadEmployerMessage() {
 
 
   if (
-    lastMessage.status === "Åtgärdad"
+    lastMessage.status ===
+    "Åtgärdad"
   ) {
 
     replyBox.style.display =
@@ -2193,35 +2818,53 @@ function loadEmployerMessage() {
 }
 
 
-/* =========================
-   PREVOD STATUSA PORUKE
-========================= */
+/* =========================================================
+   PREVOD STATUSA
+   ========================================================= */
 
-function translateMessageStatus(status, t) {
+function translateMessageStatus(
+  status,
+  t
+) {
 
-  if (status === "Åtgärdad") {
+  if (
+    status === "Åtgärdad"
+  ) {
+
     return t.resolved;
+
   }
 
-  if (status === "Svar från arbetstagaren") {
+
+  if (
+    status ===
+    "Svar från arbetstagaren"
+  ) {
+
     return t.employeeReply;
+
   }
+
 
   return t.newComment;
+
 }
 
 
-/* =========================
+/* =========================================================
    SVARA ARBETSGIVAREN
-========================= */
+   ========================================================= */
 
 function replyToEmployer() {
 
   const language =
-    localStorage.getItem("genieLanguage") || "sv";
+    localStorage.getItem(
+      "genieLanguage"
+    ) || "sv";
 
   const t =
-    translations[language] || translations.sv;
+    translations[language] ||
+    translations.sv;
 
 
   const replyBox =
@@ -2287,16 +2930,20 @@ function replyToEmployer() {
   }
 
 
+  const now =
+    new Date();
+
+
   messages[messageIndex].reply =
     reply;
 
   messages[messageIndex].replyDate =
-    new Date().toLocaleDateString(
+    now.toLocaleDateString(
       "sv-SE"
     );
 
   messages[messageIndex].replyTime =
-    new Date().toLocaleTimeString(
+    now.toLocaleTimeString(
       "sv-SE",
       {
         hour: "2-digit",
@@ -2326,17 +2973,20 @@ function replyToEmployer() {
 }
 
 
-/* =========================
+/* =========================================================
    MARKERA SOM ÅTGÄRDAD
-========================= */
+   ========================================================= */
 
 function markEmployerMessageAsFixed() {
 
   const language =
-    localStorage.getItem("genieLanguage") || "sv";
+    localStorage.getItem(
+      "genieLanguage"
+    ) || "sv";
 
   const t =
-    translations[language] || translations.sv;
+    translations[language] ||
+    translations.sv;
 
 
   const messages =
@@ -2401,9 +3051,9 @@ function markEmployerMessageAsFixed() {
 }
 
 
-/* =========================
+/* =========================================================
    AUTOSPARA
-========================= */
+   ========================================================= */
 
 document
   .querySelectorAll(
@@ -2419,9 +3069,29 @@ document
   });
 
 
-/* =========================
+/* =========================================================
+   NÄR MAN BYTER ARBETSTAGARE
+   ========================================================= */
+
+document
+  .getElementById("employeeInfo")
+  .addEventListener(
+    "change",
+    switchEmployeeData
+  );
+
+
+document
+  .getElementById("employeeInfo")
+  .addEventListener(
+    "blur",
+    switchEmployeeData
+  );
+
+
+/* =========================================================
    START
-========================= */
+   ========================================================= */
 
 loadFormData();
 
