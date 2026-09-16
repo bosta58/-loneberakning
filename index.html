@@ -130,6 +130,38 @@
       margin-top: 10px;
     }
 
+    /* UPUTE */
+
+    .instructions {
+      margin-top: 24px;
+      padding: 18px;
+      border-radius: 16px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+    }
+
+    .instructions h2 {
+      margin: 0 0 12px;
+      text-align: center;
+      font-size: 19px;
+      font-weight: 700;
+    }
+
+    .instruction-item {
+      margin-bottom: 12px;
+      line-height: 1.45;
+      font-size: 14px;
+    }
+
+    .instruction-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .instruction-title {
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
     .footer {
       text-align: center;
       margin-top: 25px;
@@ -241,6 +273,88 @@
 
       </button>
 
+
+      <!-- UPUTE ZA KORIŠTENJE -->
+
+      <div class="instructions">
+
+        <h2 id="instructionsTitle">
+          Så använder du Genie
+        </h2>
+
+        <div class="instruction-item">
+
+          <div class="instruction-title" id="instructionTTitle">
+            T – Timlön
+          </div>
+
+          <div id="instructionTText">
+            Välj T för timlön. Registrera arbetstid i kalendern,
+            ange löneuppgifter och få en tydlig beräkning av lön,
+            skatt och nettolön.
+          </div>
+
+        </div>
+
+
+        <div class="instruction-item">
+
+          <div class="instruction-title" id="instructionMTitle">
+            M – Månadslön
+          </div>
+
+          <div id="instructionMText">
+            Välj M för månadslön. Ange månadslön och arbetstid
+            för att kontrollera löneperiod och arbetade timmar.
+          </div>
+
+        </div>
+
+
+        <div class="instruction-item">
+
+          <div class="instruction-title" id="instructionPercentTitle">
+            % – Kollektivavtal
+          </div>
+
+          <div id="instructionPercentText">
+            Välj % när lönen beräknas enligt ett kollektivavtal
+            med angivna procentuella tillägg.
+          </div>
+
+        </div>
+
+
+        <div class="instruction-item">
+
+          <div class="instruction-title" id="instructionEmployerTitle">
+            🏢 Arbetsgivare
+          </div>
+
+          <div id="instructionEmployerText">
+            Arbetsgivaren kan se registrerade löneuppgifter
+            och information för sina anställda.
+          </div>
+
+        </div>
+
+
+        <div class="instruction-item">
+
+          <div class="instruction-title" id="instructionTrustTitle">
+            🔒 Enkel och tydlig
+          </div>
+
+          <div id="instructionTrustText">
+            Genie är byggt för att göra löneberäkningen enkel,
+            tydlig och transparent mellan arbetstagare och arbetsgivare.
+          </div>
+
+        </div>
+
+      </div>
+
+
       <!-- FOOTER -->
 
       <div class="footer">
@@ -251,6 +365,7 @@
 
   </div>
 
+
   <script>
 
     const translations = {
@@ -260,23 +375,91 @@
         timlon: "Timlön",
         manadslon: "Månadslön",
         kollektivavtal: "Kollektivavtal",
-        arbetsgivare: "Arbetsgivare"
+        arbetsgivare: "Arbetsgivare",
+
+        instructionsTitle: "Så använder du Genie",
+
+        instructionTTitle: "T – Timlön",
+        instructionTText:
+          "Välj T för timlön. Registrera arbetstid i kalendern, ange löneuppgifter och få en tydlig beräkning av lön, skatt och nettolön.",
+
+        instructionMTitle: "M – Månadslön",
+        instructionMText:
+          "Välj M för månadslön. Ange månadslön och arbetstid för att kontrollera löneperiod och arbetade timmar.",
+
+        instructionPercentTitle: "% – Kollektivavtal",
+        instructionPercentText:
+          "Välj % när lönen beräknas enligt ett kollektivavtal med angivna procentuella tillägg.",
+
+        instructionEmployerTitle: "🏢 Arbetsgivare",
+        instructionEmployerText:
+          "Arbetsgivaren kan se registrerade löneuppgifter och information för sina anställda.",
+
+        instructionTrustTitle: "🔒 Enkel och tydlig",
+        instructionTrustText:
+          "Genie är byggt för att göra löneberäkningen enkel, tydlig och transparent mellan arbetstagare och arbetsgivare."
       },
+
 
       en: {
         subtitle: "Simple and professional salary calculation",
         timlon: "Hourly pay",
         manadslon: "Monthly salary",
         kollektivavtal: "Collective agreement",
-        arbetsgivare: "Employer"
+        arbetsgivare: "Employer",
+
+        instructionsTitle: "How to use Genie",
+
+        instructionTTitle: "T – Hourly pay",
+        instructionTText:
+          "Choose T for hourly pay. Register your working hours in the calendar, enter salary information and get a clear calculation of salary, tax and net pay.",
+
+        instructionMTitle: "M – Monthly salary",
+        instructionMText:
+          "Choose M for monthly salary. Enter your monthly salary and working hours to check the pay period and worked hours.",
+
+        instructionPercentTitle: "% – Collective agreement",
+        instructionPercentText:
+          "Choose % when your salary is calculated according to a collective agreement with percentage-based supplements.",
+
+        instructionEmployerTitle: "🏢 Employer",
+        instructionEmployerText:
+          "The employer can view registered salary information and information for their employees.",
+
+        instructionTrustTitle: "🔒 Simple and transparent",
+        instructionTrustText:
+          "Genie is designed to make salary calculation simple, clear and transparent between employees and employers."
       },
+
 
       sr: {
         subtitle: "Jednostavan i profesionalan obračun plate",
         timlon: "Satnica",
         manadslon: "Mesečna plata",
         kollektivavtal: "Kolektivni ugovor",
-        arbetsgivare: "Poslodavac"
+        arbetsgivare: "Poslodavac",
+
+        instructionsTitle: "Kako koristiti Genie",
+
+        instructionTTitle: "T – Satnica",
+        instructionTText:
+          "Izaberite T za obračun po satu. Unesite radno vreme u kalendar, podatke o plati i dobićete jasan obračun plate, poreza i neto plate.",
+
+        instructionMTitle: "M – Mesečna plata",
+        instructionMText:
+          "Izaberite M za mesečnu platu. Unesite mesečnu platu i radno vreme da proverite obračunski period i odrađene sate.",
+
+        instructionPercentTitle: "% – Kolektivni ugovor",
+        instructionPercentText:
+          "Izaberite % kada se plata obračunava prema kolektivnom ugovoru sa procentualnim dodacima.",
+
+        instructionEmployerTitle: "🏢 Poslodavac",
+        instructionEmployerText:
+          "Poslodavac može da vidi registrovane podatke o plati i informacije za svoje zaposlene.",
+
+        instructionTrustTitle: "🔒 Jednostavno i transparentno",
+        instructionTrustText:
+          "Genie je napravljen da obračun plate bude jednostavan, jasan i transparentan između zaposlenog i poslodavca."
       }
 
     };
@@ -296,11 +479,45 @@
       document.getElementById("kollektivavtalText").textContent = t.kollektivavtal;
       document.getElementById("arbetsgivareText").textContent = t.arbetsgivare;
 
+      document.getElementById("instructionsTitle").textContent =
+        t.instructionsTitle;
+
+      document.getElementById("instructionTTitle").textContent =
+        t.instructionTTitle;
+
+      document.getElementById("instructionTText").textContent =
+        t.instructionTText;
+
+      document.getElementById("instructionMTitle").textContent =
+        t.instructionMTitle;
+
+      document.getElementById("instructionMText").textContent =
+        t.instructionMText;
+
+      document.getElementById("instructionPercentTitle").textContent =
+        t.instructionPercentTitle;
+
+      document.getElementById("instructionPercentText").textContent =
+        t.instructionPercentText;
+
+      document.getElementById("instructionEmployerTitle").textContent =
+        t.instructionEmployerTitle;
+
+      document.getElementById("instructionEmployerText").textContent =
+        t.instructionEmployerText;
+
+      document.getElementById("instructionTrustTitle").textContent =
+        t.instructionTrustTitle;
+
+      document.getElementById("instructionTrustText").textContent =
+        t.instructionTrustText;
+
       localStorage.setItem("genieLanguage", language);
     }
 
 
-    const languageSelect = document.getElementById("languageSelect");
+    const languageSelect =
+      document.getElementById("languageSelect");
 
     const savedLanguage =
       localStorage.getItem("genieLanguage") || "sv";
