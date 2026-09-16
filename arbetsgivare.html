@@ -33,7 +33,7 @@
 
     .language-box {
       text-align: right;
-      margin-bottom: 10px;
+      margin-bottom: 18px;
     }
 
     .language-box select {
@@ -49,23 +49,9 @@
       margin-bottom: 22px;
     }
 
-    .header-icon {
-      width: 64px;
-      height: 64px;
-      margin: 0 auto 10px;
-      border-radius: 18px;
-      background: #1f2937;
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
     h1 {
       margin: 0;
-      font-size: 28px;
+      font-size: 30px;
       color: #111827;
     }
 
@@ -74,6 +60,10 @@
       color: #6b7280;
       font-size: 15px;
     }
+
+    /* ==========================================
+       FÖRETAGSINFORMATION
+    ========================================== */
 
     .company-card {
       margin-bottom: 22px;
@@ -84,13 +74,88 @@
       text-align: center;
     }
 
+    .company-logo-box {
+      width: 100%;
+      min-height: 130px;
+      border: 2px dashed #d1d5db;
+      border-radius: 15px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+      overflow: hidden;
+      padding: 10px;
+    }
+
+    .company-logo-placeholder {
+      text-align: center;
+      color: #9ca3af;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
     .company-logo {
-      display: block;
-      max-width: 180px;
-      max-height: 100px;
-      margin: 0 auto 14px;
+      display: none;
+      max-width: 220px;
+      max-height: 120px;
       border-radius: 12px;
       object-fit: contain;
+    }
+
+    .company-input {
+      width: 100%;
+      margin-top: 10px;
+      padding: 13px 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 11px;
+      background: #ffffff;
+      color: #111827;
+      font-size: 15px;
+      font-family: inherit;
+    }
+
+    .company-textarea {
+      width: 100%;
+      min-height: 100px;
+      margin-top: 10px;
+      padding: 13px 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 11px;
+      background: #ffffff;
+      color: #111827;
+      font-size: 15px;
+      font-family: inherit;
+      resize: vertical;
+    }
+
+    .company-input:focus,
+    .company-textarea:focus {
+      outline: none;
+      border-color: #6b7280;
+      background: #ffffff;
+    }
+
+    .logo-input {
+      width: 100%;
+      margin-top: 8px;
+      padding: 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      background: #ffffff;
+      font-size: 14px;
+    }
+
+    .save-company-button {
+      margin-top: 12px;
+      background: #1f2937;
+      color: #ffffff;
+    }
+
+    .company-display {
+      margin-top: 18px;
+      padding-top: 15px;
+      border-top: 1px solid #e5e7eb;
     }
 
     .company-name {
@@ -106,6 +171,10 @@
       font-size: 14px;
       white-space: pre-wrap;
     }
+
+    /* ==========================================
+       SEKTIONER
+    ========================================== */
 
     .section-title {
       font-size: 19px;
@@ -154,6 +223,10 @@
       cursor: pointer;
     }
 
+    button:active {
+      transform: scale(0.98);
+    }
+
     .view-button {
       background: #1f2937;
       color: #ffffff;
@@ -178,6 +251,10 @@
       border: 1px solid #d1d5db;
     }
 
+    /* ==========================================
+       MEDDELANDEN
+    ========================================== */
+
     .message-status {
       margin-top: 10px;
       padding: 9px;
@@ -188,6 +265,40 @@
       color: #6b7280;
       white-space: pre-wrap;
     }
+
+    .message-card {
+      margin-top: 12px;
+      padding: 13px;
+      background: #ffffff;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+    }
+
+    .message-text {
+      white-space: pre-wrap;
+      margin: 8px 0;
+    }
+
+    .reply-text {
+      white-space: pre-wrap;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .status-fixed {
+      color: #166534;
+      font-weight: 700;
+    }
+
+    .status-new {
+      color: #92400e;
+      font-weight: 700;
+    }
+
+    /* ==========================================
+       DETALJER
+    ========================================== */
 
     .details-card {
       display: none;
@@ -254,36 +365,6 @@
       color: #111827;
     }
 
-    .message-card {
-      margin-top: 12px;
-      padding: 13px;
-      background: #ffffff;
-      border: 1px solid #d1d5db;
-      border-radius: 12px;
-    }
-
-    .message-text {
-      white-space: pre-wrap;
-      margin: 8px 0;
-    }
-
-    .reply-text {
-      white-space: pre-wrap;
-      margin-top: 8px;
-      padding-top: 8px;
-      border-top: 1px solid #e5e7eb;
-    }
-
-    .status-fixed {
-      color: #166534;
-      font-weight: 700;
-    }
-
-    .status-new {
-      color: #92400e;
-      font-weight: 700;
-    }
-
     .close-button {
       margin-top: 18px;
       background: #ffffff;
@@ -312,57 +393,146 @@
 
   <div class="card">
 
+    <!-- SPRÅK -->
+
     <div class="language-box">
-      <select id="languageSelect" onchange="changeLanguage(this.value)">
+
+      <select
+        id="languageSelect"
+        onchange="changeLanguage(this.value)">
+
         <option value="sv">🇸🇪 Svenska</option>
         <option value="en">🇬🇧 English</option>
         <option value="sr">🇷🇸 Srpski</option>
+
       </select>
+
     </div>
 
-    <div class="header">
 
-      <div class="header-icon">
-        G
-      </div>
+    <!-- RUBRIK -->
+
+    <div class="header">
 
       <h1>
         Genie
       </h1>
 
-      <div class="subtitle" id="subtitle">
+      <div
+        class="subtitle"
+        id="subtitle">
+
         Arbetsgivare
+
       </div>
 
     </div>
 
 
-    <!-- FÖRETAGSINFORMATION -->
+    <!-- ======================================
+         FÖRETAGSINFORMATION
+    ======================================= -->
 
     <div class="company-card">
 
-      <img
-        id="companyLogo"
-        class="company-logo"
-        style="display:none;"
-        alt="Företagslogotyp">
+      <div
+        class="section-title"
+        id="companyTitle"
+        style="margin-top:0;">
 
-      <div id="companyName" class="company-name"></div>
+        Företagsinformation
 
-      <div id="companyInfo" class="company-info"></div>
+      </div>
+
+
+      <div class="company-logo-box">
+
+        <div
+          id="companyLogoPlaceholder"
+          class="company-logo-placeholder">
+
+          🏢<br>
+          Företagslogotyp
+
+        </div>
+
+        <img
+          id="companyLogo"
+          class="company-logo"
+          alt="Företagslogotyp">
+
+      </div>
+
+
+      <input
+        type="file"
+        id="companyLogoInput"
+        class="logo-input"
+        accept="image/*">
+
+
+      <input
+        type="text"
+        id="companyNameInput"
+        class="company-input"
+        placeholder="Företagets namn">
+
+
+      <textarea
+        id="companyInfoInput"
+        class="company-textarea"
+        placeholder="Uppgifter om arbetsgivaren"></textarea>
+
+
+      <button
+        type="button"
+        class="save-company-button"
+        id="saveCompanyButton"
+        onclick="saveCompanyInfo()">
+
+        💾 Spara företagsuppgifter
+
+      </button>
+
+
+      <div class="company-display">
+
+        <div
+          id="companyName"
+          class="company-name">
+        </div>
+
+        <div
+          id="companyInfo"
+          class="company-info">
+        </div>
+
+      </div>
 
     </div>
 
 
-    <!-- ANSTÄLLDA -->
+    <!-- ======================================
+         ANSTÄLLDA
+    ======================================= -->
 
-    <div class="section-title" id="employeesTitle">
+    <div
+      class="section-title"
+      id="employeesTitle">
+
       Anställda
+
     </div>
 
-    <div id="employeeCount" class="employee-count"></div>
+
+    <div
+      id="employeeCount"
+      class="employee-count">
+    </div>
+
 
     <div id="employeeList"></div>
+
 
     <button
       type="button"
@@ -375,25 +545,48 @@
     </button>
 
 
-    <!-- DETALJER -->
+    <!-- ======================================
+         DETALJER
+    ======================================= -->
 
-    <div id="detailsCard" class="details-card">
+    <div
+      id="detailsCard"
+      class="details-card">
 
-      <div id="detailsTitle" class="details-title"></div>
+      <div
+        id="detailsTitle"
+        class="details-title">
+      </div>
 
-      <div id="payType" class="pay-type"></div>
 
-      <div id="detailsContent"></div>
+      <div
+        id="payType"
+        class="pay-type">
+      </div>
+
+
+      <div
+        id="detailsContent">
+      </div>
+
 
       <div class="salary-section">
 
-        <div class="salary-section-title" id="communicationTitle">
+        <div
+          class="salary-section-title"
+          id="communicationTitle">
+
           💬 Kommunikation
+
         </div>
 
-        <div id="employeeMessages"></div>
+
+        <div
+          id="employeeMessages">
+        </div>
 
       </div>
+
 
       <button
         type="button"
@@ -408,7 +601,9 @@
     </div>
 
 
-    <!-- TILLBAKA -->
+    <!-- ======================================
+         TILLBAKA
+    ======================================= -->
 
     <button
       type="button"
@@ -421,8 +616,12 @@
     </button>
 
 
-    <div class="footer" id="footer">
+    <div
+      class="footer"
+      id="footer">
+
       Genie – Enkel och transparent löneberäkning
+
     </div>
 
   </div>
@@ -432,180 +631,535 @@
 
 <script>
 
-  // ==========================================
-  // SPRÅK
-  // ==========================================
+  /* ==========================================
+     SPRÅK
+  ========================================== */
 
   const translations = {
 
     sv: {
 
       subtitle: "Arbetsgivare",
-      employees: "Anställda",
-      noEmployees: "Inga anställda registrerade",
-      employeeOne: "anställd",
-      employeeMany: "anställda",
-      addEmployee: "＋ Lägg till anställd",
-      addEmployeePrompt: "Ange arbetstagarens namn:",
-      unknownEmployee: "Okänd anställd",
-      startAdd: "Lägg till en anställd för att börja.",
-      view: "👁 Visa uppgifter",
-      contact: "💬 Kontakta anställd",
-      latestMessage: "💬 Senaste meddelande:",
-      status: "Status",
-      noSalary: "Ingen löneuppgift registrerad",
+
+      companyTitle:
+        "Företagsinformation",
+
+      logoPlaceholder:
+        "🏢<br>Företagslogotyp",
+
+      companyNamePlaceholder:
+        "Företagets namn",
+
+      companyInfoPlaceholder:
+        "Uppgifter om arbetsgivaren",
+
+      saveCompany:
+        "💾 Spara företagsuppgifter",
+
+      companySaved:
+        "Företagsuppgifterna har sparats.",
+
+      employees:
+        "Anställda",
+
+      noEmployees:
+        "Inga anställda registrerade",
+
+      employeeOne:
+        "anställd",
+
+      employeeMany:
+        "anställda",
+
+      addEmployee:
+        "＋ Lägg till anställd",
+
+      addEmployeePrompt:
+        "Ange arbetstagarens namn:",
+
+      unknownEmployee:
+        "Okänd anställd",
+
+      startAdd:
+        "Lägg till en anställd för att börja.",
+
+      view:
+        "👁 Visa uppgifter",
+
+      contact:
+        "💬 Kontakta anställd",
+
+      latestMessage:
+        "💬 Senaste meddelande:",
+
+      status:
+        "Status",
+
+      noSalary:
+        "Ingen löneuppgift registrerad",
+
       noSalaryDetails:
         "Det finns ännu inga sparade löneuppgifter för denna anställda.",
-      communication: "💬 Kommunikation",
-      close: "← Stäng",
-      back: "← Tillbaka",
-      footer: "Genie – Enkel och transparent löneberäkning",
-      period: "Löneperiod",
-      regularHours: "Vanliga timmar",
-      overtime: "Övertid",
-      night: "Natt",
-      nightOvertime: "Nattövertid",
-      weekend: "Helg",
-      weekendOvertime: "Helgövertid",
-      holiday: "Helgdag",
-      holidayOvertime: "Helgdagsövertid",
-      vacationPay: "Semesterersättning",
-      grossSalary: "Bruttolön",
-      tax: "Skatt",
-      netSalary: "Nettolön",
-      regularPay: "Vanlig lön",
-      overtimePay: "Övertidslön",
-      weekendPay: "Helglön",
-      weekendOvertimePay: "Helgövertidslön",
-      holidayPayAmount: "Helgdagslön",
-      holidayOvertimePay: "Helgdagsövertidslön",
-      monthlySalary: "Månadslön",
-      workTarget: "Arbetstidsmål",
-      totalHours: "Totalt arbetad tid",
-      targetHours: "Måltid",
-      difference: "Skillnad",
-      noMessages: "Inga meddelanden ännu.",
-      employerMessage: "📤 Meddelande från arbetsgivaren",
-      employeeReply: "↩️ Svar från arbetstagaren",
-      messagePrompt: "Skriv ett meddelande till ",
-      messageSent: "Meddelandet har skickats till ",
-      fixed: "Åtgärdad",
-      newComment: "Ny kommentar",
-      replyFromEmployee: "Svar från arbetstagaren"
+
+      communication:
+        "💬 Kommunikation",
+
+      close:
+        "← Stäng",
+
+      back:
+        "← Tillbaka",
+
+      footer:
+        "Genie – Enkel och transparent löneberäkning",
+
+      period:
+        "Löneperiod",
+
+      regularHours:
+        "Vanliga timmar",
+
+      overtime:
+        "Övertid",
+
+      night:
+        "Natt",
+
+      nightOvertime:
+        "Nattövertid",
+
+      weekend:
+        "Helg",
+
+      weekendOvertime:
+        "Helgövertid",
+
+      holiday:
+        "Helgdag",
+
+      holidayOvertime:
+        "Helgdagsövertid",
+
+      vacationPay:
+        "Semesterersättning",
+
+      grossSalary:
+        "Bruttolön",
+
+      tax:
+        "Skatt",
+
+      netSalary:
+        "Nettolön",
+
+      regularPay:
+        "Vanlig lön",
+
+      overtimePay:
+        "Övertidslön",
+
+      weekendPay:
+        "Helglön",
+
+      weekendOvertimePay:
+        "Helgövertidslön",
+
+      holidayPayAmount:
+        "Helgdagslön",
+
+      holidayOvertimePay:
+        "Helgdagsövertidslön",
+
+      monthlySalary:
+        "Månadslön",
+
+      workTarget:
+        "Arbetstidsmål",
+
+      totalHours:
+        "Totalt arbetad tid",
+
+      targetHours:
+        "Måltid",
+
+      difference:
+        "Skillnad",
+
+      noMessages:
+        "Inga meddelanden ännu.",
+
+      employerMessage:
+        "📤 Meddelande från arbetsgivaren",
+
+      employeeReply:
+        "↩️ Svar från arbetstagaren",
+
+      messagePrompt:
+        "Skriv ett meddelande till ",
+
+      messageSent:
+        "Meddelandet har skickats till ",
+
+      fixed:
+        "Åtgärdad",
+
+      newComment:
+        "Ny kommentar",
+
+      replyFromEmployee:
+        "Svar från arbetstagaren"
 
     },
+
 
     en: {
 
-      subtitle: "Employer",
-      employees: "Employees",
-      noEmployees: "No employees registered",
-      employeeOne: "employee",
-      employeeMany: "employees",
-      addEmployee: "＋ Add employee",
-      addEmployeePrompt: "Enter the employee's name:",
-      unknownEmployee: "Unknown employee",
-      startAdd: "Add an employee to get started.",
-      view: "👁 View details",
-      contact: "💬 Contact employee",
-      latestMessage: "💬 Latest message:",
-      status: "Status",
-      noSalary: "No salary information registered",
+      subtitle:
+        "Employer",
+
+      companyTitle:
+        "Company information",
+
+      logoPlaceholder:
+        "🏢<br>Company logo",
+
+      companyNamePlaceholder:
+        "Company name",
+
+      companyInfoPlaceholder:
+        "Employer information",
+
+      saveCompany:
+        "💾 Save company information",
+
+      companySaved:
+        "Company information has been saved.",
+
+      employees:
+        "Employees",
+
+      noEmployees:
+        "No employees registered",
+
+      employeeOne:
+        "employee",
+
+      employeeMany:
+        "employees",
+
+      addEmployee:
+        "＋ Add employee",
+
+      addEmployeePrompt:
+        "Enter the employee's name:",
+
+      unknownEmployee:
+        "Unknown employee",
+
+      startAdd:
+        "Add an employee to get started.",
+
+      view:
+        "👁 View details",
+
+      contact:
+        "💬 Contact employee",
+
+      latestMessage:
+        "💬 Latest message:",
+
+      status:
+        "Status",
+
+      noSalary:
+        "No salary information registered",
+
       noSalaryDetails:
         "There are no saved salary details for this employee yet.",
-      communication: "💬 Communication",
-      close: "← Close",
-      back: "← Back",
-      footer: "Genie – Simple and transparent salary calculation",
-      period: "Pay period",
-      regularHours: "Regular hours",
-      overtime: "Overtime",
-      night: "Night",
-      nightOvertime: "Night overtime",
-      weekend: "Weekend",
-      weekendOvertime: "Weekend overtime",
-      holiday: "Holiday",
-      holidayOvertime: "Holiday overtime",
-      vacationPay: "Holiday pay",
-      grossSalary: "Gross salary",
-      tax: "Tax",
-      netSalary: "Net salary",
-      regularPay: "Regular pay",
-      overtimePay: "Overtime pay",
-      weekendPay: "Weekend pay",
-      weekendOvertimePay: "Weekend overtime pay",
-      holidayPayAmount: "Holiday pay",
-      holidayOvertimePay: "Holiday overtime pay",
-      monthlySalary: "Monthly salary",
-      workTarget: "Working time target",
-      totalHours: "Total worked time",
-      targetHours: "Target hours",
-      difference: "Difference",
-      noMessages: "No messages yet.",
-      employerMessage: "📤 Message from employer",
-      employeeReply: "↩️ Reply from employee",
-      messagePrompt: "Write a message to ",
-      messageSent: "Message has been sent to ",
-      fixed: "Handled",
-      newComment: "New comment",
-      replyFromEmployee: "Reply from employee"
+
+      communication:
+        "💬 Communication",
+
+      close:
+        "← Close",
+
+      back:
+        "← Back",
+
+      footer:
+        "Genie – Simple and transparent salary calculation",
+
+      period:
+        "Pay period",
+
+      regularHours:
+        "Regular hours",
+
+      overtime:
+        "Overtime",
+
+      night:
+        "Night",
+
+      nightOvertime:
+        "Night overtime",
+
+      weekend:
+        "Weekend",
+
+      weekendOvertime:
+        "Weekend overtime",
+
+      holiday:
+        "Holiday",
+
+      holidayOvertime:
+        "Holiday overtime",
+
+      vacationPay:
+        "Holiday pay",
+
+      grossSalary:
+        "Gross salary",
+
+      tax:
+        "Tax",
+
+      netSalary:
+        "Net salary",
+
+      regularPay:
+        "Regular pay",
+
+      overtimePay:
+        "Overtime pay",
+
+      weekendPay:
+        "Weekend pay",
+
+      weekendOvertimePay:
+        "Weekend overtime pay",
+
+      holidayPayAmount:
+        "Holiday pay",
+
+      holidayOvertimePay:
+        "Holiday overtime pay",
+
+      monthlySalary:
+        "Monthly salary",
+
+      workTarget:
+        "Working time target",
+
+      totalHours:
+        "Total worked time",
+
+      targetHours:
+        "Target hours",
+
+      difference:
+        "Difference",
+
+      noMessages:
+        "No messages yet.",
+
+      employerMessage:
+        "📤 Message from employer",
+
+      employeeReply:
+        "↩️ Reply from employee",
+
+      messagePrompt:
+        "Write a message to ",
+
+      messageSent:
+        "Message has been sent to ",
+
+      fixed:
+        "Handled",
+
+      newComment:
+        "New comment",
+
+      replyFromEmployee:
+        "Reply from employee"
 
     },
 
+
     sr: {
 
-      subtitle: "Poslodavac",
-      employees: "Zaposleni",
-      noEmployees: "Nema registrovanih zaposlenih",
-      employeeOne: "zaposleni",
-      employeeMany: "zaposlenih",
-      addEmployee: "＋ Dodaj zaposlenog",
-      addEmployeePrompt: "Unesite ime zaposlenog:",
-      unknownEmployee: "Nepoznat zaposleni",
-      startAdd: "Dodajte zaposlenog da biste počeli.",
-      view: "👁 Prikaži podatke",
-      contact: "💬 Kontaktiraj zaposlenog",
-      latestMessage: "💬 Poslednja poruka:",
-      status: "Status",
-      noSalary: "Nema registrovanih podataka o plati",
+      subtitle:
+        "Poslodavac",
+
+      companyTitle:
+        "Podaci o poslodavcu",
+
+      logoPlaceholder:
+        "🏢<br>Logo poslodavca",
+
+      companyNamePlaceholder:
+        "Naziv firme",
+
+      companyInfoPlaceholder:
+        "Podaci o poslodavcu",
+
+      saveCompany:
+        "💾 Sačuvaj podatke poslodavca",
+
+      companySaved:
+        "Podaci o poslodavcu su sačuvani.",
+
+      employees:
+        "Zaposleni",
+
+      noEmployees:
+        "Nema registrovanih zaposlenih",
+
+      employeeOne:
+        "zaposleni",
+
+      employeeMany:
+        "zaposlenih",
+
+      addEmployee:
+        "＋ Dodaj zaposlenog",
+
+      addEmployeePrompt:
+        "Unesite ime zaposlenog:",
+
+      unknownEmployee:
+        "Nepoznat zaposleni",
+
+      startAdd:
+        "Dodajte zaposlenog da biste počeli.",
+
+      view:
+        "👁 Prikaži podatke",
+
+      contact:
+        "💬 Kontaktiraj zaposlenog",
+
+      latestMessage:
+        "💬 Poslednja poruka:",
+
+      status:
+        "Status",
+
+      noSalary:
+        "Nema registrovanih podataka o plati",
+
       noSalaryDetails:
         "Za ovog zaposlenog još nema sačuvanih podataka o plati.",
-      communication: "💬 Komunikacija",
-      close: "← Zatvori",
-      back: "← Nazad",
-      footer: "Genie – Jednostavan i transparentan obračun plate",
-      period: "Obračunski period",
-      regularHours: "Redovni sati",
-      overtime: "Prekovremeni sati",
-      night: "Noćni sati",
-      nightOvertime: "Noćni prekovremeni sati",
-      weekend: "Vikend",
-      weekendOvertime: "Vikend prekovremeni sati",
-      holiday: "Praznik",
-      holidayOvertime: "Praznični prekovremeni sati",
-      vacationPay: "Naknada za godišnji odmor",
-      grossSalary: "Bruto plata",
-      tax: "Porez",
-      netSalary: "Neto plata",
-      regularPay: "Redovna plata",
-      overtimePay: "Prekovremena plata",
-      weekendPay: "Vikend plata",
-      weekendOvertimePay: "Vikend prekovremena plata",
-      holidayPayAmount: "Praznična plata",
-      holidayOvertimePay: "Praznična prekovremena plata",
-      monthlySalary: "Mesečna plata",
-      workTarget: "Radno vreme – cilj",
-      totalHours: "Ukupno radno vreme",
-      targetHours: "Ciljani sati",
-      difference: "Razlika",
-      noMessages: "Još nema poruka.",
-      employerMessage: "📤 Poruka od poslodavca",
-      employeeReply: "↩️ Odgovor zaposlenog",
-      messagePrompt: "Napišite poruku zaposlenom ",
-      messageSent: "Poruka je poslata zaposlenom ",
-      fixed: "Rešeno",
-      newComment: "Nova poruka",
-      replyFromEmployee: "Odgovor zaposlenog"
+
+      communication:
+        "💬 Komunikacija",
+
+      close:
+        "← Zatvori",
+
+      back:
+        "← Nazad",
+
+      footer:
+        "Genie – Jednostavan i transparentan obračun plate",
+
+      period:
+        "Obračunski period",
+
+      regularHours:
+        "Redovni sati",
+
+      overtime:
+        "Prekovremeni sati",
+
+      night:
+        "Noćni sati",
+
+      nightOvertime:
+        "Noćni prekovremeni sati",
+
+      weekend:
+        "Vikend",
+
+      weekendOvertime:
+        "Vikend prekovremeni sati",
+
+      holiday:
+        "Praznik",
+
+      holidayOvertime:
+        "Praznični prekovremeni sati",
+
+      vacationPay:
+        "Naknada za godišnji odmor",
+
+      grossSalary:
+        "Bruto plata",
+
+      tax:
+        "Porez",
+
+      netSalary:
+        "Neto plata",
+
+      regularPay:
+        "Redovna plata",
+
+      overtimePay:
+        "Prekovremena plata",
+
+      weekendPay:
+        "Vikend plata",
+
+      weekendOvertimePay:
+        "Vikend prekovremena plata",
+
+      holidayPayAmount:
+        "Praznična plata",
+
+      holidayOvertimePay:
+        "Praznična prekovremena plata",
+
+      monthlySalary:
+        "Mesečna plata",
+
+      workTarget:
+        "Radno vreme – cilj",
+
+      totalHours:
+        "Ukupno radno vreme",
+
+      targetHours:
+        "Ciljani sati",
+
+      difference:
+        "Razlika",
+
+      noMessages:
+        "Još nema poruka.",
+
+      employerMessage:
+        "📤 Poruka od poslodavca",
+
+      employeeReply:
+        "↩️ Odgovor zaposlenog",
+
+      messagePrompt:
+        "Napišite poruku zaposlenom ",
+
+      messageSent:
+        "Poruka je poslata zaposlenom ",
+
+      fixed:
+        "Rešeno",
+
+      newComment:
+        "Nova poruka",
+
+      replyFromEmployee:
+        "Odgovor zaposlenog"
 
     }
 
@@ -613,7 +1167,9 @@
 
 
   let currentLanguage =
-    localStorage.getItem("genieLanguage") || "sv";
+    localStorage.getItem(
+      "genieLanguage"
+    ) || "sv";
 
 
   function t(key) {
@@ -632,23 +1188,39 @@
 
   function changeLanguage(language) {
 
+    if (
+      !translations[language]
+    ) {
+
+      language = "sv";
+
+    }
+
+
     currentLanguage =
       language;
+
 
     localStorage.setItem(
       "genieLanguage",
       language
     );
 
+
     applyLanguage();
 
   }
 
 
+  /* ==========================================
+     JEZIK
+  ========================================== */
+
   function applyLanguage() {
 
     document.documentElement.lang =
       currentLanguage;
+
 
     document.title =
       "Genie – " +
@@ -665,6 +1237,36 @@
       "subtitle"
     ).textContent =
       t("subtitle");
+
+
+    document.getElementById(
+      "companyTitle"
+    ).textContent =
+      t("companyTitle");
+
+
+    document.getElementById(
+      "companyLogoPlaceholder"
+    ).innerHTML =
+      t("logoPlaceholder");
+
+
+    document.getElementById(
+      "companyNameInput"
+    ).placeholder =
+      t("companyNamePlaceholder");
+
+
+    document.getElementById(
+      "companyInfoInput"
+    ).placeholder =
+      t("companyInfoPlaceholder");
+
+
+    document.getElementById(
+      "saveCompanyButton"
+    ).textContent =
+      t("saveCompany");
 
 
     document.getElementById(
@@ -729,25 +1331,31 @@
   }
 
 
-  // ==========================================
-  // DATA
-  // ==========================================
+  /* ==========================================
+     DATA
+  ========================================== */
 
   let employees =
     JSON.parse(
-      localStorage.getItem("genieEmployees")
+      localStorage.getItem(
+        "genieEmployees"
+      )
     ) || [];
 
-  let selectedEmployeeIndex = null;
+
+  let selectedEmployeeIndex =
+    null;
 
 
-  // ==========================================
-  // HJÄLPFUNKTIONER
-  // ==========================================
+  /* ==========================================
+     HJÄLPFUNKTIONER
+  ========================================== */
 
   function normalizeName(name) {
 
-    return String(name || "")
+    return String(
+      name || ""
+    )
       .trim()
       .toLowerCase();
 
@@ -757,7 +1365,8 @@
   function getEmployeeNameFromData(data) {
 
     return normalizeName(
-      data && data.employee
+      data &&
+      data.employee
         ? data.employee
         : ""
     );
@@ -765,10 +1374,18 @@
   }
 
 
-  function getActiveSalaryRecord(employeeName) {
+  /* ==========================================
+     AKTIV LÖNETYP
+  ========================================== */
+
+  function getActiveSalaryRecord(
+    employeeName
+  ) {
 
     const normalized =
-      normalizeName(employeeName);
+      normalizeName(
+        employeeName
+      );
 
 
     const activeMap =
@@ -819,15 +1436,17 @@
 
     const kollektivData =
       kollektivList
-        .filter(function(item) {
+        .filter(
+          function(item) {
 
-          return (
-            getEmployeeNameFromData(item)
-            ===
-            normalized
-          );
+            return (
+              getEmployeeNameFromData(item)
+              ===
+              normalized
+            );
 
-        })
+          }
+        )
         .pop() || null;
 
 
@@ -836,15 +1455,18 @@
 
     if (
       monthlyData &&
-      getEmployeeNameFromData(monthlyData)
-        === normalized
+      getEmployeeNameFromData(
+        monthlyData
+      ) === normalized
     ) {
 
       candidates.push({
 
-        type: "Månadslön",
+        type:
+          "Månadslön",
 
-        data: monthlyData,
+        data:
+          monthlyData,
 
         updated:
           monthlyData.updated ||
@@ -857,15 +1479,18 @@
 
     if (
       timlonData &&
-      getEmployeeNameFromData(timlonData)
-        === normalized
+      getEmployeeNameFromData(
+        timlonData
+      ) === normalized
     ) {
 
       candidates.push({
 
-        type: "Timlön",
+        type:
+          "Timlön",
 
-        data: timlonData,
+        data:
+          timlonData,
 
         updated:
           timlonData.updated ||
@@ -881,9 +1506,11 @@
 
       candidates.push({
 
-        type: "Kollektivavtal",
+        type:
+          "Kollektivavtal",
 
-        data: kollektivData,
+        data:
+          kollektivData,
 
         updated:
           kollektivData.updated ||
@@ -895,7 +1522,9 @@
     }
 
 
-    if (candidates.length === 0) {
+    if (
+      candidates.length === 0
+    ) {
 
       return null;
 
@@ -905,9 +1534,13 @@
     candidates.sort(
       function(a, b) {
 
-        return String(b.updated)
+        return String(
+          b.updated
+        )
           .localeCompare(
-            String(a.updated)
+            String(
+              a.updated
+            )
           );
 
       }
@@ -936,7 +1569,13 @@
   }
 
 
-  function getSalaryDataForEmployee(employeeName) {
+  /* ==========================================
+     HÄMTA LÖNEUPPGIFTER
+  ========================================== */
+
+  function getSalaryDataForEmployee(
+    employeeName
+  ) {
 
     const active =
       getActiveSalaryRecord(
@@ -956,10 +1595,14 @@
 
 
     const normalized =
-      normalizeName(employeeName);
+      normalizeName(
+        employeeName
+      );
 
 
-    if (type === "Timlön") {
+    if (
+      type === "Timlön"
+    ) {
 
       const data =
         JSON.parse(
@@ -971,13 +1614,19 @@
 
       if (
         data &&
-        getEmployeeNameFromData(data)
-          === normalized
+        getEmployeeNameFromData(
+          data
+        ) === normalized
       ) {
 
         return {
-          type: "Timlön",
-          data: data
+
+          type:
+            "Timlön",
+
+          data:
+            data
+
         };
 
       }
@@ -985,7 +1634,9 @@
     }
 
 
-    if (type === "Månadslön") {
+    if (
+      type === "Månadslön"
+    ) {
 
       const data =
         JSON.parse(
@@ -997,13 +1648,19 @@
 
       if (
         data &&
-        getEmployeeNameFromData(data)
-          === normalized
+        getEmployeeNameFromData(
+          data
+        ) === normalized
       ) {
 
         return {
-          type: "Månadslön",
-          data: data
+
+          type:
+            "Månadslön",
+
+          data:
+            data
+
         };
 
       }
@@ -1011,7 +1668,9 @@
     }
 
 
-    if (type === "Kollektivavtal") {
+    if (
+      type === "Kollektivavtal"
+    ) {
 
       const list =
         JSON.parse(
@@ -1022,24 +1681,32 @@
 
 
       const matches =
-        list.filter(function(item) {
+        list.filter(
+          function(item) {
 
-          return (
-            getEmployeeNameFromData(item)
-              === normalized
-          );
+            return (
+              getEmployeeNameFromData(
+                item
+              ) === normalized
+            );
 
-        });
+          }
+        );
 
 
-      if (matches.length > 0) {
+      if (
+        matches.length > 0
+      ) {
 
         return {
 
-          type: "Kollektivavtal",
+          type:
+            "Kollektivavtal",
 
           data:
-            matches[matches.length - 1]
+            matches[
+              matches.length - 1
+            ]
 
         };
 
@@ -1053,9 +1720,9 @@
   }
 
 
-  // ==========================================
-  // FÖRETAGSINFO
-  // ==========================================
+  /* ==========================================
+     FÖRETAGSINFO
+  ========================================== */
 
   function loadCompanyInfo() {
 
@@ -1065,6 +1732,18 @@
           "genieCompanyInfo"
         )
       ) || {};
+
+
+    document.getElementById(
+      "companyNameInput"
+    ).value =
+      saved.name || "";
+
+
+    document.getElementById(
+      "companyInfoInput"
+    ).value =
+      saved.info || "";
 
 
     document.getElementById(
@@ -1081,6 +1760,62 @@
   }
 
 
+  function saveCompanyInfo() {
+
+    const name =
+      document.getElementById(
+        "companyNameInput"
+      ).value
+        .trim();
+
+
+    const info =
+      document.getElementById(
+        "companyInfoInput"
+      ).value
+        .trim();
+
+
+    localStorage.setItem(
+
+      "genieCompanyInfo",
+
+      JSON.stringify({
+
+        name:
+          name,
+
+        info:
+          info
+
+      })
+
+    );
+
+
+    document.getElementById(
+      "companyName"
+    ).textContent =
+      name;
+
+
+    document.getElementById(
+      "companyInfo"
+    ).textContent =
+      info;
+
+
+    alert(
+      t("companySaved")
+    );
+
+  }
+
+
+  /* ==========================================
+     LOGO
+  ========================================== */
+
   function loadSavedEmployerLogo() {
 
     const logo =
@@ -1095,6 +1830,12 @@
       );
 
 
+    const placeholder =
+      document.getElementById(
+        "companyLogoPlaceholder"
+      );
+
+
     if (logo) {
 
       image.src =
@@ -1103,20 +1844,96 @@
       image.style.display =
         "block";
 
+      placeholder.style.display =
+        "none";
+
     }
 
   }
 
 
-  // ==========================================
-  // ANSTÄLLDA
-  // ==========================================
+  document
+    .getElementById(
+      "companyLogoInput"
+    )
+    .addEventListener(
+      "change",
+      function(event) {
+
+        const file =
+          event.target.files &&
+          event.target.files[0];
+
+
+        if (!file) {
+
+          return;
+
+        }
+
+
+        const reader =
+          new FileReader();
+
+
+        reader.onload =
+          function() {
+
+            const logoData =
+              reader.result;
+
+
+            localStorage.setItem(
+              "genieEmployerLogo",
+              logoData
+            );
+
+
+            const image =
+              document.getElementById(
+                "companyLogo"
+              );
+
+
+            const placeholder =
+              document.getElementById(
+                "companyLogoPlaceholder"
+              );
+
+
+            image.src =
+              logoData;
+
+
+            image.style.display =
+              "block";
+
+
+            placeholder.style.display =
+              "none";
+
+          };
+
+
+        reader.readAsDataURL(
+          file
+        );
+
+      }
+    );
+
+
+  /* ==========================================
+     ANSTÄLLDA
+  ========================================== */
 
   function saveEmployees() {
 
     localStorage.setItem(
       "genieEmployees",
-      JSON.stringify(employees)
+      JSON.stringify(
+        employees
+      )
     );
 
   }
@@ -1180,14 +1997,18 @@
       "";
 
 
-    if (employees.length === 0) {
+    if (
+      employees.length === 0
+    ) {
 
       count.textContent =
         t("noEmployees");
 
     }
 
-    else if (employees.length === 1) {
+    else if (
+      employees.length === 1
+    ) {
 
       count.textContent =
         "1 " +
@@ -1205,7 +2026,9 @@
     }
 
 
-    if (employees.length === 0) {
+    if (
+      employees.length === 0
+    ) {
 
       list.innerHTML =
         '<div class="empty">' +
@@ -1248,7 +2071,9 @@
         card.innerHTML =
 
           '<div class="employee-name">' +
-          escapeHtml(name) +
+          escapeHtml(
+            name
+          ) +
           '</div>' +
 
           '<div class="employee-actions">' +
@@ -1257,21 +2082,27 @@
           'onclick="viewEmployee(' +
           index +
           ')">' +
-          escapeHtml(t("view")) +
+          escapeHtml(
+            t("view")
+          ) +
           '</button>' +
 
           '<button class="contact-button" ' +
           'onclick="contactEmployee(' +
           index +
           ')">' +
-          escapeHtml(t("contact")) +
+          escapeHtml(
+            t("contact")
+          ) +
           '</button>' +
 
           '</div>';
 
 
         const normalized =
-          normalizeName(name);
+          normalizeName(
+            name
+          );
 
 
         const employeeMessages =
@@ -1344,7 +2175,9 @@
             ": " +
 
             escapeHtml(
-              translateStatus(status)
+              translateStatus(
+                status
+              )
             ) +
 
             "</span>";
@@ -1367,9 +2200,9 @@
   }
 
 
-  // ==========================================
-  // VISA ANSTÄLLD
-  // ==========================================
+  /* ==========================================
+     VISA ANSTÄLLD
+  ========================================== */
 
   function viewEmployee(index) {
 
@@ -1469,42 +2302,67 @@
 
 
     detailsCard.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
+
+      behavior:
+        "smooth",
+
+      block:
+        "start"
+
     });
 
   }
 
 
-  // ==========================================
-  // ÖVERSÄTTNING AV LÖNETYPER
-  // ==========================================
+  /* ==========================================
+     ÖVERSÄTTNING AV LÖNETYPER
+  ========================================== */
 
   function translatePayType(type) {
 
-    if (currentLanguage === "en") {
+    if (
+      currentLanguage === "en"
+    ) {
 
-      if (type === "Timlön")
+      if (
+        type === "Timlön"
+      )
         return "Hourly pay";
 
-      if (type === "Kollektivavtal")
+
+      if (
+        type === "Kollektivavtal"
+      )
         return "Collective agreement";
 
-      if (type === "Månadslön")
+
+      if (
+        type === "Månadslön"
+      )
         return "Monthly salary";
 
     }
 
 
-    if (currentLanguage === "sr") {
+    if (
+      currentLanguage === "sr"
+    ) {
 
-      if (type === "Timlön")
+      if (
+        type === "Timlön"
+      )
         return "Satnica";
 
-      if (type === "Kollektivavtal")
+
+      if (
+        type === "Kollektivavtal"
+      )
         return "Kolektivni ugovor";
 
-      if (type === "Månadslön")
+
+      if (
+        type === "Månadslön"
+      )
         return "Mesečna plata";
 
     }
@@ -1517,21 +2375,28 @@
 
   function translateStatus(status) {
 
-    if (status === "Åtgärdad") {
+    if (
+      status === "Åtgärdad"
+    ) {
 
       return t("fixed");
 
     }
 
 
-    if (status === "Ny kommentar") {
+    if (
+      status === "Ny kommentar"
+    ) {
 
       return t("newComment");
 
     }
 
 
-    if (status === "Svar från arbetstagaren") {
+    if (
+      status ===
+      "Svar från arbetstagaren"
+    ) {
 
       return t("replyFromEmployee");
 
@@ -1543,9 +2408,9 @@
   }
 
 
-  // ==========================================
-  // VISA LÖNEUPPGIFTER
-  // ==========================================
+  /* ==========================================
+     VISA LÖNEUPPGIFTER
+  ========================================== */
 
   function renderSalaryDetails(
     type,
@@ -1553,7 +2418,9 @@
     container
   ) {
 
-    if (type === "Timlön") {
+    if (
+      type === "Timlön"
+    ) {
 
       renderTimlon(
         data,
@@ -1565,7 +2432,9 @@
     }
 
 
-    if (type === "Kollektivavtal") {
+    if (
+      type === "Kollektivavtal"
+    ) {
 
       renderKollektivavtal(
         data,
@@ -1577,7 +2446,9 @@
     }
 
 
-    if (type === "Månadslön") {
+    if (
+      type === "Månadslön"
+    ) {
 
       renderManadslon(
         data,
@@ -1610,16 +2481,20 @@
     row.innerHTML =
 
       '<span class="info-label">' +
-      escapeHtml(label) +
+      escapeHtml(
+        label
+      ) +
       '</span>' +
 
       '<span class="info-value">' +
       escapeHtml(
+
         value === undefined ||
         value === null ||
         value === ""
           ? "-"
           : String(value)
+
       ) +
       '</span>';
 
@@ -1630,6 +2505,10 @@
 
   }
 
+
+  /* ==========================================
+     TIMLÖN
+  ========================================== */
 
   function renderTimlon(
     data,
@@ -1740,6 +2619,10 @@
   }
 
 
+  /* ==========================================
+     KOLLEKTIVAVTAL
+  ========================================== */
+
   function renderKollektivavtal(
     data,
     container
@@ -1784,6 +2667,20 @@
       data.regularOvertimePay !== undefined
         ? data.regularOvertimePay + " kr"
         : "-"
+    );
+
+
+    addInfoRow(
+      container,
+      t("night"),
+      data.nightHours
+    );
+
+
+    addInfoRow(
+      container,
+      t("nightOvertime"),
+      data.nightOvertimeHours
     );
 
 
@@ -1889,6 +2786,10 @@
   }
 
 
+  /* ==========================================
+     MÅNADSLÖN
+  ========================================== */
+
   function renderManadslon(
     data,
     container
@@ -1942,26 +2843,52 @@
       data.difference
     );
 
+
+    if (
+      data.nightStart ||
+      data.nightEnd
+    ) {
+
+      addInfoRow(
+        container,
+        t("night"),
+        (
+          data.nightStart || "-"
+        ) +
+        " – " +
+        (
+          data.nightEnd || "-"
+        )
+      );
+
+    }
+
   }
 
 
-  // ==========================================
-  // PERIOD
-  // ==========================================
+  /* ==========================================
+     PERIOD
+  ========================================== */
 
   function formatPeriod(
     start,
     end
   ) {
 
-    if (!start && !end) {
+    if (
+      !start &&
+      !end
+    ) {
 
       return "-";
 
     }
 
 
-    if (start && end) {
+    if (
+      start &&
+      end
+    ) {
 
       return start +
         " – " +
@@ -1970,14 +2897,15 @@
     }
 
 
-    return start || end;
+    return start ||
+      end;
 
   }
 
 
-  // ==========================================
-  // KOMMUNIKATION
-  // ==========================================
+  /* ==========================================
+     KOMMUNIKATION
+  ========================================== */
 
   function contactEmployee(index) {
 
@@ -2071,8 +2999,11 @@
         now.toLocaleTimeString(
           "sv-SE",
           {
-            hour: "2-digit",
-            minute: "2-digit"
+            hour:
+              "2-digit",
+
+            minute:
+              "2-digit"
           }
         ),
 
@@ -2258,7 +3189,9 @@
           "'>" +
 
           escapeHtml(
-            translateStatus(status)
+            translateStatus(
+              status
+            )
           ) +
 
           "</span>" +
@@ -2322,9 +3255,9 @@
   }
 
 
-  // ==========================================
-  // STÄNG DETALJER
-  // ==========================================
+  /* ==========================================
+     STÄNG DETALJER
+  ========================================== */
 
   function closeEmployee() {
 
@@ -2340,13 +3273,15 @@
   }
 
 
-  // ==========================================
-  // SKYDDA HTML
-  // ==========================================
+  /* ==========================================
+     SKYDDA HTML
+  ========================================== */
 
   function escapeHtml(value) {
 
-    return String(value || "")
+    return String(
+      value || ""
+    )
       .replace(
         /&/g,
         "&amp;"
@@ -2371,9 +3306,9 @@
   }
 
 
-  // ==========================================
-  // START
-  // ==========================================
+  /* ==========================================
+     START
+  ========================================== */
 
   loadCompanyInfo();
 
