@@ -19,6 +19,7 @@
     }
 
     .container {
+      width: 100%;
       max-width: 620px;
       margin: 0 auto;
       padding: 18px;
@@ -74,6 +75,7 @@
       border-radius: 10px;
       padding: 12px;
       background: white;
+      max-width: 100%;
     }
 
     textarea {
@@ -83,8 +85,12 @@
 
     label {
       display: block;
-      margin: 13px 0 6px;
+      margin: 0 0 6px;
       font-weight: 600;
+    }
+
+    .field {
+      min-width: 0;
     }
 
     .card {
@@ -93,35 +99,87 @@
       padding: 16px;
       margin-bottom: 15px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      overflow: hidden;
+    }
+
+    .two-columns {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 10px;
+      width: 100%;
+    }
+
+    .two-columns .field {
+      min-width: 0;
+    }
+
+    .two-columns input,
+    .two-columns textarea {
+      width: 100%;
+      min-width: 0;
     }
 
     .period {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       gap: 10px;
+      width: 100%;
     }
 
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 7px 0;
-      border-bottom: 1px solid #eee;
+    .period small {
+      display: block;
+      margin-bottom: 6px;
     }
 
-    .summary-row:last-child {
-      border-bottom: none;
+    .period input {
+      width: 100%;
+      min-width: 0;
     }
 
-    .summary-total {
+    .hours-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 10px;
+      width: 100%;
+    }
+
+    .hour-box {
+      background: #f8f8f8;
+      border-radius: 10px;
+      padding: 11px;
+      min-width: 0;
+    }
+
+    .hour-box .hour-label {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .hour-box .hour-value {
+      text-align: right;
       font-weight: 700;
-      font-size: 17px;
-      padding-top: 12px;
+      margin-top: 5px;
+      font-size: 16px;
     }
 
     .rate-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       gap: 10px;
+      width: 100%;
+    }
+
+    .rate-grid .field {
+      min-width: 0;
+    }
+
+    .rate-grid input {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .single-field {
+      margin-top: 13px;
     }
 
     .button-main {
@@ -153,6 +211,29 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
 
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 7px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .summary-row span:last-child {
+      white-space: nowrap;
+      font-weight: 600;
+    }
+
+    .summary-row:last-child {
+      border-bottom: none;
+    }
+
+    .summary-total {
+      font-weight: 700;
+      font-size: 17px;
+      padding-top: 12px;
+    }
+
     .message {
       background: #f7f7f7;
       border-radius: 10px;
@@ -176,9 +257,26 @@
       cursor: pointer;
     }
 
-    @media (max-width: 430px) {
+    @media (max-width: 360px) {
+      .container {
+        padding: 12px;
+      }
+
+      .card {
+        padding: 13px;
+      }
+
+      .two-columns,
+      .period,
+      .hours-grid,
       .rate-grid {
-        grid-template-columns: 1fr;
+        gap: 7px;
+      }
+
+      input,
+      textarea,
+      select {
+        padding: 10px;
       }
     }
   </style>
@@ -190,9 +288,12 @@
 
   <header>
     <div class="type-icon">%</div>
+
     <h1 data-sv="Kollektivavtal"
         data-en="Collective Agreement"
-        data-sr="Kolektivni ugovor">Kollektivavtal</h1>
+        data-sr="Kolektivni ugovor">
+      Kollektivavtal
+    </h1>
 
     <div class="subtitle"
          data-sv="Löneuppgifter – Kollektivavtal"
@@ -210,192 +311,386 @@
     </select>
   </div>
 
+
+  <!-- ARBETSGIVARE / ARBETSTAGARE -->
+
   <div class="card">
 
-    <label for="employerInfo"
-           data-sv="Arbetsgivare"
-           data-en="Employer"
-           data-sr="Poslodavac">Arbetsgivare</label>
+    <div class="two-columns">
 
-    <textarea id="employerInfo"
-              placeholder="Arbetsgivare"></textarea>
+      <div class="field">
+        <label for="employerInfo"
+               data-sv="Arbetsgivare"
+               data-en="Employer"
+               data-sr="Poslodavac">
+          Arbetsgivare
+        </label>
 
-    <label for="employeeInfo"
-           data-sv="Arbetstagare"
-           data-en="Employee"
-           data-sr="Zaposleni">Arbetstagare</label>
+        <textarea id="employerInfo"
+                  placeholder="Arbetsgivare"></textarea>
+      </div>
 
-    <textarea id="employeeInfo"
-              placeholder="Arbetstagare"></textarea>
+      <div class="field">
+        <label for="employeeInfo"
+               data-sv="Arbetstagare"
+               data-en="Employee"
+               data-sr="Zaposleni">
+          Arbetstagare
+        </label>
 
-    <label data-sv="Löneperiod"
+        <textarea id="employeeInfo"
+                  placeholder="Arbetstagare"></textarea>
+      </div>
+
+    </div>
+
+
+    <!-- LÖNEPERIOD -->
+
+    <label style="margin-top:13px;"
+           data-sv="Löneperiod"
            data-en="Pay period"
-           data-sr="Period obračuna">Löneperiod</label>
+           data-sr="Period obračuna">
+      Löneperiod
+    </label>
 
     <div class="period">
-      <div>
+
+      <div class="field">
         <small data-sv="Från"
                data-en="From"
-               data-sr="Od">Från</small>
+               data-sr="Od">
+          Från
+        </small>
+
         <input type="date" id="periodStart">
       </div>
 
-      <div>
+      <div class="field">
         <small data-sv="Till"
                data-en="To"
-               data-sr="Do">Till</small>
+               data-sr="Do">
+          Till
+        </small>
+
         <input type="date" id="periodEnd">
       </div>
+
     </div>
 
   </div>
+
+
+  <!-- ARBETSTID -->
 
   <div class="card">
 
     <h2 data-sv="Arbetstid"
         data-en="Working hours"
-        data-sr="Radno vreme">Arbetstid</h2>
+        data-sr="Radno vreme">
+      Arbetstid
+    </h2>
 
-    <div class="summary-row">
-      <span data-sv="Vardag"
-            data-en="Weekday"
-            data-sr="Radni dan">Vardag</span>
-      <span id="lonRegularHours">0</span>
-    </div>
+    <div class="hours-grid">
 
-    <div class="summary-row">
-      <span data-sv="Övertid vardag"
-            data-en="Weekday overtime"
-            data-sr="Prekovremeni radni dan">Övertid vardag</span>
-      <span id="lonOvertimeHours">0</span>
-    </div>
+      <div class="hour-box">
+        <div class="hour-label"
+             data-sv="Vardag"
+             data-en="Weekday"
+             data-sr="Radni dan">
+          Vardag
+        </div>
 
-    <div class="summary-row">
-      <span data-sv="Natt"
-            data-en="Night"
-            data-sr="Noć">Natt</span>
-      <span id="lonNightHours">0</span>
-    </div>
+        <div class="hour-value"
+             id="lonRegularHours">
+          0
+        </div>
+      </div>
 
-    <div class="summary-row">
-      <span data-sv="Nattövertid"
-            data-en="Night overtime"
-            data-sr="Noćni prekovremeni">Nattövertid</span>
-      <span id="lonNightOvertimeHours">0</span>
-    </div>
 
-    <div class="summary-row">
-      <span data-sv="Helg"
-            data-en="Weekend"
-            data-sr="Vikend">Helg</span>
-      <span id="lonWeekendHours">0</span>
-    </div>
+      <div class="hour-box">
+        <div class="hour-label"
+             data-sv="Övertid vardag"
+             data-en="Weekday overtime"
+             data-sr="Prekovremeni radni dan">
+          Övertid vardag
+        </div>
 
-    <div class="summary-row">
-      <span data-sv="Helgövertid"
-            data-en="Weekend overtime"
-            data-sr="Vikend prekovremeni">Helgövertid</span>
-      <span id="lonWeekendOvertimeHours">0</span>
-    </div>
+        <div class="hour-value"
+             id="lonOvertimeHours">
+          0
+        </div>
+      </div>
 
-    <div class="summary-row">
-      <span data-sv="Helgdag"
-            data-en="Holiday"
-            data-sr="Praznik">Helgdag</span>
-      <span id="lonHolidayHours">0</span>
-    </div>
 
-    <div class="summary-row">
-      <span data-sv="Helgdagsövertid"
-            data-en="Holiday overtime"
-            data-sr="Praznični prekovremeni">Helgdagsövertid</span>
-      <span id="lonHolidayOvertimeHours">0</span>
+      <div class="hour-box">
+        <div class="hour-label"
+             data-sv="Natt"
+             data-en="Night"
+             data-sr="Noć">
+          Natt
+        </div>
+
+        <div class="hour-value"
+             id="lonNightHours">
+          0
+        </div>
+      </div>
+
+
+      <div class="hour-box">
+        <div class="hour-label"
+             data-sv="Nattövertid"
+             data-en="Night overtime"
+             data-sr="Noćni prekovremeni">
+          Nattövertid
+        </div>
+
+        <div class="hour-value"
+             id="lonNightOvertimeHours">
+          0
+        </div>
+      </div>
+
+
+      <div class="hour-box">
+        <div class="hour-label"
+             data-sv="Helg"
+             data-en="Weekend"
+             data-sr="Vikend">
+          Helg
+        </div>
+
+        <div class="hour-value"
+             id="lonWeekendHours">
+          0
+        </div>
+      </div>
+
+
+      <div class="hour-box">
+        <div class="hour-label"
+             data-sv="Helgövertid"
+             data-en="Weekend overtime"
+             data-sr="Vikend prekovremeni">
+          Helgövertid
+        </div>
+
+        <div class="hour-value"
+             id="lonWeekendOvertimeHours">
+          0
+        </div>
+      </div>
+
+
+      <div class="hour-box">
+        <div class="hour-label"
+             data-sv="Helgdag"
+             data-en="Holiday"
+             data-sr="Praznik">
+          Helgdag
+        </div>
+
+        <div class="hour-value"
+             id="lonHolidayHours">
+          0
+        </div>
+      </div>
+
+
+      <div class="hour-box">
+        <div class="hour-label"
+             data-sv="Helgdagsövertid"
+             data-en="Holiday overtime"
+             data-sr="Praznični prekovremeni">
+          Helgdagsövertid
+        </div>
+
+        <div class="hour-value"
+             id="lonHolidayOvertimeHours">
+          0
+        </div>
+      </div>
+
     </div>
 
   </div>
+
+
+  <!-- KOLLEKTIVAVTAL -->
 
   <div class="card">
 
     <h2 data-sv="Kollektivavtal"
         data-en="Collective Agreement"
-        data-sr="Kolektivni ugovor">Kollektivavtal</h2>
+        data-sr="Kolektivni ugovor">
+      Kollektivavtal
+    </h2>
 
-    <label data-sv="Grundlön per timme"
-           data-en="Base hourly rate"
-           data-sr="Osnovna satnica">
-      Grundlön per timme
-    </label>
 
-    <input type="number" id="regularRate" value="146" step="0.01">
+    <div class="single-field">
 
-    <div class="rate-grid">
+      <label data-sv="Grundlön per timme"
+             data-en="Base hourly rate"
+             data-sr="Osnovna satnica">
+        Grundlön per timme
+      </label>
 
-      <div>
+      <input type="number"
+             id="regularRate"
+             value="146"
+             step="0.01">
+
+    </div>
+
+
+    <div class="rate-grid" style="margin-top:13px;">
+
+      <div class="field">
+
         <label data-sv="Övertid %"
                data-en="Overtime %"
-               data-sr="Prekovremeni %">Övertid %</label>
-        <input type="number" id="regularOvertimePercent" value="10" step="0.1">
+               data-sr="Prekovremeni %">
+          Övertid %
+        </label>
+
+        <input type="number"
+               id="regularOvertimePercent"
+               value="10"
+               step="0.1">
+
       </div>
 
-      <div>
+
+      <div class="field">
+
         <label data-sv="Natt %"
                data-en="Night %"
-               data-sr="Noć %">Natt %</label>
-        <input type="number" id="nightPercent" value="30" step="0.1">
+               data-sr="Noć %">
+          Natt %
+        </label>
+
+        <input type="number"
+               id="nightPercent"
+               value="30"
+               step="0.1">
+
       </div>
 
-      <div>
+
+      <div class="field">
+
         <label data-sv="Nattövertid %"
                data-en="Night overtime %"
-               data-sr="Noćni prekovremeni %">Nattövertid %</label>
-        <input type="number" id="nightOvertimePercent" value="40" step="0.1">
+               data-sr="Noćni prekovremeni %">
+          Nattövertid %
+        </label>
+
+        <input type="number"
+               id="nightOvertimePercent"
+               value="40"
+               step="0.1">
+
       </div>
 
-      <div>
+
+      <div class="field">
+
         <label data-sv="Helg %"
                data-en="Weekend %"
-               data-sr="Vikend %">Helg %</label>
-        <input type="number" id="weekendPercent" value="50" step="0.1">
+               data-sr="Vikend %">
+          Helg %
+        </label>
+
+        <input type="number"
+               id="weekendPercent"
+               value="50"
+               step="0.1">
+
       </div>
 
-      <div>
+
+      <div class="field">
+
         <label data-sv="Helgövertid %"
                data-en="Weekend overtime %"
-               data-sr="Vikend prekovremeni %">Helgövertid %</label>
-        <input type="number" id="weekendOvertimePercent" value="60" step="0.1">
+               data-sr="Vikend prekovremeni %">
+          Helgövertid %
+        </label>
+
+        <input type="number"
+               id="weekendOvertimePercent"
+               value="60"
+               step="0.1">
+
       </div>
 
-      <div>
+
+      <div class="field">
+
         <label data-sv="Helgdag %"
                data-en="Holiday %"
-               data-sr="Praznik %">Helgdag %</label>
-        <input type="number" id="holidayPercent" value="100" step="0.1">
+               data-sr="Praznik %">
+          Helgdag %
+        </label>
+
+        <input type="number"
+               id="holidayPercent"
+               value="100"
+               step="0.1">
+
       </div>
 
-      <div>
+
+      <div class="field">
+
         <label data-sv="Helgdagsövertid %"
                data-en="Holiday overtime %"
                data-sr="Praznični prekovremeni %">
           Helgdagsövertid %
         </label>
-        <input type="number" id="holidayOvertimePercent" value="110" step="0.1">
+
+        <input type="number"
+               id="holidayOvertimePercent"
+               value="110"
+               step="0.1">
+
       </div>
 
     </div>
 
-    <label data-sv="Semesterersättning %"
-           data-en="Holiday pay %"
-           data-sr="Naknada za godišnji odmor %">
-      Semesterersättning %
-    </label>
 
-    <input type="number" id="holidayPay" value="13" step="0.1">
+    <div class="single-field">
 
-    <label data-sv="Skatt %"
-           data-en="Tax %"
-           data-sr="Porez %">Skatt %</label>
+      <label data-sv="Semesterersättning %"
+             data-en="Holiday pay %"
+             data-sr="Naknada za godišnji odmor %">
+        Semesterersättning %
+      </label>
 
-    <input type="number" id="tax" value="21" step="0.1">
+      <input type="number"
+             id="holidayPay"
+             value="13"
+             step="0.1">
+
+    </div>
+
+
+    <div class="single-field">
+
+      <label data-sv="Skatt %"
+             data-en="Tax %"
+             data-sr="Porez %">
+        Skatt %
+      </label>
+
+      <input type="number"
+             id="tax"
+             value="21"
+             step="0.1">
+
+    </div>
+
 
     <button class="button-main"
             onclick="calculateAndSaveSalary()"
@@ -407,25 +702,38 @@
 
   </div>
 
+
+  <!-- RESULTAT -->
+
   <div id="result" class="result">
 
     <h2 data-sv="Löneberäkning"
         data-en="Salary calculation"
-        data-sr="Obračun plate">Löneberäkning</h2>
+        data-sr="Obračun plate">
+      Löneberäkning
+    </h2>
 
     <div class="summary-row">
       <span data-sv="Grundlön"
             data-en="Base pay"
-            data-sr="Osnovna plata">Grundlön</span>
+            data-sr="Osnovna plata">
+        Grundlön
+      </span>
+
       <span id="resultBase">0 kr</span>
     </div>
+
 
     <div class="summary-row">
       <span data-sv="Tillägg"
             data-en="Supplements"
-            data-sr="Dodaci">Tillägg</span>
+            data-sr="Dodaci">
+        Tillägg
+      </span>
+
       <span id="resultSupplements">0 kr</span>
     </div>
+
 
     <div class="summary-row">
       <span data-sv="Semesterersättning"
@@ -433,41 +741,60 @@
             data-sr="Naknada za godišnji odmor">
         Semesterersättning
       </span>
+
       <span id="resultHolidayPay">0 kr</span>
     </div>
+
 
     <div class="summary-row summary-total">
       <span data-sv="Bruttolön"
             data-en="Gross pay"
-            data-sr="Bruto plata">Bruttolön</span>
+            data-sr="Bruto plata">
+        Bruttolön
+      </span>
+
       <span id="resultGross">0 kr</span>
     </div>
+
 
     <div class="summary-row">
       <span data-sv="Skatt"
             data-en="Tax"
-            data-sr="Porez">Skatt</span>
+            data-sr="Porez">
+        Skatt
+      </span>
+
       <span id="resultTax">0 kr</span>
     </div>
+
 
     <div class="summary-row summary-total">
       <span data-sv="Nettolön"
             data-en="Net pay"
-            data-sr="Neto plata">Nettolön</span>
+            data-sr="Neto plata">
+        Nettolön
+      </span>
+
       <span id="resultNet">0 kr</span>
     </div>
 
   </div>
 
+
+  <!-- MEDDELANDEN -->
+
   <div class="card">
 
     <h2 data-sv="Meddelanden"
         data-en="Messages"
-        data-sr="Poruke">Meddelanden</h2>
+        data-sr="Poruke">
+      Meddelanden
+    </h2>
 
     <div id="communicationList"></div>
 
   </div>
+
 
   <button class="button-back"
           onclick="location.href='index.html'"
@@ -479,60 +806,102 @@
 
 </div>
 
+
 <script>
 
 const GENIE_EMPLOYEE_STORE = "genieEmployeesData";
 
+
 function normalizeEmployeeName(name) {
+
   return String(name || "")
     .trim()
     .toLowerCase()
     .replace(/\s+/g, " ");
+
 }
+
 
 function getEmployeeStore() {
+
   try {
-    return JSON.parse(localStorage.getItem(GENIE_EMPLOYEE_STORE)) || {};
+
+    return JSON.parse(
+      localStorage.getItem(GENIE_EMPLOYEE_STORE)
+    ) || {};
+
   } catch (e) {
+
     return {};
+
   }
+
 }
 
+
 function saveEmployeeStore(store) {
+
   localStorage.setItem(
     GENIE_EMPLOYEE_STORE,
     JSON.stringify(store)
   );
+
 }
 
-function saveEmployeeSalaryRecord(employeeName, type, record) {
 
-  const key = normalizeEmployeeName(employeeName);
+function saveEmployeeSalaryRecord(
+  employeeName,
+  type,
+  record
+) {
+
+  const key =
+    normalizeEmployeeName(employeeName);
 
   if (!key) return false;
 
-  const store = getEmployeeStore();
+  const store =
+    getEmployeeStore();
 
   if (!store[key]) {
+
     store[key] = {
+
       employee: employeeName,
+
       activeType: type,
+
       Timlön: null,
+
       Kollektivavtal: null,
+
       Månadslön: null
+
     };
+
   }
 
-  store[key].employee = employeeName;
-  store[key].activeType = type;
-  store[key][type] = record;
+  store[key].employee =
+    employeeName;
+
+  store[key].activeType =
+    type;
+
+  store[key][type] =
+    record;
 
   saveEmployeeStore(store);
 
-  const activeTypes =
-    JSON.parse(localStorage.getItem("genieActiveSalaryTypes")) || {};
 
-  activeTypes[key] = type;
+  const activeTypes =
+    JSON.parse(
+      localStorage.getItem(
+        "genieActiveSalaryTypes"
+      )
+    ) || {};
+
+  activeTypes[key] =
+    type;
 
   localStorage.setItem(
     "genieActiveSalaryTypes",
@@ -540,6 +909,7 @@ function saveEmployeeSalaryRecord(employeeName, type, record) {
   );
 
   return true;
+
 }
 
 
@@ -550,35 +920,61 @@ function saveEmployeeSalaryRecord(employeeName, type, record) {
 function applyLanguage() {
 
   const lang =
-    document.getElementById("languageSelect").value;
+    document.getElementById(
+      "languageSelect"
+    ).value;
 
-  document.documentElement.lang = lang;
+  document.documentElement.lang =
+    lang;
 
-  document.querySelectorAll("[data-" + lang + "]")
+  document
+    .querySelectorAll(
+      "[data-" + lang + "]"
+    )
     .forEach(el => {
+
       el.textContent =
-        el.getAttribute("data-" + lang);
+        el.getAttribute(
+          "data-" + lang
+        );
+
     });
 
-  document.querySelectorAll("textarea").forEach(el => {
 
-    if (el.id === "employerInfo") {
-      el.placeholder =
-        lang === "sv" ? "Arbetsgivare" :
-        lang === "en" ? "Employer" :
-        "Poslodavac";
-    }
+  document
+    .querySelectorAll("textarea")
+    .forEach(el => {
 
-    if (el.id === "employeeInfo") {
-      el.placeholder =
-        lang === "sv" ? "Arbetstagare" :
-        lang === "en" ? "Employee" :
-        "Zaposleni";
-    }
+      if (el.id === "employerInfo") {
 
-  });
+        el.placeholder =
+          lang === "sv"
+            ? "Arbetsgivare"
+            : lang === "en"
+            ? "Employer"
+            : "Poslodavac";
 
-  localStorage.setItem("genieLanguage", lang);
+      }
+
+      if (el.id === "employeeInfo") {
+
+        el.placeholder =
+          lang === "sv"
+            ? "Arbetstagare"
+            : lang === "en"
+            ? "Employee"
+            : "Zaposleni";
+
+      }
+
+    });
+
+
+  localStorage.setItem(
+    "genieLanguage",
+    lang
+  );
+
 }
 
 
@@ -589,7 +985,9 @@ function applyLanguage() {
 function saveFormData() {
 
   const inputs =
-    document.querySelectorAll("input, textarea");
+    document.querySelectorAll(
+      "input, textarea"
+    );
 
   inputs.forEach(input => {
 
@@ -603,13 +1001,16 @@ function saveFormData() {
     }
 
   });
+
 }
 
 
 function loadFormData() {
 
   const inputs =
-    document.querySelectorAll("input, textarea");
+    document.querySelectorAll(
+      "input, textarea"
+    );
 
   inputs.forEach(input => {
 
@@ -621,18 +1022,29 @@ function loadFormData() {
       );
 
     if (saved !== null) {
-      input.value = saved;
+
+      input.value =
+        saved;
+
     }
 
   });
 
+
   const savedLanguage =
-    localStorage.getItem("genieLanguage");
+    localStorage.getItem(
+      "genieLanguage"
+    );
 
   if (savedLanguage) {
-    document.getElementById("languageSelect").value =
+
+    document.getElementById(
+      "languageSelect"
+    ).value =
       savedLanguage;
+
   }
+
 }
 
 
@@ -645,37 +1057,84 @@ function loadCalendarHours() {
   let hours = {};
 
   try {
+
     hours =
       JSON.parse(
-        localStorage.getItem("salaryHours")
+        localStorage.getItem(
+          "salaryHours"
+        )
       ) || {};
+
   } catch (e) {
+
     hours = {};
+
   }
 
-  document.getElementById("lonRegularHours").textContent =
-    Number(hours.regularHours || 0).toFixed(1);
 
-  document.getElementById("lonOvertimeHours").textContent =
-    Number(hours.regularOvertimeHours || 0).toFixed(1);
+  document.getElementById(
+    "lonRegularHours"
+  ).textContent =
+    Number(
+      hours.regularHours || 0
+    ).toFixed(1);
 
-  document.getElementById("lonNightHours").textContent =
-    Number(hours.nightHours || 0).toFixed(1);
 
-  document.getElementById("lonNightOvertimeHours").textContent =
-    Number(hours.nightOvertimeHours || 0).toFixed(1);
+  document.getElementById(
+    "lonOvertimeHours"
+  ).textContent =
+    Number(
+      hours.regularOvertimeHours || 0
+    ).toFixed(1);
 
-  document.getElementById("lonWeekendHours").textContent =
-    Number(hours.weekendHours || 0).toFixed(1);
 
-  document.getElementById("lonWeekendOvertimeHours").textContent =
-    Number(hours.weekendOvertimeHours || 0).toFixed(1);
+  document.getElementById(
+    "lonNightHours"
+  ).textContent =
+    Number(
+      hours.nightHours || 0
+    ).toFixed(1);
 
-  document.getElementById("lonHolidayHours").textContent =
-    Number(hours.holidayHours || 0).toFixed(1);
 
-  document.getElementById("lonHolidayOvertimeHours").textContent =
-    Number(hours.holidayOvertimeHours || 0).toFixed(1);
+  document.getElementById(
+    "lonNightOvertimeHours"
+  ).textContent =
+    Number(
+      hours.nightOvertimeHours || 0
+    ).toFixed(1);
+
+
+  document.getElementById(
+    "lonWeekendHours"
+  ).textContent =
+    Number(
+      hours.weekendHours || 0
+    ).toFixed(1);
+
+
+  document.getElementById(
+    "lonWeekendOvertimeHours"
+  ).textContent =
+    Number(
+      hours.weekendOvertimeHours || 0
+    ).toFixed(1);
+
+
+  document.getElementById(
+    "lonHolidayHours"
+  ).textContent =
+    Number(
+      hours.holidayHours || 0
+    ).toFixed(1);
+
+
+  document.getElementById(
+    "lonHolidayOvertimeHours"
+  ).textContent =
+    Number(
+      hours.holidayOvertimeHours || 0
+    ).toFixed(1);
+
 }
 
 
@@ -688,102 +1147,180 @@ function calculateSalary() {
   const hours = {};
 
   try {
+
     Object.assign(
       hours,
       JSON.parse(
-        localStorage.getItem("salaryHours")
+        localStorage.getItem(
+          "salaryHours"
+        )
       ) || {}
     );
+
   } catch (e) {}
 
+
   const regularHours =
-    Number(hours.regularHours || 0);
+    Number(
+      hours.regularHours || 0
+    );
 
   const overtimeHours =
-    Number(hours.regularOvertimeHours || 0);
+    Number(
+      hours.regularOvertimeHours || 0
+    );
 
   const nightHours =
-    Number(hours.nightHours || 0);
+    Number(
+      hours.nightHours || 0
+    );
 
   const nightOvertimeHours =
-    Number(hours.nightOvertimeHours || 0);
+    Number(
+      hours.nightOvertimeHours || 0
+    );
 
   const weekendHours =
-    Number(hours.weekendHours || 0);
+    Number(
+      hours.weekendHours || 0
+    );
 
   const weekendOvertimeHours =
-    Number(hours.weekendOvertimeHours || 0);
+    Number(
+      hours.weekendOvertimeHours || 0
+    );
 
   const holidayHours =
-    Number(hours.holidayHours || 0);
+    Number(
+      hours.holidayHours || 0
+    );
 
   const holidayOvertimeHours =
-    Number(hours.holidayOvertimeHours || 0);
+    Number(
+      hours.holidayOvertimeHours || 0
+    );
 
 
   const baseRate =
-    Number(document.getElementById("regularRate").value) || 0;
+    Number(
+      document.getElementById(
+        "regularRate"
+      ).value
+    ) || 0;
+
 
   const overtimePercent =
-    Number(document.getElementById("regularOvertimePercent").value) || 0;
+    Number(
+      document.getElementById(
+        "regularOvertimePercent"
+      ).value
+    ) || 0;
+
 
   const nightPercent =
-    Number(document.getElementById("nightPercent").value) || 0;
+    Number(
+      document.getElementById(
+        "nightPercent"
+      ).value
+    ) || 0;
+
 
   const nightOvertimePercent =
-    Number(document.getElementById("nightOvertimePercent").value) || 0;
+    Number(
+      document.getElementById(
+        "nightOvertimePercent"
+      ).value
+    ) || 0;
+
 
   const weekendPercent =
-    Number(document.getElementById("weekendPercent").value) || 0;
+    Number(
+      document.getElementById(
+        "weekendPercent"
+      ).value
+    ) || 0;
+
 
   const weekendOvertimePercent =
-    Number(document.getElementById("weekendOvertimePercent").value) || 0;
+    Number(
+      document.getElementById(
+        "weekendOvertimePercent"
+      ).value
+    ) || 0;
+
 
   const holidayPercent =
-    Number(document.getElementById("holidayPercent").value) || 0;
+    Number(
+      document.getElementById(
+        "holidayPercent"
+      ).value
+    ) || 0;
+
 
   const holidayOvertimePercent =
-    Number(document.getElementById("holidayOvertimePercent").value) || 0;
+    Number(
+      document.getElementById(
+        "holidayOvertimePercent"
+      ).value
+    ) || 0;
+
 
   const holidayPayPercent =
-    Number(document.getElementById("holidayPay").value) || 0;
+    Number(
+      document.getElementById(
+        "holidayPay"
+      ).value
+    ) || 0;
+
 
   const taxPercent =
-    Number(document.getElementById("tax").value) || 0;
+    Number(
+      document.getElementById(
+        "tax"
+      ).value
+    ) || 0;
 
 
   const regularPay =
-    regularHours * baseRate;
+    regularHours *
+    baseRate;
+
 
   const overtimePay =
     overtimeHours *
     baseRate *
     (1 + overtimePercent / 100);
 
+
   const nightPay =
     nightHours *
     baseRate *
     (1 + nightPercent / 100);
+
 
   const nightOvertimePay =
     nightOvertimeHours *
     baseRate *
     (1 + nightOvertimePercent / 100);
 
+
   const weekendPay =
     weekendHours *
     baseRate *
     (1 + weekendPercent / 100);
+
 
   const weekendOvertimePay =
     weekendOvertimeHours *
     baseRate *
     (1 + weekendOvertimePercent / 100);
 
+
   const holidayPayAmount =
     holidayHours *
     baseRate *
     (1 + holidayPercent / 100);
+
 
   const holidayOvertimePayAmount =
     holidayOvertimeHours *
@@ -794,6 +1331,7 @@ function calculateSalary() {
   const basePay =
     regularPay;
 
+
   const supplements =
     overtimePay +
     nightPay +
@@ -803,47 +1341,82 @@ function calculateSalary() {
     holidayPayAmount +
     holidayOvertimePayAmount;
 
+
   const salaryBeforeHolidayPay =
-    basePay + supplements;
+    basePay +
+    supplements;
+
 
   const holidayPayAmountTotal =
     salaryBeforeHolidayPay *
     holidayPayPercent / 100;
 
+
   const gross =
     salaryBeforeHolidayPay +
     holidayPayAmountTotal;
 
+
   const tax =
-    gross * taxPercent / 100;
+    gross *
+    taxPercent / 100;
+
 
   const net =
-    gross - tax;
+    gross -
+    tax;
 
 
-  document.getElementById("resultBase").textContent =
-    basePay.toFixed(2) + " kr";
+  document.getElementById(
+    "resultBase"
+  ).textContent =
+    basePay.toFixed(2) +
+    " kr";
 
-  document.getElementById("resultSupplements").textContent =
-    supplements.toFixed(2) + " kr";
 
-  document.getElementById("resultHolidayPay").textContent =
-    holidayPayAmountTotal.toFixed(2) + " kr";
+  document.getElementById(
+    "resultSupplements"
+  ).textContent =
+    supplements.toFixed(2) +
+    " kr";
 
-  document.getElementById("resultGross").textContent =
-    gross.toFixed(2) + " kr";
 
-  document.getElementById("resultTax").textContent =
-    tax.toFixed(2) + " kr";
+  document.getElementById(
+    "resultHolidayPay"
+  ).textContent =
+    holidayPayAmountTotal.toFixed(2) +
+    " kr";
 
-  document.getElementById("resultNet").textContent =
-    net.toFixed(2) + " kr";
 
-  document.getElementById("result").style.display =
+  document.getElementById(
+    "resultGross"
+  ).textContent =
+    gross.toFixed(2) +
+    " kr";
+
+
+  document.getElementById(
+    "resultTax"
+  ).textContent =
+    tax.toFixed(2) +
+    " kr";
+
+
+  document.getElementById(
+    "resultNet"
+  ).textContent =
+    net.toFixed(2) +
+    " kr";
+
+
+  document.getElementById(
+    "result"
+  ).style.display =
     "block";
 
 
   return {
+
     regularHours,
     overtimeHours,
     nightHours,
@@ -854,11 +1427,14 @@ function calculateSalary() {
     holidayOvertimeHours,
 
     baseRate,
+
     overtimePercent,
     nightPercent,
     nightOvertimePercent,
+
     weekendPercent,
     weekendOvertimePercent,
+
     holidayPercent,
     holidayOvertimePercent,
 
@@ -867,12 +1443,16 @@ function calculateSalary() {
 
     basePay,
     supplements,
+
     holidayPayAmount:
       holidayPayAmountTotal,
+
     gross,
     tax,
     net
+
   };
+
 }
 
 
@@ -883,10 +1463,16 @@ function calculateSalary() {
 function saveSalaryToEmployee(result) {
 
   const employeeName =
-    document.getElementById("employeeInfo").value.trim();
+    document.getElementById(
+      "employeeInfo"
+    ).value.trim();
+
 
   const employerName =
-    document.getElementById("employerInfo").value.trim();
+    document.getElementById(
+      "employerInfo"
+    ).value.trim();
+
 
   if (!employeeName) {
 
@@ -895,24 +1481,34 @@ function saveSalaryToEmployee(result) {
     );
 
     return false;
+
   }
 
 
   const record = {
 
-    employer: employerName,
+    employer:
+      employerName,
 
-    employee: employeeName,
+    employee:
+      employeeName,
 
-    type: "Kollektivavtal",
+    type:
+      "Kollektivavtal",
 
     periodStart:
-      document.getElementById("periodStart").value,
+      document.getElementById(
+        "periodStart"
+      ).value,
 
     periodEnd:
-      document.getElementById("periodEnd").value,
+      document.getElementById(
+        "periodEnd"
+      ).value,
+
 
     hours: {
+
       regular:
         result.regularHours,
 
@@ -936,7 +1532,9 @@ function saveSalaryToEmployee(result) {
 
       holidayOvertime:
         result.holidayOvertimeHours
+
     },
+
 
     rates: {
 
@@ -969,7 +1567,9 @@ function saveSalaryToEmployee(result) {
 
       tax:
         result.taxPercent
+
     },
+
 
     calculation: {
 
@@ -990,10 +1590,13 @@ function saveSalaryToEmployee(result) {
 
       net:
         result.net
+
     },
+
 
     savedAt:
       new Date().toISOString()
+
   };
 
 
@@ -1005,12 +1608,15 @@ function saveSalaryToEmployee(result) {
 
 
   /* Legacy compatibility */
+
   localStorage.setItem(
     "genieProcentResult",
     JSON.stringify(record)
   );
 
+
   return true;
+
 }
 
 
@@ -1025,9 +1631,12 @@ function calculateAndSaveSalary() {
   const result =
     calculateSalary();
 
-  saveSalaryToEmployee(result);
+  saveSalaryToEmployee(
+    result
+  );
 
   loadCommunication();
+
 }
 
 
@@ -1043,6 +1652,7 @@ function escapeHtml(value) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+
 }
 
 
@@ -1051,7 +1661,9 @@ function getMessages() {
   try {
 
     return JSON.parse(
-      localStorage.getItem("genieMessages")
+      localStorage.getItem(
+        "genieMessages"
+      )
     ) || [];
 
   } catch (e) {
@@ -1059,6 +1671,7 @@ function getMessages() {
     return [];
 
   }
+
 }
 
 
@@ -1068,18 +1681,25 @@ function saveMessages(messages) {
     "genieMessages",
     JSON.stringify(messages)
   );
+
 }
 
 
 function loadCommunication() {
 
   const container =
-    document.getElementById("communicationList");
+    document.getElementById(
+      "communicationList"
+    );
 
   container.innerHTML = "";
 
+
   const employeeName =
-    document.getElementById("employeeInfo").value.trim();
+    document.getElementById(
+      "employeeInfo"
+    ).value.trim();
+
 
   if (!employeeName) {
 
@@ -1087,14 +1707,18 @@ function loadCommunication() {
       "<p>Inga meddelanden.</p>";
 
     return;
+
   }
 
 
   const messages =
     getMessages();
 
+
   const employeeKey =
-    normalizeEmployeeName(employeeName);
+    normalizeEmployeeName(
+      employeeName
+    );
 
 
   const relevant =
@@ -1107,7 +1731,10 @@ function loadCommunication() {
           ""
         );
 
-      return messageEmployee === employeeKey;
+      return (
+        messageEmployee ===
+        employeeKey
+      );
 
     });
 
@@ -1118,34 +1745,52 @@ function loadCommunication() {
       "<p>Inga meddelanden.</p>";
 
     return;
+
   }
 
 
-  relevant.forEach((message, index) => {
+  relevant.forEach(message => {
 
     const originalIndex =
-      messages.indexOf(message);
+      messages.indexOf(
+        message
+      );
+
 
     const div =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
-    div.className = "message";
+    div.className =
+      "message";
+
 
     div.innerHTML = `
 
       <div>
         <strong>
-          ${escapeHtml(message.employer || "Arbetsgivare")}
+          ${escapeHtml(
+            message.employer ||
+            "Arbetsgivare"
+          )}
         </strong>
       </div>
 
       <div style="margin-top:6px;">
-        ${escapeHtml(message.text || message.message || "")}
+        ${escapeHtml(
+          message.text ||
+          message.message ||
+          ""
+        )}
       </div>
 
       <div class="message-status">
         Status:
-        ${escapeHtml(message.status || "Ny kommentar")}
+        ${escapeHtml(
+          message.status ||
+          "Ny kommentar"
+        )}
       </div>
 
     `;
@@ -1154,34 +1799,51 @@ function loadCommunication() {
     if (message.reply) {
 
       const reply =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
 
-      reply.style.marginTop = "8px";
+      reply.style.marginTop =
+        "8px";
 
       reply.innerHTML =
         "<strong>Svar:</strong> " +
-        escapeHtml(message.reply);
+        escapeHtml(
+          message.reply
+        );
 
-      div.appendChild(reply);
+      div.appendChild(
+        reply
+      );
 
     }
 
 
-    if (message.status !== "Åtgärdad") {
+    if (
+      message.status !==
+      "Åtgärdad"
+    ) {
 
       const replyInput =
-        document.createElement("textarea");
+        document.createElement(
+          "textarea"
+        );
 
       replyInput.placeholder =
         "Skriv svar till arbetsgivaren...";
 
-      replyInput.style.marginTop = "8px";
+      replyInput.style.marginTop =
+        "8px";
 
-      div.appendChild(replyInput);
+      div.appendChild(
+        replyInput
+      );
 
 
       const replyButton =
-        document.createElement("button");
+        document.createElement(
+          "button"
+        );
 
       replyButton.className =
         "small-button";
@@ -1189,30 +1851,43 @@ function loadCommunication() {
       replyButton.textContent =
         "Svara";
 
-      replyButton.onclick = function() {
 
-        const text =
-          replyInput.value.trim();
+      replyButton.onclick =
+        function() {
 
-        if (!text) return;
+          const text =
+            replyInput.value.trim();
 
-        messages[originalIndex].reply =
-          text;
+          if (!text) return;
 
-        messages[originalIndex].status =
-          "Svar från arbetstagare";
+          messages[
+            originalIndex
+          ].reply =
+            text;
 
-        saveMessages(messages);
+          messages[
+            originalIndex
+          ].status =
+            "Svar från arbetstagare";
 
-        loadCommunication();
+          saveMessages(
+            messages
+          );
 
-      };
+          loadCommunication();
 
-      div.appendChild(replyButton);
+        };
+
+
+      div.appendChild(
+        replyButton
+      );
 
 
       const handledButton =
-        document.createElement("button");
+        document.createElement(
+          "button"
+        );
 
       handledButton.className =
         "small-button";
@@ -1223,23 +1898,34 @@ function loadCommunication() {
       handledButton.textContent =
         "Åtgärdad";
 
-      handledButton.onclick = function() {
 
-        messages[originalIndex].status =
-          "Åtgärdad";
+      handledButton.onclick =
+        function() {
 
-        saveMessages(messages);
+          messages[
+            originalIndex
+          ].status =
+            "Åtgärdad";
 
-        loadCommunication();
+          saveMessages(
+            messages
+          );
 
-      };
+          loadCommunication();
 
-      div.appendChild(handledButton);
+        };
+
+
+      div.appendChild(
+        handledButton
+      );
 
     }
 
 
-    container.appendChild(div);
+    container.appendChild(
+      div
+    );
 
   });
 
