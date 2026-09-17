@@ -3,40 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Genie – Månadslön</title>
-
   <style>
     * {
       box-sizing: border-box;
     }
-
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
       background: linear-gradient(180deg, #eef2f7 0%, #f8f9fb 100%);
       color: #1f2937;
     }
-
     .container {
       max-width: 640px;
       margin: auto;
       padding: 18px;
     }
-
     .card {
       background: #ffffff;
       padding: 20px;
       border-radius: 22px;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
     }
-
     .language-box {
       display: flex;
       justify-content: center;
       margin-bottom: 18px;
     }
-
     #languageSelect {
       padding: 9px 12px;
       border: 1px solid #d1d5db;
@@ -45,12 +38,10 @@
       font-size: 14px;
       color: #111827;
     }
-
     .header {
       text-align: center;
       margin-bottom: 24px;
     }
-
     .header-icon {
       width: 58px;
       height: 58px;
@@ -64,19 +55,16 @@
       font-size: 26px;
       font-weight: bold;
     }
-
     h1 {
       margin: 0;
       font-size: 28px;
       color: #111827;
     }
-
     .subtitle {
       margin-top: 7px;
       color: #6b7280;
       font-size: 15px;
     }
-
     .section-title {
       font-size: 18px;
       font-weight: 700;
@@ -84,11 +72,9 @@
       margin: 22px 0 12px;
       text-align: center;
     }
-
     .field {
       margin-bottom: 12px;
     }
-
     .field label {
       display: block;
       margin-bottom: 6px;
@@ -96,7 +82,6 @@
       font-weight: 600;
       color: #4b5563;
     }
-
     .field input {
       width: 100%;
       padding: 13px 14px;
@@ -106,7 +91,6 @@
       background: #f9fafb;
       color: #111827;
     }
-
     .personuppgifter-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -115,14 +99,12 @@
       margin-top: 10px;
       margin-bottom: 20px;
     }
-
     .person-card {
       background: #ffffff;
       border: 1px solid #e5e7eb;
       border-radius: 12px;
       padding: 10px;
     }
-
     .person-title {
       font-size: 15px;
       font-weight: bold;
@@ -130,7 +112,6 @@
       color: #111827;
       margin-bottom: 12px;
     }
-
     .person-card textarea {
       display: block;
       width: 100%;
@@ -142,15 +123,12 @@
       font-size: 14px;
       background: #f9fafb;
       resize: vertical;
-      box-sizing: border-box;
     }
-
     .person-card textarea:focus {
       border-color: #6b7280;
       background: #ffffff;
       outline: none;
     }
-
     .period-grid {
       display: grid;
       grid-template-columns: 140px 140px;
@@ -158,12 +136,10 @@
       justify-content: center;
       width: 100%;
     }
-
     .period-grid .field {
       width: 140px;
       min-width: 0;
     }
-
     .period-grid input[type="date"],
     .period-grid input[type="time"] {
       display: block;
@@ -172,12 +148,10 @@
       padding: 8px;
       box-sizing: border-box;
     }
-
     .work-section {
       margin-top: 24px;
       padding-top: 4px;
     }
-
     .time-button {
       width: 100%;
       min-height: 58px;
@@ -191,16 +165,13 @@
       cursor: pointer;
       box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
     }
-
     .time-button:active {
       transform: scale(0.98);
     }
-
     .time-button:disabled {
       opacity: 0.45;
       cursor: default;
     }
-
     .time-display {
       background: #f9fafb;
       border: 1px solid #e5e7eb;
@@ -209,20 +180,17 @@
       margin-bottom: 12px;
       text-align: center;
     }
-
     .time-label {
       display: block;
       font-size: 13px;
       color: #6b7280;
       margin-bottom: 4px;
     }
-
     .time-value {
       font-size: 22px;
       font-weight: 700;
       color: #111827;
     }
-
     .daily-result {
       margin-top: 18px;
       padding: 18px;
@@ -231,19 +199,16 @@
       border: 1px solid #e5e7eb;
       text-align: center;
     }
-
     .daily-result-title {
       font-size: 14px;
       color: #6b7280;
       margin-bottom: 6px;
     }
-
     .daily-result-value {
       font-size: 28px;
       font-weight: 700;
       color: #111827;
     }
-
     .summary {
       margin-top: 24px;
       padding: 18px;
@@ -251,7 +216,6 @@
       background: #f9fafb;
       border: 1px solid #e5e7eb;
     }
-
     .summary-row {
       display: flex;
       justify-content: space-between;
@@ -260,16 +224,13 @@
       border-bottom: 1px solid #e5e7eb;
       font-size: 15px;
     }
-
     .summary-row:last-child {
       border-bottom: none;
     }
-
     .summary-value {
       font-weight: 700;
       color: #111827;
     }
-
     .communication-card {
       margin-top: 24px;
       padding: 18px;
@@ -277,7 +238,6 @@
       background: #f9fafb;
       border: 1px solid #e5e7eb;
     }
-
     .communication-message {
       background: #ffffff;
       border: 1px solid #d1d5db;
@@ -285,7 +245,6 @@
       padding: 12px;
       margin-top: 12px;
     }
-
     .reply-button {
       width: 100%;
       margin-top: 10px;
@@ -298,7 +257,6 @@
       font-weight: 600;
       cursor: pointer;
     }
-
     .status-button {
       width: 100%;
       margin-top: 10px;
@@ -311,7 +269,6 @@
       font-weight: 600;
       cursor: pointer;
     }
-
     .back-button {
       width: 100%;
       margin-top: 20px;
@@ -324,11 +281,9 @@
       font-weight: 600;
       cursor: pointer;
     }
-
     .back-button:active {
       transform: scale(0.98);
     }
-
     .footer {
       text-align: center;
       margin-top: 25px;
@@ -337,2839 +292,1559 @@
     }
   </style>
 </head>
-
 <body>
-
 <div class="container">
-
   <div class="card">
-
-    <!-- SPRÅK -->
-
-    <div class="language-box">
-      <select id="languageSelect" onchange="changeLanguage(this.value)">
-        <option value="sv">🇸🇪 Svenska</option>
-        <option value="en">🇬🇧 English</option>
-        <option value="sr">🇷🇸 Srpski</option>
-      </select>
-    </div>
-
-
-    <div class="header">
-
-      <div class="header-icon">M</div>
-
-      <h1 id="pageTitle">Månadslön</h1>
-
-      <div class="subtitle" id="pageSubtitle">
-        Enkel registrering av arbetstid
-      </div>
-
-    </div>
-
-
-    <!-- ARBETSGIVARE / ARBETSTAGARE -->
-
-    <div class="personuppgifter-grid">
-
-      <div class="person-card">
-
-        <div class="person-title" id="employerTitle">
-          Arbetsgivare
-        </div>
-
-        <textarea
-          id="employerInfo"
-          placeholder="Ange uppgifter om arbetsgivaren"></textarea>
-
-      </div>
-
-
-      <div class="person-card">
-
-        <div class="person-title" id="employeeTitle">
-          Arbetstagare
-        </div>
-
-        <textarea
-          id="employeeInfo"
-          placeholder="Ange uppgifter om arbetstagaren"></textarea>
-
-      </div>
-
-    </div>
-
-
-    <!-- GRUNDUPPGIFTER -->
-
-    <div class="section-title" id="salaryInfoTitle">
-      Löneuppgifter
-    </div>
-
-
-    <div class="field">
-
-      <label for="monthlySalary" id="monthlySalaryLabel">
-        Månadslön (kr)
-      </label>
-
-      <input
-        type="number"
-        id="monthlySalary"
-        placeholder="Ange månadslön">
-
-    </div>
-
-
-    <div class="field">
-
-      <label for="workTarget" id="workTargetLabel">
-        Arbetstidsmål (timmar)
-      </label>
-
-      <input
-        type="number"
-        id="workTarget"
-        step="0.5"
-        placeholder="Ange arbetstidsmål">
-
-    </div>
-
-
-    <!-- LÖNEPERIOD -->
-
-    <div class="section-title" id="salaryPeriodTitle">
-      Löneperiod
-    </div>
-
-
-    <div class="period-grid">
-
-      <div class="field">
-
-        <label for="periodStart" id="periodStartLabel">
-          Från
-        </label>
-
-        <input
-          type="date"
-          id="periodStart">
-
-      </div>
-
-
-      <div class="field">
-
-        <label for="periodEnd" id="periodEndLabel">
-          Till
-        </label>
-
-        <input
-          type="date"
-          id="periodEnd">
-
-      </div>
-
-    </div>
-
-
-    <!-- NATTLIG ARBETSTID -->
-
-    <div class="section-title" id="nightWorkTitle">
-      🌙 Nattarbete enligt företag/avtal
-    </div>
-
-
-    <p
-      id="nightWorkDescription"
-      style="text-align:center; color:#6b7280; font-size:13px; margin-top:-4px; margin-bottom:14px;">
-
-      Ange den tid som enligt ditt företag eller avtal räknas som nattarbete.
-
-    </p>
-
-
-    <div class="period-grid">
-
-      <div class="field">
-
-        <label for="nightStart" id="nightStartLabel">
-          Från
-        </label>
-
-        <input
-          type="time"
-          id="nightStart"
-          value="20:00">
-
-      </div>
-
-
-      <div class="field">
-
-        <label for="nightEnd" id="nightEndLabel">
-          Till
-        </label>
-
-        <input
-          type="time"
-          id="nightEnd"
-          value="06:00">
-
-      </div>
-
-    </div>
-
-
-    <!-- ARBETSTID -->
-
-    <div class="work-section">
-
-      <div class="section-title" id="registerWorkTitle">
-        Registrera arbetstid
-      </div>
-
-
-      <button
-        type="button"
-        class="time-button"
-        id="startButton">
-
-        ▶ STARTA ARBETE
-
-      </button>
-
-
-      <div class="time-display">
-
-        <span class="time-label" id="startTimeLabel">
-          Starttid
-        </span>
-
-        <span
-          class="time-value"
-          id="startTime">
-
-          --:--
-
-        </span>
-
-      </div>
-
-
-      <button
-        type="button"
-        class="time-button"
-        id="pauseButton"
-        disabled>
-
-        ⏸ PAUS
-
-      </button>
-
-
-      <button
-        type="button"
-        class="time-button"
-        id="resumeButton"
-        disabled>
-
-        ▶ FORTSÄTT
-
-      </button>
-
-
-      <div class="time-display">
-
-        <span class="time-label" id="pauseTimeLabel">
-          Paus
-        </span>
-
-        <span
-          class="time-value"
-          id="pauseTime">
-
-          0 h 00 min
-
-        </span>
-
-      </div>
-
-
-      <button
-        type="button"
-        class="time-button"
-        id="stopButton"
-        disabled>
-
-        ■ SLUTA ARBETE
-
-      </button>
-
-
-      <div class="time-display">
-
-        <span class="time-label" id="endTimeLabel">
-          Sluttid
-        </span>
-
-        <span
-          class="time-value"
-          id="endTime">
-
-          --:--
-
-        </span>
-
-      </div>
-
-
-      <div class="daily-result">
-
-        <div
-          class="daily-result-title"
-          id="dailyResultTitle">
-
-          Dagens arbetstid
-
-        </div>
-
-        <div
-          class="daily-result-value"
-          id="dailyHours">
-
-          0 h 00 min
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- SAMMANFATTNING -->
-
-    <div class="section-title" id="workSummaryTitle">
-      Arbetstid
-    </div>
-
-
-    <div class="summary">
-
-      <div class="summary-row">
-
-        <span id="totalWorkedLabel">
-          Totalt arbetad tid
-        </span>
-
-        <span
-          class="summary-value"
-          id="totalHours">
-
-          0 h 00 min
-
-        </span>
-
-      </div>
-
-
-      <div class="summary-row">
-
-        <span id="targetHoursLabel">
-          Arbetstidsmål
-        </span>
-
-        <span
-          class="summary-value"
-          id="targetHours">
-
-          0 h 00 min
-
-        </span>
-
-      </div>
-
-
-      <div class="summary-row">
-
-        <span id="differenceLabel">
-          Skillnad
-        </span>
-
-        <span
-          class="summary-value"
-          id="differenceHours">
-
-          0 h 00 min
-
-        </span>
-
-      </div>
-
-    </div>
-
-
-    <!-- KOMMUNIKATION -->
-
-    <div class="communication-card">
-
-      <div
-        class="section-title"
-        id="communicationTitle"
-        style="margin-top:0;">
-
-        💬 Kommunikation
-
-      </div>
-
-      <p
-        id="communicationDescription"
-        style="text-align:center; color:#6b7280;">
-
-        Meddelanden från arbetsgivaren visas här.
-
-      </p>
-
-      <div id="communicationList"></div>
-
-    </div>
-
-
-    <!-- TILLBAKA -->
-
-    <button
-      type="button"
-      class="back-button"
-      id="backButton"
-      onclick="window.location.href='index.html'">
-
-      ← Tillbaka
-
-    </button>
-
-
-    <div class="footer">
-      Genie
-    </div>
-
-  </div>
-
+<div class="language-box">
+  <select id="languageSelect" onchange="changeLanguage(this.value)">
+    <option value="sv">🇸🇪 Svenska</option>
+    <option value="en">🇬🇧 English</option>
+    <option value="sr">🇷🇸 Srpski</option>
+  </select>
 </div>
-
-
+<div class="header">
+  <div class="header-icon">M</div>
+  <h1 id="pageTitle">Månadslön</h1>
+  <div class="subtitle" id="pageSubtitle">
+    Enkel registrering av arbetstid
+  </div>
+</div>
+<div class="personuppgifter-grid">
+  <div class="person-card">
+    <div class="person-title" id="employerTitle">
+      Arbetsgivare
+    </div>
+    <textarea
+      id="employerInfo"
+      placeholder="Ange uppgifter om arbetsgivaren"></textarea>
+  </div>
+  <div class="person-card">
+    <div class="person-title" id="employeeTitle">
+      Arbetstagare
+    </div>
+    <textarea
+      id="employeeInfo"
+      placeholder="Ange uppgifter om arbetstagaren"></textarea>
+  </div>
+</div>
+<div class="section-title" id="salaryInfoTitle">
+  Löneuppgifter
+</div>
+<div class="field">
+  <label for="monthlySalary" id="monthlySalaryLabel">
+    Månadslön (kr)
+  </label>
+  <input
+    type="number"
+    id="monthlySalary"
+    placeholder="Ange månadslön">
+</div>
+<div class="field">
+  <label for="workTarget" id="workTargetLabel">
+    Arbetstidsmål (timmar)
+  </label>
+  <input
+    type="number"
+    id="workTarget"
+    step="0.5"
+    placeholder="Ange arbetstidsmål">
+</div>
+<div class="section-title" id="salaryPeriodTitle">
+  Löneperiod
+</div>
+<div class="period-grid">
+  <div class="field">
+    <label for="periodStart" id="periodStartLabel">
+      Från
+    </label>
+    <input
+      type="date"
+      id="periodStart">
+  </div>
+  <div class="field">
+    <label for="periodEnd" id="periodEndLabel">
+      Till
+    </label>
+    <input
+      type="date"
+      id="periodEnd">
+  </div>
+</div>
+<div class="section-title" id="nightWorkTitle">
+  🌙 Nattarbete enligt företag/avtal
+</div>
+<p
+  id="nightWorkDescription"
+  style="text-align:center; color:#6b7280; font-size:13px; margin-top:-4px; margin-bottom:14px;">
+  Ange den tid som enligt ditt företag eller avtal räknas som nattarbete.
+</p>
+<div class="period-grid">
+  <div class="field">
+    <label for="nightStart" id="nightStartLabel">
+      Från
+    </label>
+    <input
+      type="time"
+      id="nightStart"
+      value="20:00">
+  </div>
+  <div class="field">
+    <label for="nightEnd" id="nightEndLabel">
+      Till
+    </label>
+    <input
+      type="time"
+      id="nightEnd"
+      value="06:00">
+  </div>
+</div>
+<div class="work-section">
+  <div class="section-title" id="registerWorkTitle">
+    Registrera arbetstid
+  </div>
+  <button
+    type="button"
+    class="time-button"
+    id="startButton">
+    ▶ STARTA ARBETE
+  </button>
+  <div class="time-display">
+    <span class="time-label" id="startTimeLabel">
+      Starttid
+    </span>
+    <span class="time-value" id="startTime">
+      --:--
+    </span>
+  </div>
+  <button
+    type="button"
+    class="time-button"
+    id="pauseButton"
+    disabled>
+    ⏸ PAUS
+  </button>
+  <button
+    type="button"
+    class="time-button"
+    id="resumeButton"
+    disabled>
+    ▶ FORTSÄTT
+  </button>
+  <div class="time-display">
+    <span class="time-label" id="pauseTimeLabel">
+      Paus
+    </span>
+    <span class="time-value" id="pauseTime">
+      0 h 00 min
+    </span>
+  </div>
+  <button
+    type="button"
+    class="time-button"
+    id="stopButton"
+    disabled>
+    ■ SLUTA ARBETE
+  </button>
+  <div class="time-display">
+    <span class="time-label" id="endTimeLabel">
+      Sluttid
+    </span>
+    <span class="time-value" id="endTime">
+      --:--
+    </span>
+  </div>
+  <div class="daily-result">
+    <div class="daily-result-title" id="dailyResultTitle">
+      Dagens arbetstid
+    </div>
+    <div class="daily-result-value" id="dailyHours">
+      0 h 00 min
+    </div>
+  </div>
+</div>
+<div class="section-title" id="workSummaryTitle">
+  Arbetstid
+</div>
+<div class="summary">
+  <div class="summary-row">
+    <span id="totalWorkedLabel">
+      Totalt arbetad tid
+    </span>
+    <span class="summary-value" id="totalHours">
+      0 h 00 min
+    </span>
+  </div>
+  <div class="summary-row">
+    <span id="targetHoursLabel">
+      Arbetstidsmål
+    </span>
+    <span class="summary-value" id="targetHours">
+      0 h 00 min
+    </span>
+  </div>
+  <div class="summary-row">
+    <span id="differenceLabel">
+      Skillnad
+    </span>
+    <span class="summary-value" id="differenceHours">
+      0 h 00 min
+    </span>
+  </div>
+</div>
+<div class="communication-card">
+  <div
+    class="section-title"
+    id="communicationTitle"
+    style="margin-top:0;">
+    💬 Kommunikation
+  </div>
+  <p
+    id="communicationDescription"
+    style="text-align:center; color:#6b7280;">
+    Meddelanden från arbetsgivaren visas här.
+  </p>
+  <div id="communicationList"></div>
+</div>
+<button
+  type="button"
+  class="back-button"
+  id="backButton"
+  onclick="window.location.href='index.html'">
+  ← Tillbaka
+</button>
+<div class="footer">
+  Genie
+</div>
+  </div>
+</div>
 <script>
-
-  /* =================================
-     SPRÅK
-  ================================= */
-
-  const translations = {
-
-    sv: {
-
-      title: "Månadslön",
-
-      subtitle: "Enkel registrering av arbetstid",
-
-      employer: "Arbetsgivare",
-      employee: "Arbetstagare",
-
-      employerPlaceholder:
-        "Ange uppgifter om arbetsgivaren",
-
-      employeePlaceholder:
-        "Ange uppgifter om arbetstagaren",
-
-      salaryInfo:
-        "Löneuppgifter",
-
-      monthlySalary:
-        "Månadslön (kr)",
-
-      monthlySalaryPlaceholder:
-        "Ange månadslön",
-
-      workTarget:
-        "Arbetstidsmål (timmar)",
-
-      workTargetPlaceholder:
-        "Ange arbetstidsmål",
-
-      salaryPeriod:
-        "Löneperiod",
-
-      from:
-        "Från",
-
-      to:
-        "Till",
-
-      nightWork:
-        "🌙 Nattarbete enligt företag/avtal",
-
-      nightDescription:
-        "Ange den tid som enligt ditt företag eller avtal räknas som nattarbete.",
-
-      registerWork:
-        "Registrera arbetstid",
-
-      startWork:
-        "▶ STARTA ARBETE",
-
-      pause:
-        "⏸ PAUS",
-
-      resume:
-        "▶ FORTSÄTT",
-
-      stopWork:
-        "■ SLUTA ARBETE",
-
-      startTime:
-        "Starttid",
-
-      pauseTime:
-        "Paus",
-
-      endTime:
-        "Sluttid",
-
-      dailyWork:
-        "Dagens arbetstid",
-
-      workSummary:
-        "Arbetstid",
-
-      totalWorked:
-        "Totalt arbetad tid",
-
-      targetHours:
-        "Arbetstidsmål",
-
-      difference:
-        "Skillnad",
-
-      communication:
-        "💬 Kommunikation",
-
-      communicationDescription:
-        "Meddelanden från arbetsgivaren visas här.",
-
-      enterEmployee:
-        "Ange arbetstagarens namn för att visa meddelanden.",
-
-      noMessages:
-        "Inga meddelanden ännu.",
-
-      messageFromEmployer:
-        "📤 Meddelande från arbetsgivaren",
-
-      status:
-        "Status:",
-
-      yourReply:
-        "↩️ Ditt svar",
-
-      replyEmployer:
-        "✍️ Svara arbetsgivaren",
-
-      markHandled:
-        "✅ Markera som åtgärdad",
-
-      replyPrompt:
-        "Skriv ditt svar till arbetsgivaren:",
-
-      back:
-        "← Tillbaka",
-
-      hours:
-        "h",
-
-      minutes:
-        "min",
-
-      statusNew:
-        "Ny kommentar",
-
-      statusReply:
-        "Svar från arbetstagaren",
-
-      statusHandled:
-        "Åtgärdad"
-
-    },
-
-
-    en: {
-
-      title: "Monthly Salary",
-
-      subtitle: "Simple registration of working hours",
-
-      employer: "Employer",
-      employee: "Employee",
-
-      employerPlaceholder:
-        "Enter employer information",
-
-      employeePlaceholder:
-        "Enter employee information",
-
-      salaryInfo:
-        "Salary information",
-
-      monthlySalary:
-        "Monthly salary (SEK)",
-
-      monthlySalaryPlaceholder:
-        "Enter monthly salary",
-
-      workTarget:
-        "Working time target (hours)",
-
-      workTargetPlaceholder:
-        "Enter working time target",
-
-      salaryPeriod:
-        "Salary period",
-
-      from:
-        "From",
-
-      to:
-        "To",
-
-      nightWork:
-        "🌙 Night work according to company/agreement",
-
-      nightDescription:
-        "Enter the time that your company or agreement considers to be night work.",
-
-      registerWork:
-        "Register working time",
-
-      startWork:
-        "▶ START WORK",
-
-      pause:
-        "⏸ PAUSE",
-
-      resume:
-        "▶ RESUME",
-
-      stopWork:
-        "■ STOP WORK",
-
-      startTime:
-        "Start time",
-
-      pauseTime:
-        "Pause",
-
-      endTime:
-        "End time",
-
-      dailyWork:
-        "Today's working time",
-
-      workSummary:
-        "Working time",
-
-      totalWorked:
-        "Total working time",
-
-      targetHours:
-        "Working time target",
-
-      difference:
-        "Difference",
-
-      communication:
-        "💬 Communication",
-
-      communicationDescription:
-        "Messages from the employer are shown here.",
-
-      enterEmployee:
-        "Enter the employee's name to show messages.",
-
-      noMessages:
-        "No messages yet.",
-
-      messageFromEmployer:
-        "📤 Message from employer",
-
-      status:
-        "Status:",
-
-      yourReply:
-        "↩️ Your reply",
-
-      replyEmployer:
-        "✍️ Reply to employer",
-
-      markHandled:
-        "✅ Mark as handled",
-
-      replyPrompt:
-        "Write your reply to the employer:",
-
-      back:
-        "← Back",
-
-      hours:
-        "h",
-
-      minutes:
-        "min",
-
-      statusNew:
-        "New comment",
-
-      statusReply:
-        "Reply from employee",
-
-      statusHandled:
-        "Handled"
-
-    },
-
-
-    sr: {
-
-      title: "Mesečna plata",
-
-      subtitle: "Jednostavna evidencija radnog vremena",
-
-      employer: "Poslodavac",
-      employee: "Zaposleni",
-
-      employerPlaceholder:
-        "Unesite podatke o poslodavcu",
-
-      employeePlaceholder:
-        "Unesite podatke o zaposlenom",
-
-      salaryInfo:
-        "Podaci o plati",
-
-      monthlySalary:
-        "Mesečna plata (kr)",
-
-      monthlySalaryPlaceholder:
-        "Unesite mesečnu platu",
-
-      workTarget:
-        "Radno vreme – cilj (sati)",
-
-      workTargetPlaceholder:
-        "Unesite cilj radnog vremena",
-
-      salaryPeriod:
-        "Obračunski period",
-
-      from:
-        "Od",
-
-      to:
-        "Do",
-
-      nightWork:
-        "🌙 Noćni rad prema firmi/ugovoru",
-
-      nightDescription:
-        "Unesite vreme koje se prema vašoj firmi ili ugovoru računa kao noćni rad.",
-
-      registerWork:
-        "Evidencija radnog vremena",
-
-      startWork:
-        "▶ POČNI RAD",
-
-      pause:
-        "⏸ PAUZA",
-
-      resume:
-        "▶ NASTAVI",
-
-      stopWork:
-        "■ ZAVRŠI RAD",
-
-      startTime:
-        "Početak rada",
-
-      pauseTime:
-        "Pauza",
-
-      endTime:
-        "Kraj rada",
-
-      dailyWork:
-        "Današnje radno vreme",
-
-      workSummary:
-        "Radno vreme",
-
-      totalWorked:
-        "Ukupno radno vreme",
-
-      targetHours:
-        "Cilj radnog vremena",
-
-      difference:
-        "Razlika",
-
-      communication:
-        "💬 Komunikacija",
-
-      communicationDescription:
-        "Poruke poslodavca prikazuju se ovde.",
-
-      enterEmployee:
-        "Unesite ime zaposlenog da biste videli poruke.",
-
-      noMessages:
-        "Još nema poruka.",
-
-      messageFromEmployer:
-        "📤 Poruka od poslodavca",
-
-      status:
-        "Status:",
-
-      yourReply:
-        "↩️ Vaš odgovor",
-
-      replyEmployer:
-        "✍️ Odgovori poslodavcu",
-
-      markHandled:
-        "✅ Označi kao rešeno",
-
-      replyPrompt:
-        "Napišite odgovor poslodavcu:",
-
-      back:
-        "← Nazad",
-
-      hours:
-        "h",
-
-      minutes:
-        "min",
-
-      statusNew:
-        "Nova poruka",
-
-      statusReply:
-        "Odgovor zaposlenog",
-
-      statusHandled:
-        "Rešeno"
-
+const GENIE_SALARY_DATA_KEY = "genieSalaryData";
+const GENIE_MESSAGES_KEY = "genieMessages";
+const GENIE_LANGUAGE_KEY = "genieLanguage";
+const SALARY_TYPE = "Månadslön";
+/* =================================
+   SPRÅK
+================================= */
+const translations = {
+  sv: {
+    title:"Månadslön",
+    subtitle:"Enkel registrering av arbetstid",
+    employer:"Arbetsgivare",
+    employee:"Arbetstagare",
+    employerPlaceholder:"Ange uppgifter om arbetsgivaren",
+    employeePlaceholder:"Ange uppgifter om arbetstagaren",
+    salaryInfo:"Löneuppgifter",
+    monthlySalary:"Månadslön (kr)",
+    monthlySalaryPlaceholder:"Ange månadslön",
+    workTarget:"Arbetstidsmål (timmar)",
+    workTargetPlaceholder:"Ange arbetstidsmål",
+    salaryPeriod:"Löneperiod",
+    from:"Från",
+    to:"Till",
+    nightWork:"🌙 Nattarbete enligt företag/avtal",
+    nightDescription:"Ange den tid som enligt ditt företag eller avtal räknas som nattarbete.",
+    registerWork:"Registrera arbetstid",
+    startWork:"▶ STARTA ARBETE",
+    pause:"⏸ PAUS",
+    resume:"▶ FORTSÄTT",
+    stopWork:"■ SLUTA ARBETE",
+    startTime:"Starttid",
+    pauseTime:"Paus",
+    endTime:"Sluttid",
+    dailyWork:"Dagens arbetstid",
+    workSummary:"Arbetstid",
+    totalWorked:"Totalt arbetad tid",
+    targetHours:"Arbetstidsmål",
+    difference:"Skillnad",
+    communication:"💬 Kommunikation",
+    communicationDescription:"Meddelanden från arbetsgivaren visas här.",
+    enterEmployee:"Ange arbetstagarens namn för att visa meddelanden.",
+    noMessages:"Inga meddelanden ännu.",
+    messageFromEmployer:"📤 Meddelande från arbetsgivaren",
+    status:"Status:",
+    yourReply:"↩️ Ditt svar",
+    replyEmployer:"✍️ Svara arbetsgivaren",
+    markHandled:"✅ Markera som åtgärdad",
+    replyPrompt:"Skriv ditt svar till arbetsgivaren:",
+    back:"← Tillbaka",
+    hours:"h",
+    minutes:"min",
+    statusNew:"Ny kommentar",
+    statusReply:"Svar från arbetstagaren",
+    statusHandled:"Åtgärdad"
+  },
+  en: {
+    title:"Monthly Salary",
+    subtitle:"Simple registration of working hours",
+    employer:"Employer",
+    employee:"Employee",
+    employerPlaceholder:"Enter employer information",
+    employeePlaceholder:"Enter employee information",
+    salaryInfo:"Salary information",
+    monthlySalary:"Monthly salary (SEK)",
+    monthlySalaryPlaceholder:"Enter monthly salary",
+    workTarget:"Working time target (hours)",
+    workTargetPlaceholder:"Enter working time target",
+    salaryPeriod:"Salary period",
+    from:"From",
+    to:"To",
+    nightWork:"🌙 Night work according to company/agreement",
+    nightDescription:"Enter the time that your company or agreement considers to be night work.",
+    registerWork:"Register working time",
+    startWork:"▶ START WORK",
+    pause:"⏸ PAUSE",
+    resume:"▶ RESUME",
+    stopWork:"■ STOP WORK",
+    startTime:"Start time",
+    pauseTime:"Pause",
+    endTime:"End time",
+    dailyWork:"Today's working time",
+    workSummary:"Working time",
+    totalWorked:"Total working time",
+    targetHours:"Working time target",
+    difference:"Difference",
+    communication:"💬 Communication",
+    communicationDescription:"Messages from the employer are shown here.",
+    enterEmployee:"Enter the employee's name to show messages.",
+    noMessages:"No messages yet.",
+    messageFromEmployer:"📤 Message from employer",
+    status:"Status:",
+    yourReply:"↩️ Your reply",
+    replyEmployer:"✍️ Reply to employer",
+    markHandled:"✅ Mark as handled",
+    replyPrompt:"Write your reply to the employer:",
+    back:"← Back",
+    hours:"h",
+    minutes:"min",
+    statusNew:"New comment",
+    statusReply:"Reply from employee",
+    statusHandled:"Handled"
+  },
+  sr: {
+    title:"Mesečna plata",
+    subtitle:"Jednostavna evidencija radnog vremena",
+    employer:"Poslodavac",
+    employee:"Zaposleni",
+    employerPlaceholder:"Unesite podatke o poslodavcu",
+    employeePlaceholder:"Unesite podatke o zaposlenom",
+    salaryInfo:"Podaci o plati",
+    monthlySalary:"Mesečna plata (kr)",
+    monthlySalaryPlaceholder:"Unesite mesečnu platu",
+    workTarget:"Radno vreme – cilj (sati)",
+    workTargetPlaceholder:"Unesite cilj radnog vremena",
+    salaryPeriod:"Obračunski period",
+    from:"Od",
+    to:"Do",
+    nightWork:"🌙 Noćni rad prema firmi/ugovoru",
+    nightDescription:"Unesite vreme koje se prema vašoj firmi ili ugovoru računa kao noćni rad.",
+    registerWork:"Evidencija radnog vremena",
+    startWork:"▶ POČNI RAD",
+    pause:"⏸ PAUZA",
+    resume:"▶ NASTAVI",
+    stopWork:"■ ZAVRŠI RAD",
+    startTime:"Početak rada",
+    pauseTime:"Pauza",
+    endTime:"Kraj rada",
+    dailyWork:"Današnje radno vreme",
+    workSummary:"Radno vreme",
+    totalWorked:"Ukupno radno vreme",
+    targetHours:"Cilj radnog vremena",
+    difference:"Razlika",
+    communication:"💬 Komunikacija",
+    communicationDescription:"Poruke poslodavca prikazuju se ovde.",
+    enterEmployee:"Unesite ime zaposlenog da biste videli poruke.",
+    noMessages:"Još nema poruka.",
+    messageFromEmployer:"📤 Poruka od poslodavca",
+    status:"Status:",
+    yourReply:"↩️ Vaš odgovor",
+    replyEmployer:"✍️ Odgovori poslodavcu",
+    markHandled:"✅ Označi kao rešeno",
+    replyPrompt:"Napišite odgovor poslodavcu:",
+    back:"← Nazad",
+    hours:"h",
+    minutes:"min",
+    statusNew:"Nova poruka",
+    statusReply:"Odgovor zaposlenog",
+    statusHandled:"Rešeno"
+  }
+};
+function getCurrentLanguage() {
+  return localStorage.getItem(GENIE_LANGUAGE_KEY) || "sv";
+}
+function changeLanguage(language) {
+  if (!translations[language]) {
+    language = "sv";
+  }
+  localStorage.setItem(
+    GENIE_LANGUAGE_KEY,
+    language
+  );
+  applyLanguage();
+}
+function applyLanguage() {
+  const language = getCurrentLanguage();
+  const t = translations[language];
+  document.documentElement.lang = language;
+  document.title = "Genie – " + t.title;
+  document.getElementById("languageSelect").value = language;
+  document.getElementById("pageTitle").textContent = t.title;
+  document.getElementById("pageSubtitle").textContent = t.subtitle;
+  document.getElementById("employerTitle").textContent = t.employer;
+  document.getElementById("employeeTitle").textContent = t.employee;
+  document.getElementById("employerInfo").placeholder =
+    t.employerPlaceholder;
+  document.getElementById("employeeInfo").placeholder =
+    t.employeePlaceholder;
+  document.getElementById("salaryInfoTitle").textContent =
+    t.salaryInfo;
+  document.getElementById("monthlySalaryLabel").textContent =
+    t.monthlySalary;
+  document.getElementById("monthlySalary").placeholder =
+    t.monthlySalaryPlaceholder;
+  document.getElementById("workTargetLabel").textContent =
+    t.workTarget;
+  document.getElementById("workTarget").placeholder =
+    t.workTargetPlaceholder;
+  document.getElementById("salaryPeriodTitle").textContent =
+    t.salaryPeriod;
+  document.getElementById("periodStartLabel").textContent =
+    t.from;
+  document.getElementById("periodEndLabel").textContent =
+    t.to;
+  document.getElementById("nightWorkTitle").textContent =
+    t.nightWork;
+  document.getElementById("nightWorkDescription").textContent =
+    t.nightDescription;
+  document.getElementById("nightStartLabel").textContent =
+    t.from;
+  document.getElementById("nightEndLabel").textContent =
+    t.to;
+  document.getElementById("registerWorkTitle").textContent =
+    t.registerWork;
+  document.getElementById("startButton").textContent =
+    t.startWork;
+  document.getElementById("pauseButton").textContent =
+    t.pause;
+  document.getElementById("resumeButton").textContent =
+    t.resume;
+  document.getElementById("stopButton").textContent =
+    t.stopWork;
+  document.getElementById("startTimeLabel").textContent =
+    t.startTime;
+  document.getElementById("pauseTimeLabel").textContent =
+    t.pauseTime;
+  document.getElementById("endTimeLabel").textContent =
+    t.endTime;
+  document.getElementById("dailyResultTitle").textContent =
+    t.dailyWork;
+  document.getElementById("workSummaryTitle").textContent =
+    t.workSummary;
+  document.getElementById("totalWorkedLabel").textContent =
+    t.totalWorked;
+  document.getElementById("targetHoursLabel").textContent =
+    t.targetHours;
+  document.getElementById("differenceLabel").textContent =
+    t.difference;
+  document.getElementById("communicationTitle").textContent =
+    t.communication;
+  document.getElementById("communicationDescription").textContent =
+    t.communicationDescription;
+  document.getElementById("backButton").textContent =
+    t.back;
+  updateDurationDisplays();
+  loadCommunication();
+}
+/* =================================
+   FORMATIRANJE
+================================= */
+function formatTime(date) {
+  return date.toLocaleTimeString(
+    "sv-SE",
+    {
+      hour:"2-digit",
+      minute:"2-digit"
     }
-
-  };
-
-
-  function getCurrentLanguage() {
-
-    return localStorage.getItem(
-      "genieLanguage"
-    ) || "sv";
-
+  );
+}
+function formatDuration(totalMinutes) {
+  totalMinutes = Math.max(
+    0,
+    Math.round(totalMinutes)
+  );
+  const hours = Math.floor(
+    totalMinutes / 60
+  );
+  const minutes = totalMinutes % 60;
+  const t =
+    translations[getCurrentLanguage()];
+  return (
+    hours +
+    " " +
+    t.hours +
+    " " +
+    String(minutes).padStart(2,"0") +
+    " " +
+    t.minutes
+  );
+}
+/* =================================
+   GEMENSAM DATASTRUKTUR
+================================= */
+function normalizeEmployee(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g," ");
+}
+function getEmployeeKey() {
+  return normalizeEmployee(
+    document.getElementById("employeeInfo").value
+  );
+}
+function getPeriodStart() {
+  return document.getElementById(
+    "periodStart"
+  ).value || "";
+}
+function getPeriodEnd() {
+  return document.getElementById(
+    "periodEnd"
+  ).value || "";
+}
+function getPeriodKey() {
+  const start = getPeriodStart();
+  const end = getPeriodEnd();
+  if (!start && !end) {
+    return "utan-period";
   }
-
-
-  function changeLanguage(language) {
-
-    if (!translations[language]) {
-      language = "sv";
-    }
-
-    localStorage.setItem(
-      "genieLanguage",
-      language
+  return (
+    (start || "utan-start") +
+    "_" +
+    (end || "utan-slut")
+  );
+}
+function readSalaryData() {
+  try {
+    return JSON.parse(
+      localStorage.getItem(
+        GENIE_SALARY_DATA_KEY
+      )
+    ) || {};
+  } catch(error) {
+    return {};
+  }
+}
+function writeSalaryData(data) {
+  localStorage.setItem(
+    GENIE_SALARY_DATA_KEY,
+    JSON.stringify(data)
+  );
+}
+/* =================================
+   VARIABLER
+================================= */
+let startTimeValue = null;
+let totalMinutesWorked = 0;
+let pauseStartTimeValue = null;
+let totalPauseMinutes = 0;
+let pauseCount = 0;
+/*
+  Arbetsposterna ligger kvar i egen struktur
+  för själva tidtagningen.
+*/
+const STORAGE_KEY =
+  "genie_manadslon_workdays";
+const ACTIVE_START_KEY =
+  "genie_manadslon_active_start";
+const PAUSE_START_KEY =
+  "genie_manadslon_pause_start";
+const PAUSE_TOTAL_KEY =
+  "genie_manadslon_pause_total";
+const PAUSE_COUNT_KEY =
+  "genie_manadslon_pause_count";
+const startButton =
+  document.getElementById("startButton");
+const pauseButton =
+  document.getElementById("pauseButton");
+const resumeButton =
+  document.getElementById("resumeButton");
+const stopButton =
+  document.getElementById("stopButton");
+const startTimeDisplay =
+  document.getElementById("startTime");
+const endTimeDisplay =
+  document.getElementById("endTime");
+const pauseTimeDisplay =
+  document.getElementById("pauseTime");
+const dailyHoursDisplay =
+  document.getElementById("dailyHours");
+const totalHoursDisplay =
+  document.getElementById("totalHours");
+const workTargetInput =
+  document.getElementById("workTarget");
+const targetHoursDisplay =
+  document.getElementById("targetHours");
+const differenceHoursDisplay =
+  document.getElementById("differenceHours");
+/* =================================
+   MÅL OCH SKILLNAD
+================================= */
+function updateTargetAndDifference() {
+  const targetHours =
+    Number(workTargetInput.value) || 0;
+  const targetMinutes =
+    Math.round(targetHours * 60);
+  targetHoursDisplay.textContent =
+    formatDuration(targetMinutes);
+  const differenceMinutes =
+    totalMinutesWorked -
+    targetMinutes;
+  const sign =
+    differenceMinutes > 0
+      ? "+"
+      : differenceMinutes < 0
+      ? "-"
+      : "";
+  differenceHoursDisplay.textContent =
+    sign +
+    formatDuration(
+      Math.abs(differenceMinutes)
     );
-
-    applyLanguage();
-
-  }
-
-
-  function applyLanguage() {
-
-    const language =
-      getCurrentLanguage();
-
-    const t =
-      translations[language];
-
-
-    document.documentElement.lang =
-      language;
-
-
-    document.title =
-      "Genie – " + t.title;
-
-
-    document.getElementById(
-      "languageSelect"
-    ).value = language;
-
-
-    document.getElementById(
-      "pageTitle"
-    ).textContent =
-      t.title;
-
-
-    document.getElementById(
-      "pageSubtitle"
-    ).textContent =
-      t.subtitle;
-
-
-    document.getElementById(
-      "employerTitle"
-    ).textContent =
-      t.employer;
-
-
-    document.getElementById(
-      "employeeTitle"
-    ).textContent =
-      t.employee;
-
-
-    document.getElementById(
-      "employerInfo"
-    ).placeholder =
-      t.employerPlaceholder;
-
-
-    document.getElementById(
-      "employeeInfo"
-    ).placeholder =
-      t.employeePlaceholder;
-
-
-    document.getElementById(
-      "salaryInfoTitle"
-    ).textContent =
-      t.salaryInfo;
-
-
-    document.getElementById(
-      "monthlySalaryLabel"
-    ).textContent =
-      t.monthlySalary;
-
-
-    document.getElementById(
-      "monthlySalary"
-    ).placeholder =
-      t.monthlySalaryPlaceholder;
-
-
-    document.getElementById(
-      "workTargetLabel"
-    ).textContent =
-      t.workTarget;
-
-
-    document.getElementById(
-      "workTarget"
-    ).placeholder =
-      t.workTargetPlaceholder;
-
-
-    document.getElementById(
-      "salaryPeriodTitle"
-    ).textContent =
-      t.salaryPeriod;
-
-
-    document.getElementById(
-      "periodStartLabel"
-    ).textContent =
-      t.from;
-
-
-    document.getElementById(
-      "periodEndLabel"
-    ).textContent =
-      t.to;
-
-
-    document.getElementById(
-      "nightWorkTitle"
-    ).textContent =
-      t.nightWork;
-
-
-    document.getElementById(
-      "nightWorkDescription"
-    ).textContent =
-      t.nightDescription;
-
-
-    document.getElementById(
-      "nightStartLabel"
-    ).textContent =
-      t.from;
-
-
-    document.getElementById(
-      "nightEndLabel"
-    ).textContent =
-      t.to;
-
-
-    document.getElementById(
-      "registerWorkTitle"
-    ).textContent =
-      t.registerWork;
-
-
-    document.getElementById(
-      "startButton"
-    ).textContent =
-      t.startWork;
-
-
-    document.getElementById(
-      "pauseButton"
-    ).textContent =
-      t.pause;
-
-
-    document.getElementById(
-      "resumeButton"
-    ).textContent =
-      t.resume;
-
-
-    document.getElementById(
-      "stopButton"
-    ).textContent =
-      t.stopWork;
-
-
-    document.getElementById(
-      "startTimeLabel"
-    ).textContent =
-      t.startTime;
-
-
-    document.getElementById(
-      "pauseTimeLabel"
-    ).textContent =
-      t.pauseTime;
-
-
-    document.getElementById(
-      "endTimeLabel"
-    ).textContent =
-      t.endTime;
-
-
-    document.getElementById(
-      "dailyResultTitle"
-    ).textContent =
-      t.dailyWork;
-
-
-    document.getElementById(
-      "workSummaryTitle"
-    ).textContent =
-      t.workSummary;
-
-
-    document.getElementById(
-      "totalWorkedLabel"
-    ).textContent =
-      t.totalWorked;
-
-
-    document.getElementById(
-      "targetHoursLabel"
-    ).textContent =
-      t.targetHours;
-
-
-    document.getElementById(
-      "differenceLabel"
-    ).textContent =
-      t.difference;
-
-
-    document.getElementById(
-      "communicationTitle"
-    ).textContent =
-      t.communication;
-
-
-    document.getElementById(
-      "communicationDescription"
-    ).textContent =
-      t.communicationDescription;
-
-
-    document.getElementById(
-      "backButton"
-    ).textContent =
-      t.back;
-
-
-    updateDurationDisplays();
-
-    loadCommunication();
-
-  }
-
-
-  function formatTime(date) {
-
-    return date.toLocaleTimeString(
-      "sv-SE",
-      {
-        hour: "2-digit",
-        minute: "2-digit"
-      }
-    );
-
-  }
-
-
-  function formatDuration(totalMinutes) {
-
-    totalMinutes =
+}
+/* =================================
+   PAUS
+================================= */
+function updatePauseDisplay() {
+  let displayedPauseMinutes =
+    totalPauseMinutes;
+  if (pauseStartTimeValue) {
+    const currentPauseMinutes =
+      Math.floor(
+        (
+          new Date().getTime() -
+          pauseStartTimeValue.getTime()
+        ) / 60000
+      );
+    displayedPauseMinutes +=
       Math.max(
         0,
-        Math.round(totalMinutes)
+        currentPauseMinutes
       );
-
-
-    const hours =
-      Math.floor(
-        totalMinutes / 60
+  }
+  pauseTimeDisplay.textContent =
+    formatDuration(
+      displayedPauseMinutes
+    );
+}
+/* =================================
+   DISPLAY
+================================= */
+function updateDurationDisplays() {
+  updatePauseDisplay();
+  if (totalHoursDisplay) {
+    totalHoursDisplay.textContent =
+      formatDuration(
+        totalMinutesWorked
       );
-
-
-    const minutes =
-      totalMinutes % 60;
-
-
-    const t =
-      translations[
-        getCurrentLanguage()
-      ];
-
-
-    return hours +
-      " " +
-      t.hours +
-      " " +
-      String(minutes).padStart(2, "0") +
-      " " +
-      t.minutes;
-
   }
-
-
-  function updateDurationDisplays() {
-
-    if (pauseTimeDisplay) {
-
-      let displayedPauseMinutes =
-        totalPauseMinutes;
-
-
-      if (pauseStartTimeValue) {
-
-        const currentPauseMinutes =
-          Math.floor(
-            (
-              new Date().getTime() -
-              pauseStartTimeValue.getTime()
-            ) / 60000
-          );
-
-
-        displayedPauseMinutes +=
-          Math.max(
-            0,
-            currentPauseMinutes
-          );
-
-      }
-
-
-      pauseTimeDisplay.textContent =
-        formatDuration(
-          displayedPauseMinutes
-        );
-
-    }
-
-
-    if (
-      dailyHoursDisplay &&
-      !startTimeValue
-    ) {
-
-      /* Behåll redan visad dagens arbetstid */
-
-    }
-
-
-    if (totalHoursDisplay) {
-
-      totalHoursDisplay.textContent =
-        formatDuration(
-          totalMinutesWorked
-        );
-
-    }
-
-
-    updateTargetAndDifference();
-
+  updateTargetAndDifference();
+}
+/* =================================
+   SPARA MÅNADSLÖN I GEMENSAM DATA
+================================= */
+function saveMonthlySalaryRecord() {
+  const employeeKey =
+    getEmployeeKey();
+  if (!employeeKey) {
+    return;
   }
-
-
-  /* =================================
-     VARIABLER
-  ================================= */
-
-  let startTimeValue = null;
-
-  let totalMinutesWorked = 0;
-
-  let pauseStartTimeValue = null;
-
-  let totalPauseMinutes = 0;
-
-  let pauseCount = 0;
-
-
-  const STORAGE_KEY =
-    "genie_manadslon_workdays";
-
-  const ACTIVE_START_KEY =
-    "genie_manadslon_active_start";
-
-  const PAUSE_START_KEY =
-    "genie_manadslon_pause_start";
-
-  const PAUSE_TOTAL_KEY =
-    "genie_manadslon_pause_total";
-
-  const PAUSE_COUNT_KEY =
-    "genie_manadslon_pause_count";
-
-
-  const startButton =
+  const periodKey =
+    getPeriodKey();
+  const data =
+    readSalaryData();
+  if (!data[employeeKey]) {
+    data[employeeKey] = {
+      types: {}
+    };
+  }
+  if (!data[employeeKey].types) {
+    data[employeeKey].types = {};
+  }
+  if (!data[employeeKey].types[SALARY_TYPE]) {
+    data[employeeKey].types[SALARY_TYPE] = {};
+  }
+  const monthlyRecord = {
+    employee:
+      document.getElementById(
+        "employeeInfo"
+      ).value,
+    employer:
+      document.getElementById(
+        "employerInfo"
+      ).value,
+    type:
+      SALARY_TYPE,
+    monthlySalary:
+      document.getElementById(
+        "monthlySalary"
+      ).value,
+    workTarget:
+      document.getElementById(
+        "workTarget"
+      ).value,
+    periodStart:
+      getPeriodStart(),
+    periodEnd:
+      getPeriodEnd(),
+    nightStart:
+      document.getElementById(
+        "nightStart"
+      ).value,
+    nightEnd:
+      document.getElementById(
+        "nightEnd"
+      ).value,
+    totalMinutes:
+      totalMinutesWorked,
+    totalHours:
+      formatDuration(
+        totalMinutesWorked
+      ),
+    targetHours:
+      targetHoursDisplay.textContent,
+    difference:
+      differenceHoursDisplay.textContent,
+    updated:
+      new Date().toISOString()
+  };
+  data[employeeKey].types[SALARY_TYPE][periodKey] =
+    monthlyRecord;
+  /*
+    Aktuell post/typ/period för nästa sida.
+  */
+  localStorage.setItem(
+    "genieCurrentEmployeeKey",
+    employeeKey
+  );
+  localStorage.setItem(
+    "genieCurrentSalaryType",
+    SALARY_TYPE
+  );
+  localStorage.setItem(
+    "genieCurrentPeriodKey",
+    periodKey
+  );
+  writeSalaryData(data);
+}
+/* =================================
+   LADDA MÅNADSLÖN FRÅN GEMENSAM DATA
+================================= */
+function loadMonthlySalaryRecord() {
+  const employeeKey =
+    getEmployeeKey();
+  if (!employeeKey) {
+    return;
+  }
+  const data =
+    readSalaryData();
+  const employeeData =
+    data[employeeKey];
+  if (!employeeData ||
+      !employeeData.types ||
+      !employeeData.types[SALARY_TYPE]) {
+    return;
+  }
+  const periodKey =
+    getPeriodKey();
+  const record =
+    employeeData.types[SALARY_TYPE][periodKey];
+  if (!record) {
+    return;
+  }
+  if (
+    record.monthlySalary !== undefined
+  ) {
     document.getElementById(
-      "startButton"
-    );
-
-  const pauseButton =
-    document.getElementById(
-      "pauseButton"
-    );
-
-  const resumeButton =
-    document.getElementById(
-      "resumeButton"
-    );
-
-  const stopButton =
-    document.getElementById(
-      "stopButton"
-    );
-
-  const startTimeDisplay =
-    document.getElementById(
-      "startTime"
-    );
-
-  const endTimeDisplay =
-    document.getElementById(
-      "endTime"
-    );
-
-  const pauseTimeDisplay =
-    document.getElementById(
-      "pauseTime"
-    );
-
-  const dailyHoursDisplay =
-    document.getElementById(
-      "dailyHours"
-    );
-
-  const totalHoursDisplay =
-    document.getElementById(
-      "totalHours"
-    );
-
-  const workTargetInput =
+      "monthlySalary"
+    ).value =
+      record.monthlySalary;
+  }
+  if (
+    record.workTarget !== undefined
+  ) {
     document.getElementById(
       "workTarget"
-    );
-
-  const targetHoursDisplay =
+    ).value =
+      record.workTarget;
+  }
+  if (
+    record.periodStart !== undefined
+  ) {
     document.getElementById(
-      "targetHours"
-    );
-
-  const differenceHoursDisplay =
+      "periodStart"
+    ).value =
+      record.periodStart;
+  }
+  if (
+    record.periodEnd !== undefined
+  ) {
     document.getElementById(
-      "differenceHours"
+      "periodEnd"
+    ).value =
+      record.periodEnd;
+  }
+  if (
+    record.nightStart !== undefined
+  ) {
+    document.getElementById(
+      "nightStart"
+    ).value =
+      record.nightStart;
+  }
+  if (
+    record.nightEnd !== undefined
+  ) {
+    document.getElementById(
+      "nightEnd"
+    ).value =
+      record.nightEnd;
+  }
+}
+/* =================================
+   AUTOMATISKT SPARA FÄLT
+================================= */
+function saveFormData() {
+  updateTargetAndDifference();
+  saveMonthlySalaryRecord();
+}
+/* =================================
+   LADDA FORMULÄR
+================================= */
+function loadFormData() {
+  /*
+    Första gången kan gamla lokala formulärdata
+    fortfarande användas på samma telefon.
+  */
+  const inputs =
+    document.querySelectorAll(
+      "input, textarea"
     );
-
-
-  /* =================================
-     DUGMAD
-  ================================= */
-
-  function updateWorkButtons() {
-
-    const working =
-      !!startTimeValue;
-
-    const paused =
-      !!pauseStartTimeValue;
-
-
-    startButton.disabled =
-      working;
-
-    pauseButton.disabled =
-      !working ||
-      paused ||
-      pauseCount >= 2;
-
-    resumeButton.disabled =
-      !working ||
-      !paused;
-
-    stopButton.disabled =
-      !working;
-
-  }
-
-
-  /* =================================
-     PRIKAŽI PAUZU
-  ================================= */
-
-  function updatePauseDisplay() {
-
-    let displayedPauseMinutes =
-      totalPauseMinutes;
-
-
-    if (pauseStartTimeValue) {
-
-      const currentPauseMinutes =
-        Math.floor(
-          (
-            new Date().getTime() -
-            pauseStartTimeValue.getTime()
-          ) / 60000
-        );
-
-
-      displayedPauseMinutes +=
-        Math.max(
-          0,
-          currentPauseMinutes
-        );
-
-    }
-
-
-    pauseTimeDisplay.textContent =
-      formatDuration(
-        displayedPauseMinutes
-      );
-
-  }
-
-
-  /* =================================
-     SPREMI MÅNADSLÖN
-  ================================= */
-
-  function saveMonthlySalaryToEmployer() {
-
-    const monthlySalaryData = {
-
-      type:
-        "Månadslön",
-
-      employer:
-        document.getElementById(
-          "employerInfo"
-        ).value,
-
-      employee:
-        document.getElementById(
-          "employeeInfo"
-        ).value,
-
-      monthlySalary:
-        document.getElementById(
-          "monthlySalary"
-        ).value,
-
-      workTarget:
-        document.getElementById(
-          "workTarget"
-        ).value,
-
-      periodStart:
-        document.getElementById(
-          "periodStart"
-        ).value,
-
-      periodEnd:
-        document.getElementById(
-          "periodEnd"
-        ).value,
-
-      nightStart:
-        document.getElementById(
-          "nightStart"
-        ).value,
-
-      nightEnd:
-        document.getElementById(
-          "nightEnd"
-        ).value,
-
-      totalMinutes:
-        totalMinutesWorked,
-
-      totalHours:
-        formatDuration(
-          totalMinutesWorked
-        ),
-
-      targetHours:
-        document.getElementById(
-          "targetHours"
-        ).textContent,
-
-      difference:
-        document.getElementById(
-          "differenceHours"
-        ).textContent,
-
-      updated:
-        new Date().toISOString()
-
-    };
-
-
-    localStorage.setItem(
-      "genieManadslonData",
-      JSON.stringify(
-        monthlySalaryData
-      )
-    );
-
-
-    const employeeName =
-      String(
-        monthlySalaryData.employee || ""
-      )
-        .trim()
-        .toLowerCase();
-
-
-    if (employeeName) {
-
-      const activeTypes =
-        JSON.parse(
-          localStorage.getItem(
-            "genieActiveSalaryTypes"
-          )
-        ) || {};
-
-
-      activeTypes[employeeName] = {
-
-        type:
-          "Månadslön",
-
-        periodStart:
-          monthlySalaryData.periodStart || "",
-
-        periodEnd:
-          monthlySalaryData.periodEnd || "",
-
-        savedAt:
-          new Date().toISOString()
-
-      };
-
-
-      localStorage.setItem(
-        "genieActiveSalaryTypes",
-        JSON.stringify(
-          activeTypes
-        )
-      );
-
-    }
-
-  }
-
-
-  /* =================================
-     MÅL OCH SKILLNAD
-  ================================= */
-
-  function updateTargetAndDifference() {
-
-    const targetHours =
-      Number(
-        workTargetInput.value
-      ) || 0;
-
-
-    const targetMinutes =
-      Math.round(
-        targetHours * 60
-      );
-
-
-    targetHoursDisplay.textContent =
-      formatDuration(
-        targetMinutes
-      );
-
-
-    const differenceMinutes =
-      totalMinutesWorked -
-      targetMinutes;
-
-
-    const sign =
-      differenceMinutes > 0
-        ? "+"
-        : differenceMinutes < 0
-        ? "-"
-        : "";
-
-
-    differenceHoursDisplay.textContent =
-      sign +
-      formatDuration(
-        Math.abs(
-          differenceMinutes
-        )
-      );
-
-  }
-
-
-  /* =================================
-     AUTOMATISKT SPARA
-  ================================= */
-
-  function saveFormData() {
-
-    const inputs =
-      document.querySelectorAll(
-        "input, textarea"
-      );
-
-
-    inputs.forEach(
-      function(input) {
-
-        localStorage.setItem(
-
+  inputs.forEach(
+    function(input) {
+      const savedValue =
+        localStorage.getItem(
           "manadslon_" +
-          input.id,
-
-          input.value
-
+          input.id
         );
-
+      if (savedValue !== null) {
+        input.value =
+          savedValue;
       }
+    }
+  );
+  updateTargetAndDifference();
+  /*
+    Den gemensamma datastrukturen är huvudkällan.
+  */
+  loadMonthlySalaryRecord();
+}
+/* =================================
+   SPARA FORMULÄR LOKALT
+================================= */
+function saveLegacyFormFields() {
+  const inputs =
+    document.querySelectorAll(
+      "input, textarea"
     );
-
-
-    updateTargetAndDifference();
-
-    saveMonthlySalaryToEmployer();
-
-  }
-
-
-  /* =================================
-     LADDA DATA
-  ================================= */
-
-  function loadFormData() {
-
-    const inputs =
-      document.querySelectorAll(
-        "input, textarea"
+  inputs.forEach(
+    function(input) {
+      localStorage.setItem(
+        "manadslon_" +
+        input.id,
+        input.value
       );
-
-
-    inputs.forEach(
-      function(input) {
-
-        const savedValue =
-          localStorage.getItem(
-            "manadslon_" +
-            input.id
-          );
-
-
-        if (savedValue !== null) {
-
-          input.value =
-            savedValue;
-
-        }
-
-      }
+    }
+  );
+}
+/* =================================
+   ARBETSDAGAR
+================================= */
+function loadSavedWorkdays() {
+  const savedData =
+    localStorage.getItem(
+      STORAGE_KEY
     );
-
-
+  if (!savedData) {
+    totalMinutesWorked = 0;
+    totalHoursDisplay.textContent =
+      formatDuration(0);
     updateTargetAndDifference();
-
+    return;
   }
-
-
-  /* =================================
-     SPARADE ARBETSDAGAR
-  ================================= */
-
-  function loadSavedWorkdays() {
-
-    const savedData =
+  try {
+    const workdays =
+      JSON.parse(savedData);
+    totalMinutesWorked =
+      Array.isArray(workdays)
+        ? workdays.reduce(
+            function(sum, day) {
+              return sum +
+                Number(day.minutes || 0);
+            },
+            0
+          )
+        : 0;
+    totalHoursDisplay.textContent =
+      formatDuration(
+        totalMinutesWorked
+      );
+    updateTargetAndDifference();
+  } catch(error) {
+    totalMinutesWorked = 0;
+    totalHoursDisplay.textContent =
+      formatDuration(0);
+    updateTargetAndDifference();
+  }
+}
+/* =================================
+   AKTIV STARTTID
+================================= */
+function loadActiveStart() {
+  const savedStart =
+    localStorage.getItem(
+      ACTIVE_START_KEY
+    );
+  if (!savedStart) {
+    updateWorkButtons();
+    return;
+  }
+  startTimeValue =
+    new Date(savedStart);
+  startTimeDisplay.textContent =
+    formatTime(startTimeValue);
+  endTimeDisplay.textContent =
+    "--:--";
+  dailyHoursDisplay.textContent =
+    formatDuration(0);
+  totalPauseMinutes =
+    Number(
       localStorage.getItem(
-        STORAGE_KEY
-      );
-
-
-    if (!savedData) {
-
-      totalMinutesWorked =
-        0;
-
-
-      totalHoursDisplay.textContent =
-        formatDuration(0);
-
-
-      updateTargetAndDifference();
-
-      return;
-
-    }
-
-
-    try {
-
-      const workdays =
-        JSON.parse(
-          savedData
-        );
-
-
-      totalMinutesWorked =
-        workdays.reduce(
-
-          function(sum, day) {
-
-            return sum +
-              Number(
-                day.minutes || 0
-              );
-
-          },
-
-          0
-
-        );
-
-
-      totalHoursDisplay.textContent =
-        formatDuration(
-          totalMinutesWorked
-        );
-
-
-      updateTargetAndDifference();
-
-    }
-
-    catch (error) {
-
-      totalMinutesWorked =
-        0;
-
-
-      totalHoursDisplay.textContent =
-        formatDuration(0);
-
-
-      updateTargetAndDifference();
-
-    }
-
+        PAUSE_TOTAL_KEY
+      )
+    ) || 0;
+  pauseCount =
+    Number(
+      localStorage.getItem(
+        PAUSE_COUNT_KEY
+      )
+    ) || 0;
+  const savedPauseStart =
+    localStorage.getItem(
+      PAUSE_START_KEY
+    );
+  pauseStartTimeValue =
+    savedPauseStart
+      ? new Date(savedPauseStart)
+      : null;
+  updatePauseDisplay();
+  updateWorkButtons();
+}
+/* =================================
+   DUGMAD
+================================= */
+function updateWorkButtons() {
+  const working =
+    !!startTimeValue;
+  const paused =
+    !!pauseStartTimeValue;
+  startButton.disabled =
+    working;
+  pauseButton.disabled =
+    !working ||
+    paused ||
+    pauseCount >= 2;
+  resumeButton.disabled =
+    !working ||
+    !paused;
+  stopButton.disabled =
+    !working;
+}
+/* =================================
+   STARTA ARBETE
+================================= */
+startButton.onclick =
+function() {
+  if (startTimeValue) {
+    return;
   }
-
-
-  /* =================================
-     AKTIV STARTTID
-  ================================= */
-
-  function loadActiveStart() {
-
+  startTimeValue =
+    new Date();
+  totalPauseMinutes = 0;
+  pauseStartTimeValue = null;
+  pauseCount = 0;
+  localStorage.setItem(
+    ACTIVE_START_KEY,
+    startTimeValue.toISOString()
+  );
+  localStorage.setItem(
+    PAUSE_TOTAL_KEY,
+    "0"
+  );
+  localStorage.setItem(
+    PAUSE_COUNT_KEY,
+    "0"
+  );
+  localStorage.removeItem(
+    PAUSE_START_KEY
+  );
+  startTimeDisplay.textContent =
+    formatTime(startTimeValue);
+  endTimeDisplay.textContent =
+    "--:--";
+  pauseTimeDisplay.textContent =
+    formatDuration(0);
+  dailyHoursDisplay.textContent =
+    formatDuration(0);
+  updateWorkButtons();
+};
+/* =================================
+   PAUS
+================================= */
+pauseButton.onclick =
+function() {
+  if (!startTimeValue) {
+    return;
+  }
+  if (pauseStartTimeValue) {
+    return;
+  }
+  if (pauseCount >= 2) {
+    return;
+  }
+  pauseStartTimeValue =
+    new Date();
+  pauseCount++;
+  localStorage.setItem(
+    PAUSE_START_KEY,
+    pauseStartTimeValue.toISOString()
+  );
+  localStorage.setItem(
+    PAUSE_COUNT_KEY,
+    String(pauseCount)
+  );
+  updatePauseDisplay();
+  updateWorkButtons();
+};
+/* =================================
+   FORTSÄTT
+================================= */
+resumeButton.onclick =
+function() {
+  if (!startTimeValue) {
+    return;
+  }
+  if (!pauseStartTimeValue) {
+    return;
+  }
+  const resumeTime =
+    new Date();
+  const pauseMinutes =
+    Math.max(
+      0,
+      Math.floor(
+        (
+          resumeTime.getTime() -
+          pauseStartTimeValue.getTime()
+        ) / 60000
+      )
+    );
+  totalPauseMinutes +=
+    pauseMinutes;
+  pauseStartTimeValue = null;
+  localStorage.setItem(
+    PAUSE_TOTAL_KEY,
+    String(totalPauseMinutes)
+  );
+  localStorage.removeItem(
+    PAUSE_START_KEY
+  );
+  updatePauseDisplay();
+  updateWorkButtons();
+};
+/* =================================
+   SLUTA ARBETE
+================================= */
+stopButton.onclick =
+function() {
+  if (!startTimeValue) {
     const savedStart =
       localStorage.getItem(
         ACTIVE_START_KEY
       );
-
-
-    if (!savedStart) {
-
-      updateWorkButtons();
-
-      return;
-
+    if (savedStart) {
+      startTimeValue =
+        new Date(savedStart);
     }
-
-
-    startTimeValue =
-      new Date(
-        savedStart
-      );
-
-
-    startTimeDisplay.textContent =
-      formatTime(
-        startTimeValue
-      );
-
-
-    endTimeDisplay.textContent =
-      "--:--";
-
-
-    dailyHoursDisplay.textContent =
-      formatDuration(0);
-
-
-    totalPauseMinutes =
-      Number(
-        localStorage.getItem(
-          PAUSE_TOTAL_KEY
-        )
-      ) || 0;
-
-
-    pauseCount =
-      Number(
-        localStorage.getItem(
-          PAUSE_COUNT_KEY
-        )
-      ) || 0;
-
-
-    const savedPauseStart =
-      localStorage.getItem(
-        PAUSE_START_KEY
-      );
-
-
-    if (savedPauseStart) {
-
-      pauseStartTimeValue =
-        new Date(
-          savedPauseStart
-        );
-
-    }
-    else {
-
-      pauseStartTimeValue =
-        null;
-
-    }
-
-
-    updatePauseDisplay();
-
-    updateWorkButtons();
-
   }
-
-
-  /* =================================
-     STARTA ARBETE
-  ================================= */
-
-  startButton.onclick =
-    function() {
-
-      if (startTimeValue) {
-
-        return;
-
-      }
-
-
-      startTimeValue =
-        new Date();
-
-
-      totalPauseMinutes =
-        0;
-
-
-      pauseStartTimeValue =
-        null;
-
-
-      pauseCount =
-        0;
-
-
-      localStorage.setItem(
-
-        ACTIVE_START_KEY,
-
-        startTimeValue.toISOString()
-
-      );
-
-
-      localStorage.setItem(
-
-        PAUSE_TOTAL_KEY,
-
-        "0"
-
-      );
-
-
-      localStorage.setItem(
-
-        PAUSE_COUNT_KEY,
-
-        "0"
-
-      );
-
-
-      localStorage.removeItem(
-        PAUSE_START_KEY
-      );
-
-
-      startTimeDisplay.textContent =
-        formatTime(
-          startTimeValue
-        );
-
-
-      endTimeDisplay.textContent =
-        "--:--";
-
-
-      pauseTimeDisplay.textContent =
-        formatDuration(0);
-
-
-      dailyHoursDisplay.textContent =
-        formatDuration(0);
-
-
-      updateWorkButtons();
-
-    };
-
-
-  /* =================================
-     PAUS
-  ================================= */
-
-  pauseButton.onclick =
-    function() {
-
-      if (!startTimeValue) {
-
-        return;
-
-      }
-
-
-      if (pauseStartTimeValue) {
-
-        return;
-
-      }
-
-
-      if (pauseCount >= 2) {
-
-        return;
-
-      }
-
-
-      pauseStartTimeValue =
-        new Date();
-
-
-      pauseCount++;
-
-
-      localStorage.setItem(
-
-        PAUSE_START_KEY,
-
-        pauseStartTimeValue.toISOString()
-
-      );
-
-
-      localStorage.setItem(
-
-        PAUSE_COUNT_KEY,
-
-        String(pauseCount)
-
-      );
-
-
-      updatePauseDisplay();
-
-      updateWorkButtons();
-
-    };
-
-
-  /* =================================
-     FORTSÄTT
-  ================================= */
-
-  resumeButton.onclick =
-    function() {
-
-      if (!startTimeValue) {
-
-        return;
-
-      }
-
-
-      if (!pauseStartTimeValue) {
-
-        return;
-
-      }
-
-
-      const resumeTime =
-        new Date();
-
-
-      const pauseMinutes =
-        Math.max(
-
-          0,
-
-          Math.floor(
-
-            (
-              resumeTime.getTime() -
-              pauseStartTimeValue.getTime()
-            ) / 60000
-
-          )
-
-        );
-
-
-      totalPauseMinutes +=
-        pauseMinutes;
-
-
-      pauseStartTimeValue =
-        null;
-
-
-      localStorage.setItem(
-
-        PAUSE_TOTAL_KEY,
-
-        String(
-          totalPauseMinutes
+  if (!startTimeValue) {
+    return;
+  }
+  const endTimeValue =
+    new Date();
+  if (pauseStartTimeValue) {
+    const finalPauseMinutes =
+      Math.max(
+        0,
+        Math.floor(
+          (
+            endTimeValue.getTime() -
+            pauseStartTimeValue.getTime()
+          ) / 60000
         )
-
       );
-
-
-      localStorage.removeItem(
-        PAUSE_START_KEY
-      );
-
-
-      updatePauseDisplay();
-
-      updateWorkButtons();
-
-    };
-
-
-  /* =================================
-     SLUTA ARBETE
-  ================================= */
-
-  stopButton.onclick =
-    function() {
-
-      if (!startTimeValue) {
-
-        const savedStart =
-          localStorage.getItem(
-            ACTIVE_START_KEY
-          );
-
-
-        if (savedStart) {
-
-          startTimeValue =
-            new Date(
-              savedStart
-            );
-
+    totalPauseMinutes +=
+      finalPauseMinutes;
+    pauseStartTimeValue = null;
+    localStorage.removeItem(
+      PAUSE_START_KEY
+    );
+  }
+  endTimeDisplay.textContent =
+    formatTime(endTimeValue);
+  const difference =
+    endTimeValue.getTime() -
+    startTimeValue.getTime();
+  const totalElapsedMinutes =
+    Math.max(
+      0,
+      Math.floor(
+        difference / 60000
+      )
+    );
+  const dailyMinutes =
+    Math.max(
+      0,
+      totalElapsedMinutes -
+      totalPauseMinutes
+    );
+  dailyHoursDisplay.textContent =
+    formatDuration(
+      dailyMinutes
+    );
+  pauseTimeDisplay.textContent =
+    formatDuration(
+      totalPauseMinutes
+    );
+  let workdays = [];
+  const savedData =
+    localStorage.getItem(
+      STORAGE_KEY
+    );
+  if (savedData) {
+    try {
+      workdays =
+        JSON.parse(savedData);
+      if (!Array.isArray(workdays)) {
+        workdays = [];
+      }
+    } catch(error) {
+      workdays = [];
+    }
+  }
+  const workday = {
+    date:
+      startTimeValue
+        .toISOString()
+        .split("T")[0],
+    start:
+      formatTime(startTimeValue),
+    end:
+      formatTime(endTimeValue),
+    minutes:
+      dailyMinutes,
+    pauseMinutes:
+      totalPauseMinutes,
+    pauseCount:
+      pauseCount
+  };
+  workdays.push(workday);
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(workdays)
+  );
+  totalMinutesWorked =
+    workdays.reduce(
+      function(sum, day) {
+        return sum +
+          Number(day.minutes || 0);
+      },
+      0
+    );
+  totalHoursDisplay.textContent =
+    formatDuration(
+      totalMinutesWorked
+    );
+  updateTargetAndDifference();
+  localStorage.removeItem(
+    ACTIVE_START_KEY
+  );
+  localStorage.removeItem(
+    PAUSE_START_KEY
+  );
+  localStorage.removeItem(
+    PAUSE_TOTAL_KEY
+  );
+  localStorage.removeItem(
+    PAUSE_COUNT_KEY
+  );
+  startTimeValue = null;
+  pauseStartTimeValue = null;
+  totalPauseMinutes = 0;
+  pauseCount = 0;
+  updateWorkButtons();
+  saveMonthlySalaryRecord();
+};
+/* =================================
+   AUTOMATISKT SPARA ALLA FÄLT
+================================= */
+document
+  .querySelectorAll(
+    "input, textarea"
+  )
+  .forEach(
+    function(input) {
+      input.addEventListener(
+        "input",
+        function() {
+          saveLegacyFormFields();
+          saveFormData();
+          loadCommunication();
         }
-
-      }
-
-
-      if (!startTimeValue) {
-
-        return;
-
-      }
-
-
-      const endTimeValue =
-        new Date();
-
-
-      if (pauseStartTimeValue) {
-
-        const finalPauseMinutes =
-          Math.max(
-
-            0,
-
-            Math.floor(
-
-              (
-                endTimeValue.getTime() -
-                pauseStartTimeValue.getTime()
-              ) / 60000
-
-            )
-
-          );
-
-
-        totalPauseMinutes +=
-          finalPauseMinutes;
-
-
-        pauseStartTimeValue =
-          null;
-
-
-        localStorage.removeItem(
-          PAUSE_START_KEY
-        );
-
-      }
-
-
-      endTimeDisplay.textContent =
-        formatTime(
-          endTimeValue
-        );
-
-
-      const difference =
-        endTimeValue.getTime() -
-        startTimeValue.getTime();
-
-
-      const totalElapsedMinutes =
-        Math.max(
-
-          0,
-
-          Math.floor(
-            difference / 60000
-          )
-
-        );
-
-
-      const dailyMinutes =
-        Math.max(
-
-          0,
-
-          totalElapsedMinutes -
-          totalPauseMinutes
-
-        );
-
-
-      dailyHoursDisplay.textContent =
-        formatDuration(
-          dailyMinutes
-        );
-
-
-      pauseTimeDisplay.textContent =
-        formatDuration(
-          totalPauseMinutes
-        );
-
-
-      let workdays = [];
-
-
-      const savedData =
-        localStorage.getItem(
-          STORAGE_KEY
-        );
-
-
-      if (savedData) {
-
-        try {
-
-          workdays =
-            JSON.parse(
-              savedData
-            );
-
-
-          if (!Array.isArray(workdays)) {
-
-            workdays = [];
-
-          }
-
+      );
+      input.addEventListener(
+        "change",
+        function() {
+          saveLegacyFormFields();
+          saveFormData();
+          loadCommunication();
         }
-
-        catch (error) {
-
-          workdays = [];
-
-        }
-
-      }
-
-
-      const workday = {
-
-        date:
-          startTimeValue
-            .toISOString()
-            .split("T")[0],
-
-        start:
-          formatTime(
-            startTimeValue
-          ),
-
-        end:
-          formatTime(
-            endTimeValue
-          ),
-
-        minutes:
-          dailyMinutes,
-
-        pauseMinutes:
-          totalPauseMinutes,
-
-        pauseCount:
-          pauseCount
-
-      };
-
-
-      workdays.push(
-        workday
       );
-
-
-      localStorage.setItem(
-
-        STORAGE_KEY,
-
-        JSON.stringify(
-          workdays
-        )
-
-      );
-
-
-      totalMinutesWorked =
-        workdays.reduce(
-
-          function(sum, day) {
-
-            return sum +
-              Number(
-                day.minutes || 0
-              );
-
-          },
-
-          0
-
+    }
+  );
+/* =================================
+   KOMMUNIKATION
+================================= */
+function getEmployeeName() {
+  return normalizeEmployee(
+    document.getElementById(
+      "employeeInfo"
+    ).value
+  );
+}
+function translateMessageStatus(status) {
+  const t =
+    translations[
+      getCurrentLanguage()
+    ];
+  if (status === "Åtgärdad") {
+    return t.statusHandled;
+  }
+  if (
+    status ===
+    "Svar från arbetstagaren"
+  ) {
+    return t.statusReply;
+  }
+  if (
+    status ===
+    "Ny kommentar"
+  ) {
+    return t.statusNew;
+  }
+  return status || t.statusNew;
+}
+function loadCommunication() {
+  const communicationList =
+    document.getElementById(
+      "communicationList"
+    );
+  communicationList.innerHTML = "";
+  const t =
+    translations[
+      getCurrentLanguage()
+    ];
+  const employeeName =
+    getEmployeeName();
+  if (!employeeName) {
+    communicationList.innerHTML =
+      '<p style="text-align:center;color:#6b7280;">' +
+      t.enterEmployee +
+      '</p>';
+    return;
+  }
+  const messages =
+    JSON.parse(
+      localStorage.getItem(
+        GENIE_MESSAGES_KEY
+      )
+    ) || [];
+  const currentPeriodKey =
+    getPeriodKey();
+  const employeeMessages =
+    messages.filter(
+      function(item) {
+        const sameEmployee =
+          normalizeEmployee(
+            item.employee
+          ) === employeeName;
+        const sameType =
+          !item.type ||
+          item.type === SALARY_TYPE;
+        const samePeriod =
+          !item.periodKey ||
+          item.periodKey === currentPeriodKey;
+        return (
+          sameEmployee &&
+          sameType &&
+          samePeriod
         );
-
-
-      totalHoursDisplay.textContent =
-        formatDuration(
-          totalMinutesWorked
-        );
-
-
-      updateTargetAndDifference();
-
-
-      localStorage.removeItem(
-        ACTIVE_START_KEY
-      );
-
-
-      localStorage.removeItem(
-        PAUSE_START_KEY
-      );
-
-
-      localStorage.removeItem(
-        PAUSE_TOTAL_KEY
-      );
-
-
-      localStorage.removeItem(
-        PAUSE_COUNT_KEY
-      );
-
-
-      startTimeValue =
-        null;
-
-
-      pauseStartTimeValue =
-        null;
-
-
-      totalPauseMinutes =
-        0;
-
-
-      pauseCount =
-        0;
-
-
-      updateWorkButtons();
-
-
-      saveMonthlySalaryToEmployer();
-
-    };
-
-
-  /* =================================
-     AUTOMATISKT SPARA ALLA FÄLT
-  ================================= */
-
-  document
-    .querySelectorAll(
-      "input, textarea"
-    )
-    .forEach(
-      function(input) {
-
-        input.addEventListener(
-          "input",
-          saveFormData
-        );
-
-
-        input.addEventListener(
-          "change",
-          saveFormData
-        );
-
       }
     );
-
-
-  /* =================================
-     KOMMUNIKATION
-  ================================= */
-
-  function getEmployeeName() {
-
-    return String(
-
-      document.getElementById(
-        "employeeInfo"
-      ).value || ""
-
-    )
-      .trim()
-      .toLowerCase();
-
-  }
-
-
-  function translateMessageStatus(status) {
-
-    const language =
-      getCurrentLanguage();
-
-    const t =
-      translations[language];
-
-
-    if (status === "Åtgärdad") {
-
-      return t.statusHandled;
-
-    }
-
-
-    if (
-      status ===
-      "Svar från arbetstagaren"
-    ) {
-
-      return t.statusReply;
-
-    }
-
-
-    if (
-      status ===
-      "Ny kommentar"
-    ) {
-
-      return t.statusNew;
-
-    }
-
-
-    return status || t.statusNew;
-
-  }
-
-
-  function loadCommunication() {
-
-    const communicationList =
-      document.getElementById(
-        "communicationList"
-      );
-
-
+  if (
+    employeeMessages.length === 0
+  ) {
     communicationList.innerHTML =
-      "";
-
-
-    const language =
-      getCurrentLanguage();
-
-    const t =
-      translations[language];
-
-
-    const employeeName =
-      getEmployeeName();
-
-
-    if (!employeeName) {
-
-      communicationList.innerHTML =
-
-        '<p style="text-align:center;color:#6b7280;">' +
-        t.enterEmployee +
-        '</p>';
-
-      return;
-
-    }
-
-
-    const messages =
-      JSON.parse(
-
-        localStorage.getItem(
-          "genieMessages"
-        )
-
-      ) || [];
-
-
-    const employeeMessages =
-      messages.filter(
-        function(item) {
-
-          return (
-
-            String(
-              item.employee || ""
-            )
-              .trim()
-              .toLowerCase()
-            ===
-            employeeName
-
-          );
-
-        }
-      );
-
-
-    if (
-      employeeMessages.length === 0
-    ) {
-
-      communicationList.innerHTML =
-
-        '<p style="text-align:center;color:#6b7280;">' +
-        t.noMessages +
-        '</p>';
-
-      return;
-
-    }
-
-
-    employeeMessages.forEach(
-
-      function(item, index) {
-
-        const wrapper =
-          document.createElement(
-            "div"
-          );
-
-
-        wrapper.className =
-          "communication-message";
-
-
-        let html = "";
-
-
+      '<p style="text-align:center;color:#6b7280;">' +
+      t.noMessages +
+      '</p>';
+    return;
+  }
+  employeeMessages.forEach(
+    function(item, displayIndex) {
+      const wrapper =
+        document.createElement("div");
+      wrapper.className =
+        "communication-message";
+      let html = "";
+      html +=
+        "<p><strong>" +
+        t.messageFromEmployer +
+        "</strong></p>";
+      html +=
+        "<p>" +
+        String(
+          item.message || ""
+        ) +
+        "</p>";
+      html +=
+        '<p style="font-size:13px;color:#6b7280;">' +
+        String(item.date || "") +
+        " " +
+        String(item.time || "") +
+        "</p>";
+      html +=
+        "<p><strong>" +
+        t.status +
+        "</strong> " +
+        translateMessageStatus(
+          item.status
+        ) +
+        "</p>";
+      if (
+        item.reply &&
+        String(item.reply).trim() !== ""
+      ) {
+        html += "<hr>";
         html +=
           "<p><strong>" +
-          t.messageFromEmployer +
+          t.yourReply +
           "</strong></p>";
-
-
         html +=
           "<p>" +
-          String(
-            item.message || ""
-          ) +
+          String(item.reply) +
           "</p>";
-
-
         html +=
           '<p style="font-size:13px;color:#6b7280;">' +
-          String(
-            item.date || ""
-          ) +
+          String(item.replyDate || "") +
           " " +
-          String(
-            item.time || ""
-          ) +
+          String(item.replyTime || "") +
           "</p>";
-
-
-        html +=
-          "<p><strong>" +
-          t.status +
-          "</strong> " +
-          translateMessageStatus(
-            item.status
-          ) +
-          "</p>";
-
-
-        if (
-          item.reply &&
-          String(
-            item.reply
-          ).trim() !== ""
-        ) {
-
-          html +=
-            "<hr>";
-
-
-          html +=
-            "<p><strong>" +
-            t.yourReply +
-            "</strong></p>";
-
-
-          html +=
-            "<p>" +
-            String(
-              item.reply
-            ) +
-            "</p>";
-
-
-          html +=
-            '<p style="font-size:13px;color:#6b7280;">' +
-            String(
-              item.replyDate || ""
-            ) +
-            " " +
-            String(
-              item.replyTime || ""
-            ) +
-            "</p>";
-
-        }
-
-
-        html +=
-
-          '<button class="reply-button" ' +
-          'onclick="replyToEmployer(' +
-          index +
-          ')">' +
-          t.replyEmployer +
-          '</button>';
-
-
-        html +=
-
-          '<button class="status-button" ' +
-          'onclick="markMessageHandled(' +
-          index +
-          ')">' +
-          t.markHandled +
-          '</button>';
-
-
-        wrapper.innerHTML =
-          html;
-
-
-        wrapper.dataset.messageIndex =
-          index;
-
-
-        communicationList.appendChild(
-          wrapper
-        );
-
       }
-
-    );
-
-  }
-
-
-  /* =================================
-     SVARA ARBETSGIVAREN
-  ================================= */
-
-  function replyToEmployer(displayIndex) {
-
-    const employeeName =
-      getEmployeeName();
-
-
-    if (!employeeName) {
-
-      return;
-
-    }
-
-
-    const messages =
-      JSON.parse(
-
-        localStorage.getItem(
-          "genieMessages"
-        )
-
-      ) || [];
-
-
-    const matchingIndexes = [];
-
-
-    messages.forEach(
-
-      function(item, index) {
-
-        if (
-
-          String(
-            item.employee || ""
-          )
-            .trim()
-            .toLowerCase()
-          ===
-          employeeName
-
-        ) {
-
-          matchingIndexes.push(
-            index
-          );
-
-        }
-
-      }
-
-    );
-
-
-    const realIndex =
-      matchingIndexes[
-        displayIndex
-      ];
-
-
-    if (
-      realIndex === undefined
-    ) {
-
-      return;
-
-    }
-
-
-    const t =
-      translations[
-        getCurrentLanguage()
-      ];
-
-
-    const reply =
-      prompt(
-        t.replyPrompt
+      html +=
+        '<button class="reply-button" ' +
+        'onclick="replyToEmployer(' +
+        displayIndex +
+        ')">' +
+        t.replyEmployer +
+        '</button>';
+      html +=
+        '<button class="status-button" ' +
+        'onclick="markMessageHandled(' +
+        displayIndex +
+        ')">' +
+        t.markHandled +
+        '</button>';
+      wrapper.innerHTML = html;
+      communicationList.appendChild(
+        wrapper
       );
-
-
-    if (
-      !reply ||
-      reply.trim() === ""
-    ) {
-
-      return;
-
     }
-
-
-    messages[
-      realIndex
-    ].reply =
-      reply.trim();
-
-
-    const now =
-      new Date();
-
-
-    messages[
-      realIndex
-    ].replyDate =
-      now.toLocaleDateString(
-        "sv-SE"
-      );
-
-
-    messages[
-      realIndex
-    ].replyTime =
-      now.toLocaleTimeString(
-        "sv-SE",
-        {
-          hour: "2-digit",
-          minute: "2-digit"
-        }
-      );
-
-
-    messages[
-      realIndex
-    ].status =
-      "Svar från arbetstagaren";
-
-
-    localStorage.setItem(
-
-      "genieMessages",
-
-      JSON.stringify(
-        messages
+  );
+}
+/* =================================
+   SVARA ARBETSGIVAREN
+================================= */
+function getMatchingMessageIndexes() {
+  const employeeName =
+    getEmployeeName();
+  const currentPeriodKey =
+    getPeriodKey();
+  const messages =
+    JSON.parse(
+      localStorage.getItem(
+        GENIE_MESSAGES_KEY
       )
-
-    );
-
-
-    loadCommunication();
-
-  }
-
-
-  /* =================================
-     MARKERA ÅTGÄRDAD
-  ================================= */
-
-  function markMessageHandled(displayIndex) {
-
-    const employeeName =
-      getEmployeeName();
-
-
-    const messages =
-      JSON.parse(
-
-        localStorage.getItem(
-          "genieMessages"
-        )
-
-      ) || [];
-
-
-    const matchingIndexes = [];
-
-
-    messages.forEach(
-
-      function(item, index) {
-
-        if (
-
-          String(
-            item.employee || ""
-          )
-            .trim()
-            .toLowerCase()
-          ===
-          employeeName
-
-        ) {
-
-          matchingIndexes.push(
-            index
-          );
-
-        }
-
+    ) || [];
+  const indexes = [];
+  messages.forEach(
+    function(item,index) {
+      const sameEmployee =
+        normalizeEmployee(
+          item.employee
+        ) === employeeName;
+      const sameType =
+        !item.type ||
+        item.type === SALARY_TYPE;
+      const samePeriod =
+        !item.periodKey ||
+        item.periodKey === currentPeriodKey;
+      if (
+        sameEmployee &&
+        sameType &&
+        samePeriod
+      ) {
+        indexes.push(index);
       }
-
-    );
-
-
-    const realIndex =
-      matchingIndexes[
-        displayIndex
-      ];
-
-
-    if (
-      realIndex === undefined
-    ) {
-
-      return;
-
     }
-
-
-    messages[
-      realIndex
-    ].status =
-      "Åtgärdad";
-
-
-    localStorage.setItem(
-
-      "genieMessages",
-
-      JSON.stringify(
-        messages
-      )
-
-    );
-
-
-    loadCommunication();
-
+  );
+  return {
+    messages: messages,
+    indexes: indexes
+  };
+}
+function replyToEmployer(displayIndex) {
+  const result =
+    getMatchingMessageIndexes();
+  const realIndex =
+    result.indexes[displayIndex];
+  if (
+    realIndex === undefined
+  ) {
+    return;
   }
-
-
-  /* =================================
-     UPPDATERA KOMMUNIKATION
-  ================================= */
-
-  document
-    .getElementById(
-      "employeeInfo"
+  const t =
+    translations[
+      getCurrentLanguage()
+    ];
+  const reply =
+    prompt(
+      t.replyPrompt
+    );
+  if (
+    !reply ||
+    reply.trim() === ""
+  ) {
+    return;
+  }
+  result.messages[
+    realIndex
+  ].reply =
+    reply.trim();
+  const now =
+    new Date();
+  result.messages[
+    realIndex
+  ].replyDate =
+    now.toLocaleDateString(
+      "sv-SE"
+    );
+  result.messages[
+    realIndex
+  ].replyTime =
+    now.toLocaleTimeString(
+      "sv-SE",
+      {
+        hour:"2-digit",
+        minute:"2-digit"
+      }
+    );
+  result.messages[
+    realIndex
+  ].status =
+    "Svar från arbetstagaren";
+  /*
+    Säkerställ typ och period.
+  */
+  result.messages[
+    realIndex
+  ].type =
+    SALARY_TYPE;
+  result.messages[
+    realIndex
+  ].periodKey =
+    getPeriodKey();
+  localStorage.setItem(
+    GENIE_MESSAGES_KEY,
+    JSON.stringify(
+      result.messages
     )
-    .addEventListener(
-      "input",
-      loadCommunication
-    );
-
-
-  /* =================================
-     START
-  ================================= */
-
-  loadFormData();
-
-  loadSavedWorkdays();
-
-  loadActiveStart();
-
-  updatePauseDisplay();
-
-  updateWorkButtons();
-
-  saveMonthlySalaryToEmployer();
-
-  applyLanguage();
-
+  );
+  loadCommunication();
+}
+/* =================================
+   MARKERA ÅTGÄRDAD
+================================= */
+function markMessageHandled(displayIndex) {
+  const result =
+    getMatchingMessageIndexes();
+  const realIndex =
+    result.indexes[displayIndex];
+  if (
+    realIndex === undefined
+  ) {
+    return;
+  }
+  result.messages[
+    realIndex
+  ].status =
+    "Åtgärdad";
+  result.messages[
+    realIndex
+  ].type =
+    SALARY_TYPE;
+  result.messages[
+    realIndex
+  ].periodKey =
+    getPeriodKey();
+  localStorage.setItem(
+    GENIE_MESSAGES_KEY,
+    JSON.stringify(
+      result.messages
+    )
+  );
+  loadCommunication();
+}
+/* =================================
+   START
+================================= */
+loadFormData();
+loadSavedWorkdays();
+loadActiveStart();
+updatePauseDisplay();
+updateWorkButtons();
+updateTargetAndDifference();
+applyLanguage();
+saveMonthlySalaryRecord();
 </script>
-
 </body>
 </html>
