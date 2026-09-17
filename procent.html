@@ -583,6 +583,20 @@
 
 <script>
 
+/* =========================================================
+   GEMENSAM GENIE-LAGRING
+   ========================================================= */
+
+const GENIE_SALARY_DATA_KEY = "genieSalaryData";
+const GENIE_LANGUAGE_KEY = "genieLanguage";
+
+const SALARY_TYPE = "Kollektivavtal";
+
+
+/* =========================================================
+   ÖVERSÄTTNINGAR
+   ========================================================= */
+
 const translations = {
 
   sv: {
@@ -722,16 +736,201 @@ const translations = {
 
 };
 
-function getCurrentLanguage() {
 
-  return localStorage.getItem("genieLanguage") || "sv";
+/* =========================================================
+   POMOĆNE FUNKCIJE ZA ZAJEDNIČKU BAZU
+   ========================================================= */
+
+function normalizeEmployee(value) {
+
+  return String(value || "")
+    .trim()
+    .replace(/\s+/g, " ")
+    .toLowerCase();
 
 }
+
+
+function getEmployeeKey() {
+
+  const employee =
+    document.getElementById("employeeInfo").value;
+
+  const normalized =
+    normalizeEmployee(employee);
+
+  return normalized || "utan-namn";
+
+}
+
+
+function getPeriodStart() {
+
+  return document.getElementById("periodStart").value || "";
+
+}
+
+
+function getPeriodEnd() {
+
+  return document.getElementById("periodEnd").value || "";
+
+}
+
+
+function getPeriodKey() {
+
+  const start =
+    getPeriodStart();
+
+  const end =
+    getPeriodEnd();
+
+  if (!start && !end) {
+    return "utan-period";
+  }
+
+  return start + "_" + end;
+
+}
+
+
+function readSalaryData() {
+
+  try {
+
+    return JSON.parse(
+      localStorage.getItem(
+        GENIE_SALARY_DATA_KEY
+      )
+    ) || {};
+
+  } catch (error) {
+
+    return {};
+
+  }
+
+}
+
+
+function writeSalaryData(data) {
+
+  localStorage.setItem(
+    GENIE_SALARY_DATA_KEY,
+    JSON.stringify(data)
+  );
+
+}
+
+
+/* =========================================================
+   AKTUELLT KOLLEKTIVAVTAL-REKORD
+   ========================================================= */
+
+function getCurrentKollektivRecord() {
+
+  const data =
+    readSalaryData();
+
+  const employeeKey =
+    getEmployeeKey();
+
+  const periodKey =
+    getPeriodKey();
+
+  if (
+    !data[employeeKey] ||
+    !data[employeeKey].types ||
+    !data[employeeKey].types[SALARY_TYPE] ||
+    !data[employeeKey].types[SALARY_TYPE][periodKey]
+  ) {
+
+    return null;
+
+  }
+
+  return data[employeeKey]
+    .types[SALARY_TYPE][periodKey];
+
+}
+
+
+/* =========================================================
+   SPARA KOLLEKTIVAVTAL-REKORD
+   ========================================================= */
+
+function saveKollektivRecord(record) {
+
+  const data =
+    readSalaryData();
+
+  const employeeKey =
+    getEmployeeKey();
+
+  const periodKey =
+    getPeriodKey();
+
+  if (!data[employeeKey]) {
+
+    data[employeeKey] = {
+      types: {}
+    };
+
+  }
+
+  if (!data[employeeKey].types) {
+
+    data[employeeKey].types = {};
+
+  }
+
+  if (!data[employeeKey].types[SALARY_TYPE]) {
+
+    data[employeeKey].types[SALARY_TYPE] = {};
+
+  }
+
+  data[employeeKey]
+    .types[SALARY_TYPE][periodKey] = record;
+
+  writeSalaryData(data);
+
+  localStorage.setItem(
+    "genieCurrentEmployeeKey",
+    employeeKey
+  );
+
+  localStorage.setItem(
+    "genieCurrentSalaryType",
+    SALARY_TYPE
+  );
+
+  localStorage.setItem(
+    "genieCurrentPeriodKey",
+    periodKey
+  );
+
+}
+
+
+/* =========================================================
+   SPRÅK
+   ========================================================= */
+
+function getCurrentLanguage() {
+
+  return localStorage.getItem(
+    GENIE_LANGUAGE_KEY
+  ) || "sv";
+
+}
+
 
 function changeLanguage(language) {
 
   localStorage.setItem(
-    "genieLanguage",
+    GENIE_LANGUAGE_KEY,
     language
   );
 
@@ -739,262 +938,495 @@ function changeLanguage(language) {
 
 }
 
+
 function applyLanguage() {
 
-  const lang = getCurrentLanguage();
-  const t = translations[lang];
+  const lang =
+    getCurrentLanguage();
 
-  document.documentElement.lang = lang;
+  const t =
+    translations[lang];
 
-  document.getElementById("languageSelect").value = lang;
+  document.documentElement.lang =
+    lang;
 
-  document.getElementById("subtitle").textContent =
-    t.subtitle;
+  document.getElementById(
+    "languageSelect"
+  ).value = lang;
 
-  document.getElementById("employerTitle").textContent =
-    t.employer;
+  document.getElementById(
+    "subtitle"
+  ).textContent = t.subtitle;
 
-  document.getElementById("employeeTitle").textContent =
-    t.employee;
+  document.getElementById(
+    "employerTitle"
+  ).textContent = t.employer;
 
-  document.getElementById("employerInfo").placeholder =
+  document.getElementById(
+    "employeeTitle"
+  ).textContent = t.employee;
+
+  document.getElementById(
+    "employerInfo"
+  ).placeholder =
     t.employerPlaceholder;
 
-  document.getElementById("employeeInfo").placeholder =
+  document.getElementById(
+    "employeeInfo"
+  ).placeholder =
     t.employeePlaceholder;
 
-  document.getElementById("periodTitle").textContent =
-    t.period;
+  document.getElementById(
+    "periodTitle"
+  ).textContent = t.period;
 
-  document.getElementById("fromLabel").textContent =
-    t.from;
+  document.getElementById(
+    "fromLabel"
+  ).textContent = t.from;
 
-  document.getElementById("toLabel").textContent =
-    t.to;
+  document.getElementById(
+    "toLabel"
+  ).textContent = t.to;
 
-  document.getElementById("workingTimeTitle").textContent =
-    t.workingTime;
+  document.getElementById(
+    "workingTimeTitle"
+  ).textContent = t.workingTime;
 
-  document.getElementById("regularHoursLabel").textContent =
-    t.regularHours;
+  document.getElementById(
+    "regularHoursLabel"
+  ).textContent = t.regularHours;
 
-  document.getElementById("overtimeHoursLabel").textContent =
-    t.overtimeHours;
+  document.getElementById(
+    "overtimeHoursLabel"
+  ).textContent = t.overtimeHours;
 
-  document.getElementById("weekendHoursLabel").textContent =
-    t.weekend;
+  document.getElementById(
+    "weekendHoursLabel"
+  ).textContent = t.weekend;
 
-  document.getElementById("weekendOvertimeHoursLabel").textContent =
+  document.getElementById(
+    "weekendOvertimeHoursLabel"
+  ).textContent =
     t.weekendOvertime;
 
-  document.getElementById("holidayHoursLabel").textContent =
-    t.holiday;
+  document.getElementById(
+    "holidayHoursLabel"
+  ).textContent = t.holiday;
 
-  document.getElementById("holidayOvertimeHoursLabel").textContent =
+  document.getElementById(
+    "holidayOvertimeHoursLabel"
+  ).textContent =
     t.holidayOvertime;
 
-  document.getElementById("nightHoursLabel").textContent =
-    t.night;
+  document.getElementById(
+    "nightHoursLabel"
+  ).textContent = t.night;
 
-  document.getElementById("nightOvertimeHoursLabel").textContent =
+  document.getElementById(
+    "nightOvertimeHoursLabel"
+  ).textContent =
     t.nightOvertime;
 
-  document.getElementById("agreementTitle").textContent =
-    t.agreement;
+  document.getElementById(
+    "agreementTitle"
+  ).textContent = t.agreement;
 
-  document.getElementById("regularRateLabel").textContent =
-    t.regularRate;
+  document.getElementById(
+    "regularRateLabel"
+  ).textContent = t.regularRate;
 
-  document.getElementById("regularOvertimePercentLabel").textContent =
+  document.getElementById(
+    "regularOvertimePercentLabel"
+  ).textContent =
     t.regularOvertimePercent;
 
-  document.getElementById("weekendPercentLabel").textContent =
+  document.getElementById(
+    "weekendPercentLabel"
+  ).textContent =
     t.weekendPercent;
 
-  document.getElementById("weekendOvertimePercentLabel").textContent =
+  document.getElementById(
+    "weekendOvertimePercentLabel"
+  ).textContent =
     t.weekendOvertimePercent;
 
-  document.getElementById("holidayPercentLabel").textContent =
+  document.getElementById(
+    "holidayPercentLabel"
+  ).textContent =
     t.holidayPercent;
 
-  document.getElementById("holidayOvertimePercentLabel").textContent =
+  document.getElementById(
+    "holidayOvertimePercentLabel"
+  ).textContent =
     t.holidayOvertimePercent;
 
-  document.getElementById("nightPercentLabel").textContent =
+  document.getElementById(
+    "nightPercentLabel"
+  ).textContent =
     t.nightPercent;
 
-  document.getElementById("nightOvertimePercentLabel").textContent =
+  document.getElementById(
+    "nightOvertimePercentLabel"
+  ).textContent =
     t.nightOvertimePercent;
 
-  document.getElementById("holidayPayLabel").textContent =
+  document.getElementById(
+    "holidayPayLabel"
+  ).textContent =
     t.holidayPay;
 
-  document.getElementById("taxLabel").textContent =
+  document.getElementById(
+    "taxLabel"
+  ).textContent =
     t.tax;
 
-  document.getElementById("backButton").textContent =
-    t.back;
+  document.getElementById(
+    "backButton"
+  ).textContent = t.back;
 
-  document.getElementById("calculateButton").textContent =
-    t.calculate;
+  document.getElementById(
+    "calculateButton"
+  ).textContent = t.calculate;
 
   const resultMessage =
-    document.getElementById("resultMessage");
+    document.getElementById(
+      "resultMessage"
+    );
 
   if (resultMessage) {
+
     resultMessage.textContent =
       t.fillData;
+
   }
 
   updateResultLanguage();
 
 }
 
+
+/* =========================================================
+   RESULTAT
+   ========================================================= */
+
 function updateResultLanguage() {
 
-  const savedResult =
-    localStorage.getItem("genieProcentResult");
+  const saved =
+    localStorage.getItem(
+      "genieProcentResult"
+    );
 
-  if (!savedResult) {
+  if (!saved) {
     return;
   }
 
   try {
 
     const calculation =
-      JSON.parse(savedResult);
+      JSON.parse(saved);
 
     showResult(calculation);
 
   } catch (error) {
 
-    console.log("Kunde inte läsa sparat resultat.");
+    console.log(
+      "Kunde inte läsa sparat resultat."
+    );
 
   }
 
 }
 
+
+/* =========================================================
+   KALENDERNS ARBETSTID
+   ========================================================= */
+
 function loadCalendarHours() {
 
   const saved =
-    localStorage.getItem("salaryHours");
+    localStorage.getItem(
+      "salaryHours"
+    );
 
   if (!saved) {
     return;
   }
 
-  const hours =
-    JSON.parse(saved);
+  try {
 
-  document.getElementById("lonRegularHours").textContent =
-    Number(hours.regularHours || 0).toFixed(1) + " h";
+    const hours =
+      JSON.parse(saved);
 
-  document.getElementById("lonOvertimeHours").textContent =
-    Number(hours.regularOvertimeHours || 0).toFixed(1) + " h";
+    document.getElementById(
+      "lonRegularHours"
+    ).textContent =
+      Number(
+        hours.regularHours || 0
+      ).toFixed(1) + " h";
 
-  document.getElementById("lonWeekendHours").textContent =
-    Number(hours.weekendHours || 0).toFixed(1) + " h";
+    document.getElementById(
+      "lonOvertimeHours"
+    ).textContent =
+      Number(
+        hours.regularOvertimeHours || 0
+      ).toFixed(1) + " h";
 
-  document.getElementById("lonWeekendOvertimeHours").textContent =
-    Number(hours.weekendOvertimeHours || 0).toFixed(1) + " h";
+    document.getElementById(
+      "lonWeekendHours"
+    ).textContent =
+      Number(
+        hours.weekendHours || 0
+      ).toFixed(1) + " h";
 
-  document.getElementById("lonHolidayHours").textContent =
-    Number(hours.holidayHours || 0).toFixed(1) + " h";
+    document.getElementById(
+      "lonWeekendOvertimeHours"
+    ).textContent =
+      Number(
+        hours.weekendOvertimeHours || 0
+      ).toFixed(1) + " h";
 
-  document.getElementById("lonHolidayOvertimeHours").textContent =
-    Number(hours.holidayOvertimeHours || 0).toFixed(1) + " h";
+    document.getElementById(
+      "lonHolidayHours"
+    ).textContent =
+      Number(
+        hours.holidayHours || 0
+      ).toFixed(1) + " h";
 
-  document.getElementById("lonNightHours").textContent =
-    Number(hours.nightHours || 0).toFixed(1) + " h";
+    document.getElementById(
+      "lonHolidayOvertimeHours"
+    ).textContent =
+      Number(
+        hours.holidayOvertimeHours || 0
+      ).toFixed(1) + " h";
 
-  document.getElementById("lonNightOvertimeHours").textContent =
-    Number(hours.nightOvertimeHours || 0).toFixed(1) + " h";
-}
+    document.getElementById(
+      "lonNightHours"
+    ).textContent =
+      Number(
+        hours.nightHours || 0
+      ).toFixed(1) + " h";
 
-function calculateSalary() {
+    document.getElementById(
+      "lonNightOvertimeHours"
+    ).textContent =
+      Number(
+        hours.nightOvertimeHours || 0
+      ).toFixed(1) + " h";
 
-  const saved =
-    localStorage.getItem("salaryHours");
+  } catch (error) {
 
-  if (!saved) {
-
-    alert(
-      translations[getCurrentLanguage()].noHours
+    console.log(
+      "Kunde inte läsa arbetstiden."
     );
 
+  }
+
+}
+
+
+/* =========================================================
+   LÄS UT TIMMAR
+   ========================================================= */
+
+function getCalendarHours() {
+
+  const saved =
+    localStorage.getItem(
+      "salaryHours"
+    );
+
+  if (!saved) {
     return null;
   }
 
+  try {
+
+    const hours =
+      JSON.parse(saved);
+
+    return {
+
+      regularHours:
+        Number(hours.regularHours || 0),
+
+      regularOvertimeHours:
+        Number(
+          hours.regularOvertimeHours || 0
+        ),
+
+      nightHours:
+        Number(
+          hours.nightHours || 0
+        ),
+
+      nightOvertimeHours:
+        Number(
+          hours.nightOvertimeHours || 0
+        ),
+
+      weekendHours:
+        Number(
+          hours.weekendHours || 0
+        ),
+
+      weekendOvertimeHours:
+        Number(
+          hours.weekendOvertimeHours || 0
+        ),
+
+      holidayHours:
+        Number(
+          hours.holidayHours || 0
+        ),
+
+      holidayOvertimeHours:
+        Number(
+          hours.holidayOvertimeHours || 0
+        )
+
+    };
+
+  } catch (error) {
+
+    return null;
+
+  }
+
+}
+
+
+/* =========================================================
+   BERÄKNA LÖN
+   ========================================================= */
+
+function calculateSalary() {
+
   const hours =
-    JSON.parse(saved);
+    getCalendarHours();
+
+  if (!hours) {
+
+    alert(
+      translations[
+        getCurrentLanguage()
+      ].noHours
+    );
+
+    return null;
+
+  }
+
 
   const regularHours =
-    Number(hours.regularHours || 0);
+    hours.regularHours;
 
   const regularOvertimeHours =
-    Number(hours.regularOvertimeHours || 0);
+    hours.regularOvertimeHours;
+
+  const nightHours =
+    hours.nightHours;
+
+  const nightOvertimeHours =
+    hours.nightOvertimeHours;
 
   const weekendHours =
-    Number(hours.weekendHours || 0);
+    hours.weekendHours;
 
   const weekendOvertimeHours =
-    Number(hours.weekendOvertimeHours || 0);
+    hours.weekendOvertimeHours;
 
   const holidayHours =
-    Number(hours.holidayHours || 0);
+    hours.holidayHours;
 
   const holidayOvertimeHours =
-    Number(hours.holidayOvertimeHours || 0);
+    hours.holidayOvertimeHours;
+
 
   const regularRate =
     Number(
-      document.getElementById("regularRate").value
-    );
+      document.getElementById(
+        "regularRate"
+      ).value
+    ) || 0;
 
   const regularOvertimePercent =
     Number(
       document.getElementById(
         "regularOvertimePercent"
       ).value
-    );
+    ) || 0;
+
+  const nightPercent =
+    Number(
+      document.getElementById(
+        "nightPercent"
+      ).value
+    ) || 0;
+
+  const nightOvertimePercent =
+    Number(
+      document.getElementById(
+        "nightOvertimePercent"
+      ).value
+    ) || 0;
 
   const weekendPercent =
     Number(
-      document.getElementById("weekendPercent").value
-    );
+      document.getElementById(
+        "weekendPercent"
+      ).value
+    ) || 0;
 
   const weekendOvertimePercent =
     Number(
       document.getElementById(
         "weekendOvertimePercent"
       ).value
-    );
+    ) || 0;
 
   const holidayPercent =
     Number(
-      document.getElementById("holidayPercent").value
-    );
+      document.getElementById(
+        "holidayPercent"
+      ).value
+    ) || 0;
 
   const holidayOvertimePercent =
     Number(
       document.getElementById(
         "holidayOvertimePercent"
       ).value
-    );
+    ) || 0;
+
+  const holidayPayPercent =
+    Number(
+      document.getElementById(
+        "holidayPay"
+      ).value
+    ) || 0;
 
   const tax =
     Number(
-      document.getElementById("tax").value
-    );
+      document.getElementById(
+        "tax"
+      ).value
+    ) || 0;
 
-  const holidayPay =
-    Number(
-      document.getElementById("holidayPay").value
-    );
+
+  /* RÄKNAR FRAM TIMLÖNER */
 
   const regularOvertimeRate =
     regularRate *
     (1 + regularOvertimePercent / 100);
+
+  const nightRate =
+    regularRate *
+    (1 + nightPercent / 100);
+
+  const nightOvertimeRate =
+    regularRate *
+    (1 + nightOvertimePercent / 100);
 
   const weekendRate =
     regularRate *
@@ -1012,69 +1444,226 @@ function calculateSalary() {
     regularRate *
     (1 + holidayOvertimePercent / 100);
 
+
+  /* GRUNDLÖN */
+
   const regularPay =
-    regularHours * regularRate;
+    regularHours *
+    regularRate;
 
   const regularOvertimePay =
     regularOvertimeHours *
     regularOvertimeRate;
 
+  const nightPay =
+    nightHours *
+    nightRate;
+
+  const nightOvertimePay =
+    nightOvertimeHours *
+    nightOvertimeRate;
+
   const weekendPay =
-    weekendHours * weekendRate;
+    weekendHours *
+    weekendRate;
 
   const weekendOvertimePay =
     weekendOvertimeHours *
     weekendOvertimeRate;
 
   const holidayPayAmount =
-    holidayHours * holidayRate;
+    holidayHours *
+    holidayRate;
 
   const holidayOvertimePay =
     holidayOvertimeHours *
     holidayOvertimeRate;
 
+
   const baseGross =
     regularPay +
     regularOvertimePay +
+    nightPay +
+    nightOvertimePay +
     weekendPay +
     weekendOvertimePay +
     holidayPayAmount +
     holidayOvertimePay;
 
+
+  /* SEMESTERERSÄTTNING */
+
   const vacationPay =
     baseGross *
-    holidayPay / 100;
+    holidayPayPercent / 100;
+
+
+  /* BRUTTO */
 
   const grossSalary =
-    baseGross + vacationPay;
+    baseGross +
+    vacationPay;
+
+
+  /* SKATT */
 
   const taxAmount =
-    grossSalary * tax / 100;
+    grossSalary *
+    tax / 100;
+
+
+  /* NETTO */
 
   const netSalary =
-    grossSalary - taxAmount;
+    grossSalary -
+    taxAmount;
+
 
   const calculation = {
 
-    grossSalary: grossSalary,
+    type:
+      SALARY_TYPE,
 
-    vacationPay: vacationPay,
+    regularHours:
+      regularHours,
 
-    taxAmount: taxAmount,
+    regularOvertimeHours:
+      regularOvertimeHours,
 
-    netSalary: netSalary
+    nightHours:
+      nightHours,
+
+    nightOvertimeHours:
+      nightOvertimeHours,
+
+    weekendHours:
+      weekendHours,
+
+    weekendOvertimeHours:
+      weekendOvertimeHours,
+
+    holidayHours:
+      holidayHours,
+
+    holidayOvertimeHours:
+      holidayOvertimeHours,
+
+    regularRate:
+      regularRate,
+
+    regularOvertimePercent:
+      regularOvertimePercent,
+
+    regularOvertimeRate:
+      regularOvertimeRate,
+
+    nightPercent:
+      nightPercent,
+
+    nightOvertimePercent:
+      nightOvertimePercent,
+
+    nightRate:
+      nightRate,
+
+    nightOvertimeRate:
+      nightOvertimeRate,
+
+    weekendPercent:
+      weekendPercent,
+
+    weekendOvertimePercent:
+      weekendOvertimePercent,
+
+    weekendRate:
+      weekendRate,
+
+    weekendOvertimeRate:
+      weekendOvertimeRate,
+
+    holidayPercent:
+      holidayPercent,
+
+    holidayOvertimePercent:
+      holidayOvertimePercent,
+
+    holidayRate:
+      holidayRate,
+
+    holidayOvertimeRate:
+      holidayOvertimeRate,
+
+    holidayPayPercent:
+      holidayPayPercent,
+
+    taxPercent:
+      tax,
+
+    regularPay:
+      regularPay,
+
+    regularOvertimePay:
+      regularOvertimePay,
+
+    nightPay:
+      nightPay,
+
+    nightOvertimePay:
+      nightOvertimePay,
+
+    weekendPay:
+      weekendPay,
+
+    weekendOvertimePay:
+      weekendOvertimePay,
+
+    holidayPay:
+      holidayPayAmount,
+
+    holidayOvertimePay:
+      holidayOvertimePay,
+
+    baseGross:
+      baseGross,
+
+    vacationPay:
+      vacationPay,
+
+    grossSalary:
+      grossSalary,
+
+    taxAmount:
+      taxAmount,
+
+    netSalary:
+      netSalary
 
   };
 
+
+  /* GAMMAL RESULTATNYCKEL FÖR KOMPATIBILITET */
+
   localStorage.setItem(
     "genieProcentResult",
-    JSON.stringify(calculation)
+    JSON.stringify(
+      calculation
+    )
   );
 
-  showResult(calculation);
+
+  showResult(
+    calculation
+  );
+
 
   return calculation;
+
 }
+
+
+/* =========================================================
+   VISA RESULTAT
+   ========================================================= */
 
 function showResult(calculation) {
 
@@ -1083,23 +1672,34 @@ function showResult(calculation) {
   }
 
   const t =
-    translations[getCurrentLanguage()];
+    translations[
+      getCurrentLanguage()
+    ];
 
-  document.getElementById("result").innerHTML = `
+
+  document.getElementById(
+    "result"
+  ).innerHTML = `
 
     <p class="gross">
       <strong>${t.gross}</strong>
-      ${Number(calculation.grossSalary).toFixed(2)} kr
+      ${Number(
+        calculation.grossSalary
+      ).toFixed(2)} kr
     </p>
 
     <p class="vacation">
       <strong>${t.vacation}</strong>
-      ${Number(calculation.vacationPay).toFixed(2)} kr
+      ${Number(
+        calculation.vacationPay
+      ).toFixed(2)} kr
     </p>
 
     <p class="tax">
       <strong>${t.taxResult}</strong>
-      ${Number(calculation.taxAmount).toFixed(2)} kr
+      ${Number(
+        calculation.taxAmount
+      ).toFixed(2)} kr
     </p>
 
     <div class="net-box">
@@ -1109,13 +1709,204 @@ function showResult(calculation) {
       </span>
 
       <p class="total">
-        ${Number(calculation.netSalary).toFixed(2)} kr
+        ${Number(
+          calculation.netSalary
+        ).toFixed(2)} kr
       </p>
 
     </div>
 
   `;
+
 }
+
+
+/* =========================================================
+   SPARA HELA KOLLEKTIVAVTAL-DATA
+   ========================================================= */
+
+function saveSalaryToEmployer(calculation) {
+
+  if (!calculation) {
+    return;
+  }
+
+  const employeeInfo =
+    document.getElementById(
+      "employeeInfo"
+    ).value;
+
+  const employerInfo =
+    document.getElementById(
+      "employerInfo"
+    ).value;
+
+  const periodStart =
+    getPeriodStart();
+
+  const periodEnd =
+    getPeriodEnd();
+
+  const record = {
+
+    type:
+      SALARY_TYPE,
+
+    employee:
+      employeeInfo,
+
+    employer:
+      employerInfo,
+
+    periodStart:
+      periodStart,
+
+    periodEnd:
+      periodEnd,
+
+
+    /* TIMMAR */
+
+    regularHours:
+      calculation.regularHours,
+
+    regularOvertimeHours:
+      calculation.regularOvertimeHours,
+
+    nightHours:
+      calculation.nightHours,
+
+    nightOvertimeHours:
+      calculation.nightOvertimeHours,
+
+    weekendHours:
+      calculation.weekendHours,
+
+    weekendOvertimeHours:
+      calculation.weekendOvertimeHours,
+
+    holidayHours:
+      calculation.holidayHours,
+
+    holidayOvertimeHours:
+      calculation.holidayOvertimeHours,
+
+
+    /* SATSNINGAR */
+
+    regularRate:
+      calculation.regularRate,
+
+    regularOvertimePercent:
+      calculation.regularOvertimePercent,
+
+    regularOvertimeRate:
+      calculation.regularOvertimeRate,
+
+    nightPercent:
+      calculation.nightPercent,
+
+    nightOvertimePercent:
+      calculation.nightOvertimePercent,
+
+    nightRate:
+      calculation.nightRate,
+
+    nightOvertimeRate:
+      calculation.nightOvertimeRate,
+
+    weekendPercent:
+      calculation.weekendPercent,
+
+    weekendOvertimePercent:
+      calculation.weekendOvertimePercent,
+
+    weekendRate:
+      calculation.weekendRate,
+
+    weekendOvertimeRate:
+      calculation.weekendOvertimeRate,
+
+    holidayPercent:
+      calculation.holidayPercent,
+
+    holidayOvertimePercent:
+      calculation.holidayOvertimePercent,
+
+    holidayRate:
+      calculation.holidayRate,
+
+    holidayOvertimeRate:
+      calculation.holidayOvertimeRate,
+
+    holidayPayPercent:
+      calculation.holidayPayPercent,
+
+    taxPercent:
+      calculation.taxPercent,
+
+
+    /* UTRÄKNING */
+
+    regularPay:
+      calculation.regularPay,
+
+    regularOvertimePay:
+      calculation.regularOvertimePay,
+
+    nightPay:
+      calculation.nightPay,
+
+    nightOvertimePay:
+      calculation.nightOvertimePay,
+
+    weekendPay:
+      calculation.weekendPay,
+
+    weekendOvertimePay:
+      calculation.weekendOvertimePay,
+
+    holidayPay:
+      calculation.holidayPay,
+
+    holidayOvertimePay:
+      calculation.holidayOvertimePay,
+
+    baseGross:
+      calculation.baseGross,
+
+    vacationPay:
+      calculation.vacationPay,
+
+    grossSalary:
+      calculation.grossSalary,
+
+    taxAmount:
+      calculation.taxAmount,
+
+    netSalary:
+      calculation.netSalary,
+
+
+    updated:
+      new Date().toISOString(),
+
+    date:
+      new Date().toLocaleDateString()
+
+  };
+
+
+  saveKollektivRecord(
+    record
+  );
+
+}
+
+
+/* =========================================================
+   GLAVNO DUGME
+   ========================================================= */
 
 function calculateAndSaveSalary() {
 
@@ -1123,10 +1914,19 @@ function calculateAndSaveSalary() {
     calculateSalary();
 
   if (calculation) {
-    saveSalaryToEmployer();
+
+    saveSalaryToEmployer(
+      calculation
+    );
+
   }
 
 }
+
+
+/* =========================================================
+   STARI FORM DATA – SAMO KAO KOMPATIBILNOST
+   ========================================================= */
 
 function saveFormData() {
 
@@ -1145,6 +1945,7 @@ function saveFormData() {
   });
 
 }
+
 
 function loadFormData() {
 
@@ -1171,6 +1972,143 @@ function loadFormData() {
 
 }
 
+
+/* =========================================================
+   LADEN AUS DER GEMEINSAMEN STRUKTUR
+   ========================================================= */
+
+function loadKollektivRecord() {
+
+  const record =
+    getCurrentKollektivRecord();
+
+  if (!record) {
+    return;
+  }
+
+
+  if (record.employee !== undefined) {
+
+    document.getElementById(
+      "employeeInfo"
+    ).value =
+      record.employee;
+
+  }
+
+
+  if (record.employer !== undefined) {
+
+    document.getElementById(
+      "employerInfo"
+    ).value =
+      record.employer;
+
+  }
+
+
+  if (record.periodStart !== undefined) {
+
+    document.getElementById(
+      "periodStart"
+    ).value =
+      record.periodStart;
+
+  }
+
+
+  if (record.periodEnd !== undefined) {
+
+    document.getElementById(
+      "periodEnd"
+    ).value =
+      record.periodEnd;
+
+  }
+
+
+  const fields = {
+
+    regularRate:
+      record.regularRate,
+
+    regularOvertimePercent:
+      record.regularOvertimePercent,
+
+    weekendPercent:
+      record.weekendPercent,
+
+    weekendOvertimePercent:
+      record.weekendOvertimePercent,
+
+    holidayPercent:
+      record.holidayPercent,
+
+    holidayOvertimePercent:
+      record.holidayOvertimePercent,
+
+    nightPercent:
+      record.nightPercent,
+
+    nightOvertimePercent:
+      record.nightOvertimePercent,
+
+    holidayPay:
+      record.holidayPayPercent,
+
+    tax:
+      record.taxPercent
+
+  };
+
+
+  Object.keys(fields).forEach(
+    function(id) {
+
+      if (
+        fields[id] !== undefined &&
+        fields[id] !== null
+      ) {
+
+        const element =
+          document.getElementById(id);
+
+        if (element) {
+
+          element.value =
+            fields[id];
+
+        }
+
+      }
+
+    }
+  );
+
+
+  showResult({
+
+    grossSalary:
+      record.grossSalary || 0,
+
+    vacationPay:
+      record.vacationPay || 0,
+
+    taxAmount:
+      record.taxAmount || 0,
+
+    netSalary:
+      record.netSalary || 0
+
+  });
+
+}
+
+
+/* =========================================================
+   AUTOMATSKO ČUVANJE POLJA
+   ========================================================= */
+
 document.querySelectorAll(
   "input, textarea"
 ).forEach(function(input) {
@@ -1182,300 +2120,23 @@ document.querySelectorAll(
 
 });
 
-function saveSalaryToEmployer() {
 
-  const saved =
-    localStorage.getItem("salaryHours");
-
-  if (!saved) {
-    return;
-  }
-
-  const hours =
-    JSON.parse(saved);
-
-  const employerInfo =
-    document.getElementById("employerInfo").value;
-
-  const employeeInfo =
-    document.getElementById("employeeInfo").value;
-
-  const periodStart =
-    document.getElementById("periodStart").value;
-
-  const periodEnd =
-    document.getElementById("periodEnd").value;
-
-  const regularHours =
-    Number(hours.regularHours || 0);
-
-  const regularOvertimeHours =
-    Number(hours.regularOvertimeHours || 0);
-
-  const weekendHours =
-    Number(hours.weekendHours || 0);
-
-  const weekendOvertimeHours =
-    Number(hours.weekendOvertimeHours || 0);
-
-  const holidayHours =
-    Number(hours.holidayHours || 0);
-
-  const holidayOvertimeHours =
-    Number(hours.holidayOvertimeHours || 0);
-
-  const regularRate =
-    Number(
-      document.getElementById("regularRate").value
-    );
-
-  const regularOvertimePercent =
-    Number(
-      document.getElementById(
-        "regularOvertimePercent"
-      ).value
-    );
-
-  const weekendPercent =
-    Number(
-      document.getElementById("weekendPercent").value
-    );
-
-  const weekendOvertimePercent =
-    Number(
-      document.getElementById(
-        "weekendOvertimePercent"
-      ).value
-    );
-
-  const holidayPercent =
-    Number(
-      document.getElementById("holidayPercent").value
-    );
-
-  const holidayOvertimePercent =
-    Number(
-      document.getElementById(
-        "holidayOvertimePercent"
-      ).value
-    );
-
-  const holidayPayPercent =
-    Number(
-      document.getElementById("holidayPay").value
-    );
-
-  const tax =
-    Number(
-      document.getElementById("tax").value
-    );
-
-  const regularOvertimeRate =
-    regularRate *
-    (1 + regularOvertimePercent / 100);
-
-  const weekendRate =
-    regularRate *
-    (1 + weekendPercent / 100);
-
-  const weekendOvertimeRate =
-    regularRate *
-    (1 + weekendOvertimePercent / 100);
-
-  const holidayRate =
-    regularRate *
-    (1 + holidayPercent / 100);
-
-  const holidayOvertimeRate =
-    regularRate *
-    (1 + holidayOvertimePercent / 100);
-
-  const regularPay =
-    regularHours * regularRate;
-
-  const regularOvertimePay =
-    regularOvertimeHours *
-    regularOvertimeRate;
-
-  const weekendPay =
-    weekendHours * weekendRate;
-
-  const weekendOvertimePay =
-    weekendOvertimeHours *
-    weekendOvertimeRate;
-
-  const holidayPayAmount =
-    holidayHours * holidayRate;
-
-  const holidayOvertimePay =
-    holidayOvertimeHours *
-    holidayOvertimeRate;
-
-  const baseGross =
-    regularPay +
-    regularOvertimePay +
-    weekendPay +
-    weekendOvertimePay +
-    holidayPayAmount +
-    holidayOvertimePay;
-
-  const vacationPay =
-    baseGross *
-    holidayPayPercent / 100;
-
-  const grossSalary =
-    baseGross + vacationPay;
-
-  const taxAmount =
-    grossSalary * tax / 100;
-
-  const netSalary =
-    grossSalary - taxAmount;
-
-  const salaryData = {
-
-    type: "Kollektivavtal",
-
-    employer: employerInfo,
-
-    employee: employeeInfo,
-
-    periodStart: periodStart,
-
-    periodEnd: periodEnd,
-
-    regularHours: regularHours,
-
-    regularRate: regularRate,
-
-    regularPay: regularPay,
-
-    regularOvertimeHours:
-      regularOvertimeHours,
-
-    regularOvertimeRate:
-      regularOvertimeRate,
-
-    regularOvertimePay:
-      regularOvertimePay,
-
-    weekendHours:
-      weekendHours,
-
-    weekendRate:
-      weekendRate,
-
-    weekendPay:
-      weekendPay,
-
-    weekendOvertimeHours:
-      weekendOvertimeHours,
-
-    weekendOvertimeRate:
-      weekendOvertimeRate,
-
-    weekendOvertimePay:
-      weekendOvertimePay,
-
-    holidayHours:
-      holidayHours,
-
-    holidayRate:
-      holidayRate,
-
-    holidayPay:
-      holidayPayAmount,
-
-    holidayOvertimeHours:
-      holidayOvertimeHours,
-
-    holidayOvertimeRate:
-      holidayOvertimeRate,
-
-    holidayOvertimePay:
-      holidayOvertimePay,
-
-    vacationPay:
-      vacationPay,
-
-    grossSalary:
-      grossSalary,
-
-    taxAmount:
-      taxAmount,
-
-    netSalary:
-      netSalary,
-
-    date:
-      new Date().toLocaleDateString()
-
-  };
-
-  let salaryList =
-    JSON.parse(
-      localStorage.getItem(
-        "employerSalaryList"
-      )
-    ) || [];
-
-  salaryList.push(
-    salaryData
-  );
-
-  localStorage.setItem(
-    "employerSalaryList",
-    JSON.stringify(
-      salaryList
-    )
-  );
-
-  const employeeName =
-    String(
-      salaryData.employee || ""
-    )
-    .trim()
-    .toLowerCase();
-
-  if (employeeName) {
-
-    const activeTypes =
-      JSON.parse(
-        localStorage.getItem(
-          "genieActiveSalaryTypes"
-        )
-      ) || {};
-
-    activeTypes[employeeName] = {
-
-      type:
-        "Kollektivavtal",
-
-      periodStart:
-        salaryData.periodStart || "",
-
-      periodEnd:
-        salaryData.periodEnd || "",
-
-      savedAt:
-        new Date().toISOString()
-
-    };
-
-    localStorage.setItem(
-      "genieActiveSalaryTypes",
-      JSON.stringify(
-        activeTypes
-      )
-    );
-
-  }
-
-}
+/* =========================================================
+   START
+   ========================================================= */
 
 loadFormData();
+
 loadCalendarHours();
+
 applyLanguage();
+
+
+/*
+  Prvo pokušavamo da pronađemo podatke
+  u novoj zajedničkoj Genie strukturi.
+*/
+loadKollektivRecord();
 
 </script>
 
