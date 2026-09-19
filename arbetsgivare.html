@@ -2705,191 +2705,268 @@
 
 
   function loadEmployeeMessages(
-    employeeName
-  ) {
+  employeeName
+) {
 
-    const container =
-      document.getElementById(
-        "employeeMessages"
-      );
+  const container =
+    document.getElementById(
+      "employeeMessages"
+    );
+
+  container.innerHTML =
+    "";
+
+  const messages =
+    JSON.parse(
+      localStorage.getItem(
+        GENIE_MESSAGES_KEY
+      )
+    ) || [];
+
+  const normalized =
+    normalizeName(
+      employeeName
+    );
+
+  const salary =
+    getSalaryDataForEmployee(
+      employeeName
+    );
+
+  /*
+    Visa endast meddelanden som hör till
+    den aktuella löneuppgiften:
+    1. rätt anställd
+    2. rätt lönetyp
+    3. rätt löneperiod
+  */
+
+  const activeType =
+    salary
+      ? salary.type
+      : "";
+
+  const activePeriodStart =
+    salary &&
+    salary.data
+      ? salary.data.periodStart || ""
+      : "";
+
+  const activePeriodEnd =
+    salary &&
+    salary.data
+      ? salary.data.periodEnd || ""
+      : "";
+
+  const activePeriodKey =
+    activePeriodStart +
+    "_" +
+    activePeriodEnd;
 
 
-    container.innerHTML =
-      "";
-
-
-    const messages =
-      JSON.parse(
-        localStorage.getItem(
-          GENIE_MESSAGES_KEY
-        )
-      ) || [];
-
-
-    const normalized =
-      normalizeName(
-        employeeName
-      );
-
-
-    const employeeMessages =
-      messages.filter(
-        function(item) {
-
-          return (
-            normalizeName(
-              item.employee
-            )
-            ===
-            normalized
-          );
-
-        }
-      );
-
-
-    if (
-      employeeMessages.length === 0
-    ) {
-
-      container.innerHTML =
-
-        '<div class="empty">' +
-        escapeHtml(
-          t("noMessages")
-        ) +
-        '</div>';
-
-      return;
-
-    }
-
-
-    employeeMessages.forEach(
+  const employeeMessages =
+    messages.filter(
       function(item) {
 
-        const card =
-          document.createElement(
-            "div"
-          );
-
-
-        card.className =
-          "message-card";
-
-
-        const status =
-          item.status ||
-          "Ny kommentar";
-
-
-        const statusClass =
-          status === "Åtgärdad"
-            ? "status-fixed"
-            : "status-new";
-
-
-        let html =
-
-          "<strong>" +
-          escapeHtml(
-            t("employerMessage")
-          ) +
-          "</strong>" +
-
-          "<div class='message-text'>" +
-          escapeHtml(
-            item.message || ""
-          ) +
-          "</div>" +
-
-          "<div style='font-size:13px;color:#6b7280;'>" +
-          escapeHtml(
-            item.date || ""
-          ) +
-          " " +
-          escapeHtml(
-            item.time || ""
-          ) +
-          "</div>" +
-
-          "<div style='margin-top:8px;'>" +
-
-          "<strong>" +
-          escapeHtml(
-            t("status")
-          ) +
-          ":</strong> " +
-
-          "<span class='" +
-          statusClass +
-          "'>" +
-
-          escapeHtml(
-            translateStatus(
-              status
-            )
-          ) +
-
-          "</span>" +
-
-          "</div>";
-
-
         if (
-          item.reply &&
-          String(
-            item.reply
-          ).trim() !== ""
+          normalizeName(
+            item.employee
+          )
+          !==
+          normalized
         ) {
 
-          html +=
-
-            "<div class='reply-text'>" +
-
-            "<strong>" +
-            escapeHtml(
-              t("employeeReply")
-            ) +
-            "</strong>" +
-
-            "<div style='margin-top:5px;'>" +
-            escapeHtml(
-              item.reply
-            ) +
-            "</div>" +
-
-            "<div style='font-size:13px;color:#6b7280;margin-top:5px;'>" +
-
-            escapeHtml(
-              item.replyDate || ""
-            ) +
-
-            " " +
-
-            escapeHtml(
-              item.replyTime || ""
-            ) +
-
-            "</div>" +
-
-            "</div>";
+          return false;
 
         }
 
 
-        card.innerHTML =
-          html;
+        /*
+          Arbetsgivarens meddelande måste
+          höra till den aktuella lönetypen.
+        */
+
+        if (
+          item.payType &&
+          activeType &&
+          item.payType !== activeType
+        ) {
+
+          return false;
+
+        }
 
 
-        container.appendChild(
-          card
-        );
+        /*
+          Om meddelandet har en period
+          måste perioden vara samma.
+        */
+
+        if (
+          item.periodKey &&
+          activePeriodKey &&
+          item.periodKey !== activePeriodKey
+        ) {
+
+          return false;
+
+        }
+
+
+        /*
+          Äldre meddelanden utan period
+          eller lönetyp tillåts fortfarande
+          för att inte förlora gamla meddelanden.
+        */
+
+        return true;
 
       }
     );
 
+
+  if (
+    employeeMessages.length === 0
+  ) {
+
+    container.innerHTML =
+
+      '<div class="empty">' +
+      escapeHtml(
+        t("noMessages")
+      ) +
+      '</div>';
+
+    return;
+
   }
+
+
+  employeeMessages.forEach(
+    function(item) {
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "message-card";
+
+
+      const status =
+        item.status ||
+        "Ny kommentar";
+
+
+      const statusClass =
+        status === "Åtgärdad"
+          ? "status-fixed"
+          : "status-new";
+
+
+      let html =
+
+        "<strong>" +
+        escapeHtml(
+          t("employerMessage")
+        ) +
+        "</strong>" +
+
+        "<div class='message-text'>" +
+        escapeHtml(
+          item.message || ""
+        ) +
+        "</div>" +
+
+        "<div style='font-size:13px;color:#6b7280;'>" +
+        escapeHtml(
+          item.date || ""
+        ) +
+        " " +
+        escapeHtml(
+          item.time || ""
+        ) +
+        "</div>" +
+
+        "<div style='margin-top:8px;'>" +
+
+        "<strong>" +
+        escapeHtml(
+          t("status")
+        ) +
+        ":</strong> " +
+
+        "<span class='" +
+        statusClass +
+        "'>" +
+
+        escapeHtml(
+          translateStatus(
+            status
+          )
+        ) +
+
+        "</span>" +
+
+        "</div>";
+
+
+      if (
+        item.reply &&
+        String(
+          item.reply
+        ).trim() !== ""
+      ) {
+
+        html +=
+
+          "<div class='reply-text'>" +
+
+          "<strong>" +
+          escapeHtml(
+            t("employeeReply")
+          ) +
+          "</strong>" +
+
+          "<div style='margin-top:5px;'>" +
+          escapeHtml(
+            item.reply
+          ) +
+          "</div>" +
+
+          "<div style='font-size:13px;color:#6b7280;margin-top:5px;'>" +
+
+          escapeHtml(
+            item.replyDate || ""
+          ) +
+
+          " " +
+
+          escapeHtml(
+            item.replyTime || ""
+          ) +
+
+          "</div>" +
+
+          "</div>";
+
+      }
+
+
+      card.innerHTML =
+        html;
+
+
+      container.appendChild(
+        card
+      );
+
+    }
+  );
+
+}
 
 
   /* ==========================================
