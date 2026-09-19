@@ -2762,9 +2762,10 @@ const employeeMessages =
         periodEnd,
 
       periodKey:
-        periodStart +
-        "_" +
-        periodEnd
+  periodStart &&
+  periodEnd
+    ? periodStart + "_" + periodEnd
+    : "utan-period"
 
     });
 
