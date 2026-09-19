@@ -2583,12 +2583,16 @@ function markEmployerMessageAsFixed() {
   }
 
 
-  const currentMessages =
-    getCurrentTimlonMessages();
+  const employeeKey =
+    getEmployeeKey();
+
+  const periodKey =
+    getPeriodKey();
 
 
   if (
-    currentMessages.length === 0
+    !employeeKey ||
+    !periodKey
   ) {
 
     alert(
@@ -2600,16 +2604,58 @@ function markEmployerMessageAsFixed() {
   }
 
 
-  const lastMessage =
-    currentMessages[
-      currentMessages.length - 1
-    ];
+  /*
+    Pronađi poslednju poruku
+    direktno u originalnom nizu.
+    Ne koristimo indexOf(),
+    jer JSON.parse pravi nove objekte.
+  */
+
+  let messageIndex = -1;
 
 
-  const messageIndex =
-    messages.indexOf(
-      lastMessage
-    );
+  for (
+    let i = messages.length - 1;
+    i >= 0;
+    i--
+  ) {
+
+    const item =
+      messages[i];
+
+
+    const itemEmployee =
+      normalizeEmployee(
+        item.employee
+      );
+
+
+    if (
+      itemEmployee !== employeeKey
+    ) {
+      continue;
+    }
+
+
+    if (
+      item.payType !== SALARY_TYPE
+    ) {
+      continue;
+    }
+
+
+    if (
+      item.periodKey !== periodKey
+    ) {
+      continue;
+    }
+
+
+    messageIndex = i;
+
+    break;
+
+  }
 
 
   if (
@@ -2617,7 +2663,7 @@ function markEmployerMessageAsFixed() {
   ) {
 
     alert(
-      t.notFound
+      t.noMessage
     );
 
     return;
@@ -2632,19 +2678,21 @@ function markEmployerMessageAsFixed() {
 
 
   messages[
-  messageIndex
-].type =
-  SALARY_TYPE;
+    messageIndex
+  ].type =
+    SALARY_TYPE;
 
-messages[
-  messageIndex
-].payType =
-  SALARY_TYPE;
 
-messages[
-  messageIndex
-].periodKey =
-  getPeriodKey();
+  messages[
+    messageIndex
+  ].payType =
+    SALARY_TYPE;
+
+
+  messages[
+    messageIndex
+  ].periodKey =
+    periodKey;
 
 
   localStorage.setItem(
