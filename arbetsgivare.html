@@ -1746,20 +1746,77 @@
           );
 
 
-        const employeeMessages =
-          messages.filter(
-            function(item) {
+        const salary =
+  getSalaryDataForEmployee(
+    name
+  );
 
-              return (
-                normalizeName(
-                  item.employee
-                )
-                ===
-                normalized
-              );
+const activeType =
+  salary
+    ? salary.type
+    : "";
 
-            }
-          );
+const activePeriodStart =
+  salary &&
+  salary.data
+    ? salary.data.periodStart || ""
+    : "";
+
+const activePeriodEnd =
+  salary &&
+  salary.data
+    ? salary.data.periodEnd || ""
+    : "";
+
+const activePeriodKey =
+  activePeriodStart +
+  "_" +
+  activePeriodEnd;
+
+
+const employeeMessages =
+  messages.filter(
+    function(item) {
+
+      if (
+        normalizeName(
+          item.employee
+        )
+        !==
+        normalized
+      ) {
+
+        return false;
+
+      }
+
+
+      if (
+        item.payType &&
+        activeType &&
+        item.payType !== activeType
+      ) {
+
+        return false;
+
+      }
+
+
+      if (
+        item.periodKey &&
+        activePeriodKey &&
+        item.periodKey !== activePeriodKey
+      ) {
+
+        return false;
+
+      }
+
+
+      return true;
+
+    }
+  );
 
 
         if (
