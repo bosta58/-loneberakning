@@ -2371,7 +2371,7 @@ const employeeMessages =
     container,
     t("regularPay"),
     data.regularPay !== undefined
-      ? data.regularPay + " kr"
+      ? Number(data.regularPay).toFixed(2) + " kr"
       : "-"
   );
 
@@ -2389,7 +2389,7 @@ const employeeMessages =
     container,
     t("overtimePay"),
     data.regularOvertimePay !== undefined
-      ? data.regularOvertimePay + " kr"
+      ? Number(data.regularOvertimePay).toFixed(2) + " kr"
       : "-"
   );
 
@@ -2425,7 +2425,7 @@ const employeeMessages =
     container,
     t("weekendPay"),
     data.weekendPay !== undefined
-      ? data.weekendPay + " kr"
+      ? Number(data.weekendPay).toFixed(2) + " kr"
       : "-"
   );
 
@@ -2443,7 +2443,7 @@ const employeeMessages =
     container,
     t("weekendOvertimePay"),
     data.weekendOvertimePay !== undefined
-      ? data.weekendOvertimePay + " kr"
+      ? Number(data.weekendOvertimePay).toFixed(2) + " kr"
       : "-"
   );
 
@@ -2461,7 +2461,7 @@ const employeeMessages =
     container,
     t("holidayPayAmount"),
     data.holidayPay !== undefined
-      ? data.holidayPay + " kr"
+      ? Number(data.holidayPay).toFixed(2) + " kr"
       : "-"
   );
 
@@ -2479,7 +2479,7 @@ const employeeMessages =
     container,
     t("holidayOvertimePay"),
     data.holidayOvertimePay !== undefined
-      ? data.holidayOvertimePay + " kr"
+      ? Number(data.holidayOvertimePay).toFixed(2) + " kr"
       : "-"
   );
 
@@ -2497,7 +2497,7 @@ const employeeMessages =
     container,
     t("grossSalary"),
     data.grossSalary !== undefined
-      ? data.grossSalary + " kr"
+      ? Number(data.grossSalary).toFixed(2) + " kr"
       : "-"
   );
 
@@ -2506,7 +2506,7 @@ const employeeMessages =
     container,
     t("tax"),
     data.taxAmount !== undefined
-      ? data.taxAmount + " kr"
+      ? Number(data.taxAmount).toFixed(2) + " kr"
       : "-"
   );
 
@@ -2515,7 +2515,7 @@ const employeeMessages =
     container,
     t("netSalary"),
     data.netSalary !== undefined
-      ? data.netSalary + " kr"
+      ? Number(data.netSalary).toFixed(2) + " kr"
       : "-"
   );
 
