@@ -1940,7 +1940,7 @@ function saveSalaryToEmployer(calculation) {
 
 }
 /* =========================================================
-   KOMUNIKACIJA – KOLLEKTIVAVTAL
+   KOMUNIKATION – KOLLEKTIVAVTAL
    ========================================================= */
 
 function getCurrentKollektivMessages() {
@@ -1966,9 +1966,6 @@ function getCurrentKollektivMessages() {
   const employeeKey =
     getEmployeeKey();
 
-  const periodKey =
-    getPeriodKey();
-
 
   return messages.filter(function(item) {
 
@@ -1978,33 +1975,46 @@ function getCurrentKollektivMessages() {
       );
 
 
+    /*
+      Meddelandet måste höra till
+      rätt arbetstagare.
+    */
+
     if (
       itemEmployee !== employeeKey
     ) {
+
       return false;
+
     }
 
+
+    /*
+      Meddelandet måste höra till
+      Kollektivavtal.
+    */
 
     if (
       item.payType !== SALARY_TYPE
     ) {
+
       return false;
+
     }
 
 
-    if (
-      item.periodKey !== periodKey
-    ) {
-      return false;
-    }
-
+    /*
+      Löneperioden används inte längre
+      för att dölja meddelandet.
+      Arbetstagare + lönetyp räcker
+      för att visa kommunikationen.
+    */
 
     return true;
 
   });
 
 }
-
 /* =========================================================
    GLAVNO DUGME
    ========================================================= */
