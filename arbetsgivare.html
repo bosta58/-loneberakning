@@ -2344,166 +2344,182 @@ const employeeMessages =
   ========================================== */
 
   function renderKollektivavtal(
-    data,
-    container
-  ) {
+  data,
+  container
+) {
 
-    addInfoRow(
-      container,
-      t("period"),
-      formatPeriod(
-        data.periodStart,
-        data.periodEnd
-      )
-    );
-
-
-    addInfoRow(
-      container,
-      t("regularHours"),
-      data.regularHours
-    );
+  addInfoRow(
+    container,
+    t("period"),
+    formatPeriod(
+      data.periodStart,
+      data.periodEnd
+    )
+  );
 
 
-    addInfoRow(
-      container,
-      t("regularPay"),
-      data.regularPay !== undefined
-        ? data.regularPay + " kr"
-        : "-"
-    );
+  addInfoRow(
+    container,
+    t("regularHours"),
+    data.regularHours !== undefined
+      ? data.regularHours
+      : 0
+  );
 
 
-    addInfoRow(
-      container,
-      t("overtime"),
-      data.regularOvertimeHours
-    );
+  addInfoRow(
+    container,
+    t("regularPay"),
+    data.regularPay !== undefined
+      ? data.regularPay + " kr"
+      : "-"
+  );
 
 
-    addInfoRow(
-      container,
-      t("overtimePay"),
-      data.regularOvertimePay !== undefined
-        ? data.regularOvertimePay + " kr"
-        : "-"
-    );
+  addInfoRow(
+    container,
+    t("overtime"),
+    data.regularOvertimeHours !== undefined
+      ? data.regularOvertimeHours
+      : 0
+  );
 
 
-    addInfoRow(
-      container,
-      t("night"),
-      data.nightHours
-    );
+  addInfoRow(
+    container,
+    t("overtimePay"),
+    data.regularOvertimePay !== undefined
+      ? data.regularOvertimePay + " kr"
+      : "-"
+  );
 
 
-    addInfoRow(
-      container,
-      t("nightOvertime"),
-      data.nightOvertimeHours
-    );
+  addInfoRow(
+    container,
+    t("night"),
+    data.nightHours !== undefined
+      ? data.nightHours
+      : 0
+  );
 
 
-    addInfoRow(
-      container,
-      t("weekend"),
-      data.weekendHours
-    );
+  addInfoRow(
+    container,
+    t("nightOvertime"),
+    data.nightOvertimeHours !== undefined
+      ? data.nightOvertimeHours
+      : 0
+  );
 
 
-    addInfoRow(
-      container,
-      t("weekendPay"),
-      data.weekendPay !== undefined
-        ? data.weekendPay + " kr"
-        : "-"
-    );
+  addInfoRow(
+    container,
+    t("weekend"),
+    data.weekendHours !== undefined
+      ? data.weekendHours
+      : 0
+  );
 
 
-    addInfoRow(
-      container,
-      t("weekendOvertime"),
-      data.weekendOvertimeHours
-    );
+  addInfoRow(
+    container,
+    t("weekendPay"),
+    data.weekendPay !== undefined
+      ? data.weekendPay + " kr"
+      : "-"
+  );
 
 
-    addInfoRow(
-      container,
-      t("weekendOvertimePay"),
-      data.weekendOvertimePay !== undefined
-        ? data.weekendOvertimePay + " kr"
-        : "-"
-    );
+  addInfoRow(
+    container,
+    t("weekendOvertime"),
+    data.weekendOvertimeHours !== undefined
+      ? data.weekendOvertimeHours
+      : 0
+  );
 
 
-    addInfoRow(
-      container,
-      t("holiday"),
-      data.holidayHours
-    );
+  addInfoRow(
+    container,
+    t("weekendOvertimePay"),
+    data.weekendOvertimePay !== undefined
+      ? data.weekendOvertimePay + " kr"
+      : "-"
+  );
 
 
-    addInfoRow(
-      container,
-      t("holidayPayAmount"),
-      data.holidayPayAmount !== undefined
-        ? data.holidayPayAmount + " kr"
-        : "-"
-    );
+  addInfoRow(
+    container,
+    t("holiday"),
+    data.holidayHours !== undefined
+      ? data.holidayHours
+      : 0
+  );
 
 
-    addInfoRow(
-      container,
-      t("holidayOvertime"),
-      data.holidayOvertimeHours
-    );
+  addInfoRow(
+    container,
+    t("holidayPayAmount"),
+    data.holidayPay !== undefined
+      ? data.holidayPay + " kr"
+      : "-"
+  );
 
 
-    addInfoRow(
-      container,
-      t("holidayOvertimePay"),
-      data.holidayOvertimePay !== undefined
-        ? data.holidayOvertimePay + " kr"
-        : "-"
-    );
+  addInfoRow(
+    container,
+    t("holidayOvertime"),
+    data.holidayOvertimeHours !== undefined
+      ? data.holidayOvertimeHours
+      : 0
+  );
 
 
-    addInfoRow(
-      container,
-      t("vacationPay"),
-      data.vacationPay !== undefined
-        ? data.vacationPay + " %"
-        : "-"
-    );
+  addInfoRow(
+    container,
+    t("holidayOvertimePay"),
+    data.holidayOvertimePay !== undefined
+      ? data.holidayOvertimePay + " kr"
+      : "-"
+  );
 
 
-    addInfoRow(
-      container,
-      t("grossSalary"),
-      data.grossSalary !== undefined
-        ? data.grossSalary + " kr"
-        : "-"
-    );
+  addInfoRow(
+    container,
+    t("vacationPay"),
+    data.holidayPayPercent !== undefined
+      ? data.holidayPayPercent + " %"
+      : "-"
+  );
 
 
-    addInfoRow(
-      container,
-      t("tax"),
-      data.taxAmount !== undefined
-        ? data.taxAmount + " kr"
-        : "-"
-    );
+  addInfoRow(
+    container,
+    t("grossSalary"),
+    data.grossSalary !== undefined
+      ? data.grossSalary + " kr"
+      : "-"
+  );
 
 
-    addInfoRow(
-      container,
-      t("netSalary"),
-      data.netSalary !== undefined
-        ? data.netSalary + " kr"
-        : "-"
-    );
+  addInfoRow(
+    container,
+    t("tax"),
+    data.taxAmount !== undefined
+      ? data.taxAmount + " kr"
+      : "-"
+  );
 
-  }
+
+  addInfoRow(
+    container,
+    t("netSalary"),
+    data.netSalary !== undefined
+      ? data.netSalary + " kr"
+      : "-"
+  );
+
+}
 
 
   /* ==========================================
