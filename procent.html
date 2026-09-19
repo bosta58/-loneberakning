@@ -2311,7 +2311,155 @@ function loadKollektivRecord() {
   });
 
 }
+/* =========================================================
+   SVAR TILL ARBETSGIVARE
+   ========================================================= */
 
+function replyToEmployer() {
+
+  const replyField =
+    document.getElementById(
+      "employeeReply"
+    );
+
+  if (!replyField) {
+    return;
+  }
+
+
+  const reply =
+    replyField.value.trim();
+
+  if (!reply) {
+    return;
+  }
+
+
+  let messages = [];
+
+  try {
+
+    messages =
+      JSON.parse(
+        localStorage.getItem(
+          GENIE_MESSAGES_KEY
+        )
+      ) || [];
+
+  } catch (error) {
+
+    messages = [];
+
+  }
+
+
+  const employeeKey =
+    getEmployeeKey();
+
+  const periodKey =
+    getPeriodKey();
+
+
+  let messageIndex =
+    -1;
+
+
+  /*
+    Direktno tražimo poruku u originalnom nizu.
+    Ovo sprečava problem sa indexOf().
+  */
+
+  for (
+    let i = messages.length - 1;
+    i >= 0;
+    i--
+  ) {
+
+    const item =
+      messages[i];
+
+    const itemEmployee =
+      normalizeEmployee(
+        item.employee
+      );
+
+
+    if (
+      itemEmployee !== employeeKey
+    ) {
+      continue;
+    }
+
+
+    if (
+      item.payType !== SALARY_TYPE
+    ) {
+      continue;
+    }
+
+
+    if (
+      item.periodKey !== periodKey
+    ) {
+      continue;
+    }
+
+
+    messageIndex =
+      i;
+
+    break;
+
+  }
+
+
+  if (
+    messageIndex === -1
+  ) {
+
+    alert(
+      "Meddelandet kunde inte hittas."
+    );
+
+    return;
+
+  }
+
+
+  messages[messageIndex].reply =
+    reply;
+
+  messages[messageIndex].replyDate =
+    new Date().toLocaleDateString();
+
+  messages[messageIndex].replyTime =
+    new Date().toLocaleTimeString();
+
+  messages[messageIndex].status =
+    "Ny kommentar";
+
+  messages[messageIndex].payType =
+    SALARY_TYPE;
+
+  messages[messageIndex].periodKey =
+    periodKey;
+
+
+  localStorage.setItem(
+    GENIE_MESSAGES_KEY,
+    JSON.stringify(
+      messages
+    )
+  );
+
+
+  replyField.value =
+    "";
+
+
+  loadEmployerMessage();
+
+}
 
 /* =========================================================
    AUTOMATSKO ČUVANJE POLJA
