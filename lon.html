@@ -2095,8 +2095,13 @@ function getCurrentTimlonMessages() {
     getPeriodKey();
 
 
-  if (!employeeKey) {
+  if (
+    !employeeKey ||
+    !periodKey
+  ) {
+
     return [];
+
   }
 
 
@@ -2129,6 +2134,10 @@ function getCurrentTimlonMessages() {
         );
 
 
+      /*
+        1. Rätt anställd
+      */
+
       if (
         itemEmployee !==
         employeeKey
@@ -2140,14 +2149,13 @@ function getCurrentTimlonMessages() {
 
 
       /*
-        Nya meddelanden får både typ och period.
-        Gamla meddelanden utan dessa fält visas
-        fortfarande för kompatibilitet.
+        2. Endast meddelanden som hör
+           till Timlön
       */
 
       if (
-        item.type &&
-        item.type !== SALARY_TYPE
+        item.payType !==
+        SALARY_TYPE
       ) {
 
         return false;
@@ -2155,10 +2163,13 @@ function getCurrentTimlonMessages() {
       }
 
 
+      /*
+        3. Exakt samma löneperiod
+      */
+
       if (
-        item.periodKey &&
-        periodKey &&
-        item.periodKey !== periodKey
+        item.periodKey !==
+        periodKey
       ) {
 
         return false;
