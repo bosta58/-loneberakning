@@ -2589,23 +2589,19 @@ function markEmployerMessageAsFixed() {
 
 
   messages[
-    messageIndex
-  ].type =
-    SALARY_TYPE;
+  messageIndex
+].type =
+  SALARY_TYPE;
 
+messages[
+  messageIndex
+].payType =
+  SALARY_TYPE;
 
-  if (
-    !messages[
-      messageIndex
-    ].periodKey
-  ) {
-
-    messages[
-      messageIndex
-    ].periodKey =
-      getPeriodKey();
-
-  }
+messages[
+  messageIndex
+].periodKey =
+  getPeriodKey();
 
 
   localStorage.setItem(
