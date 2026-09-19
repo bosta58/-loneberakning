@@ -2208,112 +2208,135 @@ const employeeMessages =
   ========================================== */
 
   function renderTimlon(
-    data,
-    container
-  ) {
+  data,
+  container
+) {
 
-    addInfoRow(
-      container,
-      t("period"),
-      formatPeriod(
-        data.periodStart,
-        data.periodEnd
-      )
-    );
+  const hours =
+    data.hours || {};
+
+  const calculation =
+    data.calculation || {};
 
 
-    addInfoRow(
-      container,
-      t("regularHours"),
-      data.regularHours
-    );
+  addInfoRow(
+    container,
+    t("period"),
+    formatPeriod(
+      data.periodStart,
+      data.periodEnd
+    )
+  );
 
 
-    addInfoRow(
-      container,
-      t("overtime"),
-      data.regularOvertimeHours
-    );
+  addInfoRow(
+    container,
+    t("regularHours"),
+    hours.regular !== undefined
+      ? hours.regular
+      : 0
+  );
 
 
-    addInfoRow(
-      container,
-      t("night"),
-      data.nightHours
-    );
+  addInfoRow(
+    container,
+    t("overtime"),
+    hours.regularOvertime !== undefined
+      ? hours.regularOvertime
+      : 0
+  );
 
 
-    addInfoRow(
-      container,
-      t("nightOvertime"),
-      data.nightOvertimeHours
-    );
+  addInfoRow(
+    container,
+    t("night"),
+    hours.night !== undefined
+      ? hours.night
+      : 0
+  );
 
 
-    addInfoRow(
-      container,
-      t("weekend"),
-      data.weekendHours
-    );
+  addInfoRow(
+    container,
+    t("nightOvertime"),
+    hours.nightOvertime !== undefined
+      ? hours.nightOvertime
+      : 0
+  );
 
 
-    addInfoRow(
-      container,
-      t("weekendOvertime"),
-      data.weekendOvertimeHours
-    );
+  addInfoRow(
+    container,
+    t("weekend"),
+    hours.weekend !== undefined
+      ? hours.weekend
+      : 0
+  );
 
 
-    addInfoRow(
-      container,
-      t("holiday"),
-      data.holidayHours
-    );
+  addInfoRow(
+    container,
+    t("weekendOvertime"),
+    hours.weekendOvertime !== undefined
+      ? hours.weekendOvertime
+      : 0
+  );
 
 
-    addInfoRow(
-      container,
-      t("holidayOvertime"),
-      data.holidayOvertimeHours
-    );
+  addInfoRow(
+    container,
+    t("holiday"),
+    hours.holiday !== undefined
+      ? hours.holiday
+      : 0
+  );
 
 
-    addInfoRow(
-      container,
-      t("vacationPay"),
-      data.vacationPay !== undefined
-        ? data.vacationPay + " %"
-        : "-"
-    );
+  addInfoRow(
+    container,
+    t("holidayOvertime"),
+    hours.holidayOvertime !== undefined
+      ? hours.holidayOvertime
+      : 0
+  );
 
 
-    addInfoRow(
-      container,
-      t("grossSalary"),
-      data.grossSalary !== undefined
-        ? data.grossSalary + " kr"
-        : "-"
-    );
+  addInfoRow(
+    container,
+    t("vacationPay"),
+    data.holidayPay !== undefined
+      ? data.holidayPay + " %"
+      : "-"
+  );
 
 
-    addInfoRow(
-      container,
-      t("tax"),
-      data.taxAmount !== undefined
-        ? data.taxAmount + " kr"
-        : "-"
-    );
+  addInfoRow(
+    container,
+    t("grossSalary"),
+    calculation.grossSalary !== undefined
+      ? calculation.grossSalary + " kr"
+      : "-"
+  );
 
 
-    addInfoRow(
-      container,
-      t("netSalary"),
-      data.netSalary !== undefined
-        ? data.netSalary + " kr"
-        : "-"
-    );
+  addInfoRow(
+    container,
+    t("tax"),
+    calculation.taxAmount !== undefined
+      ? calculation.taxAmount + " kr"
+      : "-"
+  );
 
-  }
+
+  addInfoRow(
+    container,
+    t("netSalary"),
+    calculation.netSalary !== undefined
+      ? calculation.netSalary + " kr"
+      : "-"
+  );
+
+}
 
 
   /* ==========================================
