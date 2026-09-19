@@ -1986,7 +1986,151 @@ function calculateAndSaveSalary() {
   }
 
 }
+/* =========================================================
+   VISA SENASTE MEDDELANDE
+   ========================================================= */
 
+function loadEmployerMessage() {
+
+  const box =
+    document.getElementById(
+      "employerMessageBox"
+    );
+
+  const content =
+    document.getElementById(
+      "employerMessageContent"
+    );
+
+  if (!box || !content) {
+    return;
+  }
+
+
+  const messages =
+    getCurrentKollektivMessages();
+
+
+  if (!messages.length) {
+
+    box.style.display =
+      "none";
+
+    content.innerHTML =
+      "";
+
+    return;
+
+  }
+
+
+  const message =
+    messages[
+      messages.length - 1
+    ];
+
+
+  const lang =
+    getCurrentLanguage();
+
+
+  const labels = {
+
+    sv: {
+      message:
+        "Meddelande från arbetsgivaren",
+      date:
+        "Datum",
+      status:
+        "Status",
+      reply:
+        "Ditt svar"
+    },
+
+    en: {
+      message:
+        "Message from employer",
+      date:
+        "Date",
+      status:
+        "Status",
+      reply:
+        "Your reply"
+    },
+
+    sr: {
+      message:
+        "Poruka od poslodavca",
+      date:
+        "Datum",
+      status:
+        "Status",
+      reply:
+        "Vaš odgovor"
+    }
+
+  };
+
+
+  const t =
+    labels[lang] ||
+    labels.sv;
+
+
+  content.innerHTML = `
+
+    <div style="padding:10px 0;">
+
+      <strong>
+        ${t.message}
+      </strong>
+
+      <p style="margin:8px 0;">
+        ${message.message || ""}
+      </p>
+
+      ${
+        message.date
+          ? `<small>
+              ${t.date}: ${message.date}
+            </small>`
+          : ""
+      }
+
+      ${
+        message.status
+          ? `<p style="margin:8px 0 0;">
+              <strong>
+                ${t.status}:
+              </strong>
+              ${message.status}
+            </p>`
+          : ""
+      }
+
+      ${
+        message.reply
+          ? `<div style="margin-top:12px; padding:10px; background:#f3f4f6; border-radius:9px;">
+              <strong>
+                ${t.reply}
+              </strong>
+
+              <p style="margin:6px 0 0;">
+                ${message.reply}
+              </p>
+            </div>`
+          : ""
+      }
+
+    </div>
+
+  `;
+
+
+  box.style.display =
+    "block";
+
+}
 
 /* =========================================================
    STARI FORM DATA – SAMO KAO KOMPATIBILNOST
