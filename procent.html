@@ -1902,7 +1902,71 @@ function saveSalaryToEmployer(calculation) {
   );
 
 }
+/* =========================================================
+   KOMUNIKACIJA – KOLLEKTIVAVTAL
+   ========================================================= */
 
+function getCurrentKollektivMessages() {
+
+  let messages = [];
+
+  try {
+
+    messages =
+      JSON.parse(
+        localStorage.getItem(
+          GENIE_MESSAGES_KEY
+        )
+      ) || [];
+
+  } catch (error) {
+
+    return [];
+
+  }
+
+
+  const employeeKey =
+    getEmployeeKey();
+
+  const periodKey =
+    getPeriodKey();
+
+
+  return messages.filter(function(item) {
+
+    const itemEmployee =
+      normalizeEmployee(
+        item.employee
+      );
+
+
+    if (
+      itemEmployee !== employeeKey
+    ) {
+      return false;
+    }
+
+
+    if (
+      item.payType !== SALARY_TYPE
+    ) {
+      return false;
+    }
+
+
+    if (
+      item.periodKey !== periodKey
+    ) {
+      return false;
+    }
+
+
+    return true;
+
+  });
+
+}
 
 /* =========================================================
    GLAVNO DUGME
