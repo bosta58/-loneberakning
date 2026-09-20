@@ -628,7 +628,6 @@ const GENIE_SALARY_DATA_KEY = "genieSalaryData";
 const GENIE_MESSAGES_KEY = "genieMessages";
 const GENIE_LANGUAGE_KEY = "genieLanguage";
 
-
 const SALARY_TYPE = "Kollektivavtal";
 
 
@@ -680,8 +679,19 @@ const translations = {
     taxResult: "Skatt:",
     net: "Nettolön",
 
-    noHours: "Ingen arbetstid hittades från kalendern."
+    noHours: "Ingen arbetstid hittades från kalendern.",
+
+    communication: "💬 Kommunikation med arbetsgivaren",
+    sendReply: "💬 Skicka svar",
+    fixed: "✅ Åtgärdad",
+    replyPlaceholder:
+      "Skriv ditt svar, din förklaring eller information om rättelse...",
+
+    newComment: "Ny kommentar",
+    statusFixed: "Åtgärdad",
+    messageNotFound: "Meddelandet kunde inte hittas."
   },
+
 
   en: {
     subtitle: "Salary details – Collective agreement",
@@ -725,8 +735,19 @@ const translations = {
     taxResult: "Tax:",
     net: "Net salary",
 
-    noHours: "No working time was found from the calendar."
+    noHours: "No working time was found from the calendar.",
+
+    communication: "💬 Communication with employer",
+    sendReply: "💬 Send reply",
+    fixed: "✅ Fixed",
+    replyPlaceholder:
+      "Write your reply, explanation or information about the correction...",
+
+    newComment: "New comment",
+    statusFixed: "Fixed",
+    messageNotFound: "Message could not be found."
   },
+
 
   sr: {
     subtitle: "Podaci o plati – Kolektivni ugovor",
@@ -770,7 +791,17 @@ const translations = {
     taxResult: "Porez:",
     net: "Neto plata",
 
-    noHours: "Nije pronađeno radno vreme iz kalendara."
+    noHours: "Nije pronađeno radno vreme iz kalendara.",
+
+    communication: "💬 Komunikacija sa poslodavcem",
+    sendReply: "💬 Pošalji odgovor",
+    fixed: "✅ Rešeno",
+    replyPlaceholder:
+      "Napišite svoj odgovor, objašnjenje ili informaciju o ispravci...",
+
+    newComment: "Novi komentar",
+    statusFixed: "Rešeno",
+    messageNotFound: "Poruka nije pronađena."
   }
 
 };
@@ -975,6 +1006,12 @@ function changeLanguage(language) {
 
   applyLanguage();
 
+  /*
+    Uppdaterar även kommunikationsdelen
+    direkt när språket ändras.
+  */
+  loadEmployerMessage();
+
 }
 
 
@@ -1126,6 +1163,63 @@ function applyLanguage() {
   document.getElementById(
     "calculateButton"
   ).textContent = t.calculate;
+
+
+  /* =====================================================
+     KOMUNIKATION – ÖVERSÄTTNING
+  ===================================================== */
+
+  const communicationTitle =
+    document.getElementById(
+      "communicationTitle"
+    );
+
+  if (communicationTitle) {
+
+    communicationTitle.textContent =
+      t.communication;
+
+  }
+
+
+  const replyButton =
+    document.getElementById(
+      "replyButton"
+    );
+
+  if (replyButton) {
+
+    replyButton.textContent =
+      t.sendReply;
+
+  }
+
+
+  const fixedButton =
+    document.getElementById(
+      "fixedButton"
+    );
+
+  if (fixedButton) {
+
+    fixedButton.textContent =
+      t.fixed;
+
+  }
+
+
+  const employeeReply =
+    document.getElementById(
+      "employeeReply"
+    );
+
+  if (employeeReply) {
+
+    employeeReply.placeholder =
+      t.replyPlaceholder;
+
+  }
+
 
   const resultMessage =
     document.getElementById(
@@ -1941,8 +2035,10 @@ function saveSalaryToEmployer(calculation) {
   );
 
 }
+
+
 /* =========================================================
-   KOMUNIKATION – KOLLEKTIVAVTAL
+   KOMMUNIKATION – KOLLEKTIVAVTAL
    ========================================================= */
 
 function getCurrentKollektivMessages() {
@@ -2017,6 +2113,8 @@ function getCurrentKollektivMessages() {
   });
 
 }
+
+
 /* =========================================================
    GLAVNO DUGME
    ========================================================= */
@@ -2035,6 +2133,8 @@ function calculateAndSaveSalary() {
   }
 
 }
+
+
 /* =========================================================
    VISA SENASTE MEDDELANDE
    ========================================================= */
@@ -2126,6 +2226,34 @@ function loadEmployerMessage() {
     labels.sv;
 
 
+  /*
+    Status sparas internt på svenska
+    för kompatibilitet med befintliga
+    meddelanden.
+
+    Visningen översätts här.
+  */
+
+  let translatedStatus =
+    message.status || "";
+
+  if (
+    message.status === "Ny kommentar"
+  ) {
+
+    translatedStatus =
+      translations[lang].newComment;
+
+  } else if (
+    message.status === "Åtgärdad"
+  ) {
+
+    translatedStatus =
+      translations[lang].statusFixed;
+
+  }
+
+
   content.innerHTML = `
 
     <div style="padding:10px 0;">
@@ -2152,7 +2280,7 @@ function loadEmployerMessage() {
               <strong>
                 ${t.status}:
               </strong>
-              ${message.status}
+              ${translatedStatus}
             </p>`
           : ""
       }
@@ -2180,6 +2308,7 @@ function loadEmployerMessage() {
     "block";
 
 }
+
 
 /* =========================================================
    STARI FORM DATA – SAMO KAO KOMPATIBILNOST
@@ -2360,6 +2489,8 @@ function loadKollektivRecord() {
   });
 
 }
+
+
 /* =========================================================
    SVAR TILL ARBETSGIVARE
    ========================================================= */
@@ -2467,7 +2598,9 @@ function replyToEmployer() {
   ) {
 
     alert(
-      "Meddelandet kunde inte hittas."
+      translations[
+        getCurrentLanguage()
+      ].messageNotFound
     );
 
     return;
@@ -2484,6 +2617,11 @@ function replyToEmployer() {
   messages[messageIndex].replyTime =
     new Date().toLocaleTimeString();
 
+  /*
+    Vi behåller den interna svenska statusen
+    för kompatibilitet med gamla meddelanden.
+    Visningen översätts automatiskt.
+  */
   messages[messageIndex].status =
     "Ny kommentar";
 
@@ -2509,6 +2647,8 @@ function replyToEmployer() {
   loadEmployerMessage();
 
 }
+
+
 /* =========================================================
    MARKERA MEDDELANDE SOM ÅTGÄRDAT
    ========================================================= */
@@ -2598,13 +2738,20 @@ function markEmployerMessageAsFixed() {
   ) {
 
     alert(
-      "Meddelandet kunde inte hittas."
+      translations[
+        getCurrentLanguage()
+      ].messageNotFound
     );
 
     return;
 
   }
 
+
+  /*
+    Intern status behålls på svenska
+    för kompatibilitet.
+  */
 
   messages[messageIndex].status =
     "Åtgärdad";
@@ -2627,6 +2774,8 @@ function markEmployerMessageAsFixed() {
   loadEmployerMessage();
 
 }
+
+
 /* =========================================================
    AUTOMATSKO ČUVANJE POLJA
    ========================================================= */
@@ -2656,10 +2805,13 @@ applyLanguage();
 
 /*
   Prvo pokušavamo da pronađemo podatke
-  u novoj zajedničkoj Genie strukturi.
+  u den nya gemensamma Genie-strukturen.
 */
+
 loadKollektivRecord();
+
 loadEmployerMessage();
+
 </script>
 
 </body>
