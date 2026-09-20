@@ -1447,6 +1447,10 @@ function updateSummary() {
       ".day-type"
     );
 
+  /* =========================
+     PRIKAZ TRENUTNOG MJESECA
+  ========================= */
+
   let regularWeekday = 0;
   let overtimeWeekday = 0;
 
@@ -1504,6 +1508,10 @@ function updateSummary() {
     }
   );
 
+  /* =========================
+     PRIKAZ NA KALENDARU
+  ========================= */
+
   document.getElementById(
     "regularWeekday"
   ).textContent =
@@ -1544,15 +1552,273 @@ function updateSummary() {
   ).textContent =
     workDays;
 
+
+  /* =========================
+     OBRAČUNSKI PERIOD 26.–25.
+  ========================= */
+
+  const periodStart =
+    new Date(
+      selectedYear,
+      selectedMonth - 1,
+      26
+    );
+
+  const periodEnd =
+    new Date(
+      selectedYear,
+      selectedMonth,
+      25
+    );
+
+
+  /* =========================
+     SAKUPLJANJE SATI
+     IZ CIJELOG PERIODA
+  ========================= */
+
+  let periodRegularWeekday = 0;
+  let periodOvertimeWeekday = 0;
+
+  let periodRegularWeekend = 0;
+  let periodOvertimeWeekend = 0;
+
+  let periodRegularHoliday = 0;
+  let periodOvertimeHoliday = 0;
+
+  let periodTotal = 0;
+
+
+  function addDay(
+    hours,
+    type
+  ) {
+
+    const value =
+      parseFloat(hours) || 0;
+
+    if (value <= 0) {
+      return;
+    }
+
+    periodTotal += value;
+
+    const regular =
+      Math.min(value, 8);
+
+    const overtime =
+      Math.max(value - 8, 0);
+
+    if (type === "weekday") {
+
+      periodRegularWeekday += regular;
+      periodOvertimeWeekday += overtime;
+
+    }
+
+    else if (type === "weekend") {
+
+      periodRegularWeekend += regular;
+      periodOvertimeWeekend += overtime;
+
+    }
+
+    else if (type === "holiday") {
+
+      periodRegularHoliday += regular;
+      periodOvertimeHoliday += overtime;
+
+    }
+
+  }
+
+
+  /* =========================
+     MÅNADEN SOM VISAS
+     + PREVIOUS MONTH
+  ========================= */
+
+  const currentMonthData = {};
+
+  inputs.forEach(
+    (input, index) => {
+
+      currentMonthData[
+        input.dataset.day
+      ] = {
+
+        hours: input.value,
+
+        type: types[index].value
+
+      };
+
+    }
+  );
+
+
+  let date =
+    new Date(
+      periodStart
+    );
+
+  while (
+    date <= periodEnd
+  ) {
+
+    const year =
+      date.getFullYear();
+
+    const month =
+      date.getMonth();
+
+    const day =
+      date.getDate();
+
+
+    let dayData = null;
+
+
+    /* Den månad som visas:
+       använd det som finns
+       direkt i kalendern */
+
+    if (
+      year === selectedYear &&
+      month === selectedMonth
+    ) {
+
+      dayData =
+        currentMonthData[day];
+
+    }
+
+    else {
+
+      const key =
+        "calendar_" +
+        year +
+        "_" +
+        month;
+
+      const saved =
+        localStorage.getItem(key);
+
+      if (saved) {
+
+        try {
+
+          const data =
+            JSON.parse(saved);
+
+          dayData =
+            data[day];
+
+        }
+
+        catch (error) {
+
+          dayData = null;
+
+        }
+
+      }
+
+    }
+
+
+    if (dayData) {
+
+      if (
+        typeof dayData === "object"
+      ) {
+
+        addDay(
+          dayData.hours,
+          dayData.type
+        );
+
+      }
+
+      else {
+
+        addDay(
+          dayData,
+          "weekday"
+        );
+
+      }
+
+    }
+
+
+    date.setDate(
+      date.getDate() + 1
+    );
+
+  }
+
+
+  /* =========================
+     SPREMI ZA LON.HTML
+  ========================= */
+
+  const startString =
+    periodStart
+      .toISOString()
+      .split("T")[0];
+
+  const endString =
+    periodEnd
+      .toISOString()
+      .split("T")[0];
+
+
+  localStorage.setItem(
+    "timlon_periodStart",
+    startString
+  );
+
+  localStorage.setItem(
+    "timlon_periodEnd",
+    endString
+  );
+
+
   localStorage.setItem(
     "salaryHours",
     JSON.stringify({
-      regularHours: regularWeekday,
-      regularOvertimeHours: overtimeWeekday,
-      weekendHours: regularWeekend,
-      weekendOvertimeHours: overtimeWeekend,
-      holidayHours: regularHoliday,
-      holidayOvertimeHours: overtimeHoliday
+
+      regularHours:
+        periodRegularWeekday,
+
+      regularOvertimeHours:
+        periodOvertimeWeekday,
+
+      nightHours:
+        0,
+
+      nightOvertimeHours:
+        0,
+
+      weekendHours:
+        periodRegularWeekend,
+
+      weekendOvertimeHours:
+        periodOvertimeWeekend,
+
+      holidayHours:
+        periodRegularHoliday,
+
+      holidayOvertimeHours:
+        periodOvertimeHoliday,
+
+      periodStart:
+        startString,
+
+      periodEnd:
+        endString
+
     })
   );
 
