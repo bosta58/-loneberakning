@@ -1146,21 +1146,256 @@ function updateSummary() {
     "workDays"
   ).textContent =
     workDays;
+  const periodHours = getPayPeriodHours();
+  /* =========================
+   GENIE OBRAČUNSKI PERIOD
+   26. – 25.
+========================= */
 
-  localStorage.setItem(
-    "salaryHours",
-    JSON.stringify({
-      regularHours: regularWeekday,
-      regularOvertimeHours: overtimeWeekday,
-      weekendHours: regularWeekend,
-      weekendOvertimeHours: overtimeWeekend,
-      holidayHours: regularHoliday,
-      holidayOvertimeHours: overtimeHoliday
-    })
+const periodEnd =
+  new Date(
+    selectedYear,
+    selectedMonth,
+    25
   );
+
+const periodStart =
+  new Date(
+    selectedYear,
+    selectedMonth - 1,
+    26
+  );
+
+const periodStartText =
+  periodStart.getFullYear() +
+  "-" +
+  String(periodStart.getMonth() + 1).padStart(2, "0") +
+  "-" +
+  String(periodStart.getDate()).padStart(2, "0");
+
+const periodEndText =
+  periodEnd.getFullYear() +
+  "-" +
+  String(periodEnd.getMonth() + 1).padStart(2, "0") +
+  "-" +
+  String(periodEnd.getDate()).padStart(2, "0");
+
+
+localStorage.setItem(
+  "timlon_periodStart",
+  periodStartText
+);
+
+localStorage.setItem(
+  "timlon_periodEnd",
+  periodEndText
+);
+
+
+localStorage.setItem(
+  "salaryHours",
+  JSON.stringify({
+
+  regularHours:
+  periodHours.regularHours,
+
+regularOvertimeHours:
+  periodHours.regularOvertimeHours,
+    nightHours:
+      0,
+
+    nightOvertimeHours:
+      0,
+
+    weekendHours:
+  periodHours.weekendHours,
+
+weekendOvertimeHours:
+  periodHours.weekendOvertimeHours,
+
+    holidayHours:
+  periodHours.holidayHours,
+
+holidayOvertimeHours:
+  periodHours.holidayOvertimeHours,
+
+    periodStart:
+      periodStartText,
+
+    periodEnd:
+      periodEndText
+
+  })
+);
+
+}
+function getPayPeriodHours() {
+
+  const periodEnd =
+    new Date(
+      selectedYear,
+      selectedMonth,
+      25
+    );
+
+  const periodStart =
+    new Date(
+      selectedYear,
+      selectedMonth - 1,
+      26
+    );
+
+  let result = {
+    regularHours: 0,
+    regularOvertimeHours: 0,
+    weekendHours: 0,
+    weekendOvertimeHours: 0,
+    holidayHours: 0,
+    holidayOvertimeHours: 0
+  };
+
+  function addData(data) {
+
+    if (!data) return;
+
+    Object.values(data).forEach(day => {
+
+      if (
+        typeof day !== "object"
+      ) return;
+
+      const hours =
+        parseFloat(day.hours) || 0;
+
+      if (hours <= 0) return;
+
+      const regular =
+        Math.min(hours, 8);
+
+      const overtime =
+        Math.max(hours - 8, 0);
+
+      if (day.type === "weekday") {
+
+        result.regularHours += regular;
+        result.regularOvertimeHours += overtime;
+
+      }
+
+      else if (day.type === "weekend") {
+
+        result.weekendHours += regular;
+        result.weekendOvertimeHours += overtime;
+
+      }
+
+      else if (day.type === "holiday") {
+
+        result.holidayHours += regular;
+        result.holidayOvertimeHours += overtime;
+
+      }
+
+    });
+  }
+
+  /* Prethodni mjesec */
+
+  const previousMonth =
+    selectedMonth === 0 ? 11 : selectedMonth - 1;
+
+  const previousYear =
+    selectedMonth === 0
+      ? selectedYear - 1
+      : selectedYear;
+
+  const previousKey =
+    "calendar_" +
+    previousYear +
+    "_" +
+    previousMonth;
+
+  const previousSaved =
+    localStorage.getItem(previousKey);
+
+ if (previousSaved) {
+
+  try {
+
+    const previousData =
+      JSON.parse(previousSaved);
+
+    const periodData = {};
+
+    Object.keys(previousData).forEach(day => {
+
+      if (parseInt(day) >= 26) {
+
+        periodData[day] =
+          previousData[day];
+
+      }
+
+    });
+
+    addData(periodData);
+
+  } catch (error) {}
 
 }
 
+  /* Trenutni mjesec */
+
+  const currentData = {};
+
+  const inputs =
+    document.querySelectorAll(
+      ".hours-input"
+    );
+
+  const types =
+    document.querySelectorAll(
+      ".day-type"
+    );
+
+  inputs.forEach(
+    (input, index) => {
+
+      currentData[input.dataset.day] = {
+
+        hours: input.value,
+
+        type: types[index].value
+
+      };
+
+    }
+  );
+
+  Object.keys(currentData).forEach(day => {
+
+    const date =
+      new Date(
+        selectedYear,
+        selectedMonth,
+        parseInt(day)
+      );
+
+    if (
+      date >= periodStart &&
+      date <= periodEnd
+    ) {
+
+      addData({
+        [day]: currentData[day]
+      });
+
+    }
+
+  });
+
+  return result;
+}
 /* =========================
    SAČUVAJ KALENDAR
 ========================= */
