@@ -2218,7 +2218,6 @@ const employeeMessages =
   const calculation =
     data.calculation || {};
 
-
   addInfoRow(
     container,
     t("period"),
@@ -2228,7 +2227,6 @@ const employeeMessages =
     )
   );
 
-
   addInfoRow(
     container,
     t("regularHours"),
@@ -2236,7 +2234,6 @@ const employeeMessages =
       ? hours.regular
       : 0
   );
-
 
   addInfoRow(
     container,
@@ -2246,7 +2243,6 @@ const employeeMessages =
       : 0
   );
 
-
   addInfoRow(
     container,
     t("night"),
@@ -2254,7 +2250,6 @@ const employeeMessages =
       ? hours.night
       : 0
   );
-
 
   addInfoRow(
     container,
@@ -2264,7 +2259,6 @@ const employeeMessages =
       : 0
   );
 
-
   addInfoRow(
     container,
     t("weekend"),
@@ -2272,7 +2266,6 @@ const employeeMessages =
       ? hours.weekend
       : 0
   );
-
 
   addInfoRow(
     container,
@@ -2282,7 +2275,6 @@ const employeeMessages =
       : 0
   );
 
-
   addInfoRow(
     container,
     t("holiday"),
@@ -2290,7 +2282,6 @@ const employeeMessages =
       ? hours.holiday
       : 0
   );
-
 
   addInfoRow(
     container,
@@ -2300,39 +2291,43 @@ const employeeMessages =
       : 0
   );
 
-
   addInfoRow(
     container,
     t("vacationPay"),
-    data.holidayPay !== undefined
-      ? data.holidayPay + " %"
+    calculation.vacationPay !== undefined
+      ? Number(
+          calculation.vacationPay
+        ).toFixed(2) + " kr"
       : "-"
   );
-
 
   addInfoRow(
     container,
     t("grossSalary"),
     calculation.grossSalary !== undefined
-      ? calculation.grossSalary + " kr"
+      ? Number(
+          calculation.grossSalary
+        ).toFixed(2) + " kr"
       : "-"
   );
-
 
   addInfoRow(
     container,
     t("tax"),
     calculation.taxAmount !== undefined
-      ? calculation.taxAmount + " kr"
+      ? Number(
+          calculation.taxAmount
+        ).toFixed(2) + " kr"
       : "-"
   );
-
 
   addInfoRow(
     container,
     t("netSalary"),
     calculation.netSalary !== undefined
-      ? calculation.netSalary + " kr"
+      ? Number(
+          calculation.netSalary
+        ).toFixed(2) + " kr"
       : "-"
   );
 
