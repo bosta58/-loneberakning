@@ -1174,6 +1174,7 @@ function loadSavedWorkdays() {
     localStorage.getItem(
       STORAGE_KEY
     );
+
   if (!savedData) {
     totalMinutesWorked = 0;
     totalHoursDisplay.textContent =
@@ -1181,28 +1182,71 @@ function loadSavedWorkdays() {
     updateTargetAndDifference();
     return;
   }
+
   try {
     const workdays =
       JSON.parse(savedData);
+
+    if (!Array.isArray(workdays)) {
+      totalMinutesWorked = 0;
+      totalHoursDisplay.textContent =
+        formatDuration(0);
+      updateTargetAndDifference();
+      return;
+    }
+
+    const currentPeriodKey =
+      getPeriodKey();
+
+    const currentEmployeeKey =
+      getEmployeeKey();
+
+    /*
+      Räkna endast arbetstid som hör till
+      aktuell anställd och aktuellt
+      löneperiod.
+    */
+    const currentPeriodWorkdays =
+      workdays.filter(
+        function(day) {
+          const samePeriod =
+            day.periodKey ===
+            currentPeriodKey;
+
+          const sameEmployee =
+            !day.employeeKey ||
+            day.employeeKey ===
+            currentEmployeeKey;
+
+          return (
+            samePeriod &&
+            sameEmployee
+          );
+        }
+      );
+
     totalMinutesWorked =
-      Array.isArray(workdays)
-        ? workdays.reduce(
-            function(sum, day) {
-              return sum +
-                Number(day.minutes || 0);
-            },
-            0
-          )
-        : 0;
+      currentPeriodWorkdays.reduce(
+        function(sum, day) {
+          return sum +
+            Number(day.minutes || 0);
+        },
+        0
+      );
+
     totalHoursDisplay.textContent =
       formatDuration(
         totalMinutesWorked
       );
+
     updateTargetAndDifference();
+
   } catch(error) {
     totalMinutesWorked = 0;
+
     totalHoursDisplay.textContent =
       formatDuration(0);
+
     updateTargetAndDifference();
   }
 }
@@ -1452,21 +1496,31 @@ function() {
     }
   }
   const workday = {
-    date:
-      startTimeValue
-        .toISOString()
-        .split("T")[0],
-    start:
-      formatTime(startTimeValue),
-    end:
-      formatTime(endTimeValue),
-    minutes:
-      dailyMinutes,
-    pauseMinutes:
-      totalPauseMinutes,
-    pauseCount:
-      pauseCount
-  };
+  date:
+    startTimeValue
+      .toISOString()
+      .split("T")[0],
+  start:
+    formatTime(startTimeValue),
+  end:
+    formatTime(endTimeValue),
+  minutes:
+    dailyMinutes,
+  pauseMinutes:
+    totalPauseMinutes,
+  pauseCount:
+    pauseCount,
+
+  /*
+    Koppla arbetsdagen till rätt
+    anställd och rätt löneperiod.
+  */
+  employeeKey:
+    getEmployeeKey(),
+
+  periodKey:
+    getPeriodKey()
+};
   workdays.push(workday);
   localStorage.setItem(
     STORAGE_KEY,
