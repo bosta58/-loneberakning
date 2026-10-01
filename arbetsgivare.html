@@ -1586,38 +1586,120 @@
 
   function addEmployee() {
 
-    const name =
-      prompt(
-        t("addEmployeePrompt")
-      );
+  const firstName =
+    prompt(
+      currentLanguage === "en"
+        ? "Enter first name:"
+        : currentLanguage === "sr"
+          ? "Unesite ime:"
+          : "Ange förnamn:"
+    );
 
-
-    if (
-      !name ||
-      name.trim() === ""
-    ) {
-
-      return;
-
-    }
-
-
-    employees.push({
-
-      name:
-        name.trim(),
-
-      created:
-        new Date().toISOString()
-
-    });
-
-
-    saveEmployees();
-
-    updateEmployeeList();
-
+  if (
+    !firstName ||
+    firstName.trim() === ""
+  ) {
+    return;
   }
+
+
+  const lastName =
+    prompt(
+      currentLanguage === "en"
+        ? "Enter last name:"
+        : currentLanguage === "sr"
+          ? "Unesite prezime:"
+          : "Ange efternamn:"
+    );
+
+  if (
+    !lastName ||
+    lastName.trim() === ""
+  ) {
+    return;
+  }
+
+
+  const address =
+    prompt(
+      currentLanguage === "en"
+        ? "Enter address:"
+        : currentLanguage === "sr"
+          ? "Unesite adresu:"
+          : "Ange adress:"
+    ) || "";
+
+
+  const personalNumber =
+    prompt(
+      currentLanguage === "en"
+        ? "Enter personal number:"
+        : currentLanguage === "sr"
+          ? "Unesite lični broj:"
+          : "Ange personnummer:"
+    ) || "";
+
+
+  const phone =
+    prompt(
+      currentLanguage === "en"
+        ? "Enter phone number:"
+        : currentLanguage === "sr"
+          ? "Unesite broj telefona:"
+          : "Ange telefonnummer:"
+    ) || "";
+
+
+  const email =
+    prompt(
+      currentLanguage === "en"
+        ? "Enter e-mail (optional):"
+        : currentLanguage === "sr"
+          ? "Unesite e-mail (opciono):"
+          : "Ange e-post (valfritt):"
+    ) || "";
+
+
+  const fullName =
+    firstName.trim() +
+    " " +
+    lastName.trim();
+
+
+  employees.push({
+
+    firstName:
+      firstName.trim(),
+
+    lastName:
+      lastName.trim(),
+
+    name:
+      fullName,
+
+    address:
+      address.trim(),
+
+    personalNumber:
+      personalNumber.trim(),
+
+    phone:
+      phone.trim(),
+
+    email:
+      email.trim(),
+
+    created:
+      new Date().toISOString()
+
+  });
+
+
+  saveEmployees();
+
+  updateEmployeeList();
+
+}
 
 
   function updateEmployeeList() {
