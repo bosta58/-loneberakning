@@ -1581,6 +1581,13 @@ document
           saveLegacyFormFields();
           saveFormData();
           loadCommunication();
+          if (
+  input.id === "periodStart" ||
+  input.id === "periodEnd" ||
+  input.id === "employeeInfo"
+) {
+  loadSavedWorkdays();
+}
         }
       );
     }
