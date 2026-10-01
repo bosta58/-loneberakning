@@ -1986,113 +1986,181 @@ const employeeMessages =
 
   function viewEmployee(index) {
 
-    selectedEmployeeIndex =
-      index;
+  selectedEmployeeIndex = index;
 
+  const employee = employees[index];
 
-    const employee =
-      employees[index];
+  if (!employee) {
+    return;
+  }
 
+  const detailsCard =
+    document.getElementById(
+      "detailsCard"
+    );
 
-    if (!employee) {
+  const detailsTitle =
+    document.getElementById(
+      "detailsTitle"
+    );
 
-      return;
+  const payType =
+    document.getElementById(
+      "payType"
+    );
 
-    }
+  const detailsContent =
+    document.getElementById(
+      "detailsContent"
+    );
 
+  detailsTitle.textContent =
+    employee.name;
 
-    const detailsCard =
-      document.getElementById(
-        "detailsCard"
-      );
+  detailsContent.innerHTML =
+    "";
 
+  const personalTitle =
+    document.createElement(
+      "div"
+    );
 
-    const detailsTitle =
-      document.getElementById(
-        "detailsTitle"
-      );
+  personalTitle.style.textAlign =
+    "center";
 
+  personalTitle.style.fontSize =
+    "17px";
 
-    const payType =
-      document.getElementById(
-        "payType"
-      );
+  personalTitle.style.fontWeight =
+    "700";
 
+  personalTitle.style.margin =
+    "4px 0 8px";
 
-    const detailsContent =
-      document.getElementById(
-        "detailsContent"
-      );
+  personalTitle.textContent =
+    currentLanguage === "en"
+      ? "Employee information"
+      : currentLanguage === "sr"
+        ? "Podaci o zaposlenom"
+        : "Uppgifter om anställd";
 
+  detailsContent.appendChild(
+    personalTitle
+  );
 
-    detailsTitle.textContent =
-      employee.name;
+  addInfoRow(
+    detailsContent,
+    currentLanguage === "en"
+      ? "First name"
+      : currentLanguage === "sr"
+        ? "Ime"
+        : "Förnamn",
+    employee.firstName || ""
+  );
 
+  addInfoRow(
+    detailsContent,
+    currentLanguage === "en"
+      ? "Last name"
+      : currentLanguage === "sr"
+        ? "Prezime"
+        : "Efternamn",
+    employee.lastName || ""
+  );
 
-    const salary =
-      getSalaryDataForEmployee(
-        employee.name
-      );
+  addInfoRow(
+    detailsContent,
+    currentLanguage === "en"
+      ? "Address"
+      : currentLanguage === "sr"
+        ? "Adresa"
+        : "Adress",
+    employee.address || ""
+  );
 
+  addInfoRow(
+    detailsContent,
+    currentLanguage === "en"
+      ? "Personal number"
+      : currentLanguage === "sr"
+        ? "Lični broj"
+        : "Personnummer",
+    employee.personalNumber || ""
+  );
 
-    detailsContent.innerHTML =
-      "";
+  addInfoRow(
+    detailsContent,
+    currentLanguage === "en"
+      ? "Phone number"
+      : currentLanguage === "sr"
+        ? "Broj telefona"
+        : "Telefonnummer",
+    employee.phone || ""
+  );
 
+  addInfoRow(
+    detailsContent,
+    currentLanguage === "en"
+      ? "E-mail"
+      : currentLanguage === "sr"
+        ? "E-mail"
+        : "E-post",
+    employee.email || ""
+  );
 
-    if (!salary) {
-
-      payType.textContent =
-        t("noSalary");
-
-
-      detailsContent.innerHTML =
-
-        '<div class="empty">' +
-        escapeHtml(
-          t("noSalaryDetails")
-        ) +
-        '</div>';
-
-    }
-
-    else {
-
-      payType.textContent =
-        translatePayType(
-          salary.type
-        );
-
-
-      renderSalaryDetails(
-        salary.type,
-        salary.data,
-        detailsContent
-      );
-
-    }
-
-
-    loadEmployeeMessages(
+  const salary =
+    getSalaryDataForEmployee(
       employee.name
     );
 
+  if (!salary) {
 
-    detailsCard.style.display =
-      "block";
+    payType.textContent =
+      t("noSalary");
 
+    const noSalaryBox =
+      document.createElement(
+        "div"
+      );
 
-    detailsCard.scrollIntoView({
+    noSalaryBox.className =
+      "empty";
 
-      behavior:
-        "smooth",
+    noSalaryBox.textContent =
+      t("noSalaryDetails");
 
-      block:
-        "start"
+    detailsContent.appendChild(
+      noSalaryBox
+    );
 
-    });
+  } else {
+
+    payType.textContent =
+      translatePayType(
+        salary.type
+      );
+
+    renderSalaryDetails(
+      salary.type,
+      salary.data,
+      detailsContent
+    );
 
   }
 
+  loadEmployeeMessages(
+    employee.name
+  );
+
+  detailsCard.style.display =
+    "block";
+
+  detailsCard.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+
+}
 
   /* ==========================================
      ÖVERSÄTTNING
