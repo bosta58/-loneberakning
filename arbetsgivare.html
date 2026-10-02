@@ -237,6 +237,12 @@
       color: #111827;
     }
 
+    .delete-button {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
     .add-button {
       margin-top: 8px;
       background: #f3f4f6;
@@ -655,6 +661,8 @@
       startAdd: "Lägg till en anställd för att börja.",
       view: "👁 Visa uppgifter",
       contact: "💬 Kontakta anställd",
+      deleteEmployee: "🗑️ Ta bort anställd",
+      deleteConfirm: "Är du säker på att du vill ta bort denna anställd?",
       latestMessage: "💬 Senaste meddelande:",
       status: "Status",
       noSalary: "Ingen löneuppgift registrerad",
@@ -715,6 +723,8 @@
       startAdd: "Add an employee to get started.",
       view: "👁 View details",
       contact: "💬 Contact employee",
+      deleteEmployee: "🗑️ Delete employee",
+      deleteConfirm: "Are you sure you want to delete this employee?",
       latestMessage: "💬 Latest message:",
       status: "Status",
       noSalary: "No salary information registered",
@@ -775,6 +785,8 @@
       startAdd: "Dodajte zaposlenog da biste počeli.",
       view: "👁 Prikaži podatke",
       contact: "💬 Kontaktiraj zaposlenog",
+      deleteEmployee: "🗑️ Obriši zaposlenog",
+      deleteConfirm: "Da li ste sigurni da želite da obrišete ovog zaposlenog?",
       latestMessage: "💬 Poslednja poruka:",
       status: "Status",
       noSalary: "Nema registrovanih podataka o plati",
@@ -1584,122 +1596,184 @@
   }
 
 
+  /* ==========================================
+     TA BORT ANSTÄLLD
+  ========================================== */
+
+  function deleteEmployee(index) {
+
+    const employee =
+      employees[index];
+
+
+    if (!employee) {
+
+      return;
+
+    }
+
+
+    const confirmed =
+      confirm(
+        t("deleteConfirm") +
+        "\n\n" +
+        employee.name
+      );
+
+
+    if (!confirmed) {
+
+      return;
+
+    }
+
+
+    employees.splice(
+      index,
+      1
+    );
+
+
+    saveEmployees();
+
+
+    selectedEmployeeIndex =
+      null;
+
+
+    document.getElementById(
+      "detailsCard"
+    ).style.display =
+      "none";
+
+
+    updateEmployeeList();
+
+  }
+
+
   function addEmployee() {
 
-  const firstName =
-    prompt(
-      currentLanguage === "en"
-        ? "Enter first name:"
-        : currentLanguage === "sr"
-          ? "Unesite ime:"
-          : "Ange förnamn:"
-    );
+    const firstName =
+      prompt(
+        currentLanguage === "en"
+          ? "Enter first name:"
+          : currentLanguage === "sr"
+            ? "Unesite ime:"
+            : "Ange förnamn:"
+      );
 
-  if (
-    !firstName ||
-    firstName.trim() === ""
-  ) {
-    return;
+
+    if (
+      !firstName ||
+      firstName.trim() === ""
+    ) {
+
+      return;
+
+    }
+
+
+    const lastName =
+      prompt(
+        currentLanguage === "en"
+          ? "Enter last name:"
+          : currentLanguage === "sr"
+            ? "Unesite prezime:"
+            : "Ange efternamn:"
+      );
+
+
+    if (
+      !lastName ||
+      lastName.trim() === ""
+    ) {
+
+      return;
+
+    }
+
+
+    const address =
+      prompt(
+        currentLanguage === "en"
+          ? "Enter address:"
+          : currentLanguage === "sr"
+            ? "Unesite adresu:"
+            : "Ange adress:"
+      ) || "";
+
+
+    const personalNumber =
+      prompt(
+        currentLanguage === "en"
+          ? "Enter personal number:"
+          : currentLanguage === "sr"
+            ? "Unesite lični broj:"
+            : "Ange personnummer:"
+      ) || "";
+
+
+    const phone =
+      prompt(
+        currentLanguage === "en"
+          ? "Enter phone number:"
+          : currentLanguage === "sr"
+            ? "Unesite broj telefona:"
+            : "Ange telefonnummer:"
+      ) || "";
+
+
+    const email =
+      prompt(
+        currentLanguage === "en"
+          ? "Enter e-mail (optional):"
+          : currentLanguage === "sr"
+            ? "Unesite e-mail (opciono):"
+            : "Ange e-post (valfritt):"
+      ) || "";
+
+
+    const fullName =
+      firstName.trim() +
+      " " +
+      lastName.trim();
+
+
+    employees.push({
+
+      firstName:
+        firstName.trim(),
+
+      lastName:
+        lastName.trim(),
+
+      name:
+        fullName,
+
+      address:
+        address.trim(),
+
+      personalNumber:
+        personalNumber.trim(),
+
+      phone:
+        phone.trim(),
+
+      email:
+        email.trim(),
+
+      created:
+        new Date().toISOString()
+
+    });
+
+
+    saveEmployees();
+
+    updateEmployeeList();
+
   }
-
-
-  const lastName =
-    prompt(
-      currentLanguage === "en"
-        ? "Enter last name:"
-        : currentLanguage === "sr"
-          ? "Unesite prezime:"
-          : "Ange efternamn:"
-    );
-
-  if (
-    !lastName ||
-    lastName.trim() === ""
-  ) {
-    return;
-  }
-
-
-  const address =
-    prompt(
-      currentLanguage === "en"
-        ? "Enter address:"
-        : currentLanguage === "sr"
-          ? "Unesite adresu:"
-          : "Ange adress:"
-    ) || "";
-
-
-  const personalNumber =
-    prompt(
-      currentLanguage === "en"
-        ? "Enter personal number:"
-        : currentLanguage === "sr"
-          ? "Unesite lični broj:"
-          : "Ange personnummer:"
-    ) || "";
-
-
-  const phone =
-    prompt(
-      currentLanguage === "en"
-        ? "Enter phone number:"
-        : currentLanguage === "sr"
-          ? "Unesite broj telefona:"
-          : "Ange telefonnummer:"
-    ) || "";
-
-
-  const email =
-    prompt(
-      currentLanguage === "en"
-        ? "Enter e-mail (optional):"
-        : currentLanguage === "sr"
-          ? "Unesite e-mail (opciono):"
-          : "Ange e-post (valfritt):"
-    ) || "";
-
-
-  const fullName =
-    firstName.trim() +
-    " " +
-    lastName.trim();
-
-
-  employees.push({
-
-    firstName:
-      firstName.trim(),
-
-    lastName:
-      lastName.trim(),
-
-    name:
-      fullName,
-
-    address:
-      address.trim(),
-
-    personalNumber:
-      personalNumber.trim(),
-
-    phone:
-      phone.trim(),
-
-    email:
-      email.trim(),
-
-    created:
-      new Date().toISOString()
-
-  });
-
-
-  saveEmployees();
-
-  updateEmployeeList();
-
-}
 
 
   function updateEmployeeList() {
@@ -1819,6 +1893,15 @@
           ) +
           '</button>' +
 
+          '<button class="delete-button" ' +
+          'onclick="deleteEmployee(' +
+          index +
+          ')">' +
+          escapeHtml(
+            t("deleteEmployee")
+          ) +
+          '</button>' +
+
           '</div>';
 
 
@@ -1829,76 +1912,80 @@
 
 
         const salary =
-  getSalaryDataForEmployee(
-    name
-  );
-
-const activeType =
-  salary
-    ? salary.type
-    : "";
-
-const activePeriodStart =
-  salary &&
-  salary.data
-    ? salary.data.periodStart || ""
-    : "";
-
-const activePeriodEnd =
-  salary &&
-  salary.data
-    ? salary.data.periodEnd || ""
-    : "";
-
-const activePeriodKey =
-  activePeriodStart +
-  "_" +
-  activePeriodEnd;
+          getSalaryDataForEmployee(
+            name
+          );
 
 
-const employeeMessages =
-  messages.filter(
-    function(item) {
-
-      if (
-        normalizeName(
-          item.employee
-        )
-        !==
-        normalized
-      ) {
-
-        return false;
-
-      }
+        const activeType =
+          salary
+            ? salary.type
+            : "";
 
 
-      if (
-        item.payType &&
-        activeType &&
-        item.payType !== activeType
-      ) {
-
-        return false;
-
-      }
+        const activePeriodStart =
+          salary &&
+          salary.data
+            ? salary.data.periodStart || ""
+            : "";
 
 
-      if (
-        item.periodKey &&
-        activePeriodKey &&
-        item.periodKey !== activePeriodKey
-      ) {
-
-        return false;
-
-      }
+        const activePeriodEnd =
+          salary &&
+          salary.data
+            ? salary.data.periodEnd || ""
+            : "";
 
 
-      return true;
+        const activePeriodKey =
+          activePeriodStart +
+          "_" +
+          activePeriodEnd;
 
-    }
-  );
+
+        const employeeMessages =
+          messages.filter(
+            function(item) {
+
+              if (
+                normalizeName(
+                  item.employee
+                )
+                !==
+                normalized
+              ) {
+
+                return false;
+
+              }
+
+
+              if (
+                item.payType &&
+                activeType &&
+                item.payType !== activeType
+              ) {
+
+                return false;
+
+              }
+
+
+              if (
+                item.periodKey &&
+                activePeriodKey &&
+                item.periodKey !== activePeriodKey
+              ) {
+
+                return false;
+
+              }
+
+
+              return true;
+
+            }
+          );
 
 
         if (
@@ -1986,181 +2073,182 @@ const employeeMessages =
 
   function viewEmployee(index) {
 
-  selectedEmployeeIndex = index;
+    selectedEmployeeIndex = index;
 
-  const employee = employees[index];
+    const employee = employees[index];
 
-  if (!employee) {
-    return;
-  }
+    if (!employee) {
+      return;
+    }
 
-  const detailsCard =
-    document.getElementById(
-      "detailsCard"
-    );
+    const detailsCard =
+      document.getElementById(
+        "detailsCard"
+      );
 
-  const detailsTitle =
-    document.getElementById(
-      "detailsTitle"
-    );
+    const detailsTitle =
+      document.getElementById(
+        "detailsTitle"
+      );
 
-  const payType =
-    document.getElementById(
-      "payType"
-    );
+    const payType =
+      document.getElementById(
+        "payType"
+      );
 
-  const detailsContent =
-    document.getElementById(
-      "detailsContent"
-    );
+    const detailsContent =
+      document.getElementById(
+        "detailsContent"
+      );
 
-  detailsTitle.textContent =
-    employee.name;
+    detailsTitle.textContent =
+      employee.name;
 
-  detailsContent.innerHTML =
-    "";
+    detailsContent.innerHTML =
+      "";
 
-  const personalTitle =
-    document.createElement(
-      "div"
-    );
-
-  personalTitle.style.textAlign =
-    "center";
-
-  personalTitle.style.fontSize =
-    "17px";
-
-  personalTitle.style.fontWeight =
-    "700";
-
-  personalTitle.style.margin =
-    "4px 0 8px";
-
-  personalTitle.textContent =
-    currentLanguage === "en"
-      ? "Employee information"
-      : currentLanguage === "sr"
-        ? "Podaci o zaposlenom"
-        : "Uppgifter om anställd";
-
-  detailsContent.appendChild(
-    personalTitle
-  );
-
-  addInfoRow(
-    detailsContent,
-    currentLanguage === "en"
-      ? "First name"
-      : currentLanguage === "sr"
-        ? "Ime"
-        : "Förnamn",
-    employee.firstName || ""
-  );
-
-  addInfoRow(
-    detailsContent,
-    currentLanguage === "en"
-      ? "Last name"
-      : currentLanguage === "sr"
-        ? "Prezime"
-        : "Efternamn",
-    employee.lastName || ""
-  );
-
-  addInfoRow(
-    detailsContent,
-    currentLanguage === "en"
-      ? "Address"
-      : currentLanguage === "sr"
-        ? "Adresa"
-        : "Adress",
-    employee.address || ""
-  );
-
-  addInfoRow(
-    detailsContent,
-    currentLanguage === "en"
-      ? "Personal number"
-      : currentLanguage === "sr"
-        ? "Lični broj"
-        : "Personnummer",
-    employee.personalNumber || ""
-  );
-
-  addInfoRow(
-    detailsContent,
-    currentLanguage === "en"
-      ? "Phone number"
-      : currentLanguage === "sr"
-        ? "Broj telefona"
-        : "Telefonnummer",
-    employee.phone || ""
-  );
-
-  addInfoRow(
-    detailsContent,
-    currentLanguage === "en"
-      ? "E-mail"
-      : currentLanguage === "sr"
-        ? "E-mail"
-        : "E-post",
-    employee.email || ""
-  );
-
-  const salary =
-    getSalaryDataForEmployee(
-      employee.name
-    );
-
-  if (!salary) {
-
-    payType.textContent =
-      t("noSalary");
-
-    const noSalaryBox =
+    const personalTitle =
       document.createElement(
         "div"
       );
 
-    noSalaryBox.className =
-      "empty";
+    personalTitle.style.textAlign =
+      "center";
 
-    noSalaryBox.textContent =
-      t("noSalaryDetails");
+    personalTitle.style.fontSize =
+      "17px";
+
+    personalTitle.style.fontWeight =
+      "700";
+
+    personalTitle.style.margin =
+      "4px 0 8px";
+
+    personalTitle.textContent =
+      currentLanguage === "en"
+        ? "Employee information"
+        : currentLanguage === "sr"
+          ? "Podaci o zaposlenom"
+          : "Uppgifter om anställd";
 
     detailsContent.appendChild(
-      noSalaryBox
+      personalTitle
     );
 
-  } else {
+    addInfoRow(
+      detailsContent,
+      currentLanguage === "en"
+        ? "First name"
+        : currentLanguage === "sr"
+          ? "Ime"
+          : "Förnamn",
+      employee.firstName || ""
+    );
 
-    payType.textContent =
-      translatePayType(
-        salary.type
+    addInfoRow(
+      detailsContent,
+      currentLanguage === "en"
+        ? "Last name"
+        : currentLanguage === "sr"
+          ? "Prezime"
+          : "Efternamn",
+      employee.lastName || ""
+    );
+
+    addInfoRow(
+      detailsContent,
+      currentLanguage === "en"
+        ? "Address"
+        : currentLanguage === "sr"
+          ? "Adresa"
+          : "Adress",
+      employee.address || ""
+    );
+
+    addInfoRow(
+      detailsContent,
+      currentLanguage === "en"
+        ? "Personal number"
+        : currentLanguage === "sr"
+          ? "Lični broj"
+          : "Personnummer",
+      employee.personalNumber || ""
+    );
+
+    addInfoRow(
+      detailsContent,
+      currentLanguage === "en"
+        ? "Phone number"
+        : currentLanguage === "sr"
+          ? "Broj telefona"
+          : "Telefonnummer",
+      employee.phone || ""
+    );
+
+    addInfoRow(
+      detailsContent,
+      currentLanguage === "en"
+        ? "E-mail"
+        : currentLanguage === "sr"
+          ? "E-mail"
+          : "E-post",
+      employee.email || ""
+    );
+
+    const salary =
+      getSalaryDataForEmployee(
+        employee.name
       );
 
-    renderSalaryDetails(
-      salary.type,
-      salary.data,
-      detailsContent
+    if (!salary) {
+
+      payType.textContent =
+        t("noSalary");
+
+      const noSalaryBox =
+        document.createElement(
+          "div"
+        );
+
+      noSalaryBox.className =
+        "empty";
+
+      noSalaryBox.textContent =
+        t("noSalaryDetails");
+
+      detailsContent.appendChild(
+        noSalaryBox
+      );
+
+    } else {
+
+      payType.textContent =
+        translatePayType(
+          salary.type
+        );
+
+      renderSalaryDetails(
+        salary.type,
+        salary.data,
+        detailsContent
+      );
+
+    }
+
+    loadEmployeeMessages(
+      employee.name
     );
+
+    detailsCard.style.display =
+      "block";
+
+    detailsCard.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
 
   }
 
-  loadEmployeeMessages(
-    employee.name
-  );
-
-  detailsCard.style.display =
-    "block";
-
-  detailsCard.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
-
-}
 
   /* ==========================================
      ÖVERSÄTTNING
@@ -2358,130 +2446,130 @@ const employeeMessages =
   ========================================== */
 
   function renderTimlon(
-  data,
-  container
-) {
+    data,
+    container
+  ) {
 
-  const hours =
-    data.hours || {};
+    const hours =
+      data.hours || {};
 
-  const calculation =
-    data.calculation || {};
+    const calculation =
+      data.calculation || {};
 
-  addInfoRow(
-    container,
-    t("period"),
-    formatPeriod(
-      data.periodStart,
-      data.periodEnd
-    )
-  );
+    addInfoRow(
+      container,
+      t("period"),
+      formatPeriod(
+        data.periodStart,
+        data.periodEnd
+      )
+    );
 
-  addInfoRow(
-    container,
-    t("regularHours"),
-    hours.regular !== undefined
-      ? hours.regular
-      : 0
-  );
+    addInfoRow(
+      container,
+      t("regularHours"),
+      hours.regular !== undefined
+        ? hours.regular
+        : 0
+    );
 
-  addInfoRow(
-    container,
-    t("overtime"),
-    hours.regularOvertime !== undefined
-      ? hours.regularOvertime
-      : 0
-  );
+    addInfoRow(
+      container,
+      t("overtime"),
+      hours.regularOvertime !== undefined
+        ? hours.regularOvertime
+        : 0
+    );
 
-  addInfoRow(
-    container,
-    t("night"),
-    hours.night !== undefined
-      ? hours.night
-      : 0
-  );
+    addInfoRow(
+      container,
+      t("night"),
+      hours.night !== undefined
+        ? hours.night
+        : 0
+    );
 
-  addInfoRow(
-    container,
-    t("nightOvertime"),
-    hours.nightOvertime !== undefined
-      ? hours.nightOvertime
-      : 0
-  );
+    addInfoRow(
+      container,
+      t("nightOvertime"),
+      hours.nightOvertime !== undefined
+        ? hours.nightOvertime
+        : 0
+    );
 
-  addInfoRow(
-    container,
-    t("weekend"),
-    hours.weekend !== undefined
-      ? hours.weekend
-      : 0
-  );
+    addInfoRow(
+      container,
+      t("weekend"),
+      hours.weekend !== undefined
+        ? hours.weekend
+        : 0
+    );
 
-  addInfoRow(
-    container,
-    t("weekendOvertime"),
-    hours.weekendOvertime !== undefined
-      ? hours.weekendOvertime
-      : 0
-  );
+    addInfoRow(
+      container,
+      t("weekendOvertime"),
+      hours.weekendOvertime !== undefined
+        ? hours.weekendOvertime
+        : 0
+    );
 
-  addInfoRow(
-    container,
-    t("holiday"),
-    hours.holiday !== undefined
-      ? hours.holiday
-      : 0
-  );
+    addInfoRow(
+      container,
+      t("holiday"),
+      hours.holiday !== undefined
+        ? hours.holiday
+        : 0
+    );
 
-  addInfoRow(
-    container,
-    t("holidayOvertime"),
-    hours.holidayOvertime !== undefined
-      ? hours.holidayOvertime
-      : 0
-  );
+    addInfoRow(
+      container,
+      t("holidayOvertime"),
+      hours.holidayOvertime !== undefined
+        ? hours.holidayOvertime
+        : 0
+    );
 
-  addInfoRow(
-    container,
-    t("vacationPay"),
-    calculation.vacationPay !== undefined
-      ? Number(
-          calculation.vacationPay
-        ).toFixed(2) + " kr"
-      : "-"
-  );
+    addInfoRow(
+      container,
+      t("vacationPay"),
+      calculation.vacationPay !== undefined
+        ? Number(
+            calculation.vacationPay
+          ).toFixed(2) + " kr"
+        : "-"
+    );
 
-  addInfoRow(
-    container,
-    t("grossSalary"),
-    calculation.grossSalary !== undefined
-      ? Number(
-          calculation.grossSalary
-        ).toFixed(2) + " kr"
-      : "-"
-  );
+    addInfoRow(
+      container,
+      t("grossSalary"),
+      calculation.grossSalary !== undefined
+        ? Number(
+            calculation.grossSalary
+          ).toFixed(2) + " kr"
+        : "-"
+    );
 
-  addInfoRow(
-    container,
-    t("tax"),
-    calculation.taxAmount !== undefined
-      ? Number(
-          calculation.taxAmount
-        ).toFixed(2) + " kr"
-      : "-"
-  );
+    addInfoRow(
+      container,
+      t("tax"),
+      calculation.taxAmount !== undefined
+        ? Number(
+            calculation.taxAmount
+          ).toFixed(2) + " kr"
+        : "-"
+    );
 
-  addInfoRow(
-    container,
-    t("netSalary"),
-    calculation.netSalary !== undefined
-      ? Number(
-          calculation.netSalary
-        ).toFixed(2) + " kr"
-      : "-"
-  );
+    addInfoRow(
+      container,
+      t("netSalary"),
+      calculation.netSalary !== undefined
+        ? Number(
+            calculation.netSalary
+          ).toFixed(2) + " kr"
+        : "-"
+    );
 
-}
+  }
 
 
   /* ==========================================
@@ -2489,182 +2577,182 @@ const employeeMessages =
   ========================================== */
 
   function renderKollektivavtal(
-  data,
-  container
-) {
+    data,
+    container
+  ) {
 
-  addInfoRow(
-    container,
-    t("period"),
-    formatPeriod(
-      data.periodStart,
-      data.periodEnd
-    )
-  );
-
-
-  addInfoRow(
-    container,
-    t("regularHours"),
-    data.regularHours !== undefined
-      ? data.regularHours
-      : 0
-  );
-
-
-  addInfoRow(
-    container,
-    t("regularPay"),
-    data.regularPay !== undefined
-      ? Number(data.regularPay).toFixed(2) + " kr"
-      : "-"
-  );
-
-
-  addInfoRow(
-    container,
-    t("overtime"),
-    data.regularOvertimeHours !== undefined
-      ? data.regularOvertimeHours
-      : 0
-  );
-
-
-  addInfoRow(
-    container,
-    t("overtimePay"),
-    data.regularOvertimePay !== undefined
-      ? Number(data.regularOvertimePay).toFixed(2) + " kr"
-      : "-"
-  );
-
-
-  addInfoRow(
-    container,
-    t("night"),
-    data.nightHours !== undefined
-      ? data.nightHours
-      : 0
-  );
-
-
-  addInfoRow(
-    container,
-    t("nightOvertime"),
-    data.nightOvertimeHours !== undefined
-      ? data.nightOvertimeHours
-      : 0
-  );
-
-
-  addInfoRow(
-    container,
-    t("weekend"),
-    data.weekendHours !== undefined
-      ? data.weekendHours
-      : 0
-  );
-
-
-  addInfoRow(
-    container,
-    t("weekendPay"),
-    data.weekendPay !== undefined
-      ? Number(data.weekendPay).toFixed(2) + " kr"
-      : "-"
-  );
-
-
-  addInfoRow(
-    container,
-    t("weekendOvertime"),
-    data.weekendOvertimeHours !== undefined
-      ? data.weekendOvertimeHours
-      : 0
-  );
-
-
-  addInfoRow(
-    container,
-    t("weekendOvertimePay"),
-    data.weekendOvertimePay !== undefined
-      ? Number(data.weekendOvertimePay).toFixed(2) + " kr"
-      : "-"
-  );
-
-
-  addInfoRow(
-    container,
-    t("holiday"),
-    data.holidayHours !== undefined
-      ? data.holidayHours
-      : 0
-  );
-
-
-  addInfoRow(
-    container,
-    t("holidayPayAmount"),
-    data.holidayPay !== undefined
-      ? Number(data.holidayPay).toFixed(2) + " kr"
-      : "-"
-  );
-
-
-  addInfoRow(
-    container,
-    t("holidayOvertime"),
-    data.holidayOvertimeHours !== undefined
-      ? data.holidayOvertimeHours
-      : 0
-  );
-
-
-  addInfoRow(
-    container,
-    t("holidayOvertimePay"),
-    data.holidayOvertimePay !== undefined
-      ? Number(data.holidayOvertimePay).toFixed(2) + " kr"
-      : "-"
-  );
+    addInfoRow(
+      container,
+      t("period"),
+      formatPeriod(
+        data.periodStart,
+        data.periodEnd
+      )
+    );
 
 
     addInfoRow(
-    container,
-    t("vacationPay"),
-    data.vacationPay !== undefined
-      ? Number(data.vacationPay).toFixed(2) + " kr"
-      : "-"
-  );
+      container,
+      t("regularHours"),
+      data.regularHours !== undefined
+        ? data.regularHours
+        : 0
+    );
 
 
-  addInfoRow(
-    container,
-    t("grossSalary"),
-    data.grossSalary !== undefined
-      ? Number(data.grossSalary).toFixed(2) + " kr"
-      : "-"
-  );
+    addInfoRow(
+      container,
+      t("regularPay"),
+      data.regularPay !== undefined
+        ? Number(data.regularPay).toFixed(2) + " kr"
+        : "-"
+    );
 
 
-  addInfoRow(
-    container,
-    t("tax"),
-    data.taxAmount !== undefined
-      ? Number(data.taxAmount).toFixed(2) + " kr"
-      : "-"
-  );
+    addInfoRow(
+      container,
+      t("overtime"),
+      data.regularOvertimeHours !== undefined
+        ? data.regularOvertimeHours
+        : 0
+    );
 
 
-  addInfoRow(
-    container,
-    t("netSalary"),
-    data.netSalary !== undefined
-      ? Number(data.netSalary).toFixed(2) + " kr"
-      : "-"
-  );
+    addInfoRow(
+      container,
+      t("overtimePay"),
+      data.regularOvertimePay !== undefined
+        ? Number(data.regularOvertimePay).toFixed(2) + " kr"
+        : "-"
+    );
 
-}
+
+    addInfoRow(
+      container,
+      t("night"),
+      data.nightHours !== undefined
+        ? data.nightHours
+        : 0
+    );
+
+
+    addInfoRow(
+      container,
+      t("nightOvertime"),
+      data.nightOvertimeHours !== undefined
+        ? data.nightOvertimeHours
+        : 0
+    );
+
+
+    addInfoRow(
+      container,
+      t("weekend"),
+      data.weekendHours !== undefined
+        ? data.weekendHours
+        : 0
+    );
+
+
+    addInfoRow(
+      container,
+      t("weekendPay"),
+      data.weekendPay !== undefined
+        ? Number(data.weekendPay).toFixed(2) + " kr"
+        : "-"
+    );
+
+
+    addInfoRow(
+      container,
+      t("weekendOvertime"),
+      data.weekendOvertimeHours !== undefined
+        ? data.weekendOvertimeHours
+        : 0
+    );
+
+
+    addInfoRow(
+      container,
+      t("weekendOvertimePay"),
+      data.weekendOvertimePay !== undefined
+        ? Number(data.weekendOvertimePay).toFixed(2) + " kr"
+        : "-"
+    );
+
+
+    addInfoRow(
+      container,
+      t("holiday"),
+      data.holidayHours !== undefined
+        ? data.holidayHours
+        : 0
+    );
+
+
+    addInfoRow(
+      container,
+      t("holidayPayAmount"),
+      data.holidayPay !== undefined
+        ? Number(data.holidayPay).toFixed(2) + " kr"
+        : "-"
+    );
+
+
+    addInfoRow(
+      container,
+      t("holidayOvertime"),
+      data.holidayOvertimeHours !== undefined
+        ? data.holidayOvertimeHours
+        : 0
+    );
+
+
+    addInfoRow(
+      container,
+      t("holidayOvertimePay"),
+      data.holidayOvertimePay !== undefined
+        ? Number(data.holidayOvertimePay).toFixed(2) + " kr"
+        : "-"
+    );
+
+
+    addInfoRow(
+      container,
+      t("vacationPay"),
+      data.vacationPay !== undefined
+        ? Number(data.vacationPay).toFixed(2) + " kr"
+        : "-"
+    );
+
+
+    addInfoRow(
+      container,
+      t("grossSalary"),
+      data.grossSalary !== undefined
+        ? Number(data.grossSalary).toFixed(2) + " kr"
+        : "-"
+    );
+
+
+    addInfoRow(
+      container,
+      t("tax"),
+      data.taxAmount !== undefined
+        ? Number(data.taxAmount).toFixed(2) + " kr"
+        : "-"
+    );
+
+
+    addInfoRow(
+      container,
+      t("netSalary"),
+      data.netSalary !== undefined
+        ? Number(data.netSalary).toFixed(2) + " kr"
+        : "-"
+    );
+
+  }
 
 
   /* ==========================================
@@ -2907,10 +2995,10 @@ const employeeMessages =
         periodEnd,
 
       periodKey:
-  periodStart &&
-  periodEnd
-    ? periodStart + "_" + periodEnd
-    : "utan-period"
+        periodStart &&
+        periodEnd
+          ? periodStart + "_" + periodEnd
+          : "utan-period"
 
     });
 
@@ -2947,268 +3035,252 @@ const employeeMessages =
 
 
   function loadEmployeeMessages(
-  employeeName
-) {
-
-  const container =
-    document.getElementById(
-      "employeeMessages"
-    );
-
-  container.innerHTML =
-    "";
-
-  const messages =
-    JSON.parse(
-      localStorage.getItem(
-        GENIE_MESSAGES_KEY
-      )
-    ) || [];
-
-  const normalized =
-    normalizeName(
-      employeeName
-    );
-
-  const salary =
-    getSalaryDataForEmployee(
-      employeeName
-    );
-
-  /*
-    Visa endast meddelanden som hör till
-    den aktuella löneuppgiften:
-    1. rätt anställd
-    2. rätt lönetyp
-    3. rätt löneperiod
-  */
-
-  const activeType =
-    salary
-      ? salary.type
-      : "";
-
-  const activePeriodStart =
-    salary &&
-    salary.data
-      ? salary.data.periodStart || ""
-      : "";
-
-  const activePeriodEnd =
-    salary &&
-    salary.data
-      ? salary.data.periodEnd || ""
-      : "";
-
-  const activePeriodKey =
-    activePeriodStart +
-    "_" +
-    activePeriodEnd;
-
-
-  const employeeMessages =
-    messages.filter(
-      function(item) {
-
-        if (
-          normalizeName(
-            item.employee
-          )
-          !==
-          normalized
-        ) {
-
-          return false;
-
-        }
-
-
-        /*
-          Arbetsgivarens meddelande måste
-          höra till den aktuella lönetypen.
-        */
-
-        if (
-          item.payType &&
-          activeType &&
-          item.payType !== activeType
-        ) {
-
-          return false;
-
-        }
-
-
-        /*
-          Om meddelandet har en period
-          måste perioden vara samma.
-        */
-
-        if (
-          item.periodKey &&
-          activePeriodKey &&
-          item.periodKey !== activePeriodKey
-        ) {
-
-          return false;
-
-        }
-
-
-        /*
-          Äldre meddelanden utan period
-          eller lönetyp tillåts fortfarande
-          för att inte förlora gamla meddelanden.
-        */
-
-        return true;
-
-      }
-    );
-
-
-  if (
-    employeeMessages.length === 0
+    employeeName
   ) {
 
+    const container =
+      document.getElementById(
+        "employeeMessages"
+      );
+
     container.innerHTML =
+      "";
 
-      '<div class="empty">' +
-      escapeHtml(
-        t("noMessages")
-      ) +
-      '</div>';
+    const messages =
+      JSON.parse(
+        localStorage.getItem(
+          GENIE_MESSAGES_KEY
+        )
+      ) || [];
 
-    return;
+    const normalized =
+      normalizeName(
+        employeeName
+      );
 
-  }
+    const salary =
+      getSalaryDataForEmployee(
+        employeeName
+      );
+
+    /*
+      Visa endast meddelanden som hör till
+      den aktuella löneuppgiften:
+      1. rätt anställd
+      2. rätt lönetyp
+      3. rätt löneperiod
+    */
+
+    const activeType =
+      salary
+        ? salary.type
+        : "";
+
+    const activePeriodStart =
+      salary &&
+      salary.data
+        ? salary.data.periodStart || ""
+        : "";
+
+    const activePeriodEnd =
+      salary &&
+      salary.data
+        ? salary.data.periodEnd || ""
+        : "";
+
+    const activePeriodKey =
+      activePeriodStart +
+      "_" +
+      activePeriodEnd;
 
 
-  employeeMessages.forEach(
-    function(item) {
+    const employeeMessages =
+      messages.filter(
+        function(item) {
 
-      const card =
-        document.createElement(
-          "div"
-        );
+          if (
+            normalizeName(
+              item.employee
+            )
+            !==
+            normalized
+          ) {
 
+            return false;
 
-      card.className =
-        "message-card";
-
-
-      const status =
-        item.status ||
-        "Ny kommentar";
-
-
-      const statusClass =
-        status === "Åtgärdad"
-          ? "status-fixed"
-          : "status-new";
+          }
 
 
-      let html =
+          if (
+            item.payType &&
+            activeType &&
+            item.payType !== activeType
+          ) {
 
-        "<strong>" +
+            return false;
+
+          }
+
+
+          if (
+            item.periodKey &&
+            activePeriodKey &&
+            item.periodKey !== activePeriodKey
+          ) {
+
+            return false;
+
+          }
+
+
+          return true;
+
+        }
+      );
+
+
+    if (
+      employeeMessages.length === 0
+    ) {
+
+      container.innerHTML =
+
+        '<div class="empty">' +
         escapeHtml(
-          t("employerMessage")
+          t("noMessages")
         ) +
-        "</strong>" +
+        '</div>';
 
-        "<div class='message-text'>" +
-        escapeHtml(
-          item.message || ""
-        ) +
-        "</div>" +
+      return;
 
-        "<div style='font-size:13px;color:#6b7280;'>" +
-        escapeHtml(
-          item.date || ""
-        ) +
-        " " +
-        escapeHtml(
-          item.time || ""
-        ) +
-        "</div>" +
-
-        "<div style='margin-top:8px;'>" +
-
-        "<strong>" +
-        escapeHtml(
-          t("status")
-        ) +
-        ":</strong> " +
-
-        "<span class='" +
-        statusClass +
-        "'>" +
-
-        escapeHtml(
-          translateStatus(
-            status
-          )
-        ) +
-
-        "</span>" +
-
-        "</div>";
+    }
 
 
-      if (
-        item.reply &&
-        String(
-          item.reply
-        ).trim() !== ""
-      ) {
+    employeeMessages.forEach(
+      function(item) {
 
-        html +=
+        const card =
+          document.createElement(
+            "div"
+          );
 
-          "<div class='reply-text'>" +
+
+        card.className =
+          "message-card";
+
+
+        const status =
+          item.status ||
+          "Ny kommentar";
+
+
+        const statusClass =
+          status === "Åtgärdad"
+            ? "status-fixed"
+            : "status-new";
+
+
+        let html =
 
           "<strong>" +
           escapeHtml(
-            t("employeeReply")
+            t("employerMessage")
           ) +
           "</strong>" +
 
-          "<div style='margin-top:5px;'>" +
+          "<div class='message-text'>" +
           escapeHtml(
-            item.reply
+            item.message || ""
           ) +
           "</div>" +
 
-          "<div style='font-size:13px;color:#6b7280;margin-top:5px;'>" +
-
+          "<div style='font-size:13px;color:#6b7280;'>" +
           escapeHtml(
-            item.replyDate || ""
+            item.date || ""
           ) +
-
           " " +
+          escapeHtml(
+            item.time || ""
+          ) +
+          "</div>" +
+
+          "<div style='margin-top:8px;'>" +
+
+          "<strong>" +
+          escapeHtml(
+            t("status")
+          ) +
+          ":</strong> " +
+
+          "<span class='" +
+          statusClass +
+          "'>" +
 
           escapeHtml(
-            item.replyTime || ""
+            translateStatus(
+              status
+            )
           ) +
 
-          "</div>" +
+          "</span>" +
 
           "</div>";
 
+
+        if (
+          item.reply &&
+          String(
+            item.reply
+          ).trim() !== ""
+        ) {
+
+          html +=
+
+            "<div class='reply-text'>" +
+
+            "<strong>" +
+            escapeHtml(
+              t("employeeReply")
+            ) +
+            "</strong>" +
+
+            "<div style='margin-top:5px;'>" +
+            escapeHtml(
+              item.reply
+            ) +
+            "</div>" +
+
+            "<div style='font-size:13px;color:#6b7280;margin-top:5px;'>" +
+
+            escapeHtml(
+              item.replyDate || ""
+            ) +
+
+            " " +
+
+            escapeHtml(
+              item.replyTime || ""
+            ) +
+
+            "</div>" +
+
+            "</div>";
+
+        }
+
+
+        card.innerHTML =
+          html;
+
+
+        container.appendChild(
+          card
+        );
+
       }
+    );
 
-
-      card.innerHTML =
-        html;
-
-
-      container.appendChild(
-        card
-      );
-
-    }
-  );
-
-}
+  }
 
 
   /* ==========================================
