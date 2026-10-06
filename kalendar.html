@@ -1437,8 +1437,20 @@ function loadCalendar() {
     return;
   }
 
-  const data =
+  const savedData =
     JSON.parse(saved);
+
+  /*
+     Nya kalenderdata sparas under "days".
+     Äldre kalenderdata kan fortfarande vara
+     sparade direkt som dagnummer.
+  */
+
+  const data =
+    savedData.days &&
+    typeof savedData.days === "object"
+      ? savedData.days
+      : savedData;
 
   const inputs =
     document.querySelectorAll(
@@ -1471,9 +1483,7 @@ function loadCalendar() {
             data[day].type ||
             "weekday";
 
-        }
-
-        else {
+        } else {
 
           input.value =
             data[day];
