@@ -1088,16 +1088,12 @@ function updateSummary() {
         regularWeekday += regular;
         overtimeWeekday += overtime;
 
-      }
-
-      else if (type === "weekend") {
+      } else if (type === "weekend") {
 
         regularWeekend += regular;
         overtimeWeekend += overtime;
 
-      }
-
-      else if (type === "holiday") {
+      } else if (type === "holiday") {
 
         regularHoliday += regular;
         overtimeHoliday += overtime;
@@ -1146,49 +1142,40 @@ function updateSummary() {
     "workDays"
   ).textContent =
     workDays;
-  const periodHours = getPayPeriodHours();
-  
 
+  const periodHours =
+    getPayPeriodHours();
 
-localStorage.setItem(
-  "salaryHours",
-  JSON.stringify({
+  localStorage.setItem(
+    "salaryHours",
+    JSON.stringify({
 
-  regularHours:
-  periodHours.regularHours,
+      regularHours:
+        periodHours.regularHours,
 
-regularOvertimeHours:
-  periodHours.regularOvertimeHours,
-    nightHours:
-      0,
+      regularOvertimeHours:
+        periodHours.regularOvertimeHours,
 
-    nightOvertimeHours:
-      0,
+      nightHours:
+        0,
 
-    weekendHours:
-  periodHours.weekendHours,
+      nightOvertimeHours:
+        0,
 
-weekendOvertimeHours:
-  periodHours.weekendOvertimeHours,
+      weekendHours:
+        periodHours.weekendHours,
 
-    holidayHours:
-  periodHours.holidayHours,
+      weekendOvertimeHours:
+        periodHours.weekendOvertimeHours,
 
-holidayOvertimeHours:
-  periodHours.holidayOvertimeHours,
+      holidayHours:
+        periodHours.holidayHours,
 
-        periodStart:
-      localStorage.getItem(
-        "timlon_periodStart"
-      ) || "",
+      holidayOvertimeHours:
+        periodHours.holidayOvertimeHours
 
-    periodEnd:
-      localStorage.getItem(
-        "timlon_periodEnd"
-      ) || ""
-
-  })
-);
+    })
+  );
 
 }
 function getPayPeriodHours() {
