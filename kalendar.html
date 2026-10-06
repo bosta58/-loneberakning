@@ -1342,13 +1342,13 @@ function getPayPeriodHours() {
         ) {
 
           if (
-            savedData.periodStart !==
-              periodStartText ||
-            savedData.periodEnd !==
-              periodEndText
-          ) {
-            return;
-          }
+  savedData.periodStart !==
+    periodStartText ||
+  savedData.periodEnd !==
+    periodEndText
+) {
+  continue;
+}
 
           addData(
             savedData.days,
@@ -1356,14 +1356,16 @@ function getPayPeriodHours() {
             month
           );
 
-        } else {
+      } else {
 
-          /*
-             Äldre kalenderdata utan period
-             används inte i det nya systemet.
-          */
+  /*
+     Äldre kalenderdata utan period
+     används inte i det nya systemet.
+  */
 
-          return;
+  continue;
+
+}
 
         }
 
