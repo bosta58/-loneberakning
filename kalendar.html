@@ -1231,19 +1231,36 @@ holidayOvertimeHours:
 }
 function getPayPeriodHours() {
 
-  const periodEnd =
-    new Date(
-      selectedYear,
-      selectedMonth,
-      25
-    );
+  /*
+     Genie koristi postojeći obračunski period
+     iz polja Från – Till.
+
+     Prvi upisani dan = početak perioda
+     Zadnji upisani dan = kraj perioda
+  */
+
+  const periodStartText =
+    localStorage.getItem("timlon_periodStart") || "";
+
+  const periodEndText =
+    localStorage.getItem("timlon_periodEnd") || "";
+
+  if (!periodStartText || !periodEndText) {
+    return {
+      regularHours: 0,
+      regularOvertimeHours: 0,
+      weekendHours: 0,
+      weekendOvertimeHours: 0,
+      holidayHours: 0,
+      holidayOvertimeHours: 0
+    };
+  }
 
   const periodStart =
-    new Date(
-      selectedYear,
-      selectedMonth - 1,
-      26
-    );
+    new Date(periodStartText + "T00:00:00");
+
+  const periodEnd =
+    new Date(periodEndText + "T23:59:59");
 
   let result = {
     regularHours: 0,
@@ -1254,20 +1271,47 @@ function getPayPeriodHours() {
     holidayOvertimeHours: 0
   };
 
-  function addData(data) {
+  function addData(data, year, month) {
 
     if (!data) return;
 
-    Object.values(data).forEach(day => {
+    Object.keys(data).forEach(day => {
+
+      const dayData = data[day];
 
       if (
-        typeof day !== "object"
-      ) return;
+        !dayData ||
+        typeof dayData !== "object"
+      ) {
+        return;
+      }
 
       const hours =
-        parseFloat(day.hours) || 0;
+        parseFloat(dayData.hours) || 0;
 
       if (hours <= 0) return;
+
+      const date =
+        new Date(
+          year,
+          month,
+          parseInt(day),
+          12,
+          0,
+          0
+        );
+
+      /*
+         Endast dagar som ligger inom
+         Från – Till får räknas.
+      */
+
+      if (
+        date < periodStart ||
+        date > periodEnd
+      ) {
+        return;
+      }
 
       const regular =
         Math.min(hours, 8);
@@ -1275,21 +1319,21 @@ function getPayPeriodHours() {
       const overtime =
         Math.max(hours - 8, 0);
 
-      if (day.type === "weekday") {
+      if (dayData.type === "weekday") {
 
         result.regularHours += regular;
         result.regularOvertimeHours += overtime;
 
       }
 
-      else if (day.type === "weekend") {
+      else if (dayData.type === "weekend") {
 
         result.weekendHours += regular;
         result.weekendOvertimeHours += overtime;
 
       }
 
-      else if (day.type === "holiday") {
+      else if (dayData.type === "holiday") {
 
         result.holidayHours += regular;
         result.holidayOvertimeHours += overtime;
@@ -1299,52 +1343,77 @@ function getPayPeriodHours() {
     });
   }
 
-  /* Prethodni mjesec */
+  /*
+     Genie går igenom alla sparade kalendermånader
+     och tar endast de dagar som ligger mellan
+     Från och Till.
+  */
 
-  const previousMonth =
-    selectedMonth === 0 ? 11 : selectedMonth - 1;
+  for (
+    let year = periodStart.getFullYear();
+    year <= periodEnd.getFullYear();
+    year++
+  ) {
 
-  const previousYear =
-    selectedMonth === 0
-      ? selectedYear - 1
-      : selectedYear;
+    const firstMonth =
+      year === periodStart.getFullYear()
+        ? periodStart.getMonth()
+        : 0;
 
-  const previousKey =
-    "calendar_" +
-    previousYear +
-    "_" +
-    previousMonth;
+    const lastMonth =
+      year === periodEnd.getFullYear()
+        ? periodEnd.getMonth()
+        : 11;
 
-  const previousSaved =
-    localStorage.getItem(previousKey);
+    for (
+      let month = firstMonth;
+      month <= lastMonth;
+      month++
+    ) {
 
- if (previousSaved) {
+      const key =
+        "calendar_" +
+        year +
+        "_" +
+        month;
 
-  try {
+      const saved =
+        localStorage.getItem(key);
 
-    const previousData =
-      JSON.parse(previousSaved);
+      if (!saved) continue;
 
-    const periodData = {};
+      try {
 
-    Object.keys(previousData).forEach(day => {
+        const data =
+          JSON.parse(saved);
 
-      if (parseInt(day) >= 26) {
+        addData(
+          data,
+          year,
+          month
+        );
 
-        periodData[day] =
-          previousData[day];
+      } catch (error) {
+
+        console.log(
+          "Kunde inte läsa kalenderdata:",
+          error
+        );
 
       }
 
-    });
+    }
 
-    addData(periodData);
+  }
 
-  } catch (error) {}
+  /*
+     Om användaren just nu arbetar i en månad
+     som ännu inte har sparats med knappen Spara,
+     läser vi även de aktuella fälten.
+  */
 
-}
-
-  /* Trenutni mjesec */
+  const currentYear = selectedYear;
+  const currentMonth = selectedMonth;
 
   const currentData = {};
 
@@ -1372,27 +1441,11 @@ function getPayPeriodHours() {
     }
   );
 
-  Object.keys(currentData).forEach(day => {
-
-    const date =
-      new Date(
-        selectedYear,
-        selectedMonth,
-        parseInt(day)
-      );
-
-    if (
-      date >= periodStart &&
-      date <= periodEnd
-    ) {
-
-      addData({
-        [day]: currentData[day]
-      });
-
-    }
-
-  });
+  addData(
+    currentData,
+    currentYear,
+    currentMonth
+  );
 
   return result;
 }
