@@ -1088,12 +1088,16 @@ function updateSummary() {
         regularWeekday += regular;
         overtimeWeekday += overtime;
 
-      } else if (type === "weekend") {
+      }
+
+      else if (type === "weekend") {
 
         regularWeekend += regular;
         overtimeWeekend += overtime;
 
-      } else if (type === "holiday") {
+      }
+
+      else if (type === "holiday") {
 
         regularHoliday += regular;
         overtimeHoliday += overtime;
@@ -1142,66 +1146,104 @@ function updateSummary() {
     "workDays"
   ).textContent =
     workDays;
+  const periodHours = getPayPeriodHours();
+  /* =========================
+   GENIE OBRAČUNSKI PERIOD
+   26. – 25.
+========================= */
 
-  const periodHours =
-    getPayPeriodHours();
-
-  localStorage.setItem(
-    "salaryHours",
-    JSON.stringify({
-
-      regularHours:
-        periodHours.regularHours,
-
-      regularOvertimeHours:
-        periodHours.regularOvertimeHours,
-
-      nightHours:
-        0,
-
-      nightOvertimeHours:
-        0,
-
-      weekendHours:
-        periodHours.weekendHours,
-
-      weekendOvertimeHours:
-        periodHours.weekendOvertimeHours,
-
-      holidayHours:
-        periodHours.holidayHours,
-
-      holidayOvertimeHours:
-        periodHours.holidayOvertimeHours
-
-    })
+const periodEnd =
+  new Date(
+    selectedYear,
+    selectedMonth,
+    25
   );
+
+const periodStart =
+  new Date(
+    selectedYear,
+    selectedMonth - 1,
+    26
+  );
+
+const periodStartText =
+  periodStart.getFullYear() +
+  "-" +
+  String(periodStart.getMonth() + 1).padStart(2, "0") +
+  "-" +
+  String(periodStart.getDate()).padStart(2, "0");
+
+const periodEndText =
+  periodEnd.getFullYear() +
+  "-" +
+  String(periodEnd.getMonth() + 1).padStart(2, "0") +
+  "-" +
+  String(periodEnd.getDate()).padStart(2, "0");
+
+
+localStorage.setItem(
+  "timlon_periodStart",
+  periodStartText
+);
+
+localStorage.setItem(
+  "timlon_periodEnd",
+  periodEndText
+);
+
+
+localStorage.setItem(
+  "salaryHours",
+  JSON.stringify({
+
+  regularHours:
+  periodHours.regularHours,
+
+regularOvertimeHours:
+  periodHours.regularOvertimeHours,
+    nightHours:
+      0,
+
+    nightOvertimeHours:
+      0,
+
+    weekendHours:
+  periodHours.weekendHours,
+
+weekendOvertimeHours:
+  periodHours.weekendOvertimeHours,
+
+    holidayHours:
+  periodHours.holidayHours,
+
+holidayOvertimeHours:
+  periodHours.holidayOvertimeHours,
+
+    periodStart:
+      periodStartText,
+
+    periodEnd:
+      periodEndText
+
+  })
+);
 
 }
 function getPayPeriodHours() {
 
-  const periodStartText =
-    localStorage.getItem("timlon_periodStart") || "";
-
-  const periodEndText =
-    localStorage.getItem("timlon_periodEnd") || "";
-
-  if (!periodStartText || !periodEndText) {
-    return {
-      regularHours: 0,
-      regularOvertimeHours: 0,
-      weekendHours: 0,
-      weekendOvertimeHours: 0,
-      holidayHours: 0,
-      holidayOvertimeHours: 0
-    };
-  }
+  const periodEnd =
+    new Date(
+      selectedYear,
+      selectedMonth,
+      25
+    );
 
   const periodStart =
-    new Date(periodStartText + "T00:00:00");
-
-  const periodEnd =
-    new Date(periodEndText + "T23:59:59");
+    new Date(
+      selectedYear,
+      selectedMonth - 1,
+      26
+    );
 
   let result = {
     regularHours: 0,
@@ -1212,42 +1254,20 @@ function getPayPeriodHours() {
     holidayOvertimeHours: 0
   };
 
-  function addData(data, year, month) {
+  function addData(data) {
 
     if (!data) return;
 
-    Object.keys(data).forEach(day => {
-
-      const dayData = data[day];
+    Object.values(data).forEach(day => {
 
       if (
-        !dayData ||
-        typeof dayData !== "object"
-      ) {
-        return;
-      }
+        typeof day !== "object"
+      ) return;
 
       const hours =
-        parseFloat(dayData.hours) || 0;
+        parseFloat(day.hours) || 0;
 
       if (hours <= 0) return;
-
-      const date =
-        new Date(
-          year,
-          month,
-          parseInt(day),
-          12,
-          0,
-          0
-        );
-
-      if (
-        date < periodStart ||
-        date > periodEnd
-      ) {
-        return;
-      }
 
       const regular =
         Math.min(hours, 8);
@@ -1255,17 +1275,21 @@ function getPayPeriodHours() {
       const overtime =
         Math.max(hours - 8, 0);
 
-      if (dayData.type === "weekday") {
+      if (day.type === "weekday") {
 
         result.regularHours += regular;
         result.regularOvertimeHours += overtime;
 
-      } else if (dayData.type === "weekend") {
+      }
+
+      else if (day.type === "weekend") {
 
         result.weekendHours += regular;
         result.weekendOvertimeHours += overtime;
 
-      } else if (dayData.type === "holiday") {
+      }
+
+      else if (day.type === "holiday") {
 
         result.holidayHours += regular;
         result.holidayOvertimeHours += overtime;
@@ -1275,103 +1299,100 @@ function getPayPeriodHours() {
     });
   }
 
-  /*
-     Läs sparade kalendrar.
-     Endast kalenderdata som hör till
-     samma Från–Till-period får räknas.
-  */
+  /* Prethodni mjesec */
 
-  for (
-    let year = periodStart.getFullYear();
-    year <= periodEnd.getFullYear();
-    year++
-  ) {
+  const previousMonth =
+    selectedMonth === 0 ? 11 : selectedMonth - 1;
 
-    const firstMonth =
-      year === periodStart.getFullYear()
-        ? periodStart.getMonth()
-        : 0;
+  const previousYear =
+    selectedMonth === 0
+      ? selectedYear - 1
+      : selectedYear;
 
-    const lastMonth =
-      year === periodEnd.getFullYear()
-        ? periodEnd.getMonth()
-        : 11;
+  const previousKey =
+    "calendar_" +
+    previousYear +
+    "_" +
+    previousMonth;
 
-    for (
-      let month = firstMonth;
-      month <= lastMonth;
-      month++
-    ) {
+  const previousSaved =
+    localStorage.getItem(previousKey);
 
-      const key =
-        "calendar_" +
-        year +
-        "_" +
-        month;
+ if (previousSaved) {
 
-      const saved =
-        localStorage.getItem(key);
+  try {
 
-      if (!saved) continue;
+    const previousData =
+      JSON.parse(previousSaved);
 
-      try {
+    const periodData = {};
 
-        const savedData =
-          JSON.parse(saved);
+    Object.keys(previousData).forEach(day => {
 
-        /*
-           Nya kalenderdata har:
-           periodStart
-           periodEnd
-           days
-        */
+      if (parseInt(day) >= 26) {
 
-        if (
-          savedData.periodStart &&
-          savedData.periodEnd &&
-          savedData.days
-        ) {
-
-          if (
-  savedData.periodStart !==
-    periodStartText ||
-  savedData.periodEnd !==
-    periodEndText
-) {
-  continue;
-}
-
-          addData(
-            savedData.days,
-            year,
-            month
-          );
-
-      } else {
-
-  /*
-     Äldre kalenderdata utan period
-     används inte i det nya systemet.
-  */
-
-  continue;
-
-}
-
-        }
-
-      } catch (error) {
-
-        console.log(
-          "Kunde inte läsa kalenderdata:",
-          error
-        );
+        periodData[day] =
+          previousData[day];
 
       }
 
+    });
+
+    addData(periodData);
+
+  } catch (error) {}
+
+}
+
+  /* Trenutni mjesec */
+
+  const currentData = {};
+
+  const inputs =
+    document.querySelectorAll(
+      ".hours-input"
+    );
+
+  const types =
+    document.querySelectorAll(
+      ".day-type"
+    );
+
+  inputs.forEach(
+    (input, index) => {
+
+      currentData[input.dataset.day] = {
+
+        hours: input.value,
+
+        type: types[index].value
+
+      };
+
+    }
+  );
+
+  Object.keys(currentData).forEach(day => {
+
+    const date =
+      new Date(
+        selectedYear,
+        selectedMonth,
+        parseInt(day)
+      );
+
+    if (
+      date >= periodStart &&
+      date <= periodEnd
+    ) {
+
+      addData({
+        [day]: currentData[day]
+      });
+
     }
 
-  }
+  });
 
   return result;
 }
@@ -1410,16 +1431,6 @@ function saveCalendar() {
     }
   );
 
-  const periodStart =
-    localStorage.getItem(
-      "timlon_periodStart"
-    ) || "";
-
-  const periodEnd =
-    localStorage.getItem(
-      "timlon_periodEnd"
-    ) || "";
-
   const key =
     "calendar_" +
     selectedYear +
@@ -1428,15 +1439,7 @@ function saveCalendar() {
 
   localStorage.setItem(
     key,
-    JSON.stringify({
-
-      periodStart: periodStart,
-
-      periodEnd: periodEnd,
-
-      days: data
-
-    })
+    JSON.stringify(data)
   );
 
   alert(
@@ -1464,55 +1467,8 @@ function loadCalendar() {
     return;
   }
 
-  const savedData =
-    JSON.parse(saved);
-
-  /*
-     Učitavamo samo kalendar
-     koji pripada trenutno izabranom
-     Från–Till periodu.
-  */
-
-  const currentPeriodStart =
-    localStorage.getItem(
-      "timlon_periodStart"
-    ) || "";
-
-  const currentPeriodEnd =
-    localStorage.getItem(
-      "timlon_periodEnd"
-    ) || "";
-
-  if (
-    savedData.periodStart &&
-    savedData.periodEnd
-  ) {
-
-    if (
-      savedData.periodStart !==
-        currentPeriodStart ||
-      savedData.periodEnd !==
-        currentPeriodEnd
-    ) {
-      return;
-    }
-
-  } else {
-
-    /*
-       Äldre kalenderdata utan period
-       används inte i det nya systemet.
-    */
-
-    return;
-
-  }
-
   const data =
-    savedData.days &&
-    typeof savedData.days === "object"
-      ? savedData.days
-      : {};
+    JSON.parse(saved);
 
   const inputs =
     document.querySelectorAll(
@@ -1534,12 +1490,25 @@ function loadCalendar() {
         data[day] !== undefined
       ) {
 
-        input.value =
-          data[day].hours || "";
+        if (
+          typeof data[day] === "object"
+        ) {
 
-        types[index].value =
-          data[day].type ||
-          "weekday";
+          input.value =
+            data[day].hours || "";
+
+          types[index].value =
+            data[day].type ||
+            "weekday";
+
+        }
+
+        else {
+
+          input.value =
+            data[day];
+
+        }
 
         updateDayAppearance(
           input.parentElement,
