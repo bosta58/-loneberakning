@@ -1189,14 +1189,6 @@ holidayOvertimeHours:
 }
 function getPayPeriodHours() {
 
-  /*
-     Genie koristi postojeći obračunski period
-     iz polja Från – Till.
-
-     Prvi upisani dan = početak perioda
-     Zadnji upisani dan = kraj perioda
-  */
-
   const periodStartText =
     localStorage.getItem("timlon_periodStart") || "";
 
@@ -1259,11 +1251,6 @@ function getPayPeriodHours() {
           0
         );
 
-      /*
-         Endast dagar som ligger inom
-         Från – Till får räknas.
-      */
-
       if (
         date < periodStart ||
         date > periodEnd
@@ -1282,16 +1269,12 @@ function getPayPeriodHours() {
         result.regularHours += regular;
         result.regularOvertimeHours += overtime;
 
-      }
-
-      else if (dayData.type === "weekend") {
+      } else if (dayData.type === "weekend") {
 
         result.weekendHours += regular;
         result.weekendOvertimeHours += overtime;
 
-      }
-
-      else if (dayData.type === "holiday") {
+      } else if (dayData.type === "holiday") {
 
         result.holidayHours += regular;
         result.holidayOvertimeHours += overtime;
@@ -1302,9 +1285,8 @@ function getPayPeriodHours() {
   }
 
   /*
-     Genie går igenom alla sparade kalendermånader
-     och tar endast de dagar som ligger mellan
-     Från och Till.
+     Läs endast sparade kalendermånader
+     inom det valda Från–Till-perioden.
   */
 
   for (
@@ -1363,47 +1345,6 @@ function getPayPeriodHours() {
     }
 
   }
-
-  /*
-     Om användaren just nu arbetar i en månad
-     som ännu inte har sparats med knappen Spara,
-     läser vi även de aktuella fälten.
-  */
-
-  const currentYear = selectedYear;
-  const currentMonth = selectedMonth;
-
-  const currentData = {};
-
-  const inputs =
-    document.querySelectorAll(
-      ".hours-input"
-    );
-
-  const types =
-    document.querySelectorAll(
-      ".day-type"
-    );
-
-  inputs.forEach(
-    (input, index) => {
-
-      currentData[input.dataset.day] = {
-
-        hours: input.value,
-
-        type: types[index].value
-
-      };
-
-    }
-  );
-
-  addData(
-    currentData,
-    currentYear,
-    currentMonth
-  );
 
   return result;
 }
