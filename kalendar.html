@@ -1383,6 +1383,16 @@ function saveCalendar() {
     }
   );
 
+  const periodStart =
+    localStorage.getItem(
+      "timlon_periodStart"
+    ) || "";
+
+  const periodEnd =
+    localStorage.getItem(
+      "timlon_periodEnd"
+    ) || "";
+
   const key =
     "calendar_" +
     selectedYear +
@@ -1391,7 +1401,15 @@ function saveCalendar() {
 
   localStorage.setItem(
     key,
-    JSON.stringify(data)
+    JSON.stringify({
+
+      periodStart: periodStart,
+
+      periodEnd: periodEnd,
+
+      days: data
+
+    })
   );
 
   alert(
