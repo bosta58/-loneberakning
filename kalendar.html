@@ -1147,49 +1147,7 @@ function updateSummary() {
   ).textContent =
     workDays;
   const periodHours = getPayPeriodHours();
-  /* =========================
-   GENIE OBRAČUNSKI PERIOD
-   26. – 25.
-========================= */
-
-const periodEnd =
-  new Date(
-    selectedYear,
-    selectedMonth,
-    25
-  );
-
-const periodStart =
-  new Date(
-    selectedYear,
-    selectedMonth - 1,
-    26
-  );
-
-const periodStartText =
-  periodStart.getFullYear() +
-  "-" +
-  String(periodStart.getMonth() + 1).padStart(2, "0") +
-  "-" +
-  String(periodStart.getDate()).padStart(2, "0");
-
-const periodEndText =
-  periodEnd.getFullYear() +
-  "-" +
-  String(periodEnd.getMonth() + 1).padStart(2, "0") +
-  "-" +
-  String(periodEnd.getDate()).padStart(2, "0");
-
-
-localStorage.setItem(
-  "timlon_periodStart",
-  periodStartText
-);
-
-localStorage.setItem(
-  "timlon_periodEnd",
-  periodEndText
-);
+  
 
 
 localStorage.setItem(
