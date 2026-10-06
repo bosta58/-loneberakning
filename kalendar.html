@@ -1285,8 +1285,9 @@ function getPayPeriodHours() {
   }
 
   /*
-     Läs endast sparade kalendermånader
-     inom det valda Från–Till-perioden.
+     Läs sparade kalendrar.
+     Endast kalenderdata som hör till
+     samma Från–Till-period får räknas.
   */
 
   for (
@@ -1324,14 +1325,47 @@ function getPayPeriodHours() {
 
       try {
 
-        const data =
+        const savedData =
           JSON.parse(saved);
 
-        addData(
-          data,
-          year,
-          month
-        );
+        /*
+           Nya kalenderdata har:
+           periodStart
+           periodEnd
+           days
+        */
+
+        if (
+          savedData.periodStart &&
+          savedData.periodEnd &&
+          savedData.days
+        ) {
+
+          if (
+            savedData.periodStart !==
+              periodStartText ||
+            savedData.periodEnd !==
+              periodEndText
+          ) {
+            return;
+          }
+
+          addData(
+            savedData.days,
+            year,
+            month
+          );
+
+        } else {
+
+          /*
+             Äldre kalenderdata utan period
+             används inte i det nya systemet.
+          */
+
+          return;
+
+        }
 
       } catch (error) {
 
