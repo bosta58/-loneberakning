@@ -1477,16 +1477,51 @@ function loadCalendar() {
     JSON.parse(saved);
 
   /*
-     Nya kalenderdata sparas under "days".
-     Äldre kalenderdata kan fortfarande vara
-     sparade direkt som dagnummer.
+     Učitavamo samo kalendar
+     koji pripada trenutno izabranom
+     Från–Till periodu.
   */
+
+  const currentPeriodStart =
+    localStorage.getItem(
+      "timlon_periodStart"
+    ) || "";
+
+  const currentPeriodEnd =
+    localStorage.getItem(
+      "timlon_periodEnd"
+    ) || "";
+
+  if (
+    savedData.periodStart &&
+    savedData.periodEnd
+  ) {
+
+    if (
+      savedData.periodStart !==
+        currentPeriodStart ||
+      savedData.periodEnd !==
+        currentPeriodEnd
+    ) {
+      return;
+    }
+
+  } else {
+
+    /*
+       Äldre kalenderdata utan period
+       används inte i det nya systemet.
+    */
+
+    return;
+
+  }
 
   const data =
     savedData.days &&
     typeof savedData.days === "object"
       ? savedData.days
-      : savedData;
+      : {};
 
   const inputs =
     document.querySelectorAll(
@@ -1508,23 +1543,12 @@ function loadCalendar() {
         data[day] !== undefined
       ) {
 
-        if (
-          typeof data[day] === "object"
-        ) {
+        input.value =
+          data[day].hours || "";
 
-          input.value =
-            data[day].hours || "";
-
-          types[index].value =
-            data[day].type ||
-            "weekday";
-
-        } else {
-
-          input.value =
-            data[day];
-
-        }
+        types[index].value =
+          data[day].type ||
+          "weekday";
 
         updateDayAppearance(
           input.parentElement,
