@@ -592,6 +592,19 @@ const GENIE_SALARY_DATA_KEY = "genieSalaryData";
 const GENIE_MESSAGES_KEY = "genieMessages";
 const GENIE_LANGUAGE_KEY = "genieLanguage";
 
+/*
+  SKYDDAD LÖNEPERIOD FÖR TIMLÖN
+
+  Dessa två nycklar används endast av lon.html.
+  kalender.html använder andra nycklar och kan därför
+  inte skriva över den manuellt valda perioden.
+*/
+const GENIE_TIMLON_PERIOD_START_KEY =
+  "genieTimlonPeriodStart";
+
+const GENIE_TIMLON_PERIOD_END_KEY =
+  "genieTimlonPeriodEnd";
+
 const SALARY_TYPE = "Timlön";
 
 
@@ -789,6 +802,10 @@ function getEmployeeKey() {
 }
 
 
+/* =====================================================
+   LÖNEPERIOD – SKYDDAD FRÅN KALENDERNS ÄNDRINGAR
+===================================================== */
+
 function getPeriodStart() {
 
   return document.getElementById("periodStart").value || "";
@@ -799,6 +816,142 @@ function getPeriodStart() {
 function getPeriodEnd() {
 
   return document.getElementById("periodEnd").value || "";
+
+}
+
+
+/*
+  Spara den manuellt valda perioden i egna nycklar.
+  kalender.html använder inte dessa nycklar.
+*/
+function saveTimlonPeriod() {
+
+  const start =
+    document.getElementById("periodStart").value || "";
+
+  const end =
+    document.getElementById("periodEnd").value || "";
+
+  localStorage.setItem(
+    GENIE_TIMLON_PERIOD_START_KEY,
+    start
+  );
+
+  localStorage.setItem(
+    GENIE_TIMLON_PERIOD_END_KEY,
+    end
+  );
+
+}
+
+
+/*
+  Ladda den skyddade perioden först.
+
+  Om de nya skyddade nycklarna ännu inte finns,
+  använder vi de gamla timlon_-nycklarna som
+  reserv och flyttar samtidigt över dem till
+  de skyddade nycklarna.
+*/
+function loadTimlonPeriod() {
+
+  const startInput =
+    document.getElementById("periodStart");
+
+  const endInput =
+    document.getElementById("periodEnd");
+
+
+  const protectedStart =
+    localStorage.getItem(
+      GENIE_TIMLON_PERIOD_START_KEY
+    );
+
+  const protectedEnd =
+    localStorage.getItem(
+      GENIE_TIMLON_PERIOD_END_KEY
+    );
+
+
+  if (
+    protectedStart !== null &&
+    protectedStart !== ""
+  ) {
+
+    startInput.value =
+      protectedStart;
+
+  }
+
+
+  if (
+    protectedEnd !== null &&
+    protectedEnd !== ""
+  ) {
+
+    endInput.value =
+      protectedEnd;
+
+  }
+
+
+  /*
+    Om de skyddade nycklarna saknas,
+    försök använda den tidigare lagringen.
+  */
+
+  if (
+    protectedStart === null
+  ) {
+
+    const oldStart =
+      localStorage.getItem(
+        "timlon_periodStart"
+      );
+
+    if (
+      oldStart !== null &&
+      oldStart !== ""
+    ) {
+
+      startInput.value =
+        oldStart;
+
+      localStorage.setItem(
+        GENIE_TIMLON_PERIOD_START_KEY,
+        oldStart
+      );
+
+    }
+
+  }
+
+
+  if (
+    protectedEnd === null
+  ) {
+
+    const oldEnd =
+      localStorage.getItem(
+        "timlon_periodEnd"
+      );
+
+    if (
+      oldEnd !== null &&
+      oldEnd !== ""
+    ) {
+
+      endInput.value =
+        oldEnd;
+
+      localStorage.setItem(
+        GENIE_TIMLON_PERIOD_END_KEY,
+        oldEnd
+      );
+
+    }
+
+  }
 
 }
 
@@ -1338,6 +1491,15 @@ function saveFormData() {
   });
 
 
+  /*
+    Viktigt:
+    Spara också löneperioden i de skyddade
+    nycklarna som kalender.html inte använder.
+  */
+
+  saveTimlonPeriod();
+
+
   saveTimlonRecord();
 
 }
@@ -1369,6 +1531,18 @@ function loadFormData() {
     }
 
   });
+
+
+  /*
+    Efter den vanliga laddningen återställs
+    den skyddade Timlön-perioden.
+
+    Detta gör att kalenderns gamla 26–25-period
+    inte kan ersätta den period som användaren
+    själv har valt på lon.html.
+  */
+
+  loadTimlonPeriod();
 
 }
 
@@ -1476,6 +1650,14 @@ function loadCalendarHours() {
 ===================================================== */
 
 function calculateSalary() {
+
+  /*
+    Säkerställ först att den manuellt valda
+    Timlön-perioden är sparad.
+  */
+
+  saveTimlonPeriod();
+
 
   const saved =
     localStorage.getItem(
@@ -2750,6 +2932,22 @@ document
         "change",
         function() {
 
+          /*
+            Om användaren ändrar Från eller Till
+            sparas perioden direkt i de skyddade
+            Timlön-nycklarna.
+          */
+
+          if (
+            input.id === "periodStart" ||
+            input.id === "periodEnd"
+          ) {
+
+            saveTimlonPeriod();
+
+          }
+
+
           saveFormData();
 
           loadEmployerMessage();
@@ -2766,6 +2964,8 @@ document
 ===================================================== */
 
 loadFormData();
+
+loadTimlonPeriod();
 
 loadCalendarHours();
 
