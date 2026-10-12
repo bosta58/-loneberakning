@@ -176,7 +176,26 @@
   <div class="container">
 
     <div class="card">
+<div id="genieLoginPanel">
+  <h2>Dobro došli u Genie</h2>
+  <p>Izaberite vrstu naloga:</p>
 
+  <button type="button" id="workerRoleButton">Radnik</button>
+  <button type="button" id="employerRoleButton">Poslodavac</button>
+
+  <p id="selectedRoleText">Izaberite Radnik ili Poslodavac</p>
+
+  <label for="genieEmail">E-mail adresa</label>
+  <input type="email" id="genieEmail" autocomplete="email" placeholder="Unesite e-mail">
+
+  <label for="geniePassword">Lozinka</label>
+  <input type="password" id="geniePassword" autocomplete="current-password" placeholder="Unesite lozinku">
+
+  <button type="button" id="genieLoginButton">Prijava</button>
+  <button type="button" id="genieRegisterButton">Kreiraj nalog</button>
+
+  <p id="genieLoginMessage" role="status"></p>
+</div>
       <!-- HEADER -->
 
       <div class="header genie-header">
