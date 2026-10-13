@@ -1,4 +1,5 @@
 
+
 /*
   GENIE – FIREBASE POVEZIVANJE
   Projekat: genie-255f7
@@ -9,18 +10,20 @@
 */
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+
 import {
-getFirestore,
-doc,
-setDoc,
-getDoc,
-collection,
-addDoc,
-query,
-where,
-getDocs,
-serverTimestamp
-} from “https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js”;
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  collection,
+  addDoc,
+  query,
+  where,
+  getDocs,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -41,6 +44,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+
 // Kreiranje novog korisničkog naloga
 export async function createGenieAccount(email, password) {
   const result = await createUserWithEmailAndPassword(
@@ -77,4 +81,5 @@ export function currentGenieUser() {
 export function watchGenieAuth(callback) {
   return onAuthStateChanged(auth, callback);
 }
+
   
