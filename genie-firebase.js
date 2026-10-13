@@ -40,7 +40,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-
+const db = getFirestore(app);
 // Kreiranje novog korisničkog naloga
 export async function createGenieAccount(email, password) {
   const result = await createUserWithEmailAndPassword(
