@@ -553,6 +553,99 @@
     });
 
   </script>
-<script type="module" src="genie-firebase.js"></script>
+ <script type="module">
+import {
+  createGenieAccount,
+  signInGenie,
+  signOutGenie,
+  watchGenieAuth
+} from "./genie-firebase.js";
+
+let selectedRole = "";
+
+const workerButton = document.getElementById("workerRoleButton");
+const employerButton = document.getElementById("employerRoleButton");
+const roleText = document.getElementById("selectedRoleText");
+const message = document.getElementById("genieLoginMessage");
+
+function selectRole(role) {
+  selectedRole = role;
+
+  roleText.textContent =
+    role === "worker"
+      ? "Izabrali ste: Radnik"
+      : "Izabrali ste: Poslodavac";
+
+  message.textContent = "";
+}
+
+workerButton.addEventListener("click", () => {
+  selectRole("worker");
+});
+
+employerButton.addEventListener("click", () => {
+  selectRole("employer");
+});
+
+function getCredentials() {
+  const email = document.getElementById("genieEmail").value.trim();
+  const password = document.getElementById("geniePassword").value;
+
+  if (!selectedRole) {
+    throw new Error("Prvo izaberite Radnik ili Poslodavac.");
+  }
+
+  if (!email || !password) {
+    throw new Error("Unesite e-mail i lozinku.");
+  }
+
+  if (password.length < 6) {
+    throw new Error("Lozinka mora imati najmanje 6 znakova.");
+  }
+
+  return { email, password };
+}
+
+document.getElementById("genieRegisterButton")
+  .addEventListener("click", async () => {
+    try {
+      const { email, password } = getCredentials();
+
+      message.textContent = "Kreiranje naloga...";
+
+      await createGenieAccount(email, password);
+
+      message.textContent =
+        "Nalog je kreiran! Sada je prijava aktivna.";
+    } catch (error) {
+      message.textContent =
+        error.message || "Greška pri kreiranju naloga.";
+    }
+  });
+
+document.getElementById("genieLoginButton")
+  .addEventListener("click", async () => {
+    try {
+      const { email, password } = getCredentials();
+
+      message.textContent = "Prijava u toku...";
+
+      await signInGenie(email, password);
+
+      message.textContent =
+        "Uspešna prijava. Sledeći korak je provera uloge i povezivanje podataka.";
+    } catch (error) {
+      message.textContent =
+        error.message || "Greška pri prijavi.";
+    }
+  });
+
+watchGenieAuth((user) => {
+  if (user) {
+    console.log("Genie korisnik je prijavljen:", user.uid);
+  }
+});
+</script>
+
 </body>
 </html>
