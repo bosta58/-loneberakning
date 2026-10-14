@@ -70,44 +70,52 @@ return result.user;
 }
 
 // Prijava postojećeg korisnika i provera uloge
+
 export async function signInGenie(email, password, requestedRole) {
-if (requestedRole !== “worker” && requestedRole !== “employer”) {
-throw new Error(“Izaberite Radnik ili Poslodavac.”);
+  if (requestedRole !== "worker" && requestedRole !== "employer") {
+    throw new Error("Izaberite Radnik ili Poslodavac.");
+  }
+
+  const result = await signInWithEmailAndPassword(
+    auth,
+    email.trim(),
+    password
+  );
+
+  const profileRef = doc(db, "users", result.user.uid);
+  const profileSnap = await getDoc(profileRef);
+
+  if (!profileSnap.exists()) {
+    await signOut(auth);
+    throw new Error(
+      "Profil nije pronađen. Napravite nalog ponovo ili kontaktirajte podršku."
+    );
+  }
+
+  const profile = profileSnap.data();
+
+  if (profile.requestedRole !== requestedRole) {
+    await signOut(auth);
+    throw new Error(
+      "Izabrali ste pogrešnu vrstu naloga. Izaberite odgovarajuću ulogu."
+    );
+  }
+
+  if (requestedRole === "employer" && profile.role !== "employer") {
+    await signOut(auth);
+    throw new Error(
+      "Nalog poslodavca čeka odobrenje. Još nije moguće nastaviti."
+    );
+  }
+
+  if (requestedRole === "worker" && profile.role !== "worker") {
+    await signOut(auth);
+    throw new Error("Nalog radnika nije aktivan.");
+  }
+
+  return result.user;
 }
 
-const result = await signInWithEmailAndPassword(
-auth,
-email.trim(),
-password
-);
-
-const profileRef = doc(db, “users”, result.user.uid);
-const profileSnap = await getDoc(profileRef);
-
-if (!profileSnap.exists()) {
-const profile = {
-role: requestedRole === “worker” ? “worker” : “pending”,
-requestedRole: requestedRole,
-email: result.user.email || email.trim(),
-createdAt: serverTimestamp()
-};
-
-await setDoc(profileRef, profile);
-return result.user;
-
-}
-
-const profile = profileSnap.data();
-
-if (profile.requestedRole !== requestedRole) {
-await signOut(auth);
-throw new Error(
-“Izabrali ste pogrešnu vrstu naloga. Izaberite odgovarajuću ulogu.”
-);
-}
-
-return result.user;
-}
 // Odjava korisnika
 export async function signOutGenie() {
   await signOut(auth);
