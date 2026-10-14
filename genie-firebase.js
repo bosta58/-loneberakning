@@ -1,12 +1,7 @@
 
-
 /*
   GENIE – FIREBASE POVEZIVANJE
   Projekat: genie-255f7
-
-  Ovaj modul priprema prijavu korisnika.
-  Ne menja obračun plate i još ne prenosi
-  podatke o platama između telefona.
 */
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
@@ -16,11 +11,6 @@ import {
   doc,
   setDoc,
   getDoc,
-  collection,
-  addDoc,
-  query,
-  where,
-  getDocs,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
 
@@ -47,30 +37,29 @@ const db = getFirestore(app);
 
 // Kreiranje novog korisničkog naloga
 export async function createGenieAccount(email, password, requestedRole) {
-if (requestedRole !== “worker” && requestedRole !== “employer”) {
-throw new Error(“Izaberite Radnik ili Poslodavac.”);
-}
+  if (requestedRole !== "worker" && requestedRole !== "employer") {
+    throw new Error("Izaberite Radnik ili Poslodavac.");
+  }
 
-const result = await createUserWithEmailAndPassword(
-auth,
-email.trim(),
-password
-);
+  const result = await createUserWithEmailAndPassword(
+    auth,
+    email.trim(),
+    password
+  );
 
-const profile = {
-role: requestedRole === “worker” ? “worker” : “pending”,
-requestedRole: requestedRole,
-email: email.trim(),
-createdAt: serverTimestamp()
-};
+  const profile = {
+    role: requestedRole === "worker" ? "worker" : "pending",
+    requestedRole: requestedRole,
+    email: email.trim(),
+    createdAt: serverTimestamp()
+  };
 
-await setDoc(doc(db, “users”, result.user.uid), profile);
+  await setDoc(doc(db, "users", result.user.uid), profile);
 
-return result.user;
+  return result.user;
 }
 
 // Prijava postojećeg korisnika i provera uloge
-
 export async function signInGenie(email, password, requestedRole) {
   if (requestedRole !== "worker" && requestedRole !== "employer") {
     throw new Error("Izaberite Radnik ili Poslodavac.");
@@ -88,7 +77,7 @@ export async function signInGenie(email, password, requestedRole) {
   if (!profileSnap.exists()) {
     await signOut(auth);
     throw new Error(
-      "Profil nije pronađen. Napravite nalog ponovo ili kontaktirajte podršku."
+      "Profil nije pronađen. Kontaktirajte podršku."
     );
   }
 
@@ -130,5 +119,3 @@ export function currentGenieUser() {
 export function watchGenieAuth(callback) {
   return onAuthStateChanged(auth, callback);
 }
-
-  
