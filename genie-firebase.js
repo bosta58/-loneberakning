@@ -1,4 +1,5 @@
 
+
 /*
   GENIE – FIREBASE POVEZIVANJE
   Projekat: genie-255f7
@@ -35,22 +36,24 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Kreiranje novog korisničkog naloga
+// Kreiranje novog naloga
 export async function createGenieAccount(email, password, requestedRole) {
   if (requestedRole !== "worker" && requestedRole !== "employer") {
     throw new Error("Izaberite Radnik ili Poslodavac.");
   }
 
+  const cleanEmail = email.trim();
+
   const result = await createUserWithEmailAndPassword(
     auth,
-    email.trim(),
+    cleanEmail,
     password
   );
 
   const profile = {
     role: requestedRole === "worker" ? "worker" : "pending",
     requestedRole: requestedRole,
-    email: email.trim(),
+    email: cleanEmail,
     createdAt: serverTimestamp()
   };
 
@@ -59,76 +62,74 @@ export async function createGenieAccount(email, password, requestedRole) {
   return result.user;
 }
 
-// Prijava postojećeg korisnika i provera uloge
+// Prijava i provera uloge
 export async function signInGenie(email, password, requestedRole) {
   if (requestedRole !== "worker" && requestedRole !== "employer") {
     throw new Error("Izaberite Radnik ili Poslodavac.");
   }
 
+  const cleanEmail = email.trim();
+
   const result = await signInWithEmailAndPassword(
     auth,
-    email.trim(),
+    cleanEmail,
     password
   );
 
-  const profileRef = doc(db, "users", result.user.uid);
-  
-const profileSnap = await getDoc(profileRef);
+  try {
+    const profileRef = doc(db, "users", result.user.uid);
+    const profileSnap = await getDoc(profileRef);
 
-let profile;
+    let profile;
 
-if (profileSnap.exists()) {
-  profile = profileSnap.data();
-} else {
-  profile = {
-    role: requestedRole === "worker" ? "worker" : "pending",
-    requestedRole: requestedRole,
-    email: email.trim(),
-    createdAt: serverTimestamp()
-  };
+    if (profileSnap.exists()) {
+      profile = profileSnap.data();
+    } else {
+      profile = {
+        role: requestedRole === "worker" ? "worker" : "pending",
+        requestedRole: requestedRole,
+        email: cleanEmail,
+        createdAt: serverTimestamp()
+      };
 
-  await setDoc(profileRef, profile);
+      await setDoc(profileRef, profile);
+    }
+
+    if (profile.requestedRole !== requestedRole) {
+      throw new Error(
+        "Izabrali ste pogrešnu vrstu naloga. Izaberite odgovarajuću ulogu."
+      );
+    }
+
+    if (requestedRole === "employer" && profile.role !== "employer") {
+      throw new Error(
+        "Nalog poslodavca čeka odobrenje. Još nije moguće nastaviti."
+      );
+    }
+
+    if (requestedRole === "worker" && profile.role !== "worker") {
+      throw new Error("Nalog radnika nije aktivan.");
+    }
+
+    return result.user;
+
+  } catch (error) {
+    await signOut(auth);
+    throw error;
+  }
 }
 
-      "Profil nije pronađen. Kontaktirajte podršku."
-    );
-  }
-
-  const profile = profileSnap.data();
-
-  if (profile.requestedRole !== requestedRole) {
-    await signOut(auth);
-    throw new Error(
-      "Izabrali ste pogrešnu vrstu naloga. Izaberite odgovarajuću ulogu."
-    );
-  }
-
-  if (requestedRole === "employer" && profile.role !== "employer") {
-    await signOut(auth);
-    throw new Error(
-      "Nalog poslodavca čeka odobrenje. Još nije moguće nastaviti."
-    );
-  }
-
-  if (requestedRole === "worker" && profile.role !== "worker") {
-    await signOut(auth);
-    throw new Error("Nalog radnika nije aktivan.");
-  }
-
-  return result.user;
-}
-
-// Odjava korisnika
+// Odjava
 export async function signOutGenie() {
   await signOut(auth);
 }
 
-// Provera prijavljenog korisnika
+// Trenutni korisnik
 export function currentGenieUser() {
   return auth.currentUser;
 }
 
-// Praćenje promene stanja prijave
+// Praćenje prijave
 export function watchGenieAuth(callback) {
   return onAuthStateChanged(auth, callback);
 }
