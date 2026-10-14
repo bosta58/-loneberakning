@@ -72,11 +72,24 @@ export async function signInGenie(email, password, requestedRole) {
   );
 
   const profileRef = doc(db, "users", result.user.uid);
-  const profileSnap = await getDoc(profileRef);
+  
+const profileSnap = await getDoc(profileRef);
 
-  if (!profileSnap.exists()) {
-    await signOut(auth);
-    throw new Error(
+let profile;
+
+if (profileSnap.exists()) {
+  profile = profileSnap.data();
+} else {
+  profile = {
+    role: requestedRole === "worker" ? "worker" : "pending",
+    requestedRole: requestedRole,
+    email: email.trim(),
+    createdAt: serverTimestamp()
+  };
+
+  await setDoc(profileRef, profile);
+}
+
       "Profil nije pronađen. Kontaktirajte podršku."
     );
   }
