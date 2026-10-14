@@ -613,7 +613,7 @@ document.getElementById("genieRegisterButton")
 
       message.textContent = "Kreiranje naloga...";
 
-      await createGenieAccount(email, password);
+      await createGenieAccount(email, password, selectedRole);
 
       message.textContent =
         "Nalog je kreiran! Sada je prijava aktivna.";
@@ -630,7 +630,7 @@ document.getElementById("genieLoginButton")
 
       message.textContent = "Prijava u toku...";
 
-      await signInGenie(email, password);
+      await signInGenie(email, password, selectedRole);
 
       message.textContent =
         "Uspešna prijava. Sledeći korak je provera uloge i povezivanje podataka.";
