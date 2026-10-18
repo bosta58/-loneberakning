@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Genie</title>
 
   <style>
@@ -65,6 +64,109 @@
     .subtitle {
       color: #6b7280;
       font-size: 15px;
+    }
+
+    /* PRIJAVA I NALOZI */
+
+    #genieLoginPanel {
+      margin-bottom: 24px;
+      padding: 18px;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      background: #f9fafb;
+    }
+
+    #genieLoginPanel h2,
+    .connection-panel h2 {
+      margin-top: 0;
+      font-size: 20px;
+    }
+
+    label {
+      display: block;
+      margin: 12px 0 5px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    input {
+      display: block;
+      width: 100%;
+      min-height: 44px;
+      padding: 11px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      background: white;
+      color: #111827;
+      font-size: 16px;
+    }
+
+    button {
+      font-family: inherit;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .account-button,
+    .action-button,
+    .role-button,
+    .logout-button {
+      min-height: 43px;
+      padding: 10px 13px;
+      margin: 8px 5px 0 0;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      background: white;
+      color: #111827;
+    }
+
+    .role-button.selected {
+      border-color: #2563eb;
+      background: #dbeafe;
+      font-weight: 700;
+    }
+
+    .action-button {
+      background: #1d4ed8;
+      border-color: #1d4ed8;
+      color: white;
+      font-weight: 600;
+    }
+
+    .logout-button {
+      background: #f3f4f6;
+    }
+
+    #genieLoginMessage,
+    #connectionMessage {
+      overflow-wrap: anywhere;
+      line-height: 1.45;
+    }
+
+    .connection-panel {
+      margin: 18px 0;
+      padding: 18px;
+      border: 1px solid #dbe3ed;
+      border-radius: 16px;
+      background: #f8fafc;
+    }
+
+    .connection-item {
+      margin-top: 12px;
+      padding: 12px;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      background: white;
+      overflow-wrap: anywhere;
+    }
+
+    .connection-item p {
+      line-height: 1.45;
+    }
+
+    .muted {
+      color: #6b7280;
+      font-size: 14px;
     }
 
     /* JEZIK */
@@ -168,38 +270,120 @@
       font-size: 12px;
       color: #9ca3af;
     }
+
+    [hidden] {
+      display: none !important;
+    }
   </style>
 </head>
 
 <body>
-
   <div class="container">
-
     <div class="card">
-<div id="genieLoginPanel">
-  <h2>Dobro došli u Genie</h2>
-  <p>Izaberite vrstu naloga:</p>
 
-  <button type="button" id="workerRoleButton">Radnik</button>
-  <button type="button" id="employerRoleButton">Poslodavac</button>
+      <!-- PRIJAVA -->
 
-  <p id="selectedRoleText">Izaberite Radnik ili Poslodavac</p>
+      <div id="genieLoginPanel">
+        <h2>Dobro došli u Genie</h2>
+        <p>Izaberite vrstu naloga:</p>
 
-  <label for="genieEmail">E-mail adresa</label>
-  <input type="email" id="genieEmail" autocomplete="email" placeholder="Unesite e-mail">
+        <button type="button" class="role-button" id="workerRoleButton">
+          Radnik
+        </button>
 
-  <label for="geniePassword">Lozinka</label>
-  <input type="password" id="geniePassword" autocomplete="current-password" placeholder="Unesite lozinku">
+        <button type="button" class="role-button" id="employerRoleButton">
+          Poslodavac
+        </button>
 
-  <button type="button" id="genieLoginButton">Prijava</button>
-  <button type="button" id="genieRegisterButton">Kreiraj nalog</button>
+        <p id="selectedRoleText">Izaberite Radnik ili Poslodavac</p>
 
-  <p id="genieLoginMessage" role="status"></p>
-</div>
+        <label for="genieEmail">E-mail adresa</label>
+        <input
+          type="email"
+          id="genieEmail"
+          autocomplete="email"
+          placeholder="Unesite e-mail"
+        >
+
+        <label for="geniePassword">Lozinka</label>
+        <input
+          type="password"
+          id="geniePassword"
+          autocomplete="current-password"
+          placeholder="Unesite lozinku"
+        >
+
+        <button type="button" class="action-button" id="genieLoginButton">
+          Prijava
+        </button>
+
+        <button type="button" class="account-button" id="genieRegisterButton">
+          Kreiraj nalog
+        </button>
+
+        <p id="genieLoginMessage" role="status" aria-live="polite"></p>
+
+        <button
+          type="button"
+          class="logout-button"
+          id="genieLogoutButton"
+          hidden
+        >
+          Odjava
+        </button>
+      </div>
+
+      <!-- POSLODAVAC: SLANJE ZAHTEVA -->
+
+      <section id="employerConnectionPanel" class="connection-panel" hidden>
+        <h2>Povezivanje sa radnikom</h2>
+
+        <p>
+          Unesite e-mail adresu radnika. Radnik zatim može da prihvati
+          ili odbije vaš zahtev.
+        </p>
+
+        <label for="workerEmailInput">E-mail radnika</label>
+        <input
+          type="email"
+          id="workerEmailInput"
+          autocomplete="off"
+          placeholder="E-mail radnika"
+        >
+
+        <button
+          type="button"
+          class="action-button"
+          id="sendConnectionRequestButton"
+        >
+          Pošalji zahtev
+        </button>
+
+        <p id="connectionMessage" role="status" aria-live="polite"></p>
+
+        <h3>Povezani radnici</h3>
+        <div id="employerConnectionsList">
+          <p class="muted">Povezani radnici će se prikazati ovde.</p>
+        </div>
+      </section>
+
+      <!-- RADNIK: PRIHVATANJE ZAHTEVA -->
+
+      <section id="workerConnectionPanel" class="connection-panel" hidden>
+        <h2>Zahtevi poslodavaca</h2>
+
+        <p>
+          Ovde možete da prihvatite ili odbijete zahtev za povezivanje.
+        </p>
+
+        <div id="workerRequestsList">
+          <p class="muted">Provera zahteva...</p>
+        </div>
+      </section>
+
       <!-- HEADER -->
 
       <div class="header genie-header">
-
         <div class="genie-logo">
           <img src="genie-logo.png.PNG" alt="Genie">
         </div>
@@ -209,72 +393,49 @@
         <div class="subtitle" id="subtitle">
           Enkel och professionell löneberäkning
         </div>
-
       </div>
 
-      <!-- SPRÅK -->
+      <!-- JEZIK -->
 
       <div class="language-menu">
-
         <select id="languageSelect">
-
           <option value="sv">🇸🇪 Svenska</option>
           <option value="en">🇬🇧 English</option>
           <option value="sr">🇷🇸 Srpski</option>
-
         </select>
-
       </div>
 
-      <!-- HUVUDMENY -->
+      <!-- GLAVNI MENI -->
 
       <div class="main-menu">
-
-        <!-- TIMLÖN -->
-
         <button
           type="button"
           class="menu-button"
-          onclick="window.location.href='kalendar.html'">
-
+          onclick="window.location.href='kalendar.html'"
+        >
           <span class="menu-symbol">T</span>
-
-          <span class="menu-text" id="timlonText">
-            Timlön
-          </span>
-
+          <span class="menu-text" id="timlonText">Timlön</span>
         </button>
-
-        <!-- MÅNADSLÖN -->
 
         <button
           type="button"
           class="menu-button"
-          onclick="window.location.href='manadslon.html'">
-
+          onclick="window.location.href='manadslon.html'"
+        >
           <span class="menu-symbol">M</span>
-
-          <span class="menu-text" id="manadslonText">
-            Månadslön
-          </span>
-
+          <span class="menu-text" id="manadslonText">Månadslön</span>
         </button>
-
-        <!-- KOLLEKTIVAVTAL -->
 
         <button
           type="button"
           class="menu-button"
-          onclick="window.location.href='kalendar.html?mode=procent'">
-
+          onclick="window.location.href='kalendar.html?mode=procent'"
+        >
           <span class="menu-symbol">%</span>
-
           <span class="menu-text" id="kollektivavtalText">
             Kollektivavtal
           </span>
-
         </button>
-
       </div>
 
       <!-- ARBETSGIVARE -->
@@ -282,143 +443,102 @@
       <button
         type="button"
         class="menu-button employer-button"
-        onclick="window.location.href='arbetsgivare.html'">
-
+        onclick="window.location.href='arbetsgivare.html'"
+      >
         <span class="menu-symbol">🏢</span>
-
-        <span class="menu-text" id="arbetsgivareText">
-          Arbetsgivare
-        </span>
-
+        <span class="menu-text" id="arbetsgivareText">Arbetsgivare</span>
       </button>
 
-
-      <!-- UPUTE ZA KORIŠTENJE -->
+      <!-- UPUTE -->
 
       <div class="instructions">
-
-        <h2 id="instructionsTitle">
-          Så använder du Genie
-        </h2>
+        <h2 id="instructionsTitle">Så använder du Genie</h2>
 
         <div class="instruction-item">
-
           <div class="instruction-title" id="instructionTTitle">
             T – Timlön
           </div>
-
           <div id="instructionTText">
             Välj T för timlön. Registrera arbetstid i kalendern,
             ange löneuppgifter och få en tydlig beräkning av lön,
             skatt och nettolön.
           </div>
-
         </div>
 
-
         <div class="instruction-item">
-
           <div class="instruction-title" id="instructionMTitle">
             M – Månadslön
           </div>
-
           <div id="instructionMText">
             Välj M för månadslön. Ange månadslön och arbetstid
             för att kontrollera löneperiod och arbetade timmar.
           </div>
-
         </div>
 
-
         <div class="instruction-item">
-
           <div class="instruction-title" id="instructionPercentTitle">
             % – Kollektivavtal
           </div>
-
           <div id="instructionPercentText">
             Välj % när lönen beräknas enligt ett kollektivavtal
             med angivna procentuella tillägg.
           </div>
-
         </div>
 
-
         <div class="instruction-item">
-
           <div class="instruction-title" id="instructionEmployerTitle">
             🏢 Arbetsgivare
           </div>
-
           <div id="instructionEmployerText">
             Arbetsgivaren kan se registrerade löneuppgifter
             och information för sina anställda.
           </div>
-
         </div>
 
-
         <div class="instruction-item">
-
           <div class="instruction-title" id="instructionTrustTitle">
             🔒 Enkel och tydlig
           </div>
-
           <div id="instructionTrustText">
             Genie är byggt för att göra löneberäkningen enkel,
             tydlig och transparent mellan arbetstagare och arbetsgivare.
           </div>
-
         </div>
-
       </div>
-
 
       <!-- FOOTER -->
 
-      <div class="footer">
-        Genie
-      </div>
-
+      <div class="footer">Genie</div>
     </div>
-
   </div>
 
+  <!-- JEZIK -->
 
   <script>
-
     const translations = {
-
       sv: {
         subtitle: "Enkel och professionell löneberäkning",
         timlon: "Timlön",
         manadslon: "Månadslön",
         kollektivavtal: "Kollektivavtal",
         arbetsgivare: "Arbetsgivare",
-
         instructionsTitle: "Så använder du Genie",
-
         instructionTTitle: "T – Timlön",
         instructionTText:
           "Välj T för timlön. Registrera arbetstid i kalendern, ange löneuppgifter och få en tydlig beräkning av lön, skatt och nettolön.",
-
         instructionMTitle: "M – Månadslön",
         instructionMText:
           "Välj M för månadslön. Ange månadslön och arbetstid för att kontrollera löneperiod och arbetade timmar.",
-
         instructionPercentTitle: "% – Kollektivavtal",
         instructionPercentText:
           "Välj % när lönen beräknas enligt ett kollektivavtal med angivna procentuella tillägg.",
-
         instructionEmployerTitle: "🏢 Arbetsgivare",
         instructionEmployerText:
           "Arbetsgivaren kan se registrerade löneuppgifter och information för sina anställda.",
-
         instructionTrustTitle: "🔒 Enkel och tydlig",
         instructionTrustText:
           "Genie är byggt för att göra löneberäkningen enkel, tydlig och transparent mellan arbetstagare och arbetsgivare."
       },
-
 
       en: {
         subtitle: "Simple and professional salary calculation",
@@ -426,30 +546,23 @@
         manadslon: "Monthly salary",
         kollektivavtal: "Collective agreement",
         arbetsgivare: "Employer",
-
         instructionsTitle: "How to use Genie",
-
         instructionTTitle: "T – Hourly pay",
         instructionTText:
           "Choose T for hourly pay. Register your working hours in the calendar, enter salary information and get a clear calculation of salary, tax and net pay.",
-
         instructionMTitle: "M – Monthly salary",
         instructionMText:
           "Choose M for monthly salary. Enter your monthly salary and working hours to check the pay period and worked hours.",
-
         instructionPercentTitle: "% – Collective agreement",
         instructionPercentText:
           "Choose % when your salary is calculated according to a collective agreement with percentage-based supplements.",
-
         instructionEmployerTitle: "🏢 Employer",
         instructionEmployerText:
           "The employer can view registered salary information and information for their employees.",
-
         instructionTrustTitle: "🔒 Simple and transparent",
         instructionTrustText:
           "Genie is designed to make salary calculation simple, clear and transparent between employees and employers."
       },
-
 
       sr: {
         subtitle: "Jednostavan i profesionalan obračun plate",
@@ -457,37 +570,27 @@
         manadslon: "Mesečna plata",
         kollektivavtal: "Kolektivni ugovor",
         arbetsgivare: "Poslodavac",
-
         instructionsTitle: "Kako koristiti Genie",
-
         instructionTTitle: "T – Satnica",
         instructionTText:
           "Izaberite T za obračun po satu. Unesite radno vreme u kalendar, podatke o plati i dobićete jasan obračun plate, poreza i neto plate.",
-
         instructionMTitle: "M – Mesečna plata",
         instructionMText:
           "Izaberite M za mesečnu platu. Unesite mesečnu platu i radno vreme da proverite obračunski period i odrađene sate.",
-
         instructionPercentTitle: "% – Kolektivni ugovor",
         instructionPercentText:
           "Izaberite % kada se plata obračunava prema kolektivnom ugovoru sa procentualnim dodacima.",
-
         instructionEmployerTitle: "🏢 Poslodavac",
         instructionEmployerText:
           "Poslodavac može da vidi registrovane podatke o plati i informacije za svoje zaposlene.",
-
         instructionTrustTitle: "🔒 Jednostavno i transparentno",
         instructionTrustText:
           "Genie je napravljen da obračun plate bude jednostavan, jasan i transparentan između zaposlenog i poslodavca."
       }
-
     };
 
-
     function changeLanguage(language) {
-
       const t = translations[language];
-
       if (!t) return;
 
       document.documentElement.lang = language;
@@ -497,157 +600,352 @@
       document.getElementById("manadslonText").textContent = t.manadslon;
       document.getElementById("kollektivavtalText").textContent = t.kollektivavtal;
       document.getElementById("arbetsgivareText").textContent = t.arbetsgivare;
-
-      document.getElementById("instructionsTitle").textContent =
-        t.instructionsTitle;
-
-      document.getElementById("instructionTTitle").textContent =
-        t.instructionTTitle;
-
-      document.getElementById("instructionTText").textContent =
-        t.instructionTText;
-
-      document.getElementById("instructionMTitle").textContent =
-        t.instructionMTitle;
-
-      document.getElementById("instructionMText").textContent =
-        t.instructionMText;
-
-      document.getElementById("instructionPercentTitle").textContent =
-        t.instructionPercentTitle;
-
-      document.getElementById("instructionPercentText").textContent =
-        t.instructionPercentText;
-
-      document.getElementById("instructionEmployerTitle").textContent =
-        t.instructionEmployerTitle;
-
-      document.getElementById("instructionEmployerText").textContent =
-        t.instructionEmployerText;
-
-      document.getElementById("instructionTrustTitle").textContent =
-        t.instructionTrustTitle;
-
-      document.getElementById("instructionTrustText").textContent =
-        t.instructionTrustText;
+      document.getElementById("instructionsTitle").textContent = t.instructionsTitle;
+      document.getElementById("instructionTTitle").textContent = t.instructionTTitle;
+      document.getElementById("instructionTText").textContent = t.instructionTText;
+      document.getElementById("instructionMTitle").textContent = t.instructionMTitle;
+      document.getElementById("instructionMText").textContent = t.instructionMText;
+      document.getElementById("instructionPercentTitle").textContent = t.instructionPercentTitle;
+      document.getElementById("instructionPercentText").textContent = t.instructionPercentText;
+      document.getElementById("instructionEmployerTitle").textContent = t.instructionEmployerTitle;
+      document.getElementById("instructionEmployerText").textContent = t.instructionEmployerText;
+      document.getElementById("instructionTrustTitle").textContent = t.instructionTrustTitle;
+      document.getElementById("instructionTrustText").textContent = t.instructionTrustText;
 
       localStorage.setItem("genieLanguage", language);
     }
 
-
-    const languageSelect =
-      document.getElementById("languageSelect");
-
-    const savedLanguage =
-      localStorage.getItem("genieLanguage") || "sv";
+    const languageSelect = document.getElementById("languageSelect");
+    const savedLanguage = localStorage.getItem("genieLanguage") || "sv";
 
     languageSelect.value = savedLanguage;
-
     changeLanguage(savedLanguage);
 
-
-    languageSelect.addEventListener("change", function() {
-
+    languageSelect.addEventListener("change", function () {
       changeLanguage(this.value);
+    });
+  </script>
 
+  <!-- FIREBASE I POVEZIVANJE -->
+
+  <script type="module">
+    import {
+      createGenieAccount,
+      signInGenie,
+      signOutGenie,
+      watchGenieAuth,
+      sendConnectionRequest,
+      watchWorkerConnectionRequests,
+      respondToConnectionRequest,
+      watchEmployerConnections
+    } from "./genie-firebase.js?v=2";
+
+    let selectedRole = "";
+    let activeUser = null;
+    let stopWorkerRequests = null;
+    let stopEmployerConnections = null;
+
+    const workerButton = document.getElementById("workerRoleButton");
+    const employerButton = document.getElementById("employerRoleButton");
+    const roleText = document.getElementById("selectedRoleText");
+    const message = document.getElementById("genieLoginMessage");
+
+    const workerPanel = document.getElementById("workerConnectionPanel");
+    const employerPanel = document.getElementById("employerConnectionPanel");
+
+    const workerRequestsList = document.getElementById("workerRequestsList");
+    const employerConnectionsList = document.getElementById("employerConnectionsList");
+
+    const connectionMessage = document.getElementById("connectionMessage");
+    const logoutButton = document.getElementById("genieLogoutButton");
+
+    function selectRole(role) {
+      selectedRole = role;
+
+      workerButton.classList.toggle("selected", role === "worker");
+      employerButton.classList.toggle("selected", role === "employer");
+
+      roleText.textContent =
+        role === "worker"
+          ? "Izabrali ste: Radnik"
+          : "Izabrali ste: Poslodavac";
+
+      message.textContent = "";
+    }
+
+    workerButton.addEventListener("click", () => selectRole("worker"));
+    employerButton.addEventListener("click", () => selectRole("employer"));
+
+    function getCredentials() {
+      const email = document.getElementById("genieEmail").value.trim();
+      const password = document.getElementById("geniePassword").value;
+
+      if (!selectedRole) {
+        throw new Error("Prvo izaberite Radnik ili Poslodavac.");
+      }
+
+      if (!email || !password) {
+        throw new Error("Unesite e-mail i lozinku.");
+      }
+
+      if (password.length < 6) {
+        throw new Error("Lozinka mora imati najmanje 6 znakova.");
+      }
+
+      return { email, password };
+    }
+
+    function stopConnectionListeners() {
+      if (typeof stopWorkerRequests === "function") {
+        stopWorkerRequests();
+      }
+
+      if (typeof stopEmployerConnections === "function") {
+        stopEmployerConnections();
+      }
+
+      stopWorkerRequests = null;
+      stopEmployerConnections = null;
+    }
+
+    function hideConnectionPanels() {
+      workerPanel.hidden = true;
+      employerPanel.hidden = true;
+      logoutButton.hidden = true;
+      stopConnectionListeners();
+    }
+
+    function showWorkerPanel() {
+      employerPanel.hidden = true;
+      workerPanel.hidden = false;
+      logoutButton.hidden = false;
+
+      workerRequestsList.textContent = "Učitavanje zahteva...";
+
+      stopConnectionListeners();
+
+      stopWorkerRequests = watchWorkerConnectionRequests((requests) => {
+        renderWorkerRequests(requests);
+      });
+    }
+
+    function showEmployerPanel() {
+      workerPanel.hidden = true;
+      employerPanel.hidden = false;
+      logoutButton.hidden = false;
+
+      connectionMessage.textContent = "";
+      employerConnectionsList.textContent = "Učitavanje povezanih radnika...";
+
+      stopConnectionListeners();
+
+      stopEmployerConnections = watchEmployerConnections((connections) => {
+        renderEmployerConnections(connections);
+      });
+    }
+
+    function renderWorkerRequests(requests) {
+      workerRequestsList.replaceChildren();
+
+      if (!Array.isArray(requests) || requests.length === 0) {
+        const empty = document.createElement("p");
+        empty.className = "muted";
+        empty.textContent = "Trenutno nemate novih zahteva.";
+        workerRequestsList.appendChild(empty);
+        return;
+      }
+
+      requests.forEach((request) => {
+        const item = document.createElement("div");
+        item.className = "connection-item";
+
+        const heading = document.createElement("strong");
+        heading.textContent = "Zahtev za povezivanje";
+
+        const email = document.createElement("p");
+        email.textContent = "Poslodavac: " + (request.employerEmail || "E-mail nije dostupan");
+
+        const approveButton = document.createElement("button");
+        approveButton.type = "button";
+        approveButton.className = "action-button";
+        approveButton.textContent = "Prihvati";
+
+        const rejectButton = document.createElement("button");
+        rejectButton.type = "button";
+        rejectButton.className = "account-button";
+        rejectButton.textContent = "Odbij";
+
+        const status = document.createElement("p");
+        status.setAttribute("role", "status");
+
+        approveButton.addEventListener("click", async () => {
+          approveButton.disabled = true;
+          rejectButton.disabled = true;
+          status.textContent = "Obrađujem zahtev...";
+
+          try {
+            await respondToConnectionRequest(request.id, "approved");
+            status.textContent = "Zahtev je prihvaćen.";
+          } catch (error) {
+            status.textContent = error.message || "Zahtev nije mogao biti prihvaćen.";
+            approveButton.disabled = false;
+            rejectButton.disabled = false;
+          }
+        });
+
+        rejectButton.addEventListener("click", async () => {
+          approveButton.disabled = true;
+          rejectButton.disabled = true;
+          status.textContent = "Obrađujem zahtev...";
+
+          try {
+            await respondToConnectionRequest(request.id, "rejected");
+            status.textContent = "Zahtev je odbijen.";
+          } catch (error) {
+            status.textContent = error.message || "Zahtev nije mogao biti odbijen.";
+            approveButton.disabled = false;
+            rejectButton.disabled = false;
+          }
+        });
+
+        item.append(heading, email, approveButton, rejectButton, status);
+        workerRequestsList.appendChild(item);
+      });
+    }
+
+    function renderEmployerConnections(connections) {
+      employerConnectionsList.replaceChildren();
+
+      if (!Array.isArray(connections) || connections.length === 0) {
+        const empty = document.createElement("p");
+        empty.className = "muted";
+        empty.textContent = "Još nema povezanih radnika.";
+        employerConnectionsList.appendChild(empty);
+        return;
+      }
+
+      connections.forEach((connection) => {
+        const item = document.createElement("div");
+        item.className = "connection-item";
+
+        const heading = document.createElement("strong");
+        heading.textContent = "Povezan radnik";
+
+        const detail = document.createElement("p");
+        detail.textContent = "ID radnika: " + (connection.workerUid || "Nije dostupan");
+
+        const status = document.createElement("p");
+        status.textContent = "Status: aktivna veza";
+
+        item.append(heading, detail, status);
+        employerConnectionsList.appendChild(item);
+      });
+    }
+
+    document.getElementById("genieRegisterButton")
+      .addEventListener("click", async () => {
+        try {
+          const { email, password } = getCredentials();
+
+          message.textContent = "Kreiranje naloga...";
+
+          await createGenieAccount(email, password, selectedRole);
+
+          message.textContent =
+            "Nalog je kreiran. Proveravam pristup...";
+
+          if (selectedRole === "worker") {
+            showWorkerPanel();
+          } else {
+            showEmployerPanel();
+            message.textContent =
+              "Nalog je kreiran. Poslodavac može poslati zahtev radniku.";
+          }
+        } catch (error) {
+          message.textContent =
+            error.message || "Greška pri kreiranju naloga.";
+        }
+      });
+
+    document.getElementById("genieLoginButton")
+      .addEventListener("click", async () => {
+        try {
+          const { email, password } = getCredentials();
+
+          message.textContent = "Prijava u toku...";
+
+          await signInGenie(email, password, selectedRole);
+
+          message.textContent = "Uspešna prijava.";
+
+          if (selectedRole === "worker") {
+            showWorkerPanel();
+          } else {
+            showEmployerPanel();
+          }
+        } catch (error) {
+          message.textContent =
+            error.message || "Greška pri prijavi.";
+        }
+      });
+
+    document.getElementById("sendConnectionRequestButton")
+      .addEventListener("click", async () => {
+        const workerEmail = document
+          .getElementById("workerEmailInput")
+          .value
+          .trim()
+          .toLowerCase();
+
+        if (!workerEmail || !workerEmail.includes("@")) {
+          connectionMessage.textContent =
+            "Unesite ispravnu e-mail adresu radnika.";
+          return;
+        }
+
+        const button = document.getElementById("sendConnectionRequestButton");
+        button.disabled = true;
+        connectionMessage.textContent = "Šaljem zahtev...";
+
+        try {
+          await sendConnectionRequest(workerEmail);
+
+          connectionMessage.textContent =
+            "Zahtev je poslat. Radnik može da ga prihvati ili odbije.";
+
+          document.getElementById("workerEmailInput").value = "";
+        } catch (error) {
+          connectionMessage.textContent =
+            error.message || "Slanje zahteva nije uspelo.";
+        } finally {
+          button.disabled = false;
+        }
+      });
+
+    logoutButton.addEventListener("click", async () => {
+      try {
+        await signOutGenie();
+
+        activeUser = null;
+        selectedRole = "";
+        hideConnectionPanels();
+
+        roleText.textContent = "Izaberite Radnik ili Poslodavac";
+        workerButton.classList.remove("selected");
+        employerButton.classList.remove("selected");
+        message.textContent = "Uspešno ste se odjavili.";
+      } catch (error) {
+        message.textContent = error.message || "Odjava nije uspela.";
+      }
     });
 
+    watchGenieAuth((user) => {
+      activeUser = user;
+
+      if (!user) {
+        hideConnectionPanels();
+      }
+    });
   </script>
- <script type="module">
-import {
-  createGenieAccount,
-  signInGenie,
-  signOutGenie,
-  watchGenieAuth
-
-} from "./genie-firebase.js?v=2";
-
-
-let selectedRole = "";
-
-const workerButton = document.getElementById("workerRoleButton");
-const employerButton = document.getElementById("employerRoleButton");
-const roleText = document.getElementById("selectedRoleText");
-const message = document.getElementById("genieLoginMessage");
-
-function selectRole(role) {
-  selectedRole = role;
-
-  roleText.textContent =
-    role === "worker"
-      ? "Izabrali ste: Radnik"
-      : "Izabrali ste: Poslodavac";
-
-  message.textContent = "";
-}
-
-workerButton.addEventListener("click", () => {
-  selectRole("worker");
-});
-
-employerButton.addEventListener("click", () => {
-  selectRole("employer");
-});
-
-function getCredentials() {
-  const email = document.getElementById("genieEmail").value.trim();
-  const password = document.getElementById("geniePassword").value;
-
-  if (!selectedRole) {
-    throw new Error("Prvo izaberite Radnik ili Poslodavac.");
-  }
-
-  if (!email || !password) {
-    throw new Error("Unesite e-mail i lozinku.");
-  }
-
-  if (password.length < 6) {
-    throw new Error("Lozinka mora imati najmanje 6 znakova.");
-  }
-
-  return { email, password };
-}
-
-document.getElementById("genieRegisterButton")
-  .addEventListener("click", async () => {
-    try {
-      const { email, password } = getCredentials();
-
-      message.textContent = "Kreiranje naloga...";
-
-      await createGenieAccount(email, password, selectedRole);
-
-      message.textContent =
-        "Nalog je kreiran! Sada je prijava aktivna.";
-    } catch (error) {
-      message.textContent =
-        error.message || "Greška pri kreiranju naloga.";
-    }
-  });
-
-document.getElementById("genieLoginButton")
-  .addEventListener("click", async () => {
-    try {
-      const { email, password } = getCredentials();
-
-      message.textContent = "Prijava u toku...";
-
-      await signInGenie(email, password, selectedRole);
-
-      message.textContent =
-        "Uspešna prijava. Sledeći korak je provera uloge i povezivanje podataka.";
-    } catch (error) {
-      message.textContent =
-        error.message || "Greška pri prijavi.";
-    }
-  });
-
-watchGenieAuth((user) => {
-  if (user) {
-    console.log("Genie korisnik je prijavljen:", user.uid);
-  }
-});
-</script>
-
 </body>
 </html>
