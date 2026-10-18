@@ -1,4 +1,3 @@
-
 /*
   GENIE – FIREBASE POVEZIVANJE
   Projekat: genie-255f7
@@ -40,24 +39,39 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Pomoćna funkcija za e-mail
+// Ujednačavanje e-mail adrese.
 function cleanEmail(email) {
   return String(email || "").trim().toLowerCase();
 }
 
-// Čitanje profila trenutno prijavljenog korisnika
-async function getMyProfile() {
+// Provera izabrane uloge.
+function validateRole(role) {
+  if (role !== "worker" && role !== "employer") {
+    throw new Error("Izaberite Radnik ili Poslodavac.");
+  }
+}
+
+// Provera prijavljenog korisnika.
+function requireSignedInUser() {
   const user = auth.currentUser;
 
   if (!user) {
     throw new Error("Prvo se prijavite u Genie.");
   }
 
+  return user;
+}
+
+// Čitanje profila trenutno prijavljenog korisnika.
+async function getMyProfile() {
+  const user = requireSignedInUser();
   const profileRef = doc(db, "users", user.uid);
   const profileSnap = await getDoc(profileRef);
 
   if (!profileSnap.exists()) {
-    throw new Error("Profil korisnika nije pronađen.");
+    throw new Error(
+      "Profil nije pronađen. Odjavite se i pokušajte ponovo da se prijavite."
+    );
   }
 
   return {
@@ -66,23 +80,28 @@ async function getMyProfile() {
   };
 }
 
-// Kreiranje novog naloga
+// Ova funkcija omogućava index.html da prepozna
+// ulogu korisnika kada ponovo otvori Genie.
+export async function getCurrentGenieProfile() {
+  return await getMyProfile();
+}
+
+// Kreiranje novog naloga.
 export async function createGenieAccount(
   email,
   password,
   requestedRole
 ) {
-  if (
-    requestedRole !== "worker" &&
-    requestedRole !== "employer"
-  ) {
-    throw new Error("Izaberite Radnik ili Poslodavac.");
-  }
+  validateRole(requestedRole);
 
   const clean = cleanEmail(email);
 
   if (!clean || !password) {
     throw new Error("Unesite e-mail i lozinku.");
+  }
+
+  if (password.length < 6) {
+    throw new Error("Lozinka mora imati najmanje 6 znakova.");
   }
 
   const result = await createUserWithEmailAndPassword(
@@ -93,7 +112,7 @@ export async function createGenieAccount(
 
   const profile = {
     role: requestedRole === "worker" ? "worker" : "pending",
-    requestedRole: requestedRole,
+    requestedRole,
     email: clean,
     createdAt: serverTimestamp()
   };
@@ -105,26 +124,30 @@ export async function createGenieAccount(
     );
   } catch (error) {
     await signOut(auth);
-    throw error;
+
+    throw new Error(
+      "Firebase je napravio nalog, ali nije uspeo da sačuva profil. " +
+      "Proverite vezu i pravila baze. Ako je nalog već napravljen, " +
+      "pokušajte prijavu istim e-mailom i lozinkom."
+    );
   }
 
   return result.user;
 }
 
-// Prijava i provera uloge
+// Prijava i provera uloge.
 export async function signInGenie(
   email,
   password,
   requestedRole
 ) {
-  if (
-    requestedRole !== "worker" &&
-    requestedRole !== "employer"
-  ) {
-    throw new Error("Izaberite Radnik ili Poslodavac.");
-  }
+  validateRole(requestedRole);
 
   const clean = cleanEmail(email);
+
+  if (!clean || !password) {
+    throw new Error("Unesite e-mail i lozinku.");
+  }
 
   const result = await signInWithEmailAndPassword(
     auth,
@@ -141,9 +164,11 @@ export async function signInGenie(
     if (profileSnap.exists()) {
       profile = profileSnap.data();
     } else {
+      // Ostavlja mogućnost oporavka naloga koji postoji
+      // u Firebase Authentication, ali nema sačuvan profil.
       profile = {
         role: requestedRole === "worker" ? "worker" : "pending",
-        requestedRole: requestedRole,
+        requestedRole,
         email: clean,
         createdAt: serverTimestamp()
       };
@@ -153,7 +178,8 @@ export async function signInGenie(
 
     if (profile.requestedRole !== requestedRole) {
       throw new Error(
-        "Izabrali ste pogrešnu vrstu naloga. Izaberite odgovarajuću ulogu."
+        "Izabrali ste pogrešnu vrstu naloga. " +
+        "Izaberite ulogu koju ste koristili pri registraciji."
       );
     }
 
@@ -161,11 +187,9 @@ export async function signInGenie(
       requestedRole === "worker" &&
       profile.role !== "worker"
     ) {
-      throw new Error("Nalog radnika nije aktivan.");
+      throw new Error("Uloga ovog naloga radnika nije aktivna.");
     }
 
-    // Poslodavac može da se prijavi i pošalje zahtev.
-    // Prijava mu NE daje pristup podacima radnika.
     if (
       requestedRole === "employer" &&
       profile.role !== "employer" &&
@@ -175,18 +199,20 @@ export async function signInGenie(
     }
 
     return result.user;
-
   } catch (error) {
     await signOut(auth);
     throw error;
   }
 }
 
-// Poslodavac šalje zahtev na e-mail radnika
+// Poslodavac šalje zahtev na e-mail radnika.
 export async function sendConnectionRequest(workerEmail) {
   const { user, profile } = await getMyProfile();
 
-  if (profile.requestedRole !== "employer") {
+  if (
+    profile.requestedRole !== "employer" ||
+    (profile.role !== "employer" && profile.role !== "pending")
+  ) {
     throw new Error(
       "Samo nalog poslodavca može slati zahtev."
     );
@@ -194,8 +220,8 @@ export async function sendConnectionRequest(workerEmail) {
 
   const targetEmail = cleanEmail(workerEmail);
 
-  if (!targetEmail) {
-    throw new Error("Unesite e-mail radnika.");
+  if (!targetEmail || !targetEmail.includes("@")) {
+    throw new Error("Unesite ispravnu e-mail adresu radnika.");
   }
 
   if (targetEmail === cleanEmail(user.email)) {
@@ -217,13 +243,11 @@ export async function sendConnectionRequest(workerEmail) {
   return requestRef.id;
 }
 
-// Radnik prati zahteve koji su poslati na njegov e-mail
-export function watchWorkerConnectionRequests(callback) {
-  const user = auth.currentUser;
-
-  if (!user) {
-    throw new Error("Prvo se prijavite u Genie.");
-  }
+// Radnik prati zahteve poslate na njegov e-mail.
+export function watchWorkerConnectionRequests(
+  callback
+) {
+  const user = requireSignedInUser();
 
   const requestsQuery = query(
     collection(db, "connectionRequests"),
@@ -247,21 +271,16 @@ export function watchWorkerConnectionRequests(callback) {
   );
 }
 
-// Radnik odobrava ili odbija zahtev
+// Radnik prihvata ili odbija zahtev.
 export async function respondToConnectionRequest(
   requestId,
   decision
 ) {
   if (decision !== "approved" && decision !== "rejected") {
-    throw new Error("Izaberite odobrenje ili odbijanje.");
+    throw new Error("Izaberite prihvatanje ili odbijanje.");
   }
 
-  const user = auth.currentUser;
-
-  if (!user) {
-    throw new Error("Prvo se prijavite u Genie.");
-  }
-
+  const user = requireSignedInUser();
   const { profile } = await getMyProfile();
 
   if (
@@ -271,6 +290,10 @@ export async function respondToConnectionRequest(
     throw new Error(
       "Samo aktivan radnik može odgovoriti na zahtev."
     );
+  }
+
+  if (!requestId) {
+    throw new Error("Nedostaje identifikacija zahteva.");
   }
 
   const requestRef = doc(
@@ -289,7 +312,8 @@ export async function respondToConnectionRequest(
     const requestData = requestSnap.data();
 
     if (
-      requestData.workerEmail !== cleanEmail(user.email)
+      cleanEmail(requestData.workerEmail) !==
+      cleanEmail(user.email)
     ) {
       throw new Error(
         "Ovaj zahtev nije namenjen vašem nalogu."
@@ -316,7 +340,7 @@ export async function respondToConnectionRequest(
       transaction.set(connectionRef, {
         workerUid: user.uid,
         employerUid: requestData.employerUid,
-        requestId: requestId,
+        requestId,
         status: "active",
         createdAt: serverTimestamp()
       });
@@ -326,13 +350,9 @@ export async function respondToConnectionRequest(
   return decision;
 }
 
-// Poslodavac prati radnike koji su odobrili povezivanje
+// Poslodavac prati povezane radnike.
 export function watchEmployerConnections(callback) {
-  const user = auth.currentUser;
-
-  if (!user) {
-    throw new Error("Prvo se prijavite u Genie.");
-  }
+  const user = requireSignedInUser();
 
   const connectionsQuery = query(
     collection(db, "connections"),
@@ -356,17 +376,17 @@ export function watchEmployerConnections(callback) {
   );
 }
 
-// Odjava
+// Odjava.
 export async function signOutGenie() {
   await signOut(auth);
 }
 
-// Trenutni korisnik
+// Trenutni korisnik.
 export function currentGenieUser() {
   return auth.currentUser;
 }
 
-// Praćenje prijave
+// Praćenje prijave i odjave.
 export function watchGenieAuth(callback) {
   return onAuthStateChanged(auth, callback);
 }
