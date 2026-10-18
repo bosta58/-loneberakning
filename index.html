@@ -6,9 +6,7 @@
   <title>Genie</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -57,16 +55,12 @@
       font-weight: 800;
     }
 
-    .genie-header .subtitle {
-      margin-top: 4px;
-    }
+    .genie-header .subtitle { margin-top: 4px; }
 
     .subtitle {
       color: #6b7280;
       font-size: 15px;
     }
-
-    /* PRIJAVA I NALOZI */
 
     #genieLoginPanel {
       margin-bottom: 24px;
@@ -105,6 +99,12 @@
       font-family: inherit;
       font-size: 15px;
       cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: wait;
     }
 
     .account-button,
@@ -133,9 +133,7 @@
       font-weight: 600;
     }
 
-    .logout-button {
-      background: #f3f4f6;
-    }
+    .logout-button { background: #f3f4f6; }
 
     #genieLoginMessage,
     #connectionMessage {
@@ -160,16 +158,12 @@
       overflow-wrap: anywhere;
     }
 
-    .connection-item p {
-      line-height: 1.45;
-    }
+    .connection-item p { line-height: 1.45; }
 
     .muted {
       color: #6b7280;
       font-size: 14px;
     }
-
-    /* JEZIK */
 
     .language-menu {
       width: 100%;
@@ -186,8 +180,6 @@
       color: #111827;
       text-align: center;
     }
-
-    /* GLAVNI MENI */
 
     .main-menu {
       display: grid;
@@ -211,7 +203,6 @@
       justify-content: center;
       gap: 8px;
       box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
-      cursor: pointer;
     }
 
     .menu-symbol {
@@ -224,15 +215,9 @@
       font-weight: 600;
     }
 
-    .menu-button:active {
-      transform: scale(0.98);
-    }
+    .menu-button:active { transform: scale(0.98); }
 
-    .employer-button {
-      margin-top: 10px;
-    }
-
-    /* UPUTE */
+    .employer-button { margin-top: 10px; }
 
     .instructions {
       margin-top: 24px;
@@ -255,9 +240,7 @@
       font-size: 14px;
     }
 
-    .instruction-item:last-child {
-      margin-bottom: 0;
-    }
+    .instruction-item:last-child { margin-bottom: 0; }
 
     .instruction-title {
       font-weight: 700;
@@ -271,8 +254,13 @@
       color: #9ca3af;
     }
 
-    [hidden] {
-      display: none !important;
+    [hidden] { display: none !important; }
+
+    @media (max-width: 420px) {
+      .container { padding: 10px; }
+      .card { padding: 14px; }
+      .main-menu { gap: 7px; }
+      .menu-text { font-size: 12px; }
     }
   </style>
 </head>
@@ -280,8 +268,6 @@
 <body>
   <div class="container">
     <div class="card">
-
-      <!-- PRIJAVA -->
 
       <div id="genieLoginPanel">
         <h2>Dobro došli u Genie</h2>
@@ -301,7 +287,7 @@
         <input
           type="email"
           id="genieEmail"
-          autocomplete="email"
+          autocomplete="username"
           placeholder="Unesite e-mail"
         >
 
@@ -332,8 +318,6 @@
           Odjava
         </button>
       </div>
-
-      <!-- POSLODAVAC: SLANJE ZAHTEVA -->
 
       <section id="employerConnectionPanel" class="connection-panel" hidden>
         <h2>Povezivanje sa radnikom</h2>
@@ -367,8 +351,6 @@
         </div>
       </section>
 
-      <!-- RADNIK: PRIHVATANJE ZAHTEVA -->
-
       <section id="workerConnectionPanel" class="connection-panel" hidden>
         <h2>Zahtevi poslodavaca</h2>
 
@@ -380,8 +362,6 @@
           <p class="muted">Provera zahteva...</p>
         </div>
       </section>
-
-      <!-- HEADER -->
 
       <div class="header genie-header">
         <div class="genie-logo">
@@ -395,8 +375,6 @@
         </div>
       </div>
 
-      <!-- JEZIK -->
-
       <div class="language-menu">
         <select id="languageSelect">
           <option value="sv">🇸🇪 Svenska</option>
@@ -404,8 +382,6 @@
           <option value="sr">🇷🇸 Srpski</option>
         </select>
       </div>
-
-      <!-- GLAVNI MENI -->
 
       <div class="main-menu">
         <button
@@ -438,8 +414,6 @@
         </button>
       </div>
 
-      <!-- ARBETSGIVARE -->
-
       <button
         type="button"
         class="menu-button employer-button"
@@ -448,8 +422,6 @@
         <span class="menu-symbol">🏢</span>
         <span class="menu-text" id="arbetsgivareText">Arbetsgivare</span>
       </button>
-
-      <!-- UPUTE -->
 
       <div class="instructions">
         <h2 id="instructionsTitle">Så använder du Genie</h2>
@@ -506,13 +478,9 @@
         </div>
       </div>
 
-      <!-- FOOTER -->
-
       <div class="footer">Genie</div>
     </div>
   </div>
-
-  <!-- JEZIK -->
 
   <script>
     const translations = {
@@ -618,15 +586,13 @@
     const languageSelect = document.getElementById("languageSelect");
     const savedLanguage = localStorage.getItem("genieLanguage") || "sv";
 
-    languageSelect.value = savedLanguage;
-    changeLanguage(savedLanguage);
+    languageSelect.value = translations[savedLanguage] ? savedLanguage : "sv";
+    changeLanguage(languageSelect.value);
 
     languageSelect.addEventListener("change", function () {
       changeLanguage(this.value);
     });
   </script>
-
-  <!-- FIREBASE I POVEZIVANJE -->
 
   <script type="module">
     import {
@@ -634,14 +600,17 @@
       signInGenie,
       signOutGenie,
       watchGenieAuth,
+      getCurrentGenieProfile,
+      currentGenieUser,
       sendConnectionRequest,
       watchWorkerConnectionRequests,
       respondToConnectionRequest,
       watchEmployerConnections
-    } from "./genie-firebase.js?v=2";
+    } from "./genie-firebase.js?v=3";
 
     let selectedRole = "";
     let activeUser = null;
+    let authActionInProgress = false;
     let stopWorkerRequests = null;
     let stopEmployerConnections = null;
 
@@ -715,6 +684,17 @@
       stopConnectionListeners();
     }
 
+    function renderError(container, text) {
+      container.replaceChildren();
+
+      const errorText = document.createElement("p");
+      errorText.className = "muted";
+      errorText.setAttribute("role", "alert");
+      errorText.textContent = text;
+
+      container.appendChild(errorText);
+    }
+
     function showWorkerPanel() {
       employerPanel.hidden = true;
       workerPanel.hidden = false;
@@ -724,9 +704,26 @@
 
       stopConnectionListeners();
 
-      stopWorkerRequests = watchWorkerConnectionRequests((requests) => {
-        renderWorkerRequests(requests);
-      });
+      try {
+        stopWorkerRequests = watchWorkerConnectionRequests(
+          (requests, error) => {
+            if (error) {
+              renderError(
+                workerRequestsList,
+                "Ne mogu da učitam zahteve: " + error.message
+              );
+              return;
+            }
+
+            renderWorkerRequests(requests);
+          }
+        );
+      } catch (error) {
+        renderError(
+          workerRequestsList,
+          error.message || "Učitavanje zahteva nije uspelo."
+        );
+      }
     }
 
     function showEmployerPanel() {
@@ -739,9 +736,26 @@
 
       stopConnectionListeners();
 
-      stopEmployerConnections = watchEmployerConnections((connections) => {
-        renderEmployerConnections(connections);
-      });
+      try {
+        stopEmployerConnections = watchEmployerConnections(
+          (connections, error) => {
+            if (error) {
+              renderError(
+                employerConnectionsList,
+                "Ne mogu da učitam povezane radnike: " + error.message
+              );
+              return;
+            }
+
+            renderEmployerConnections(connections);
+          }
+        );
+      } catch (error) {
+        renderError(
+          employerConnectionsList,
+          error.message || "Učitavanje povezanih radnika nije uspelo."
+        );
+      }
     }
 
     function renderWorkerRequests(requests) {
@@ -763,7 +777,9 @@
         heading.textContent = "Zahtev za povezivanje";
 
         const email = document.createElement("p");
-        email.textContent = "Poslodavac: " + (request.employerEmail || "E-mail nije dostupan");
+        email.textContent =
+          "Poslodavac: " +
+          (request.employerEmail || "E-mail nije dostupan");
 
         const approveButton = document.createElement("button");
         approveButton.type = "button";
@@ -778,34 +794,33 @@
         const status = document.createElement("p");
         status.setAttribute("role", "status");
 
-        approveButton.addEventListener("click", async () => {
+        async function answerRequest(decision) {
           approveButton.disabled = true;
           rejectButton.disabled = true;
           status.textContent = "Obrađujem zahtev...";
 
           try {
-            await respondToConnectionRequest(request.id, "approved");
-            status.textContent = "Zahtev je prihvaćen.";
+            await respondToConnectionRequest(request.id, decision);
+
+            status.textContent =
+              decision === "approved"
+                ? "Zahtev je prihvaćen."
+                : "Zahtev je odbijen.";
           } catch (error) {
-            status.textContent = error.message || "Zahtev nije mogao biti prihvaćen.";
+            status.textContent =
+              error.message || "Odgovor na zahtev nije uspeo.";
+
             approveButton.disabled = false;
             rejectButton.disabled = false;
           }
+        }
+
+        approveButton.addEventListener("click", () => {
+          answerRequest("approved");
         });
 
-        rejectButton.addEventListener("click", async () => {
-          approveButton.disabled = true;
-          rejectButton.disabled = true;
-          status.textContent = "Obrađujem zahtev...";
-
-          try {
-            await respondToConnectionRequest(request.id, "rejected");
-            status.textContent = "Zahtev je odbijen.";
-          } catch (error) {
-            status.textContent = error.message || "Zahtev nije mogao biti odbijen.";
-            approveButton.disabled = false;
-            rejectButton.disabled = false;
-          }
+        rejectButton.addEventListener("click", () => {
+          answerRequest("rejected");
         });
 
         item.append(heading, email, approveButton, rejectButton, status);
@@ -832,7 +847,8 @@
         heading.textContent = "Povezan radnik";
 
         const detail = document.createElement("p");
-        detail.textContent = "ID radnika: " + (connection.workerUid || "Nije dostupan");
+        detail.textContent =
+          "ID radnika: " + (connection.workerUid || "Nije dostupan");
 
         const status = document.createElement("p");
         status.textContent = "Status: aktivna veza";
@@ -844,6 +860,8 @@
 
     document.getElementById("genieRegisterButton")
       .addEventListener("click", async () => {
+        authActionInProgress = true;
+
         try {
           const { email, password } = getCredentials();
 
@@ -851,8 +869,7 @@
 
           await createGenieAccount(email, password, selectedRole);
 
-          message.textContent =
-            "Nalog je kreiran. Proveravam pristup...";
+          message.textContent = "Nalog je kreiran.";
 
           if (selectedRole === "worker") {
             showWorkerPanel();
@@ -864,11 +881,15 @@
         } catch (error) {
           message.textContent =
             error.message || "Greška pri kreiranju naloga.";
+        } finally {
+          authActionInProgress = false;
         }
       });
 
     document.getElementById("genieLoginButton")
       .addEventListener("click", async () => {
+        authActionInProgress = true;
+
         try {
           const { email, password } = getCredentials();
 
@@ -886,6 +907,12 @@
         } catch (error) {
           message.textContent =
             error.message || "Greška pri prijavi.";
+
+          if (!currentGenieUser()) {
+            hideConnectionPanels();
+          }
+        } finally {
+          authActionInProgress = false;
         }
       });
 
@@ -903,7 +930,10 @@
           return;
         }
 
-        const button = document.getElementById("sendConnectionRequestButton");
+        const button = document.getElementById(
+          "sendConnectionRequestButton"
+        );
+
         button.disabled = true;
         connectionMessage.textContent = "Šaljem zahtev...";
 
@@ -933,17 +963,65 @@
         roleText.textContent = "Izaberite Radnik ili Poslodavac";
         workerButton.classList.remove("selected");
         employerButton.classList.remove("selected");
+
         message.textContent = "Uspešno ste se odjavili.";
       } catch (error) {
         message.textContent = error.message || "Odjava nije uspela.";
       }
     });
 
-    watchGenieAuth((user) => {
+    // Prepoznaj korisnika i njegovu ulogu nakon ponovnog otvaranja Genija.
+    watchGenieAuth(async (user) => {
       activeUser = user;
 
       if (!user) {
         hideConnectionPanels();
+        return;
+      }
+
+      // Registracija i prijava same prikazuju odgovarajući panel.
+      if (authActionInProgress) return;
+
+      try {
+        const result = await getCurrentGenieProfile();
+
+        // Ako se korisnik u međuvremenu odjavio, ne prikazuj stari profil.
+        if (!activeUser || activeUser.uid !== user.uid) return;
+
+        const profile = result.profile;
+
+        if (profile.requestedRole === "worker" &&
+            profile.role === "worker") {
+          selectRole("worker");
+          showWorkerPanel();
+          message.textContent = "Prijavljeni ste kao radnik.";
+          return;
+        }
+
+        if (
+          profile.requestedRole === "employer" &&
+          (profile.role === "pending" || profile.role === "employer")
+        ) {
+          selectRole("employer");
+          showEmployerPanel();
+          message.textContent = "Prijavljeni ste kao poslodavac.";
+          return;
+        }
+
+        hideConnectionPanels();
+        logoutButton.hidden = false;
+        message.textContent =
+          "Uloga naloga nije odgovarajuća. Odjavite se i proverite nalog.";
+      } catch (error) {
+        hideConnectionPanels();
+
+        // Omogući odjavu i ako profil ne može da se učita.
+        if (activeUser && activeUser.uid === user.uid) {
+          logoutButton.hidden = false;
+          message.textContent =
+            "Nalog je prijavljen, ali profil nije učitan: " +
+            (error.message || "nepoznata greška");
+        }
       }
     });
   </script>
