@@ -1,7 +1,9 @@
 
+
 /*
   GENIE – FIREBASE POVEZIVANJE
   Projekat: genie-255f7
+  Prijava, veze radnika i poslodavaca i obračuni plata.
 */
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
@@ -12,6 +14,7 @@ import {
   collection,
   setDoc,
   getDoc,
+  getDocs,
   query,
   where,
   onSnapshot,
@@ -40,19 +43,16 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Ujednačavanje e-mail adrese.
 function cleanEmail(email) {
   return String(email || "").trim().toLowerCase();
 }
 
-// Provera izabrane uloge.
 function validateRole(role) {
   if (role !== "worker" && role !== "employer") {
     throw new Error("Izaberite Radnik ili Poslodavac.");
   }
 }
 
-// Provera prijavljenog korisnika.
 function requireSignedInUser() {
   const user = auth.currentUser;
 
@@ -63,7 +63,6 @@ function requireSignedInUser() {
   return user;
 }
 
-// Čitanje profila trenutno prijavljenog korisnika.
 async function getMyProfile() {
   const user = requireSignedInUser();
   const profileRef = doc(db, "users", user.uid);
@@ -81,12 +80,10 @@ async function getMyProfile() {
   };
 }
 
-// Prepoznavanje uloge korisnika.
 export async function getCurrentGenieProfile() {
   return await getMyProfile();
 }
 
-// Kreiranje novog naloga.
 export async function createGenieAccount(
   email,
   password,
@@ -118,10 +115,7 @@ export async function createGenieAccount(
   };
 
   try {
-    await setDoc(
-      doc(db, "users", result.user.uid),
-      profile
-    );
+    await setDoc(doc(db, "users", result.user.uid), profile);
   } catch (error) {
     await signOut(auth);
 
@@ -135,7 +129,6 @@ export async function createGenieAccount(
   return result.user;
 }
 
-// Prijava i provera uloge.
 export async function signInGenie(
   email,
   password,
@@ -164,7 +157,6 @@ export async function signInGenie(
     if (profileSnap.exists()) {
       profile = profileSnap.data();
     } else {
-      // Oporavak naloga koji nema sačuvan profil.
       profile = {
         role: requestedRole === "worker" ? "worker" : "pending",
         requestedRole,
@@ -204,17 +196,21 @@ export async function signInGenie(
   }
 }
 
-// Poslodavac šalje zahtev na e-mail radnika.
+/* -----------------------------------------
+   POVEZIVANJE RADNIKA I POSLODAVCA
+----------------------------------------- */
+
 export async function sendConnectionRequest(workerEmail) {
   const { user, profile } = await getMyProfile();
 
   if (
     profile.requestedRole !== "employer" ||
-    (profile.role !== "employer" && profile.role !== "pending")
+    (
+      profile.role !== "employer" &&
+      profile.role !== "pending"
+    )
   ) {
-    throw new Error(
-      "Samo nalog poslodavca može slati zahtev."
-    );
+    throw new Error("Samo nalog poslodavca može slati zahtev.");
   }
 
   const targetEmail = cleanEmail(workerEmail);
@@ -227,9 +223,7 @@ export async function sendConnectionRequest(workerEmail) {
     throw new Error("Ne možete poslati zahtev sebi.");
   }
 
-  const requestRef = doc(
-    collection(db, "connectionRequests")
-  );
+  const requestRef = doc(collection(db, "connectionRequests"));
 
   await setDoc(requestRef, {
     employerUid: user.uid,
@@ -242,7 +236,6 @@ export async function sendConnectionRequest(workerEmail) {
   return requestRef.id;
 }
 
-// Radnik prati zahteve poslate na njegov e-mail.
 export function watchWorkerConnectionRequests(callback) {
   const user = requireSignedInUser();
 
@@ -262,13 +255,10 @@ export function watchWorkerConnectionRequests(callback) {
 
       callback(requests, null);
     },
-    (error) => {
-      callback([], error);
-    }
+    (error) => callback([], error)
   );
 }
 
-// Radnik prihvata ili odbija zahtev.
 export async function respondToConnectionRequest(
   requestId,
   decision
@@ -293,11 +283,7 @@ export async function respondToConnectionRequest(
     throw new Error("Nedostaje identifikacija zahteva.");
   }
 
-  const requestRef = doc(
-    db,
-    "connectionRequests",
-    requestId
-  );
+  const requestRef = doc(db, "connectionRequests", requestId);
 
   await runTransaction(db, async (transaction) => {
     const requestSnap = await transaction.get(requestRef);
@@ -312,9 +298,7 @@ export async function respondToConnectionRequest(
       cleanEmail(requestData.workerEmail) !==
       cleanEmail(user.email)
     ) {
-      throw new Error(
-        "Ovaj zahtev nije namenjen vašem nalogu."
-      );
+      throw new Error("Ovaj zahtev nije namenjen vašem nalogu.");
     }
 
     if (requestData.status !== "pending") {
@@ -347,7 +331,6 @@ export async function respondToConnectionRequest(
   return decision;
 }
 
-// Poslodavac prati povezane radnike.
 export function watchEmployerConnections(callback) {
   const user = requireSignedInUser();
 
@@ -367,13 +350,10 @@ export function watchEmployerConnections(callback) {
 
       callback(connections, null);
     },
-    (error) => {
-      callback([], error);
-    }
+    (error) => callback([], error)
   );
 }
 
-// NOVO: Radnik prati svoje aktivne veze sa poslodavcima.
 export function watchWorkerConnections(callback) {
   const user = requireSignedInUser();
 
@@ -393,23 +373,180 @@ export function watchWorkerConnections(callback) {
 
       callback(connections, null);
     },
-    (error) => {
-      callback([], error);
-    }
+    (error) => callback([], error)
   );
 }
 
-// Odjava.
+/* -----------------------------------------
+   OBRAČUNI PLATA – PRIPREMA ZA FIREBASE
+----------------------------------------- */
+
+function makeSalaryRecordId(workerUid, employerUid, record) {
+  const type = encodeURIComponent(String(record.type || "Timlon"));
+  const period = encodeURIComponent(
+    String(record.periodKey || record.periodStart || "period")
+  );
+
+  return workerUid + "_" + employerUid + "_" + type + "_" + period;
+}
+
+/*
+  Poziva se sa stranice obračuna kada radnik sačuva platu.
+  Čuva poseban primerak za svakog aktivno povezanog poslodavca.
+  Firestore pravila za salaryRecords još moraju biti podešena
+  pre nego što ovaj prenos može uspešno da radi.
+*/
+export async function saveWorkerSalaryRecord(record) {
+  const { user, profile } = await getMyProfile();
+
+  if (
+    profile.requestedRole !== "worker" ||
+    profile.role !== "worker"
+  ) {
+    throw new Error("Samo radnik može poslati svoj obračun plate.");
+  }
+
+  if (!record || typeof record !== "object") {
+    throw new Error("Podaci obračuna nisu pronađeni.");
+  }
+
+  if (!record.type || !record.periodKey) {
+    throw new Error(
+      "Obračunu nedostaje vrsta plate ili obračunski period."
+    );
+  }
+
+  const connectionsQuery = query(
+    collection(db, "connections"),
+    where("workerUid", "==", user.uid),
+    where("status", "==", "active")
+  );
+
+  const connectionSnapshot = await getDocs(connectionsQuery);
+
+  if (connectionSnapshot.empty) {
+    return {
+      uploaded: 0,
+      message: "Nema aktivno povezanog poslodavca."
+    };
+  }
+
+  let uploaded = 0;
+
+  for (const connectionDoc of connectionSnapshot.docs) {
+    const connection = connectionDoc.data();
+
+    if (
+      connection.workerUid !== user.uid ||
+      !connection.employerUid ||
+      connection.status !== "active"
+    ) {
+      continue;
+    }
+
+    const salaryRecord = {
+      workerUid: user.uid,
+      employerUid: connection.employerUid,
+      workerEmail: cleanEmail(user.email),
+      employee: String(record.employee || ""),
+      employer: String(record.employer || ""),
+      type: String(record.type),
+      periodStart: String(record.periodStart || ""),
+      periodEnd: String(record.periodEnd || ""),
+      periodKey: String(record.periodKey),
+      hours: record.hours || {},
+      rates: record.rates || {},
+      holidayPay: Number(record.holidayPay || 0),
+      tax: Number(record.tax || 0),
+      calculation: record.calculation || {},
+      updatedAt: serverTimestamp()
+    };
+
+    const recordId = makeSalaryRecordId(
+      user.uid,
+      connection.employerUid,
+      record
+    );
+
+    await setDoc(
+      doc(db, "salaryRecords", recordId),
+      salaryRecord,
+      { merge: true }
+    );
+
+    uploaded++;
+  }
+
+  return {
+    uploaded,
+    message: "Obračun je poslat povezanim poslodavcima."
+  };
+}
+
+/*
+  Poslodavac prati obračune koji pripadaju njegovom nalogu.
+  Pravila baze moraju dozvoliti samo čitanje obračuna
+  radnika sa kojima postoji aktivna veza.
+*/
+export function watchEmployerSalaryRecords(callback) {
+  const user = requireSignedInUser();
+
+  const recordsQuery = query(
+    collection(db, "salaryRecords"),
+    where("employerUid", "==", user.uid)
+  );
+
+  return onSnapshot(
+    recordsQuery,
+    (snapshot) => {
+      const records = snapshot.docs.map((item) => ({
+        id: item.id,
+        ...item.data()
+      }));
+
+      callback(records, null);
+    },
+    (error) => callback([], error)
+  );
+}
+
+/*
+  Radnik prati svoje obračune sa Firebasea.
+*/
+export function watchWorkerSalaryRecords(callback) {
+  const user = requireSignedInUser();
+
+  const recordsQuery = query(
+    collection(db, "salaryRecords"),
+    where("workerUid", "==", user.uid)
+  );
+
+  return onSnapshot(
+    recordsQuery,
+    (snapshot) => {
+      const records = snapshot.docs.map((item) => ({
+        id: item.id,
+        ...item.data()
+      }));
+
+      callback(records, null);
+    },
+    (error) => callback([], error)
+  );
+}
+
+/* -----------------------------------------
+   PRIJAVA I ODJAVA
+----------------------------------------- */
+
 export async function signOutGenie() {
   await signOut(auth);
 }
 
-// Trenutni korisnik.
 export function currentGenieUser() {
   return auth.currentUser;
 }
 
-// Praćenje prijave i odjave.
 export function watchGenieAuth(callback) {
   return onAuthStateChanged(auth, callback);
 }
