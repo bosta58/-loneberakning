@@ -361,6 +361,12 @@
         <div id="workerRequestsList">
           <p class="muted">Provera zahteva...</p>
         </div>
+
+        <h2 style="margin-top: 24px;">Povezani poslodavci</h2>
+
+        <div id="workerConnectionsList">
+          <p class="muted">Provera povezanih poslodavaca...</p>
+        </div>
       </section>
 
       <div class="header genie-header">
@@ -605,13 +611,15 @@
       sendConnectionRequest,
       watchWorkerConnectionRequests,
       respondToConnectionRequest,
-      watchEmployerConnections
-    } from "./genie-firebase.js?v=3";
+      watchEmployerConnections,
+      watchWorkerConnections
+    } from "./genie-firebase.js?v=4";
 
     let selectedRole = "";
     let activeUser = null;
     let authActionInProgress = false;
     let stopWorkerRequests = null;
+    let stopWorkerConnections = null;
     let stopEmployerConnections = null;
 
     const workerButton = document.getElementById("workerRoleButton");
@@ -623,6 +631,7 @@
     const employerPanel = document.getElementById("employerConnectionPanel");
 
     const workerRequestsList = document.getElementById("workerRequestsList");
+    const workerConnectionsList = document.getElementById("workerConnectionsList");
     const employerConnectionsList = document.getElementById("employerConnectionsList");
 
     const connectionMessage = document.getElementById("connectionMessage");
@@ -669,11 +678,16 @@
         stopWorkerRequests();
       }
 
+      if (typeof stopWorkerConnections === "function") {
+        stopWorkerConnections();
+      }
+
       if (typeof stopEmployerConnections === "function") {
         stopEmployerConnections();
       }
 
       stopWorkerRequests = null;
+      stopWorkerConnections = null;
       stopEmployerConnections = null;
     }
 
@@ -701,6 +715,7 @@
       logoutButton.hidden = false;
 
       workerRequestsList.textContent = "Učitavanje zahteva...";
+      workerConnectionsList.textContent = "Učitavanje povezanih poslodavaca...";
 
       stopConnectionListeners();
 
@@ -722,6 +737,27 @@
         renderError(
           workerRequestsList,
           error.message || "Učitavanje zahteva nije uspelo."
+        );
+      }
+
+      try {
+        stopWorkerConnections = watchWorkerConnections(
+          (connections, error) => {
+            if (error) {
+              renderError(
+                workerConnectionsList,
+                "Ne mogu da učitam povezane poslodavce: " + error.message
+              );
+              return;
+            }
+
+            renderWorkerConnections(connections);
+          }
+        );
+      } catch (error) {
+        renderError(
+          workerConnectionsList,
+          error.message || "Učitavanje povezanih poslodavaca nije uspelo."
         );
       }
     }
@@ -825,6 +861,36 @@
 
         item.append(heading, email, approveButton, rejectButton, status);
         workerRequestsList.appendChild(item);
+      });
+    }
+
+    function renderWorkerConnections(connections) {
+      workerConnectionsList.replaceChildren();
+
+      if (!Array.isArray(connections) || connections.length === 0) {
+        const empty = document.createElement("p");
+        empty.className = "muted";
+        empty.textContent = "Trenutno nemate povezanih poslodavaca.";
+        workerConnectionsList.appendChild(empty);
+        return;
+      }
+
+      connections.forEach((connection) => {
+        const item = document.createElement("div");
+        item.className = "connection-item";
+
+        const heading = document.createElement("strong");
+        heading.textContent = "Povezan poslodavac";
+
+        const detail = document.createElement("p");
+        detail.textContent =
+          "ID poslodavca: " + (connection.employerUid || "Nije dostupan");
+
+        const status = document.createElement("p");
+        status.textContent = "Status: aktivna veza";
+
+        item.append(heading, detail, status);
+        workerConnectionsList.appendChild(item);
       });
     }
 
