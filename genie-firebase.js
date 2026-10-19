@@ -1,3 +1,4 @@
+
 /*
   GENIE – FIREBASE POVEZIVANJE
   Projekat: genie-255f7
@@ -80,8 +81,7 @@ async function getMyProfile() {
   };
 }
 
-// Ova funkcija omogućava index.html da prepozna
-// ulogu korisnika kada ponovo otvori Genie.
+// Prepoznavanje uloge korisnika.
 export async function getCurrentGenieProfile() {
   return await getMyProfile();
 }
@@ -164,8 +164,7 @@ export async function signInGenie(
     if (profileSnap.exists()) {
       profile = profileSnap.data();
     } else {
-      // Ostavlja mogućnost oporavka naloga koji postoji
-      // u Firebase Authentication, ali nema sačuvan profil.
+      // Oporavak naloga koji nema sačuvan profil.
       profile = {
         role: requestedRole === "worker" ? "worker" : "pending",
         requestedRole,
@@ -244,9 +243,7 @@ export async function sendConnectionRequest(workerEmail) {
 }
 
 // Radnik prati zahteve poslate na njegov e-mail.
-export function watchWorkerConnectionRequests(
-  callback
-) {
+export function watchWorkerConnectionRequests(callback) {
   const user = requireSignedInUser();
 
   const requestsQuery = query(
@@ -357,6 +354,32 @@ export function watchEmployerConnections(callback) {
   const connectionsQuery = query(
     collection(db, "connections"),
     where("employerUid", "==", user.uid),
+    where("status", "==", "active")
+  );
+
+  return onSnapshot(
+    connectionsQuery,
+    (snapshot) => {
+      const connections = snapshot.docs.map((item) => ({
+        id: item.id,
+        ...item.data()
+      }));
+
+      callback(connections, null);
+    },
+    (error) => {
+      callback([], error);
+    }
+  );
+}
+
+// NOVO: Radnik prati svoje aktivne veze sa poslodavcima.
+export function watchWorkerConnections(callback) {
+  const user = requireSignedInUser();
+
+  const connectionsQuery = query(
+    collection(db, "connections"),
+    where("workerUid", "==", user.uid),
     where("status", "==", "active")
   );
 
