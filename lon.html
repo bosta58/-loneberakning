@@ -2976,6 +2976,57 @@ loadSavedCalculation();
 loadEmployerMessage();
 
 </script>
-<script type="module" src="genie-firebase.js"></script>
+
+<script type="module">
+import { saveWorkerSalaryRecord } from "./genie-firebase.js";
+
+const originalCalculateSalary = window.calculateSalary;
+
+window.calculateSalary = async function () {
+  const savedHours = localStorage.getItem("salaryHours");
+
+  if (!savedHours) {
+    originalCalculateSalary();
+    return;
+  }
+
+  const employee = document.getElementById("employeeInfo").value.trim();
+  const start = document.getElementById("periodStart").value;
+  const end = document.getElementById("periodEnd").value;
+
+  originalCalculateSalary();
+
+  if (!employee || !start || !end) {
+    alert("Obračun je sačuvan na ovom telefonu. Unesite ime radnika i period od–do da biste ga poslali poslodavcu.");
+    return;
+  }
+
+  const employeeKey = employee.toLowerCase().replace(/\s+/g, " ");
+  const periodKey = start + "_" + end;
+
+  try {
+    const allData = JSON.parse(
+      localStorage.getItem("genieSalaryData") || "{}"
+    );
+
+    const record =
+      allData?.[employeeKey]?.types?.["Timlön"]?.[periodKey];
+
+    if (!record) {
+      alert("Obračun je sačuvan lokalno, ali nije pronađen za slanje.");
+      return;
+    }
+
+    const result = await saveWorkerSalaryRecord(record);
+
+    alert(result?.message || "Slanje obračuna je završeno.");
+
+  } catch (error) {
+    console.error("Genie Firebase salary upload error:", error);
+
+    alert("Obračun je sačuvan na telefonu, ali slanje nije uspelo. Proverite prijavu i aktivnu vezu sa poslodavcem.");
+  }
+};
+</script>
 </body>
 </html>
