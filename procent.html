@@ -2814,5 +2814,78 @@ loadEmployerMessage();
 
 </script>
 
+<script type="module">
+import { saveWorkerSalaryRecord } from "./genie-firebase.js?v=2";
+
+const originalCalculateAndSaveSalary =
+  window.calculateAndSaveSalary;
+
+window.calculateAndSaveSalary = async function () {
+  const calculation = window.calculateSalary();
+
+  if (!calculation) {
+    return;
+  }
+
+  window.saveSalaryToEmployer(calculation);
+
+  const employee =
+    document.getElementById("employeeInfo").value.trim();
+
+  const employer =
+    document.getElementById("employerInfo").value.trim();
+
+  const periodStart =
+    document.getElementById("periodStart").value || "";
+
+  const periodEnd =
+    document.getElementById("periodEnd").value || "";
+
+  const employeeKey = employee
+    .replace(/\s+/g, " ")
+    .toLowerCase() || "utan-namn";
+
+  const periodKey =
+    periodStart || periodEnd
+      ? periodStart + "_" + periodEnd
+      : "utan-period";
+
+  const allData = JSON.parse(
+    localStorage.getItem("genieSalaryData") || "{}"
+  );
+
+  const record =
+    allData[employeeKey]?.types?.["Kollektivavtal"]?.[periodKey];
+
+  if (!record) {
+    alert("Obračun je sačuvan na telefonu, ali podaci nisu pronađeni za slanje poslodavcu.");
+    return;
+  }
+
+  record.type = "Kollektivavtal";
+  record.periodKey = periodKey;
+  record.employee = employee;
+  record.employer = employer;
+  record.periodStart = periodStart;
+  record.periodEnd = periodEnd;
+
+  try {
+    const result = await saveWorkerSalaryRecord(record);
+
+    if (result && result.uploaded > 0) {
+      alert("Obračun Kollektivavtal je poslat poslodavcu.");
+    } else {
+      alert(
+        result?.message ||
+        "Obračun je sačuvan na telefonu, ali nije potvrđeno slanje poslodavcu."
+      );
+    }
+  } catch (error) {
+    console.error("Greška pri slanju obračuna:", error);
+    alert("Obračun je sačuvan na telefonu, ali slanje poslodavcu nije uspelo. Proveri internet vezu i prijavu.");
+  }
+};
+</script>
+
 </body>
 </html>
