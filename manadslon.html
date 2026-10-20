@@ -1907,5 +1907,105 @@ updateTargetAndDifference();
 applyLanguage();
 saveMonthlySalaryRecord();
 </script>
+   <script type="module">
+import { saveWorkerSalaryRecord } from "./genie-firebase.js";
+
+const monthlyStopButton = document.getElementById("stopButton");
+const originalMonthlyStopHandler = monthlyStopButton.onclick;
+
+monthlyStopButton.onclick = async function () {
+  if (!originalMonthlyStopHandler) return;
+
+  const activeStart = localStorage.getItem(
+    "genie_manadslon_active_start"
+  );
+
+  if (!activeStart) {
+    originalMonthlyStopHandler.call(this);
+    return;
+  }
+
+  originalMonthlyStopHandler.call(this);
+
+  try {
+    const employeeInput = document.getElementById("employeeInfo");
+    const employeeKey = String(employeeInput?.value || "")
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, " ");
+
+    const periodStart =
+      document.getElementById("periodStart")?.value || "";
+    const periodEnd =
+      document.getElementById("periodEnd")?.value || "";
+
+    const periodKey =
+      !periodStart && !periodEnd
+        ? "utan-period"
+        : (periodStart || "utan-start") +
+          "_" +
+          (periodEnd || "utan-slut");
+
+    const allData = JSON.parse(
+      localStorage.getItem("genieSalaryData") || "{}"
+    );
+
+    const savedRecord =
+      allData[employeeKey]?.types?.["Månadslön"]?.[periodKey];
+
+    if (!savedRecord) {
+      alert(
+        "Arbetstiden sparades lokalt, men löneposten kunde inte hittas för överföring."
+      );
+      return;
+    }
+
+    const record = {
+      type: "Månadslön",
+      periodKey: periodKey,
+      employee: savedRecord.employee || "",
+      employer: savedRecord.employer || "",
+      periodStart: savedRecord.periodStart || "",
+      periodEnd: savedRecord.periodEnd || "",
+      hours: {
+        totalMinutes: Number(savedRecord.totalMinutes || 0),
+        totalHours: Number(savedRecord.totalMinutes || 0) / 60,
+        workTarget: Number(savedRecord.workTarget || 0)
+      },
+      rates: {
+        monthlySalary: Number(savedRecord.monthlySalary || 0),
+        nightStart: savedRecord.nightStart || "",
+        nightEnd: savedRecord.nightEnd || ""
+      },
+      holidayPay: 0,
+      tax: 0,
+      calculation: {
+        monthlySalary: Number(savedRecord.monthlySalary || 0),
+        totalMinutes: Number(savedRecord.totalMinutes || 0),
+        totalHours: savedRecord.totalHours || "",
+        targetHours: savedRecord.targetHours || "",
+        difference: savedRecord.difference || ""
+      }
+    };
+
+    const result = await saveWorkerSalaryRecord(record);
+
+    if (result && result.uploaded > 0) {
+      alert("Månadslön och arbetstid har skickats till arbetsgivaren.");
+    } else {
+      alert(
+        result?.message ||
+        "Uppgifterna sparades på telefonen, men ingen aktiv arbetsgivarkoppling kunde bekräftas."
+      );
+    }
+  } catch (error) {
+    console.error("Genie Firebase:", error);
+    alert(
+      "Arbetstiden är sparad lokalt, men överföringen till arbetsgivaren misslyckades."
+    );
+  }
+};
+</script>
+
 </body>
 </html>
