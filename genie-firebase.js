@@ -13,6 +13,7 @@ import {
   doc,
   collection,
   setDoc,
+    updateDoc,
   getDoc,
   getDocs,
   query,
