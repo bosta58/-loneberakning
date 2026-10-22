@@ -2876,140 +2876,70 @@
      KOMMUNIKATION
   ========================================== */
 
-  function contactEmployee(index) {
+  
+async function contactEmployee(index) {
 
-    const employee =
-      employees[index];
+  const employee = employees[index];
 
+  if (!employee) {
+    return;
+  }
 
-    if (!employee) {
+  const salary = getSalaryDataForEmployee(
+    employee.name
+  );
 
-      return;
+  const message = prompt(
+    t("messagePrompt") +
+    employee.name +
+    ":"
+  );
 
-    }
+  if (!message || message.trim() === "") {
+    return;
+  }
 
+  const periodStart =
+    salary && salary.data
+      ? salary.data.periodStart || ""
+      : "";
 
-    const salary =
-      getSalaryDataForEmployee(
-        employee.name
-      );
+  const periodEnd =
+    salary && salary.data
+      ? salary.data.periodEnd || ""
+      : "";
 
+  const periodKey =
+    periodStart && periodEnd
+      ? periodStart + "_" + periodEnd
+      : "utan-period";
 
-    const message =
-      prompt(
-        t("messagePrompt") +
-        employee.name +
-        ":"
-      );
-
+  try {
 
     if (
-      !message ||
-      message.trim() === ""
+      typeof window.sendGenieMessageToWorker !==
+      "function"
     ) {
-
-      return;
-
+      throw new Error(
+        "Firebase poruke još nisu povezane sa stranicom."
+      );
     }
 
+    await window.sendGenieMessageToWorker({
 
-    const messages =
-      JSON.parse(
-        localStorage.getItem(
-          GENIE_MESSAGES_KEY
-        )
-      ) || [];
+      employee: employee.name,
 
+      payType: salary ? salary.type : "",
 
-    const now =
-      new Date();
+      message: message.trim(),
 
+      periodStart: periodStart,
 
-    const activeType =
-      salary
-        ? salary.type
-        : "";
+      periodEnd: periodEnd,
 
-
-    const periodStart =
-      salary &&
-      salary.data
-        ? salary.data.periodStart || ""
-        : "";
-
-
-    const periodEnd =
-      salary &&
-      salary.data
-        ? salary.data.periodEnd || ""
-        : "";
-
-
-    messages.push({
-
-      employee:
-        employee.name,
-
-      type:
-        "Arbetsgivare",
-
-      payType:
-        activeType,
-
-      message:
-        message.trim(),
-
-      date:
-        now.toLocaleDateString(
-          "sv-SE"
-        ),
-
-      time:
-        now.toLocaleTimeString(
-          "sv-SE",
-          {
-            hour:
-              "2-digit",
-
-            minute:
-              "2-digit"
-          }
-        ),
-
-      status:
-        "Ny kommentar",
-
-      reply:
-        "",
-
-      replyDate:
-        "",
-
-      replyTime:
-        "",
-
-      periodStart:
-        periodStart,
-
-      periodEnd:
-        periodEnd,
-
-      periodKey:
-        periodStart &&
-        periodEnd
-          ? periodStart + "_" + periodEnd
-          : "utan-period"
+      periodKey: periodKey
 
     });
-
-
-    localStorage.setItem(
-      GENIE_MESSAGES_KEY,
-      JSON.stringify(
-        messages
-      )
-    );
-
 
     alert(
       t("messageSent") +
@@ -3017,21 +2947,27 @@
       "."
     );
 
-
     updateEmployeeList();
 
-
-    if (
-      selectedEmployeeIndex === index
-    ) {
-
-      loadEmployeeMessages(
-        employee.name
-      );
-
+    if (selectedEmployeeIndex === index) {
+      loadEmployeeMessages(employee.name);
     }
 
+  } catch (error) {
+
+    console.error(
+      "Genie Firebase message error:",
+      error
+    );
+
+    alert(
+      error.message ||
+      "Poruku nije bilo moguće poslati."
+    );
+
   }
+
+}
 
 
   function loadEmployeeMessages(
