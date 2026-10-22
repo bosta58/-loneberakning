@@ -198,6 +198,161 @@ export async function signInGenie(
 }
 
 /* -----------------------------------------
+   GENIE PORUKE — FIREBASE
+----------------------------------------- */
+
+export async function sendGenieMessage(data) {
+  const { user, profile } = await getMyProfile();
+
+  if (profile.requestedRole !== "employer") {
+    throw new Error("Samo poslodavac može poslati novu poruku.");
+  }
+
+  const workerUid = String(data.workerUid || "").trim();
+  const message = String(data.message || "").trim();
+
+  if (!workerUid || !message) {
+    throw new Error("Nedostaje radnik ili tekst poruke.");
+  }
+
+  const connectionId = workerUid + "_" + user.uid;
+  const connectionSnap = await getDoc(
+    doc(db, "connections", connectionId)
+  );
+
+  if (!connectionSnap.exists() ||
+      connectionSnap.data().status !== "active") {
+    throw new Error("Radnik nema aktivnu vezu sa ovim poslodavcem.");
+  }
+
+  const messageRef = doc(collection(db, "messages"));
+
+  await setDoc(messageRef, {
+    workerUid,
+    employerUid: user.uid,
+    employee: String(data.employee || ""),
+    payType: String(data.payType || ""),
+    message,
+    reply: "",
+    status: "Ny kommentar",
+    periodStart: String(data.periodStart || ""),
+    periodEnd: String(data.periodEnd || ""),
+    periodKey: String(data.periodKey || ""),
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp()
+  });
+
+  return messageRef.id;
+}
+
+export function watchGenieMessages(callback) {
+  const user = requireSignedInUser();
+  let stopListening = null;
+  let stopped = false;
+
+  getMyProfile()
+    .then(({ profile }) => {
+      if (stopped) return;
+
+      const field =
+        profile.requestedRole === "worker"
+          ? "workerUid"
+          : "employerUid";
+
+      const messagesQuery = query(
+        collection(db, "messages"),
+        where(field, "==", user.uid)
+      );
+
+      stopListening = onSnapshot(
+        messagesQuery,
+        (snapshot) => {
+          const messages = snapshot.docs.map((item) => ({
+            id: item.id,
+            ...item.data()
+          }));
+
+          messages.sort((a, b) => {
+            const timeA = a.createdAt?.toMillis?.() || 0;
+            const timeB = b.createdAt?.toMillis?.() || 0;
+            return timeB - timeA;
+          });
+
+          callback(messages, null);
+        },
+        (error) => callback([], error)
+      );
+    })
+    .catch((error) => callback([], error));
+
+  return () => {
+    stopped = true;
+    if (stopListening) stopListening();
+  };
+}
+
+export async function replyToGenieMessage(messageId, reply) {
+  const { user, profile } = await getMyProfile();
+
+  if (profile.requestedRole !== "worker") {
+    throw new Error("Samo radnik može odgovoriti na poruku.");
+  }
+
+  const text = String(reply || "").trim();
+
+  if (!messageId || !text) {
+    throw new Error("Unesite odgovor.");
+  }
+
+  const messageRef = doc(db, "messages", messageId);
+  const messageSnap = await getDoc(messageRef);
+
+  if (!messageSnap.exists()) {
+    throw new Error("Poruka nije pronađena.");
+  }
+
+  const data = messageSnap.data();
+
+  if (data.workerUid !== user.uid) {
+    throw new Error("Ova poruka nije namenjena ovom radniku.");
+  }
+
+  await updateDoc(messageRef, {
+    reply: text,
+    status: "Svar från arbetstagaren",
+    updatedAt: serverTimestamp()
+  });
+}
+
+export async function markGenieMessageFixed(messageId) {
+  const { user, profile } = await getMyProfile();
+
+  if (profile.requestedRole !== "employer") {
+    throw new Error("Samo poslodavac može označiti poruku kao rešenu.");
+  }
+
+  const messageRef = doc(db, "messages", messageId);
+  const messageSnap = await getDoc(messageRef);
+
+  if (!messageSnap.exists()) {
+    throw new Error("Poruka nije pronađena.");
+  }
+
+  if (messageSnap.data().employerUid !== user.uid) {
+    throw new Error("Ova poruka ne pripada ovom poslodavcu.");
+  }
+
+  await updateDoc(messageRef, {
+    status: "Åtgärdad",
+    updatedAt: serverTimestamp()
+  });
+}
+
+/* -----------------------------------------
+   KRAJ GENIE PORUKA
+----------------------------------------- */
+
+/* -----------------------------------------
    POVEZIVANJE RADNIKA I POSLODAVCA
 ----------------------------------------- */
 
