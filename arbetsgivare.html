@@ -3347,6 +3347,48 @@
   applyLanguage();
 
 </script>
-  <script type="module" src="genie-firebase.js"></script>
+  
+<script type="module">
+  import {
+    sendGenieMessageToEmployee,
+    watchGenieMessages,
+    watchGenieAuth
+  } from "./genie-firebase.js";
+
+  window.sendGenieMessageToWorker =
+    sendGenieMessageToEmployee;
+
+  window.genieFirebaseMessages = [];
+
+  let stopWatchingMessages = null;
+
+  watchGenieAuth((user) => {
+    if (stopWatchingMessages) {
+      stopWatchingMessages();
+      stopWatchingMessages = null;
+    }
+
+    if (!user) return;
+
+    stopWatchingMessages = watchGenieMessages(
+      (messages, error) => {
+        if (error) {
+          console.error(
+            "Genie poruke:",
+            error
+          );
+          return;
+        }
+
+        window.genieFirebaseMessages = messages;
+
+        window.dispatchEvent(
+          new Event("genie-firebase-messages-updated")
+        );
+      }
+    );
+  });
+</script>
+
 </body>
 </html>
