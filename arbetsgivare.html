@@ -2970,253 +2970,181 @@ async function contactEmployee(index) {
 }
 
 
-  function loadEmployeeMessages(
-    employeeName
-  ) {
+  
+function loadEmployeeMessages(employeeName) {
 
-    const container =
-      document.getElementById(
-        "employeeMessages"
-      );
+  const container = document.getElementById(
+    "employeeMessages"
+  );
+
+  container.innerHTML = "";
+
+  const messages = Array.isArray(
+    window.genieFirebaseMessages
+  )
+    ? window.genieFirebaseMessages
+    : [];
+
+  const normalized = normalizeName(employeeName);
+
+  const salary = getSalaryDataForEmployee(
+    employeeName
+  );
+
+  const activeType = salary
+    ? salary.type
+    : "";
+
+  const activePeriodStart =
+    salary && salary.data
+      ? salary.data.periodStart || ""
+      : "";
+
+  const activePeriodEnd =
+    salary && salary.data
+      ? salary.data.periodEnd || ""
+      : "";
+
+  const activePeriodKey =
+    activePeriodStart && activePeriodEnd
+      ? activePeriodStart + "_" + activePeriodEnd
+      : "utan-period";
+
+  const employeeMessages = messages.filter(
+    function(item) {
+
+      if (
+        normalizeName(item.employee) !== normalized
+      ) {
+        return false;
+      }
+
+      if (
+        item.payType &&
+        activeType &&
+        item.payType !== activeType
+      ) {
+        return false;
+      }
+
+      if (
+        item.periodKey &&
+        activePeriodKey &&
+        item.periodKey !== activePeriodKey
+      ) {
+        return false;
+      }
+
+      return true;
+    }
+  );
+
+  if (employeeMessages.length === 0) {
 
     container.innerHTML =
-      "";
+      '<div class="empty">' +
+      escapeHtml(t("noMessages")) +
+      '</div>';
 
-    const messages =
-      JSON.parse(
-        localStorage.getItem(
-          GENIE_MESSAGES_KEY
-        )
-      ) || [];
+    return;
+  }
 
-    const normalized =
-      normalizeName(
-        employeeName
-      );
+  employeeMessages.forEach(function(item) {
 
-    const salary =
-      getSalaryDataForEmployee(
-        employeeName
-      );
+    const card = document.createElement("div");
 
-    /*
-      Visa endast meddelanden som hör till
-      den aktuella löneuppgiften:
-      1. rätt anställd
-      2. rätt lönetyp
-      3. rätt löneperiod
-    */
+    card.className = "message-card";
 
-    const activeType =
-      salary
-        ? salary.type
-        : "";
+    const status = item.status || "Ny kommentar";
 
-    const activePeriodStart =
-      salary &&
-      salary.data
-        ? salary.data.periodStart || ""
-        : "";
+    const statusClass =
+      status === "Åtgärdad"
+        ? "status-fixed"
+        : "status-new";
 
-    const activePeriodEnd =
-      salary &&
-      salary.data
-        ? salary.data.periodEnd || ""
-        : "";
+    let dateText = item.date || "";
+    let timeText = item.time || "";
 
-    const activePeriodKey =
-      activePeriodStart +
-      "_" +
-      activePeriodEnd;
+    if (item.createdAt && item.createdAt.toDate) {
+      const date = item.createdAt.toDate();
 
-
-    const employeeMessages =
-      messages.filter(
-        function(item) {
-
-          if (
-            normalizeName(
-              item.employee
-            )
-            !==
-            normalized
-          ) {
-
-            return false;
-
-          }
-
-
-          if (
-            item.payType &&
-            activeType &&
-            item.payType !== activeType
-          ) {
-
-            return false;
-
-          }
-
-
-          if (
-            item.periodKey &&
-            activePeriodKey &&
-            item.periodKey !== activePeriodKey
-          ) {
-
-            return false;
-
-          }
-
-
-          return true;
-
-        }
-      );
-
-
-    if (
-      employeeMessages.length === 0
-    ) {
-
-      container.innerHTML =
-
-        '<div class="empty">' +
-        escapeHtml(
-          t("noMessages")
-        ) +
-        '</div>';
-
-      return;
-
+      dateText = date.toLocaleDateString("sv-SE");
+      timeText = date.toLocaleTimeString("sv-SE", {
+        hour: "2-digit",
+        minute: "2-digit"
+      });
     }
 
+    let html =
+      "<strong>" +
+      escapeHtml(t("employerMessage")) +
+      "</strong>" +
 
-    employeeMessages.forEach(
-      function(item) {
+      "<div class='message-text'>" +
+      escapeHtml(item.message || "") +
+      "</div>" +
 
-        const card =
-          document.createElement(
-            "div"
-          );
+      "<div style='font-size:13px;color:#6b7280;'>" +
+      escapeHtml(dateText) +
+      " " +
+      escapeHtml(timeText) +
+      "</div>" +
 
+      "<div style='margin-top:8px;'>" +
+      "<strong>" +
+      escapeHtml(t("status")) +
+      ":</strong> " +
 
-        card.className =
-          "message-card";
+      "<span class='" +
+      statusClass +
+      "'>" +
 
+      escapeHtml(translateStatus(status)) +
+      "</span>" +
+      "</div>";
 
-        const status =
-          item.status ||
-          "Ny kommentar";
+    if (
+      item.reply &&
+      String(item.reply).trim() !== ""
+    ) {
 
+      html +=
+        "<div class='reply-text'>" +
 
-        const statusClass =
-          status === "Åtgärdad"
-            ? "status-fixed"
-            : "status-new";
+        "<strong>" +
+        escapeHtml(t("employeeReply")) +
+        "</strong>" +
 
+        "<div style='margin-top:5px;'>" +
+        escapeHtml(item.reply) +
+        "</div>" +
 
-        let html =
+        "</div>";
+    }
 
-          "<strong>" +
-          escapeHtml(
-            t("employerMessage")
-          ) +
-          "</strong>" +
+    card.innerHTML = html;
 
-          "<div class='message-text'>" +
-          escapeHtml(
-            item.message || ""
-          ) +
-          "</div>" +
+    container.appendChild(card);
 
-          "<div style='font-size:13px;color:#6b7280;'>" +
-          escapeHtml(
-            item.date || ""
-          ) +
-          " " +
-          escapeHtml(
-            item.time || ""
-          ) +
-          "</div>" +
+  });
+}
 
-          "<div style='margin-top:8px;'>" +
+window.addEventListener(
+  "genie-firebase-messages-updated",
+  function() {
 
-          "<strong>" +
-          escapeHtml(
-            t("status")
-          ) +
-          ":</strong> " +
-
-          "<span class='" +
-          statusClass +
-          "'>" +
-
-          escapeHtml(
-            translateStatus(
-              status
-            )
-          ) +
-
-          "</span>" +
-
-          "</div>";
-
-
-        if (
-          item.reply &&
-          String(
-            item.reply
-          ).trim() !== ""
-        ) {
-
-          html +=
-
-            "<div class='reply-text'>" +
-
-            "<strong>" +
-            escapeHtml(
-              t("employeeReply")
-            ) +
-            "</strong>" +
-
-            "<div style='margin-top:5px;'>" +
-            escapeHtml(
-              item.reply
-            ) +
-            "</div>" +
-
-            "<div style='font-size:13px;color:#6b7280;margin-top:5px;'>" +
-
-            escapeHtml(
-              item.replyDate || ""
-            ) +
-
-            " " +
-
-            escapeHtml(
-              item.replyTime || ""
-            ) +
-
-            "</div>" +
-
-            "</div>";
-
-        }
-
-
-        card.innerHTML =
-          html;
-
-
-        container.appendChild(
-          card
-        );
-
-      }
-    );
+    if (
+      typeof selectedEmployeeIndex !== "undefined" &&
+      selectedEmployeeIndex !== null &&
+      employees[selectedEmployeeIndex]
+    ) {
+      loadEmployeeMessages(
+        employees[selectedEmployeeIndex].name
+      );
+    }
 
   }
+);
 
 
   /* ==========================================
