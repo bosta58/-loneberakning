@@ -1796,7 +1796,7 @@ function calculateSalary() {
     ) || 0;
 
   const holidayOvertimeRate =
-    Number(
+    Number( 
       document.getElementById(
         "holidayOvertimeRate"
       ).value
@@ -2268,102 +2268,52 @@ function applyLanguage() {
    MEDDELANDEN
 ===================================================== */
 
+
 function getCurrentTimlonMessages() {
+  const employeeKey = getEmployeeKey();
+  const periodKey = getPeriodKey();
 
-  const employeeKey =
-    getEmployeeKey();
-
-  const periodKey =
-    getPeriodKey();
-
-
-  if (
-    !employeeKey ||
-    !periodKey
-  ) {
-
+  if (!employeeKey || !periodKey) {
     return [];
-
   }
 
-
-  let messages = [];
-
-  try {
-
-    messages =
-      JSON.parse(
-        localStorage.getItem(
-          GENIE_MESSAGES_KEY
-        )
-      ) || [];
-
-  }
-
-  catch (error) {
-
-    messages = [];
-
-  }
-
-
-  return messages.filter(
-    function(item) {
-
-      const itemEmployee =
-        normalizeEmployee(
-          item.employee
-        );
-
-
-      /*
-        1. Rätt anställd
-      */
-
-      if (
-        itemEmployee !==
-        employeeKey
-      ) {
-
-        return false;
-
-      }
-
-
-      /*
-        2. Endast meddelanden som hör
-           till Timlön
-      */
-
-      if (
-        item.payType !==
-        SALARY_TYPE
-      ) {
-
-        return false;
-
-      }
-
-
-      /*
-        3. Exakt samma löneperiod
-      */
-
-      if (
-        item.periodKey !==
-        periodKey
-      ) {
-
-        return false;
-
-      }
-
-
-      return true;
-
+  // Ako je radnik prijavljen na Firebase,
+  // poruke se učitavaju iz zajedničke baze.
+  if (window.genieFirebaseUserSignedIn) {
+    if (!window.genieFirebaseMessagesReady) {
+      return [];
     }
-  );
 
+    const firebaseMessages = Array.isArray(window.genieFirebaseMessages)
+      ? window.genieFirebaseMessages
+      : [];
+
+    return firebaseMessages.filter(function (item) {
+      return (
+        normalizeEmployee(item.employee) === employeeKey &&
+        item.payType === SALARY_TYPE &&
+        item.periodKey === periodKey
+      );
+    });
+  }
+
+  // Rezervni način za stare poruke na ovom telefonu.
+  try {
+    const allMessages = JSON.parse(
+      localStorage.getItem(GENIE_MESSAGES_KEY) || "[]"
+    );
+
+    return allMessages.filter(function (item) {
+      return (
+        normalizeEmployee(item.employee) === employeeKey &&
+        item.payType === SALARY_TYPE &&
+        item.periodKey === periodKey
+      );
+    });
+  } catch (error) {
+    console.error("Greška pri učitavanju Genie poruka:", error);
+    return [];
+  }
 }
 
 
@@ -2371,109 +2321,99 @@ function getCurrentTimlonMessages() {
    VISA ARBETSGIVARMEDDELANDE
 ===================================================== */
 
+
 function loadEmployerMessage() {
+  const messageBox = document.getElementById("employerMessageBox");
+  const content = document.getElementById("employerMessageContent");
+  const replyBox = document.getElementById("employeeReply");
 
-  const messageBox =
-    document.getElementById(
-      "employerMessageBox"
-    );
-
-  const content =
-    document.getElementById(
-      "employerMessageContent"
-    );
-
-
-  const messages =
-    getCurrentTimlonMessages();
-
-
-  if (
-    messages.length === 0
-  ) {
-
-    messageBox.style.display =
-      "none";
-
+  if (!messageBox || !content || !replyBox) {
     return;
-
   }
 
+  const messages = getCurrentTimlonMessages();
 
-  const lastMessage =
-    messages[
-      messages.length - 1
-    ];
+  if (!messages || messages.length === 0) {
+    messageBox.style.display = "none";
+    return;
+  }
 
+  // Firebase poruke stižu od najnovije ka najstarijoj.
+  const lastMessage = window.genieFirebaseUserSignedIn
+    ? messages[0]
+    : messages[messages.length - 1];
+
+  if (!lastMessage) {
+    messageBox.style.display = "none";
+    return;
+  }
 
   const language =
-    localStorage.getItem(
-      GENIE_LANGUAGE_KEY
-    ) || "sv";
+    localStorage.getItem(GENIE_LANGUAGE_KEY) || "sv";
 
-  const t =
-    translations[language] ||
-    translations.sv;
+  const t = translations[language] || translations.sv;
 
+  let messageDate = lastMessage.date || "";
+  let messageTime = lastMessage.time || "";
 
-  messageBox.style.display =
-    "block";
+  // Firebase čuva vreme kao vremensku oznaku.
+  if (lastMessage.createdAt) {
+    let createdDate = null;
 
+    if (typeof lastMessage.createdAt.toDate === "function") {
+      createdDate = lastMessage.createdAt.toDate();
+    } else if (lastMessage.createdAt instanceof Date) {
+      createdDate = lastMessage.createdAt;
+    }
+
+    if (createdDate && !isNaN(createdDate.getTime())) {
+      messageDate = createdDate.toLocaleDateString();
+      messageTime = createdDate.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+    }
+  }
+
+  // Prikazujemo tekst kao običan tekst, ne kao HTML.
+  function safeText(value) {
+    const element = document.createElement("span");
+    element.textContent = value == null ? "" : String(value);
+    return element.innerHTML;
+  }
 
   content.innerHTML = `
-
     <p>
-      <strong>${t.date}</strong>
-      ${lastMessage.date || ""}
+      <strong>${safeText(t.date)}</strong>
+      ${safeText(messageDate)}
     </p>
 
     <p>
-      <strong>${t.time}</strong>
-      ${lastMessage.time || ""}
+      <strong>${safeText(t.time)}</strong>
+      ${safeText(messageTime)}
     </p>
 
     <p>
-      <strong>${t.message}</strong>
+      <strong>${safeText(t.message)}</strong>
     </p>
 
     <p>
-      ${lastMessage.message || ""}
+      ${safeText(lastMessage.message || "")}
     </p>
 
     <p>
-      <strong>${t.status}</strong>
-      ${translateMessageStatus(
-        lastMessage.status,
-        t
-      )}
+      <strong>${safeText(t.status)}</strong>
+      ${safeText(translateMessageStatus(lastMessage.status, t))}
     </p>
-
   `;
 
+  messageBox.style.display = "block";
 
-  const replyBox =
-    document.getElementById(
-      "employeeReply"
-    );
-
-
-  if (
-    lastMessage.status ===
-    "Åtgärdad"
-  ) {
-
-    replyBox.style.display =
-      "none";
-
+  if (lastMessage.status === "Åtgärdad") {
+    replyBox.style.display = "none";
+  } else {
+    replyBox.style.display = "block";
   }
-
-  else {
-
-    replyBox.style.display =
-      "block";
-
-  }
-
 }
 
 
@@ -2514,218 +2454,123 @@ function translateMessageStatus(
    SVARA ARBETSGIVAREN
 ===================================================== */
 
-function replyToEmployer() {
 
+async function replyToEmployer() {
   const language =
-    localStorage.getItem(
-      GENIE_LANGUAGE_KEY
-    ) || "sv";
+    localStorage.getItem(GENIE_LANGUAGE_KEY) || "sv";
 
-  const t =
-    translations[language] ||
-    translations.sv;
+  const t = translations[language] || translations.sv;
 
+  const replyBox = document.getElementById("employeeReply");
 
-  const replyBox =
-    document.getElementById(
-      "employeeReply"
-    );
-
-
-  const reply =
-    replyBox.value.trim();
-
-
-  if (!reply) {
-
-    alert(
-      t.writeReply
-    );
-
+  if (!replyBox) {
     return;
-
   }
 
+  const reply = replyBox.value.trim();
 
+  if (!reply) {
+    alert(t.writeReply);
+    return;
+  }
+
+  const employeeKey = getEmployeeKey();
+  const periodKey = getPeriodKey();
+
+  if (!employeeKey || !periodKey) {
+    alert(t.noMessage);
+    return;
+  }
+
+  // Firebase putanja: odgovor se šalje na drugi telefon.
+  if (window.genieFirebaseUserSignedIn) {
+    if (!window.genieFirebaseMessagesReady) {
+      alert("Poruke se još učitavaju. Pokušajte ponovo za trenutak.");
+      return;
+    }
+
+    const messages = getCurrentTimlonMessages();
+
+    if (!messages.length) {
+      alert(t.noMessage);
+      return;
+    }
+
+    const message = messages[0];
+
+    if (!message.id) {
+      alert("Poruka nema Firebase ID. Osvežite stranicu i pokušajte ponovo.");
+      return;
+    }
+
+    if (typeof window.replyToFirebaseGenieMessage !== "function") {
+      alert("Firebase odgovor još nije povezan. Nemojte ponavljati slanje; javite mi ovu poruku.");
+      return;
+    }
+
+    try {
+      await window.replyToFirebaseGenieMessage(message.id, reply);
+
+      replyBox.value = "";
+      alert(t.replySent);
+      loadEmployerMessage();
+    } catch (error) {
+      console.error("Genie Firebase reply error:", error);
+      alert("Odgovor nije poslat. Proverite prijavu i pokušajte ponovo.");
+    }
+
+    return;
+  }
+
+  // Rezervna putanja za stare poruke koje postoje samo lokalno.
   let messages = [];
 
   try {
-
-    messages =
-      JSON.parse(
-        localStorage.getItem(
-          GENIE_MESSAGES_KEY
-        )
-      ) || [];
-
-  }
-
-  catch (error) {
-
-    messages = [];
-
-  }
-
-
-  const employeeKey =
-    getEmployeeKey();
-
-  const periodKey =
-    getPeriodKey();
-
-
-  if (
-    !employeeKey ||
-    !periodKey
-  ) {
-
-    alert(
-      t.noMessage
+    messages = JSON.parse(
+      localStorage.getItem(GENIE_MESSAGES_KEY) || "[]"
     );
-
-    return;
-
+  } catch (error) {
+    messages = [];
   }
-
-
-  /*
-    Pronađi poslednju poruku
-    direktno u originalnom nizu.
-    Ne koristimo indexOf(),
-    jer JSON.parse pravi nove objekte.
-  */
 
   let messageIndex = -1;
 
-
-  for (
-    let i = messages.length - 1;
-    i >= 0;
-    i--
-  ) {
-
-    const item =
-      messages[i];
-
-
-    const itemEmployee =
-      normalizeEmployee(
-        item.employee
-      );
-
+  for (let i = messages.length - 1; i >= 0; i--) {
+    const item = messages[i];
 
     if (
-      itemEmployee !== employeeKey
+      normalizeEmployee(item.employee) === employeeKey &&
+      item.payType === SALARY_TYPE &&
+      item.periodKey === periodKey
     ) {
-      continue;
+      messageIndex = i;
+      break;
     }
-
-
-    if (
-      item.payType !== SALARY_TYPE
-    ) {
-      continue;
-    }
-
-
-    if (
-      item.periodKey !== periodKey
-    ) {
-      continue;
-    }
-
-
-    messageIndex = i;
-
-    break;
-
   }
 
-
-  if (
-    messageIndex === -1
-  ) {
-
-    alert(
-      t.noMessage
-    );
-
+  if (messageIndex === -1) {
+    alert(t.noMessage);
     return;
-
   }
 
+  const now = new Date();
 
-  const now =
-    new Date();
-
-
-  messages[
-    messageIndex
-  ].reply =
-    reply;
-
-
-  messages[
-    messageIndex
-  ].replyDate =
-    now.toLocaleDateString(
-      "sv-SE"
-    );
-
-
-  messages[
-    messageIndex
-  ].replyTime =
-    now.toLocaleTimeString(
-      "sv-SE",
-      {
-        hour: "2-digit",
-        minute: "2-digit"
-      }
-    );
-
-
-  messages[
-    messageIndex
-  ].status =
-    "Svar från arbetstagaren";
-
-
-  messages[
-    messageIndex
-  ].type =
-    SALARY_TYPE;
-
-
-  messages[
-    messageIndex
-  ].payType =
-    SALARY_TYPE;
-
-
-  messages[
-    messageIndex
-  ].periodKey =
-    periodKey;
-
+  messages[messageIndex].reply = reply;
+  messages[messageIndex].replyDate = now.toLocaleDateString("sv-SE");
+  messages[messageIndex].replyTime = now.toLocaleTimeString("sv-SE", {
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+  messages[messageIndex].status = "Svar från arbetstagaren";
 
   localStorage.setItem(
     GENIE_MESSAGES_KEY,
     JSON.stringify(messages)
   );
 
-
-  alert(
-    t.replySent
-  );
-
-
-  replyBox.value =
-    "";
-
-
+  replyBox.value = "";
+  alert(t.replySent);
   loadEmployerMessage();
-
 }
 
 
@@ -2977,9 +2822,70 @@ loadEmployerMessage();
 
 </script>
 
+
 <script type="module">
 import { saveWorkerSalaryRecord } from "./genie-firebase.js";
+import {
+  watchGenieAuth,
+  watchGenieMessages,
+  replyToGenieMessage
+} from "./genie-firebase.js";
 
+// Stanje Firebase poruka na ovoj stranici.
+window.genieFirebaseMessages = [];
+window.genieFirebaseMessagesReady = false;
+window.genieFirebaseUserSignedIn = false;
+window.replyToFirebaseGenieMessage = replyToGenieMessage;
+
+let stopWatchingGenieMessages = null;
+
+// Osveži prikaz kada Firebase dobije nove poruke.
+window.addEventListener("genie-firebase-messages-updated", function () {
+  if (typeof window.loadEmployerMessage === "function") {
+    window.loadEmployerMessage();
+  }
+});
+
+// Prati prijavu radnika i poslodavca.
+watchGenieAuth(function (user) {
+  if (stopWatchingGenieMessages) {
+    stopWatchingGenieMessages();
+    stopWatchingGenieMessages = null;
+  }
+
+  window.genieFirebaseMessages = [];
+  window.genieFirebaseMessagesReady = false;
+  window.genieFirebaseUserSignedIn = Boolean(user);
+
+  window.dispatchEvent(
+    new Event("genie-firebase-messages-updated")
+  );
+
+  if (!user) {
+    return;
+  }
+
+  stopWatchingGenieMessages = watchGenieMessages(
+    function (messages, error) {
+      if (error) {
+        console.error("Genie Firebase messages error:", error);
+        window.genieFirebaseMessages = [];
+        window.genieFirebaseMessagesReady = true;
+      } else {
+        window.genieFirebaseMessages = Array.isArray(messages)
+          ? messages
+          : [];
+        window.genieFirebaseMessagesReady = true;
+      }
+
+      window.dispatchEvent(
+        new Event("genie-firebase-messages-updated")
+      );
+    }
+  );
+});
+
+// Sačuvaj postojeći obračun i slanje Timlön plate.
 const originalCalculateSalary = window.calculateSalary;
 
 window.calculateSalary = async function () {
@@ -2997,7 +2903,9 @@ window.calculateSalary = async function () {
   originalCalculateSalary();
 
   if (!employee || !start || !end) {
-    alert("Obračun je sačuvan na ovom telefonu. Unesite ime radnika i period od–do da biste ga poslali poslodavcu.");
+    alert(
+      "Obračun je sačuvan na ovom telefonu. Unesite ime radnika i period od–do da biste ga poslali poslodavcu."
+    );
     return;
   }
 
@@ -3020,13 +2928,15 @@ window.calculateSalary = async function () {
     const result = await saveWorkerSalaryRecord(record);
 
     alert(result?.message || "Slanje obračuna je završeno.");
-
   } catch (error) {
     console.error("Genie Firebase salary upload error:", error);
 
-    alert("Obračun je sačuvan na telefonu, ali slanje nije uspelo. Proverite prijavu i aktivnu vezu sa poslodavcem.");
+    alert(
+      "Obračun je sačuvan na telefonu, ali slanje nije uspelo. Proverite prijavu i aktivnu vezu sa poslodavcem."
+    );
   }
 };
 </script>
+
 </body>
 </html>
