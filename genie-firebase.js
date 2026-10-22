@@ -245,6 +245,57 @@ export async function sendGenieMessage(data) {
   return messageRef.id;
 }
 
+export async function sendGenieMessageToEmployee(data) {
+  const { user } = await getMyProfile();
+
+  const employeeName = String(data.employee || "")
+    .trim()
+    .toLocaleLowerCase();
+
+  if (!employeeName) {
+    throw new Error("Nedostaje ime radnika.");
+  }
+
+  const recordsQuery = query(
+    collection(db, "salaryRecords"),
+    where("employerUid", "==", user.uid)
+  );
+
+  const snapshot = await getDocs(recordsQuery);
+  const workerUids = new Set();
+
+  snapshot.forEach((item) => {
+    const record = item.data();
+
+    if (
+      String(record.employee || "")
+        .trim()
+        .toLocaleLowerCase() === employeeName &&
+      record.workerUid
+    ) {
+      workerUids.add(record.workerUid);
+    }
+  });
+
+  if (workerUids.size === 0) {
+    throw new Error(
+      "Radnik nije pronađen u Firebase obračunima. " +
+      "Proverite da li je njegova plata već poslata."
+    );
+  }
+
+  if (workerUids.size > 1) {
+    throw new Error(
+      "Više radnika ima isto ime. Potrebna je dodatna provera."
+    );
+  }
+
+  return await sendGenieMessage({
+    ...data,
+    workerUid: [...workerUids][0]
+  });
+}
+
 export function watchGenieMessages(callback) {
   const user = requireSignedInUser();
   let stopListening = null;
