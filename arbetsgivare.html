@@ -3124,7 +3124,43 @@ function loadEmployeeMessages(employeeName) {
         "</div>";
     }
 
-    card.innerHTML = html;
+        card.innerHTML = html;
+
+    if (item.id && status !== "Åtgärdad") {
+      const fixedButton = document.createElement("button");
+
+      fixedButton.type = "button";
+      fixedButton.textContent =
+        currentLanguage === "en"
+          ? "Mark as handled"
+          : currentLanguage === "sr"
+            ? "Označi kao rešeno"
+            : "Markera som åtgärdad";
+
+      fixedButton.className = "view-button";
+      fixedButton.style.marginTop = "10px";
+
+      fixedButton.addEventListener("click", async function() {
+        fixedButton.disabled = true;
+
+        try {
+          await window.markGenieMessageFixed(item.id);
+        } catch (error) {
+          console.error("Genie:", error);
+          alert(
+            currentLanguage === "en"
+              ? "Could not update the message."
+              : currentLanguage === "sr"
+                ? "Poruka nije mogla biti označena kao rešena."
+                : "Meddelandet kunde inte markeras som åtgärdat."
+          );
+
+          fixedButton.disabled = false;
+        }
+      });
+
+      card.appendChild(fixedButton);
+    }
 
     container.appendChild(card);
 
