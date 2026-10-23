@@ -256,26 +256,42 @@ export async function sendGenieMessageToEmployee(data) {
     throw new Error("Nedostaje ime radnika.");
   }
 
-  const recordsQuery = query(
-    collection(db, "salaryRecords"),
-    where("employerUid", "==", user.uid)
+  const connectionsQuery = query(
+    collection(db, "connections"),
+    where("employerUid", "==", user.uid),
+    where("status", "==", "active")
   );
 
-  const snapshot = await getDocs(recordsQuery);
+  const connectionsSnapshot = await getDocs(connectionsQuery);
   const workerUids = new Set();
 
-  snapshot.forEach((item) => {
-    const record = item.data();
+  for (const connectionDoc of connectionsSnapshot.docs) {
+    const connection = connectionDoc.data();
+    const workerUid = String(connection.workerUid || "").trim();
 
-    if (
-      String(record.employee || "")
-        .trim()
-        .toLocaleLowerCase() === employeeName &&
-      record.workerUid
-    ) {
-      workerUids.add(record.workerUid);
-    }
-  });
+    if (!workerUid) continue;
+
+    const recordsQuery = query(
+      collection(db, "salaryRecords"),
+      where("employerUid", "==", user.uid),
+      where("workerUid", "==", workerUid)
+    );
+
+    const recordsSnapshot = await getDocs(recordsQuery);
+
+    recordsSnapshot.forEach((item) => {
+      const record = item.data();
+
+      if (
+        String(record.employee || "")
+          .trim()
+          .toLocaleLowerCase() === employeeName &&
+        record.workerUid
+      ) {
+        workerUids.add(record.workerUid);
+      }
+    });
+  }
 
   if (workerUids.size === 0) {
     throw new Error(
