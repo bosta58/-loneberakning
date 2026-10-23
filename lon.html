@@ -2270,15 +2270,8 @@ function applyLanguage() {
 
 
 function getCurrentTimlonMessages() {
-  const employeeKey = getEmployeeKey();
-  const periodKey = getPeriodKey();
-
-  if (!employeeKey || !periodKey) {
-    return [];
-  }
-
   // Ako je radnik prijavljen na Firebase,
-  // poruke se učitavaju iz zajedničke baze.
+  // koristi poruke koje pripadaju njegovom nalogu.
   if (window.genieFirebaseUserSignedIn) {
     if (!window.genieFirebaseMessagesReady) {
       return [];
@@ -2289,15 +2282,18 @@ function getCurrentTimlonMessages() {
       : [];
 
     return firebaseMessages.filter(function (item) {
-      return (
-        normalizeEmployee(item.employee) === employeeKey &&
-        item.payType === SALARY_TYPE &&
-        item.periodKey === periodKey
-      );
+      return item.payType === SALARY_TYPE;
     });
   }
 
   // Rezervni način za stare poruke na ovom telefonu.
+  const employeeKey = getEmployeeKey();
+  const periodKey = getPeriodKey();
+
+  if (!employeeKey || !periodKey) {
+    return [];
+  }
+
   try {
     const allMessages = JSON.parse(
       localStorage.getItem(GENIE_MESSAGES_KEY) || "[]"
