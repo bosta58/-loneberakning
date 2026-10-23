@@ -2589,154 +2589,15 @@ function markEmployerMessageAsFixed() {
     translations[language] ||
     translations.sv;
 
-
-  let messages = [];
-
-  try {
-
-    messages =
-      JSON.parse(
-        localStorage.getItem(
-          GENIE_MESSAGES_KEY
-        )
-      ) || [];
-
-  }
-
-  catch (error) {
-
-    messages = [];
-
-  }
-
-
-  const employeeKey =
-    getEmployeeKey();
-
-  const periodKey =
-    getPeriodKey();
-
-
-  if (
-    !employeeKey ||
-    !periodKey
-  ) {
-
-    alert(
-      t.noMessage
-    );
-
-    return;
-
-  }
-
-
-  /*
-    Pronađi poslednju poruku
-    direktno u originalnom nizu.
-    Ne koristimo indexOf(),
-    jer JSON.parse pravi nove objekte.
-  */
-
-  let messageIndex = -1;
-
-
-  for (
-    let i = messages.length - 1;
-    i >= 0;
-    i--
-  ) {
-
-    const item =
-      messages[i];
-
-
-    const itemEmployee =
-      normalizeEmployee(
-        item.employee
-      );
-
-
-    if (
-      itemEmployee !== employeeKey
-    ) {
-      continue;
-    }
-
-
-    if (
-      item.payType !== SALARY_TYPE
-    ) {
-      continue;
-    }
-
-
-    if (
-      item.periodKey !== periodKey
-    ) {
-      continue;
-    }
-
-
-    messageIndex = i;
-
-    break;
-
-  }
-
-
-  if (
-    messageIndex === -1
-  ) {
-
-    alert(
-      t.noMessage
-    );
-
-    return;
-
-  }
-
-
-  messages[
-    messageIndex
-  ].status =
-    "Åtgärdad";
-
-
-  messages[
-    messageIndex
-  ].type =
-    SALARY_TYPE;
-
-
-  messages[
-    messageIndex
-  ].payType =
-    SALARY_TYPE;
-
-
-  messages[
-    messageIndex
-  ].periodKey =
-    periodKey;
-
-
-  localStorage.setItem(
-    GENIE_MESSAGES_KEY,
-    JSON.stringify(messages)
-  );
-
-
   alert(
-    t.fixedMessage
+    language === "en"
+      ? "Only the employer can mark this message as resolved."
+      : language === "sr"
+        ? "Samo poslodavac može označiti ovu poruku kao rešenu."
+        : "Endast arbetsgivaren kan markera meddelandet som åtgärdat."
   );
-
-
-  loadEmployerMessage();
 
 }
-
 
 /* =====================================================
    AUTOSPARA
