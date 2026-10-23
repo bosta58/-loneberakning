@@ -3134,7 +3134,7 @@ function loadEmployeeMessages(employeeName) {
 window.addEventListener(
   "genie-firebase-messages-updated",
   function() {
-
+    updateEmployeeList();
     if (
       typeof selectedEmployeeIndex !== "undefined" &&
       selectedEmployeeIndex !== null &&
