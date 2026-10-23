@@ -1839,12 +1839,14 @@
     }
 
 
-    const messages =
+   const messages = window.genieFirebaseUserSignedIn &&
+  Array.isArray(window.genieFirebaseMessages)
+  ? window.genieFirebaseMessages
+  : (
       JSON.parse(
-        localStorage.getItem(
-          GENIE_MESSAGES_KEY
-        )
-      ) || [];
+        localStorage.getItem(GENIE_MESSAGES_KEY) || "[]"
+      ) || []
+    );
 
 
     employees.forEach(
