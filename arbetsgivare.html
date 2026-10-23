@@ -3216,10 +3216,11 @@ window.addEventListener(
   
 <script type="module">
   import {
-    sendGenieMessageToEmployee,
-    watchGenieMessages,
-    watchGenieAuth
-  } from "./genie-firebase.js";
+  sendGenieMessageToEmployee,
+  markGenieMessageFixed,
+  watchGenieMessages,
+  watchGenieAuth
+} from "./genie-firebase.js";
 
   window.sendGenieMessageToWorker =
     sendGenieMessageToEmployee;
