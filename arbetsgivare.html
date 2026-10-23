@@ -3224,7 +3224,7 @@ window.addEventListener(
   window.sendGenieMessageToWorker =
     sendGenieMessageToEmployee;
 
-  window.genieFirebaseMessages = [];
+  window.genieFirebaseUserSignedIn = false;
 
   let stopWatchingMessages = null;
 
@@ -3234,7 +3234,17 @@ window.addEventListener(
       stopWatchingMessages = null;
     }
 
-    if (!user) return;
+    window.genieFirebaseUserSignedIn = Boolean(user);
+
+if (!user) {
+  window.genieFirebaseMessages = [];
+
+  window.dispatchEvent(
+    new Event("genie-firebase-messages-updated")
+  );
+
+  return;
+}
 
     stopWatchingMessages = watchGenieMessages(
       (messages, error) => {
