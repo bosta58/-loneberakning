@@ -2007,5 +2007,86 @@ monthlyStopButton.onclick = async function () {
 };
 </script>
 
+<script type="module">
+import {
+  watchGenieAuth,
+  watchGenieMessages
+} from "./genie-firebase.js";
+
+let stopGenieMessages = null;
+
+watchGenieAuth((user) => {
+  if (stopGenieMessages) {
+    stopGenieMessages();
+    stopGenieMessages = null;
+  }
+
+  if (!user) {
+    localStorage.setItem("genieMessages", "[]");
+
+    if (typeof loadCommunication === "function") {
+      loadCommunication();
+    }
+
+    return;
+  }
+
+  stopGenieMessages = watchGenieMessages(
+    (messages, error) => {
+      if (error) {
+        console.error("Genie meddelanden:", error);
+        return;
+      }
+
+      const convertedMessages = messages.map((item) => {
+        const created = item.createdAt?.toDate
+          ? item.createdAt.toDate()
+          : null;
+
+        const updated = item.updatedAt?.toDate
+          ? item.updatedAt.toDate()
+          : null;
+
+        return {
+          ...item,
+          type: item.payType || "",
+          date: created
+            ? created.toLocaleDateString("sv-SE")
+            : "",
+          time: created
+            ? created.toLocaleTimeString("sv-SE", {
+                hour: "2-digit",
+                minute: "2-digit"
+              })
+            : "",
+          replyDate: item.reply
+            ? updated
+              ? updated.toLocaleDateString("sv-SE")
+              : ""
+            : "",
+          replyTime: item.reply
+            ? updated
+              ? updated.toLocaleTimeString("sv-SE", {
+                  hour: "2-digit",
+                  minute: "2-digit"
+                })
+              : ""
+            : ""
+        };
+      });
+
+      localStorage.setItem(
+        "genieMessages",
+        JSON.stringify(convertedMessages)
+      );
+
+      if (typeof loadCommunication === "function") {
+        loadCommunication();
+      }
+    }
+  );
+});
+</script>
+
 </body>
 </html>
