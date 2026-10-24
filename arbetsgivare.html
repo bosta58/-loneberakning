@@ -3295,6 +3295,8 @@ if (!user) {
         }
 
         window.genieFirebaseMessages = messages;
+        const checkBox = document.getElementById("employeeMessages");
+if (checkBox) checkBox.insertAdjacentHTML("afterbegin", "<p style='color:#b45309'>Firebase poruka: " + messages.length + "</p>");
 console.log("GENIE FIREBASE PORUKE:", messages);
 console.log("BROJ PORUKA:", messages.length);
 console.log("PRIJAVLJEN KORISNIK:", user.uid);
