@@ -3295,7 +3295,9 @@ if (!user) {
         }
 
         window.genieFirebaseMessages = messages;
-
+console.log("GENIE FIREBASE PORUKE:", messages);
+console.log("BROJ PORUKA:", messages.length);
+console.log("PRIJAVLJEN KORISNIK:", user.uid);
         window.dispatchEvent(
           new Event("genie-firebase-messages-updated")
         );
