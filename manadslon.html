@@ -1793,75 +1793,47 @@ function getMatchingMessageIndexes() {
     indexes: indexes
   };
 }
-function replyToEmployer(displayIndex) {
-  const result =
-    getMatchingMessageIndexes();
-  const realIndex =
-    result.indexes[displayIndex];
-  if (
-    realIndex === undefined
-  ) {
+
+async function replyToEmployer(displayIndex) {
+  const result = getMatchingMessageIndexes();
+  const realIndex = result.indexes[displayIndex];
+
+  if (realIndex === undefined) {
     return;
   }
-  const t =
-    translations[
-      getCurrentLanguage()
-    ];
-  const reply =
-    prompt(
-      t.replyPrompt
-    );
-  if (
-    !reply ||
-    reply.trim() === ""
-  ) {
+
+  const message = result.messages[realIndex];
+
+  if (!message.id) {
+    alert("Poruka nema Firebase ID. Osveži stranicu i pokušaj ponovo.");
     return;
   }
-  result.messages[
-    realIndex
-  ].reply =
-    reply.trim();
-  const now =
-    new Date();
-  result.messages[
-    realIndex
-  ].replyDate =
-    now.toLocaleDateString(
-      "sv-SE"
+
+  const t = translations[getCurrentLanguage()];
+  const reply = prompt(t.replyPrompt);
+
+  if (!reply || reply.trim() === "") {
+    return;
+  }
+
+  if (typeof window.replyToGenieMessage !== "function") {
+    alert("Firebase odgovor nije dostupan. Osveži stranicu i pokušaj ponovo.");
+    return;
+  }
+
+  try {
+    await window.replyToGenieMessage(
+      message.id,
+      reply.trim()
     );
-  result.messages[
-    realIndex
-  ].replyTime =
-    now.toLocaleTimeString(
-      "sv-SE",
-      {
-        hour:"2-digit",
-        minute:"2-digit"
-      }
-    );
-  result.messages[
-    realIndex
-  ].status =
-    "Svar från arbetstagaren";
-  /*
-    Säkerställ typ och period.
-  */
-  result.messages[
-    realIndex
-  ].type =
-    SALARY_TYPE;
-  result.messages[
-    realIndex
-  ].periodKey =
-    getPeriodKey();
-  localStorage.setItem(
-    GENIE_MESSAGES_KEY,
-    JSON.stringify(
-      result.messages
-    )
-  );
-  loadCommunication();
+
+    alert("Odgovor je poslat poslodavcu.");
+  } catch (error) {
+    console.error("Genie svar:", error);
+    alert("Odgovor nije poslat. Proveri prijavu i pokušaj ponovo.");
+  }
 }
+
 /* =================================
    MARKERA ÅTGÄRDAD
 ================================= */
