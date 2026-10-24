@@ -2010,8 +2010,11 @@ monthlyStopButton.onclick = async function () {
 <script type="module">
 import {
   watchGenieAuth,
-  watchGenieMessages
+  watchGenieMessages,
+  replyToGenieMessage
 } from "./genie-firebase.js";
+
+window.replyToGenieMessage = replyToGenieMessage;
 
 let stopGenieMessages = null;
 
