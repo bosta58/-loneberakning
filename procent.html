@@ -2778,6 +2778,7 @@ function renderKollektivMessage() {
   messageBox.style.display = "block";
 }
 window.renderKollektivMessage = renderKollektivMessage;
+  console.log("Genie: pokrećem učitavanje Firebase poruka.");
 watchGenieMessages((messages, error) => {
   if (error) {
     console.error("Greška pri učitavanju Genie poruka:", error);
