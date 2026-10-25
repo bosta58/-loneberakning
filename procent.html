@@ -2786,6 +2786,10 @@ genieDebugBox.style.cssText =
   "padding:12px;margin:12px 0;background:#fff3cd;color:#664d03;border-radius:8px;";
 document.body.appendChild(genieDebugBox);
 watchGenieMessages((messages, error) => {
+ if (messageContent) {
+  messageContent.textContent = "Genie: čekam odgovor od Firebase-a...";
+  messageBox.style.display = "block";
+}
   if (error) {
     console.error("Greška pri učitavanju Genie poruka:", error);
 
