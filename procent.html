@@ -2887,5 +2887,108 @@ window.calculateAndSaveSalary = async function () {
 };
 </script>
 
+<script type="module">
+import {
+  watchGenieMessages,
+  replyToGenieMessage
+} from "./genie-firebase.js?v=2";
+
+let kollektivMessages = [];
+let latestKollektivMessage = null;
+
+const messageBox = document.getElementById("employerMessageBox");
+const messageContent = document.getElementById("employerMessageContent");
+const replyInput = document.getElementById("employeeReply");
+const fixedButton = document.getElementById("fixedButton");
+
+if (fixedButton) {
+  fixedButton.style.display = "none";
+}
+
+function renderKollektivMessage() {
+  if (!messageBox || !messageContent) return;
+
+  if (!latestKollektivMessage) {
+    messageContent.textContent =
+      "Nema poruka sa poslodavcem za Kollektivavtal.";
+    messageBox.style.display = "block";
+    return;
+  }
+
+  const message = latestKollektivMessage;
+  const date = message.createdAt?.toDate
+    ? message.createdAt.toDate().toLocaleDateString()
+    : "";
+
+  messageContent.replaceChildren();
+
+  const addLine = (label, value) => {
+    const line = document.createElement("p");
+    const strong = document.createElement("strong");
+    strong.textContent = label;
+    line.append(strong, document.createTextNode(" " + (value || "—")));
+    messageContent.appendChild(line);
+  };
+
+  addLine("Poruka od poslodavca:", message.message);
+  addLine("Datum:", date);
+  addLine("Status:", message.status);
+
+  if (message.reply) {
+    addLine("Vaš odgovor:", message.reply);
+  }
+
+  messageBox.style.display = "block";
+}
+
+watchGenieMessages((messages, error) => {
+  if (error) {
+    console.error("Greška pri učitavanju Genie poruka:", error);
+
+    if (messageContent) {
+      messageContent.textContent =
+        "Poruke trenutno nisu dostupne. Proverite prijavu i internet vezu.";
+    }
+
+    if (messageBox) messageBox.style.display = "block";
+    return;
+  }
+
+  kollektivMessages = messages.filter(
+    message => message.payType === "Kollektivavtal"
+  );
+
+  latestKollektivMessage = kollektivMessages[0] || null;
+  renderKollektivMessage();
+});
+
+window.replyToEmployer = async function () {
+  const reply = replyInput?.value.trim();
+
+  if (!latestKollektivMessage) {
+    alert("Nema Firebase poruke na koju možete odgovoriti.");
+    return;
+  }
+
+  if (!reply) {
+    alert("Unesite odgovor pre slanja.");
+    return;
+  }
+
+  try {
+    await replyToGenieMessage(
+      latestKollektivMessage.id,
+      reply
+    );
+
+    replyInput.value = "";
+    alert("Vaš odgovor je poslat poslodavcu.");
+  } catch (error) {
+    console.error("Greška pri slanju odgovora:", error);
+    alert("Odgovor nije poslat. " + (error.message || "Pokušajte ponovo."));
+  }
+};
+</script>
+
 </body>
 </html>
