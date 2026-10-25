@@ -2799,11 +2799,19 @@ watchGenieMessages((messages, error) => {
   }
 
   kollektivMessages = messages.filter(
-    message => message.payType === "Kollektivavtal"
-  );
+  message => message.payType === "Kollektivavtal"
+);
 
-  latestKollektivMessage = kollektivMessages[0] || null;
-  renderKollektivMessage();
+latestKollektivMessage = kollektivMessages[0] || null;
+
+console.log(
+  "Genie: broj Firebase poruka:",
+  messages.length,
+  "Broj Kollektivavtal poruka:",
+  kollektivMessages.length
+);
+
+renderKollektivMessage();
 });
 
 window.replyToEmployer = async function () {
