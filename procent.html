@@ -2791,7 +2791,20 @@ watchGenieMessages((messages, error) => {
   messageBox.style.display = "block";
 }
   if (error) {
-    console.error("Greška pri učitavanju Genie poruka:", error);
+  console.error("Greška pri učitavanju Genie poruka:", error);
+
+  if (messageContent) {
+    messageContent.textContent =
+      "Greška pri učitavanju poruka: " +
+      (error.message || "Nepoznata greška.");
+  }
+
+  if (messageBox) {
+    messageBox.style.display = "block";
+  }
+
+  return;
+}
 
     if (messageContent) {
       messageContent.textContent =
