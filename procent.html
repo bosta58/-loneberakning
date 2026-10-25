@@ -2779,6 +2779,12 @@ console.log("Genie: renderKollektivMessage je pokrenut.");
 }
 window.renderKollektivMessage = renderKollektivMessage;
   console.log("Genie: pokrećem učitavanje Firebase poruka.");
+  const genieDebugBox = document.createElement("div");
+genieDebugBox.textContent =
+  "Provera Genie: Firebase modul je pokrenut.";
+genieDebugBox.style.cssText =
+  "padding:12px;margin:12px 0;background:#fff3cd;color:#664d03;border-radius:8px;";
+document.body.appendChild(genieDebugBox);
 watchGenieMessages((messages, error) => {
   if (error) {
     console.error("Greška pri učitavanju Genie poruka:", error);
