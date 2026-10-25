@@ -2722,17 +2722,18 @@ window.calculateAndSaveSalary = async function () {
 };
 </script>
 
+
 <script type="module">
 import {
+  watchGenieAuth,
   watchGenieMessages,
   replyToGenieMessage
 } from "./genie-firebase.js?v=5";
 
 let kollektivMessages = [];
 let latestKollektivMessage = null;
-window.loadEmployerMessage = function () {
-  renderKollektivMessage();
-};
+let stopListening = null;
+
 const messageBox = document.getElementById("employerMessageBox");
 const messageContent = document.getElementById("employerMessageContent");
 const replyInput = document.getElementById("employeeReply");
@@ -2744,7 +2745,9 @@ if (fixedButton) {
 
 function renderKollektivMessage() {
   if (!messageBox || !messageContent) return;
-console.log("Genie: renderKollektivMessage je pokrenut.");
+
+  messageContent.replaceChildren();
+
   if (!latestKollektivMessage) {
     messageContent.textContent =
       "Nema poruka sa poslodavcem za Kollektivavtal.";
@@ -2753,19 +2756,23 @@ console.log("Genie: renderKollektivMessage je pokrenut.");
   }
 
   const message = latestKollektivMessage;
+
   const date = message.createdAt?.toDate
-    ? message.createdAt.toDate().toLocaleDateString()
+    ? message.createdAt.toDate().toLocaleDateString("sv-SE")
     : "";
 
-  messageContent.replaceChildren();
-
-  const addLine = (label, value) => {
+  function addLine(label, value) {
     const line = document.createElement("p");
     const strong = document.createElement("strong");
+
     strong.textContent = label;
-    line.append(strong, document.createTextNode(" " + (value || "—")));
+    line.append(
+      strong,
+      document.createTextNode(" " + (value || "—"))
+    );
+
     messageContent.appendChild(line);
-  };
+  }
 
   addLine("Poruka od poslodavca:", message.message);
   addLine("Datum:", date);
@@ -2777,65 +2784,94 @@ console.log("Genie: renderKollektivMessage je pokrenut.");
 
   messageBox.style.display = "block";
 }
+
 window.renderKollektivMessage = renderKollektivMessage;
-  console.log("Genie: pokrećem učitavanje Firebase poruka.");
-  const genieDebugBox = document.createElement("div");
-genieDebugBox.textContent =
-  "Provera Genie: Firebase modul je pokrenut.";
-genieDebugBox.style.cssText =
-  "padding:12px;margin:12px 0;background:#fff3cd;color:#664d03;border-radius:8px;";
-document.body.appendChild(genieDebugBox);
-watchGenieMessages((messages, error) => {
- if (messageContent) {
-  messageContent.textContent = "Genie: čekam odgovor od Firebase-a...";
-  messageBox.style.display = "block";
-}
-  if (error) {
-  console.error("Greška pri učitavanju Genie poruka:", error);
+window.loadEmployerMessage = renderKollektivMessage;
+
+watchGenieAuth((user) => {
+  if (stopListening) {
+    stopListening();
+    stopListening = null;
+  }
+
+  kollektivMessages = [];
+  latestKollektivMessage = null;
+
+  if (!user) {
+    if (messageContent) {
+      messageContent.textContent =
+        "Prijavite se u Genie da biste videli poruke.";
+    }
+
+    if (messageBox) {
+      messageBox.style.display = "block";
+    }
+
+    return;
+  }
 
   if (messageContent) {
     messageContent.textContent =
-      "Greška pri učitavanju poruka: " +
-      (error.message || "Nepoznata greška.");
+      "Učitavanje poruka sa Firebase-a...";
   }
 
   if (messageBox) {
     messageBox.style.display = "block";
   }
 
-  return;
-}
+  try {
+    stopListening = watchGenieMessages((messages, error) => {
+      if (error) {
+        console.error("Greška pri učitavanju Genie poruka:", error);
+
+        if (messageContent) {
+          messageContent.textContent =
+            "Poruke nisu učitane: " +
+            (error.message || "Proverite internet vezu.");
+        }
+
+        if (messageBox) {
+          messageBox.style.display = "block";
+        }
+
+        return;
+      }
+
+      kollektivMessages = messages.filter(
+        (message) => message.payType === "Kollektivavtal"
+      );
+
+      latestKollektivMessage = kollektivMessages[0] || null;
+
+      console.log(
+        "Genie: sve Firebase poruke:",
+        messages.length,
+        "Kollektivavtal poruke:",
+        kollektivMessages.length
+      );
+
+      renderKollektivMessage();
+    });
+  } catch (error) {
+    console.error("Greška pri pokretanju poruka:", error);
 
     if (messageContent) {
       messageContent.textContent =
-        "Poruke trenutno nisu dostupne. Proverite prijavu i internet vezu.";
+        "Poruke nisu učitane: " +
+        (error.message || "Proverite prijavu.");
     }
 
-    if (messageBox) messageBox.style.display = "block";
-    return;
+    if (messageBox) {
+      messageBox.style.display = "block";
+    }
   }
-
-  kollektivMessages = messages.filter(
-  message => message.payType === "Kollektivavtal"
-);
-
-latestKollektivMessage = kollektivMessages[0] || null;
-
-console.log(
-  "Genie: broj Firebase poruka:",
-  messages.length,
-  "Broj Kollektivavtal poruka:",
-  kollektivMessages.length
-);
-
-renderKollektivMessage();
 });
 
 window.replyToEmployer = async function () {
   const reply = replyInput?.value.trim();
 
   if (!latestKollektivMessage) {
-    alert("Nema Firebase poruke na koju možete odgovoriti.");
+    alert("Nema poruke na koju možete odgovoriti.");
     return;
   }
 
@@ -2854,7 +2890,11 @@ window.replyToEmployer = async function () {
     alert("Vaš odgovor je poslat poslodavcu.");
   } catch (error) {
     console.error("Greška pri slanju odgovora:", error);
-    alert("Odgovor nije poslat. " + (error.message || "Pokušajte ponovo."));
+
+    alert(
+      "Odgovor nije poslat. " +
+      (error.message || "Pokušajte ponovo.")
+    );
   }
 };
 </script>
