@@ -2895,7 +2895,9 @@ import {
 
 let kollektivMessages = [];
 let latestKollektivMessage = null;
-
+window.loadEmployerMessage = function () {
+  renderKollektivMessage();
+};
 const messageBox = document.getElementById("employerMessageBox");
 const messageContent = document.getElementById("employerMessageContent");
 const replyInput = document.getElementById("employeeReply");
