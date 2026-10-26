@@ -3280,13 +3280,22 @@ if (!user) {
 
     stopWatchingMessages = watchGenieMessages(
       (messages, error) => {
-        if (error) {
-          console.error(
-            "Genie poruke:",
-            error
-          );
-          return;
-        }
+    if (error) {
+  console.error("Genie poruke:", error);
+
+  const box = document.getElementById("employeeMessages");
+
+  if (box) {
+    box.insertAdjacentHTML(
+      "afterbegin",
+      "<p style='color:red'>Firebase greška: " +
+      String(error.code || error.message || error) +
+      "</p>"
+    );
+  }
+
+  return;
+}
 
         window.genieFirebaseMessages = messages;
         const checkBox = document.getElementById("employeeMessages");
