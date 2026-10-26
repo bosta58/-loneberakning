@@ -3021,14 +3021,7 @@ function loadEmployeeMessages(employeeName) {
         return false;
       }
 
-      if (
-        item.payType &&
-        activeType &&
-        item.payType !== activeType
-      ) {
-        return false;
-      }
-
+      
       if (
         item.periodKey &&
         activePeriodKey &&
