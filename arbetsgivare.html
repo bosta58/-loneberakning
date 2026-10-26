@@ -3012,25 +3012,11 @@ function loadEmployeeMessages(employeeName) {
       ? activePeriodStart + "_" + activePeriodEnd
       : "utan-period";
 
-  const employeeMessages = messages.filter(
+    const employeeMessages = messages.filter(
     function(item) {
-
-      if (
-        normalizeName(item.employee) !== normalized
-      ) {
-        return false;
-      }
-
-      
-      if (
-        item.periodKey &&
-        activePeriodKey &&
-        item.periodKey !== activePeriodKey
-      ) {
-        return false;
-      }
-
-      return true;
+      return (
+        normalizeName(item.employee) === normalized
+      );
     }
   );
 
