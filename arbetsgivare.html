@@ -3298,6 +3298,7 @@ if (!user) {
 }
 
         window.genieFirebaseMessages = messages;
+        alert("Genie je primio poruka: " + messages.length);
         const checkBox = document.getElementById("employeeMessages");
 if (checkBox) checkBox.insertAdjacentHTML("afterbegin", "<p style='color:#b45309'>Firebase poruka: " + messages.length + "</p>");
 console.log("GENIE FIREBASE PORUKE:", messages);
