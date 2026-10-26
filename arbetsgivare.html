@@ -3259,7 +3259,15 @@ window.markGenieMessageFixed =
     }
 
     window.genieFirebaseUserSignedIn = Boolean(user);
+console.log(
+  "GENIE PRIJAVA:",
+  user ? "Prijavljen" : "Nije prijavljen"
+);
 
+console.log(
+  "GENIE UID:",
+  user ? user.uid : "Nema UID-a"
+);
 if (!user) {
   window.genieFirebaseMessages = [];
 
