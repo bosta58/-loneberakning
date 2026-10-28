@@ -630,7 +630,6 @@ const GENIE_LANGUAGE_KEY = "genieLanguage";
 
 const SALARY_TYPE = "Kollektivavtal";
 
-
 /* =========================================================
    ÖVERSÄTTNINGAR
    ========================================================= */
@@ -692,7 +691,6 @@ const translations = {
     messageNotFound: "Meddelandet kunde inte hittas."
   },
 
-
   en: {
     subtitle: "Salary details – Collective agreement",
     employer: "Employer",
@@ -747,7 +745,6 @@ const translations = {
     statusFixed: "Fixed",
     messageNotFound: "Message could not be found."
   },
-
 
   sr: {
     subtitle: "Podaci o plati – Kolektivni ugovor",
@@ -806,7 +803,6 @@ const translations = {
 
 };
 
-
 /* =========================================================
    POMOĆNE FUNKCIJE ZA ZAJEDNIČKU BAZU
    ========================================================= */
@@ -820,7 +816,6 @@ function normalizeEmployee(value) {
 
 }
 
-
 function getEmployeeKey() {
 
   const employee =
@@ -833,20 +828,17 @@ function getEmployeeKey() {
 
 }
 
-
 function getPeriodStart() {
 
   return document.getElementById("periodStart").value || "";
 
 }
 
-
 function getPeriodEnd() {
 
   return document.getElementById("periodEnd").value || "";
 
 }
-
 
 function getPeriodKey() {
 
@@ -863,7 +855,6 @@ function getPeriodKey() {
   return start + "_" + end;
 
 }
-
 
 function readSalaryData() {
 
@@ -883,7 +874,6 @@ function readSalaryData() {
 
 }
 
-
 function writeSalaryData(data) {
 
   localStorage.setItem(
@@ -892,7 +882,6 @@ function writeSalaryData(data) {
   );
 
 }
-
 
 /* =========================================================
    AKTUELLT KOLLEKTIVAVTAL-REKORD
@@ -924,7 +913,6 @@ function getCurrentKollektivRecord() {
     .types[SALARY_TYPE][periodKey];
 
 }
-
 
 /* =========================================================
    SPARA KOLLEKTIVAVTAL-REKORD
@@ -983,7 +971,6 @@ function saveKollektivRecord(record) {
 
 }
 
-
 /* =========================================================
    SPRÅK
    ========================================================= */
@@ -995,7 +982,6 @@ function getCurrentLanguage() {
   ) || "sv";
 
 }
-
 
 function changeLanguage(language) {
 
@@ -1013,7 +999,6 @@ function changeLanguage(language) {
   loadEmployerMessage();
 
 }
-
 
 function applyLanguage() {
 
@@ -1164,7 +1149,6 @@ function applyLanguage() {
     "calculateButton"
   ).textContent = t.calculate;
 
-
   /* =====================================================
      KOMUNIKATION – ÖVERSÄTTNING
   ===================================================== */
@@ -1181,7 +1165,6 @@ function applyLanguage() {
 
   }
 
-
   const replyButton =
     document.getElementById(
       "replyButton"
@@ -1193,7 +1176,6 @@ function applyLanguage() {
       t.sendReply;
 
   }
-
 
   const fixedButton =
     document.getElementById(
@@ -1207,7 +1189,6 @@ function applyLanguage() {
 
   }
 
-
   const employeeReply =
     document.getElementById(
       "employeeReply"
@@ -1219,7 +1200,6 @@ function applyLanguage() {
       t.replyPlaceholder;
 
   }
-
 
   const resultMessage =
     document.getElementById(
@@ -1236,7 +1216,6 @@ function applyLanguage() {
   updateResultLanguage();
 
 }
-
 
 /* =========================================================
    RESULTAT
@@ -1269,7 +1248,6 @@ function updateResultLanguage() {
   }
 
 }
-
 
 /* =========================================================
    KALENDERNS ARBETSTID
@@ -1357,7 +1335,6 @@ function loadCalendarHours() {
 
 }
 
-
 /* =========================================================
    LÄS UT TIMMAR
    ========================================================= */
@@ -1428,7 +1405,6 @@ function getCalendarHours() {
 
 }
 
-
 /* =========================================================
    BERÄKNA LÖN
    ========================================================= */
@@ -1449,7 +1425,6 @@ function calculateSalary() {
     return null;
 
   }
-
 
   const regularHours =
     hours.regularHours;
@@ -1474,7 +1449,6 @@ function calculateSalary() {
 
   const holidayOvertimeHours =
     hours.holidayOvertimeHours;
-
 
   const regularRate =
     Number(
@@ -1546,7 +1520,6 @@ function calculateSalary() {
       ).value
     ) || 0;
 
-
   /* RÄKNAR FRAM TIMLÖNER */
 
   const regularOvertimeRate =
@@ -1576,7 +1549,6 @@ function calculateSalary() {
   const holidayOvertimeRate =
     regularRate *
     (1 + holidayOvertimePercent / 100);
-
 
   /* GRUNDLÖN */
 
@@ -1612,7 +1584,6 @@ function calculateSalary() {
     holidayOvertimeHours *
     holidayOvertimeRate;
 
-
   const baseGross =
     regularPay +
     regularOvertimePay +
@@ -1623,13 +1594,11 @@ function calculateSalary() {
     holidayPayAmount +
     holidayOvertimePay;
 
-
   /* SEMESTERERSÄTTNING */
 
   const vacationPay =
     baseGross *
     holidayPayPercent / 100;
-
 
   /* BRUTTO */
 
@@ -1637,20 +1606,17 @@ function calculateSalary() {
     baseGross +
     vacationPay;
 
-
   /* SKATT */
 
   const taxAmount =
     grossSalary *
     tax / 100;
 
-
   /* NETTO */
 
   const netSalary =
     grossSalary -
     taxAmount;
-
 
   const calculation = {
 
@@ -1773,7 +1739,6 @@ function calculateSalary() {
 
   };
 
-
   /* GAMMAL RESULTATNYCKEL FÖR KOMPATIBILITET */
 
   localStorage.setItem(
@@ -1783,16 +1748,13 @@ function calculateSalary() {
     )
   );
 
-
   showResult(
     calculation
   );
 
-
   return calculation;
 
 }
-
 
 /* =========================================================
    VISA RESULTAT
@@ -1808,7 +1770,6 @@ function showResult(calculation) {
     translations[
       getCurrentLanguage()
     ];
-
 
   document.getElementById(
     "result"
@@ -1853,7 +1814,6 @@ function showResult(calculation) {
 
 }
 
-
 /* =========================================================
    SPARA HELA KOLLEKTIVAVTAL-DATA
    ========================================================= */
@@ -1897,7 +1857,6 @@ function saveSalaryToEmployer(calculation) {
     periodEnd:
       periodEnd,
 
-
     /* TIMMAR */
 
     regularHours:
@@ -1923,7 +1882,6 @@ function saveSalaryToEmployer(calculation) {
 
     holidayOvertimeHours:
       calculation.holidayOvertimeHours,
-
 
     /* SATSNINGAR */
 
@@ -1978,7 +1936,6 @@ function saveSalaryToEmployer(calculation) {
     taxPercent:
       calculation.taxPercent,
 
-
     /* UTRÄKNING */
 
     regularPay:
@@ -2020,7 +1977,6 @@ function saveSalaryToEmployer(calculation) {
     netSalary:
       calculation.netSalary,
 
-
     updated:
       new Date().toISOString(),
 
@@ -2029,13 +1985,11 @@ function saveSalaryToEmployer(calculation) {
 
   };
 
-
   saveKollektivRecord(
     record
   );
 
 }
-
 
 /* =========================================================
    KOMMUNIKATION – KOLLEKTIVAVTAL
@@ -2060,10 +2014,8 @@ function getCurrentKollektivMessages() {
 
   }
 
-
   const employeeKey =
     getEmployeeKey();
-
 
   return messages.filter(function(item) {
 
@@ -2071,7 +2023,6 @@ function getCurrentKollektivMessages() {
       normalizeEmployee(
         item.employee
       );
-
 
     /*
       Meddelandet måste höra till
@@ -2086,7 +2037,6 @@ function getCurrentKollektivMessages() {
 
     }
 
-
     /*
       Meddelandet måste höra till
       Kollektivavtal.
@@ -2100,7 +2050,6 @@ function getCurrentKollektivMessages() {
 
     }
 
-
     /*
       Löneperioden används inte längre
       för att dölja meddelandet.
@@ -2113,7 +2062,6 @@ function getCurrentKollektivMessages() {
   });
 
 }
-
 
 /* =========================================================
    GLAVNO DUGME
@@ -2133,7 +2081,6 @@ function calculateAndSaveSalary() {
   }
 
 }
-
 
 /* =========================================================
    VISA SENASTE MEDDELANDE
@@ -2167,7 +2114,6 @@ function saveFormData() {
 
 }
 
-
 function loadFormData() {
 
   const inputs =
@@ -2193,7 +2139,6 @@ function loadFormData() {
 
 }
 
-
 /* =========================================================
    LADEN AUS DER GEMEINSAMEN STRUKTUR
    ========================================================= */
@@ -2207,7 +2152,6 @@ function loadKollektivRecord() {
     return;
   }
 
-
   if (record.employee !== undefined) {
 
     document.getElementById(
@@ -2216,7 +2160,6 @@ function loadKollektivRecord() {
       record.employee;
 
   }
-
 
   if (record.employer !== undefined) {
 
@@ -2227,7 +2170,6 @@ function loadKollektivRecord() {
 
   }
 
-
   if (record.periodStart !== undefined) {
 
     document.getElementById(
@@ -2237,7 +2179,6 @@ function loadKollektivRecord() {
 
   }
 
-
   if (record.periodEnd !== undefined) {
 
     document.getElementById(
@@ -2246,7 +2187,6 @@ function loadKollektivRecord() {
       record.periodEnd;
 
   }
-
 
   const fields = {
 
@@ -2282,7 +2222,6 @@ function loadKollektivRecord() {
 
   };
 
-
   Object.keys(fields).forEach(
     function(id) {
 
@@ -2306,7 +2245,6 @@ function loadKollektivRecord() {
     }
   );
 
-
   showResult({
 
     grossSalary:
@@ -2325,7 +2263,6 @@ function loadKollektivRecord() {
 
 }
 
-
 /* =========================================================
    SVAR TILL ARBETSGIVARE
    ========================================================= */
@@ -2341,14 +2278,12 @@ function replyToEmployer() {
     return;
   }
 
-
   const reply =
     replyField.value.trim();
 
   if (!reply) {
     return;
   }
-
 
   let messages = [];
 
@@ -2367,17 +2302,14 @@ function replyToEmployer() {
 
   }
 
-
   const employeeKey =
     getEmployeeKey();
 
   const periodKey =
     getPeriodKey();
 
-
   let messageIndex =
     -1;
-
 
   /*
     Direktno tražimo poruku u originalnom nizu.
@@ -2398,13 +2330,11 @@ function replyToEmployer() {
         item.employee
       );
 
-
     if (
       itemEmployee !== employeeKey
     ) {
       continue;
     }
-
 
     if (
       item.payType !== SALARY_TYPE
@@ -2412,13 +2342,11 @@ function replyToEmployer() {
       continue;
     }
 
-
     if (
       item.periodKey !== periodKey
     ) {
       continue;
     }
-
 
     messageIndex =
       i;
@@ -2426,7 +2354,6 @@ function replyToEmployer() {
     break;
 
   }
-
 
   if (
     messageIndex === -1
@@ -2441,7 +2368,6 @@ function replyToEmployer() {
     return;
 
   }
-
 
   messages[messageIndex].reply =
     reply;
@@ -2466,7 +2392,6 @@ function replyToEmployer() {
   messages[messageIndex].periodKey =
     periodKey;
 
-
   localStorage.setItem(
     GENIE_MESSAGES_KEY,
     JSON.stringify(
@@ -2474,15 +2399,12 @@ function replyToEmployer() {
     )
   );
 
-
   replyField.value =
     "";
-
 
   loadEmployerMessage();
 
 }
-
 
 /* =========================================================
    MARKERA MEDDELANDE SOM ÅTGÄRDAT
@@ -2507,17 +2429,14 @@ function markEmployerMessageAsFixed() {
 
   }
 
-
   const employeeKey =
     getEmployeeKey();
 
   const periodKey =
     getPeriodKey();
 
-
   let messageIndex =
     -1;
-
 
   /*
     Direktno tražimo poslednju odgovarajuću poruku.
@@ -2538,13 +2457,11 @@ function markEmployerMessageAsFixed() {
         item.employee
       );
 
-
     if (
       itemEmployee !== employeeKey
     ) {
       continue;
     }
-
 
     if (
       item.payType !== SALARY_TYPE
@@ -2552,13 +2469,11 @@ function markEmployerMessageAsFixed() {
       continue;
     }
 
-
     if (
       item.periodKey !== periodKey
     ) {
       continue;
     }
-
 
     messageIndex =
       i;
@@ -2566,7 +2481,6 @@ function markEmployerMessageAsFixed() {
     break;
 
   }
-
 
   if (
     messageIndex === -1
@@ -2582,7 +2496,6 @@ function markEmployerMessageAsFixed() {
 
   }
 
-
   /*
     Intern status behålls på svenska
     för kompatibilitet.
@@ -2597,7 +2510,6 @@ function markEmployerMessageAsFixed() {
   messages[messageIndex].periodKey =
     periodKey;
 
-
   localStorage.setItem(
     GENIE_MESSAGES_KEY,
     JSON.stringify(
@@ -2605,11 +2517,9 @@ function markEmployerMessageAsFixed() {
     )
   );
 
-
   loadEmployerMessage();
 
 }
-
 
 /* =========================================================
    AUTOMATSKO ČUVANJE POLJA
@@ -2626,7 +2536,6 @@ document.querySelectorAll(
 
 });
 
-
 /* =========================================================
    START
    ========================================================= */
@@ -2636,7 +2545,6 @@ loadFormData();
 loadCalendarHours();
 
 applyLanguage();
-
 
 /*
   Prvo pokušavamo da pronađemo podatke
@@ -2722,8 +2630,6 @@ window.calculateAndSaveSalary = async function () {
 };
 </script>
 
-
-
 <script type="module">
 import {
   watchGenieAuth,
@@ -2731,98 +2637,14 @@ import {
   replyToGenieMessage
 } from "./genie-firebase.js?v=5";
 
-/* GENIE – PREVODI FIREBASE PORUKA */
-
-const messageTranslations = {
-  sv: {
-    title: "💬 Kommunikation med arbetsgivaren",
-    noMessages: "Inga meddelanden från arbetsgivaren för Kollektivavtal.",
-    login: "Logga in på Genie för att se meddelanden.",
-    loading: "Laddar meddelanden från Firebase...",
-    loadError: "Meddelandena kunde inte laddas: ",
-    connectionError: "Kontrollera internetanslutningen.",
-    fromEmployer: "Meddelande från arbetsgivaren:",
-    date: "Datum:",
-    status: "Status:",
-    yourReply: "Ditt svar:",
-    noReplyTarget: "Det finns inget meddelande att svara på.",
-    enterReply: "Skriv ett svar innan du skickar.",
-    sent: "Ditt svar har skickats till arbetsgivaren.",
-    sendError: "Svaret kunde inte skickas. ",
-    tryAgain: "Försök igen.",
-    newComment: "Ny kommentar",
-    fixed: "Åtgärdad"
-  },
-
-  en: {
-    title: "💬 Communication with employer",
-    noMessages: "No messages from the employer for Collective agreement.",
-    login: "Log in to Genie to view messages.",
-    loading: "Loading messages from Firebase...",
-    loadError: "Messages could not be loaded: ",
-    connectionError: "Check your internet connection.",
-    fromEmployer: "Message from employer:",
-    date: "Date:",
-    status: "Status:",
-    yourReply: "Your reply:",
-    noReplyTarget: "There is no message to reply to.",
-    enterReply: "Enter a reply before sending.",
-    sent: "Your reply has been sent to the employer.",
-    sendError: "The reply could not be sent. ",
-    tryAgain: "Please try again.",
-    newComment: "New comment",
-    fixed: "Resolved"
-  },
-
-  sr: {
-    title: "💬 Komunikacija sa poslodavcem",
-    noMessages: "Nema poruka od poslodavca za Kolektivni ugovor.",
-    login: "Prijavite se u Genie da biste videli poruke.",
-    loading: "Učitavanje poruka sa Firebasa...",
-    loadError: "Poruke nisu učitane: ",
-    connectionError: "Proverite internet vezu.",
-    fromEmployer: "Poruka od poslodavca:",
-    date: "Datum:",
-    status: "Status:",
-    yourReply: "Vaš odgovor:",
-    noReplyTarget: "Nema poruke na koju možete odgovoriti.",
-    enterReply: "Unesite odgovor pre slanja.",
-    sent: "Vaš odgovor je poslat poslodavcu.",
-    sendError: "Odgovor nije poslat. ",
-    tryAgain: "Pokušajte ponovo.",
-    newComment: "Novi komentar",
-    fixed: "Rešeno"
-  }
-};
-
-function getMessageLanguage() {
-  const language =
-    localStorage.getItem("genieLanguage") || "sv";
-
-  return messageTranslations[language]
-    ? language
-    : "sv";
-}
-
-function getMessageText() {
-  return messageTranslations[getMessageLanguage()];
-}
-
 let kollektivMessages = [];
 let latestKollektivMessage = null;
 let stopListening = null;
 
-const messageBox =
-  document.getElementById("employerMessageBox");
-
-const messageContent =
-  document.getElementById("employerMessageContent");
-
-const replyInput =
-  document.getElementById("employeeReply");
-
-const fixedButton =
-  document.getElementById("fixedButton");
+const messageBox = document.getElementById("employerMessageBox");
+const messageContent = document.getElementById("employerMessageContent");
+const replyInput = document.getElementById("employeeReply");
+const fixedButton = document.getElementById("fixedButton");
 
 if (fixedButton) {
   fixedButton.style.display = "none";
@@ -2831,15 +2653,11 @@ if (fixedButton) {
 function renderKollektivMessage() {
   if (!messageBox || !messageContent) return;
 
-  const t = getMessageText();
-
   messageContent.replaceChildren();
 
-  const title = document.getElementById("communicationTitle");
-  if (title) title.textContent = t.title;
-
   if (!latestKollektivMessage) {
-    messageContent.textContent = t.noMessages;
+    messageContent.textContent =
+      "Nema poruka sa poslodavcem za Kollektivavtal.";
     messageBox.style.display = "block";
     return;
   }
@@ -2847,11 +2665,7 @@ function renderKollektivMessage() {
   const message = latestKollektivMessage;
 
   const date = message.createdAt?.toDate
-    ? message.createdAt.toDate().toLocaleDateString(
-        getMessageLanguage() === "en" ? "en-GB" :
-        getMessageLanguage() === "sr" ? "sr-RS" :
-        "sv-SE"
-      )
+    ? message.createdAt.toDate().toLocaleDateString("sv-SE")
     : "";
 
   function addLine(label, value) {
@@ -2859,7 +2673,6 @@ function renderKollektivMessage() {
     const strong = document.createElement("strong");
 
     strong.textContent = label;
-
     line.append(
       strong,
       document.createTextNode(" " + (value || "—"))
@@ -2868,24 +2681,12 @@ function renderKollektivMessage() {
     messageContent.appendChild(line);
   }
 
-  addLine(t.fromEmployer, message.message);
-  addLine(t.date, date);
-
-  let translatedStatus = message.status || "—";
-
-  if (translatedStatus === "Ny kommentar") {
-    translatedStatus = t.newComment;
-  } else if (translatedStatus === "Åtgärdad") {
-    translatedStatus = t.fixed;
-  } else if (translatedStatus === "Ny meddelande" ||
-             translatedStatus === "Ny meddeling") {
-    translatedStatus = t.newComment;
-  }
-
-  addLine(t.status, translatedStatus);
+  addLine("Poruka od poslodavca:", message.message);
+  addLine("Datum:", date);
+  addLine("Status:", message.status);
 
   if (message.reply) {
-    addLine(t.yourReply, message.reply);
+    addLine("Vaš odgovor:", message.reply);
   }
 
   messageBox.style.display = "block";
@@ -2905,7 +2706,8 @@ watchGenieAuth((user) => {
 
   if (!user) {
     if (messageContent) {
-      messageContent.textContent = getMessageText().login;
+      messageContent.textContent =
+        "Prijavite se u Genie da biste videli poruke.";
     }
 
     if (messageBox) {
@@ -2916,7 +2718,8 @@ watchGenieAuth((user) => {
   }
 
   if (messageContent) {
-    messageContent.textContent = getMessageText().loading;
+    messageContent.textContent =
+      "Učitavanje poruka sa Firebase-a...";
   }
 
   if (messageBox) {
@@ -2926,12 +2729,12 @@ watchGenieAuth((user) => {
   try {
     stopListening = watchGenieMessages((messages, error) => {
       if (error) {
-        console.error("Genie message loading error:", error);
+        console.error("Greška pri učitavanju Genie poruka:", error);
 
         if (messageContent) {
           messageContent.textContent =
-            getMessageText().loadError +
-            (error.message || getMessageText().connectionError);
+            "Poruke nisu učitane: " +
+            (error.message || "Proverite internet vezu.");
         }
 
         if (messageBox) {
@@ -2948,21 +2751,21 @@ watchGenieAuth((user) => {
       latestKollektivMessage = kollektivMessages[0] || null;
 
       console.log(
-        "Genie Firebase messages:",
+        "Genie: sve Firebase poruke:",
         messages.length,
-        "Kollektivavtal messages:",
+        "Kollektivavtal poruke:",
         kollektivMessages.length
       );
 
       renderKollektivMessage();
     });
   } catch (error) {
-    console.error("Genie message listener error:", error);
+    console.error("Greška pri pokretanju poruka:", error);
 
     if (messageContent) {
       messageContent.textContent =
-        getMessageText().loadError +
-        (error.message || getMessageText().connectionError);
+        "Poruke nisu učitane: " +
+        (error.message || "Proverite prijavu.");
     }
 
     if (messageBox) {
@@ -2972,16 +2775,15 @@ watchGenieAuth((user) => {
 });
 
 window.replyToEmployer = async function () {
-  const t = getMessageText();
   const reply = replyInput?.value.trim();
 
   if (!latestKollektivMessage) {
-    alert(t.noReplyTarget);
+    alert("Nema poruke na koju možete odgovoriti.");
     return;
   }
 
   if (!reply) {
-    alert(t.enterReply);
+    alert("Unesite odgovor pre slanja.");
     return;
   }
 
@@ -2992,13 +2794,13 @@ window.replyToEmployer = async function () {
     );
 
     replyInput.value = "";
-    alert(t.sent);
+    alert("Vaš odgovor je poslat poslodavcu.");
   } catch (error) {
-    console.error("Genie reply error:", error);
+    console.error("Greška pri slanju odgovora:", error);
 
     alert(
-      t.sendError +
-      (error.message || t.tryAgain)
+      "Odgovor nije poslat. " +
+      (error.message || "Pokušajte ponovo.")
     );
   }
 };
