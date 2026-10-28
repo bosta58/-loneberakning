@@ -2723,6 +2723,7 @@ window.calculateAndSaveSalary = async function () {
 </script>
 
 
+
 <script type="module">
 import {
   watchGenieAuth,
@@ -2730,14 +2731,98 @@ import {
   replyToGenieMessage
 } from "./genie-firebase.js?v=5";
 
+/* GENIE – PREVODI FIREBASE PORUKA */
+
+const messageTranslations = {
+  sv: {
+    title: "💬 Kommunikation med arbetsgivaren",
+    noMessages: "Inga meddelanden från arbetsgivaren för Kollektivavtal.",
+    login: "Logga in på Genie för att se meddelanden.",
+    loading: "Laddar meddelanden från Firebase...",
+    loadError: "Meddelandena kunde inte laddas: ",
+    connectionError: "Kontrollera internetanslutningen.",
+    fromEmployer: "Meddelande från arbetsgivaren:",
+    date: "Datum:",
+    status: "Status:",
+    yourReply: "Ditt svar:",
+    noReplyTarget: "Det finns inget meddelande att svara på.",
+    enterReply: "Skriv ett svar innan du skickar.",
+    sent: "Ditt svar har skickats till arbetsgivaren.",
+    sendError: "Svaret kunde inte skickas. ",
+    tryAgain: "Försök igen.",
+    newComment: "Ny kommentar",
+    fixed: "Åtgärdad"
+  },
+
+  en: {
+    title: "💬 Communication with employer",
+    noMessages: "No messages from the employer for Collective agreement.",
+    login: "Log in to Genie to view messages.",
+    loading: "Loading messages from Firebase...",
+    loadError: "Messages could not be loaded: ",
+    connectionError: "Check your internet connection.",
+    fromEmployer: "Message from employer:",
+    date: "Date:",
+    status: "Status:",
+    yourReply: "Your reply:",
+    noReplyTarget: "There is no message to reply to.",
+    enterReply: "Enter a reply before sending.",
+    sent: "Your reply has been sent to the employer.",
+    sendError: "The reply could not be sent. ",
+    tryAgain: "Please try again.",
+    newComment: "New comment",
+    fixed: "Resolved"
+  },
+
+  sr: {
+    title: "💬 Komunikacija sa poslodavcem",
+    noMessages: "Nema poruka od poslodavca za Kolektivni ugovor.",
+    login: "Prijavite se u Genie da biste videli poruke.",
+    loading: "Učitavanje poruka sa Firebasa...",
+    loadError: "Poruke nisu učitane: ",
+    connectionError: "Proverite internet vezu.",
+    fromEmployer: "Poruka od poslodavca:",
+    date: "Datum:",
+    status: "Status:",
+    yourReply: "Vaš odgovor:",
+    noReplyTarget: "Nema poruke na koju možete odgovoriti.",
+    enterReply: "Unesite odgovor pre slanja.",
+    sent: "Vaš odgovor je poslat poslodavcu.",
+    sendError: "Odgovor nije poslat. ",
+    tryAgain: "Pokušajte ponovo.",
+    newComment: "Novi komentar",
+    fixed: "Rešeno"
+  }
+};
+
+function getMessageLanguage() {
+  const language =
+    localStorage.getItem("genieLanguage") || "sv";
+
+  return messageTranslations[language]
+    ? language
+    : "sv";
+}
+
+function getMessageText() {
+  return messageTranslations[getMessageLanguage()];
+}
+
 let kollektivMessages = [];
 let latestKollektivMessage = null;
 let stopListening = null;
 
-const messageBox = document.getElementById("employerMessageBox");
-const messageContent = document.getElementById("employerMessageContent");
-const replyInput = document.getElementById("employeeReply");
-const fixedButton = document.getElementById("fixedButton");
+const messageBox =
+  document.getElementById("employerMessageBox");
+
+const messageContent =
+  document.getElementById("employerMessageContent");
+
+const replyInput =
+  document.getElementById("employeeReply");
+
+const fixedButton =
+  document.getElementById("fixedButton");
 
 if (fixedButton) {
   fixedButton.style.display = "none";
@@ -2746,11 +2831,15 @@ if (fixedButton) {
 function renderKollektivMessage() {
   if (!messageBox || !messageContent) return;
 
+  const t = getMessageText();
+
   messageContent.replaceChildren();
 
+  const title = document.getElementById("communicationTitle");
+  if (title) title.textContent = t.title;
+
   if (!latestKollektivMessage) {
-    messageContent.textContent =
-      "Nema poruka sa poslodavcem za Kollektivavtal.";
+    messageContent.textContent = t.noMessages;
     messageBox.style.display = "block";
     return;
   }
@@ -2758,7 +2847,11 @@ function renderKollektivMessage() {
   const message = latestKollektivMessage;
 
   const date = message.createdAt?.toDate
-    ? message.createdAt.toDate().toLocaleDateString("sv-SE")
+    ? message.createdAt.toDate().toLocaleDateString(
+        getMessageLanguage() === "en" ? "en-GB" :
+        getMessageLanguage() === "sr" ? "sr-RS" :
+        "sv-SE"
+      )
     : "";
 
   function addLine(label, value) {
@@ -2766,6 +2859,7 @@ function renderKollektivMessage() {
     const strong = document.createElement("strong");
 
     strong.textContent = label;
+
     line.append(
       strong,
       document.createTextNode(" " + (value || "—"))
@@ -2774,12 +2868,24 @@ function renderKollektivMessage() {
     messageContent.appendChild(line);
   }
 
-  addLine("Poruka od poslodavca:", message.message);
-  addLine("Datum:", date);
-  addLine("Status:", message.status);
+  addLine(t.fromEmployer, message.message);
+  addLine(t.date, date);
+
+  let translatedStatus = message.status || "—";
+
+  if (translatedStatus === "Ny kommentar") {
+    translatedStatus = t.newComment;
+  } else if (translatedStatus === "Åtgärdad") {
+    translatedStatus = t.fixed;
+  } else if (translatedStatus === "Ny meddelande" ||
+             translatedStatus === "Ny meddeling") {
+    translatedStatus = t.newComment;
+  }
+
+  addLine(t.status, translatedStatus);
 
   if (message.reply) {
-    addLine("Vaš odgovor:", message.reply);
+    addLine(t.yourReply, message.reply);
   }
 
   messageBox.style.display = "block";
@@ -2799,8 +2905,7 @@ watchGenieAuth((user) => {
 
   if (!user) {
     if (messageContent) {
-      messageContent.textContent =
-        "Prijavite se u Genie da biste videli poruke.";
+      messageContent.textContent = getMessageText().login;
     }
 
     if (messageBox) {
@@ -2811,8 +2916,7 @@ watchGenieAuth((user) => {
   }
 
   if (messageContent) {
-    messageContent.textContent =
-      "Učitavanje poruka sa Firebase-a...";
+    messageContent.textContent = getMessageText().loading;
   }
 
   if (messageBox) {
@@ -2822,12 +2926,12 @@ watchGenieAuth((user) => {
   try {
     stopListening = watchGenieMessages((messages, error) => {
       if (error) {
-        console.error("Greška pri učitavanju Genie poruka:", error);
+        console.error("Genie message loading error:", error);
 
         if (messageContent) {
           messageContent.textContent =
-            "Poruke nisu učitane: " +
-            (error.message || "Proverite internet vezu.");
+            getMessageText().loadError +
+            (error.message || getMessageText().connectionError);
         }
 
         if (messageBox) {
@@ -2844,21 +2948,21 @@ watchGenieAuth((user) => {
       latestKollektivMessage = kollektivMessages[0] || null;
 
       console.log(
-        "Genie: sve Firebase poruke:",
+        "Genie Firebase messages:",
         messages.length,
-        "Kollektivavtal poruke:",
+        "Kollektivavtal messages:",
         kollektivMessages.length
       );
 
       renderKollektivMessage();
     });
   } catch (error) {
-    console.error("Greška pri pokretanju poruka:", error);
+    console.error("Genie message listener error:", error);
 
     if (messageContent) {
       messageContent.textContent =
-        "Poruke nisu učitane: " +
-        (error.message || "Proverite prijavu.");
+        getMessageText().loadError +
+        (error.message || getMessageText().connectionError);
     }
 
     if (messageBox) {
@@ -2868,15 +2972,16 @@ watchGenieAuth((user) => {
 });
 
 window.replyToEmployer = async function () {
+  const t = getMessageText();
   const reply = replyInput?.value.trim();
 
   if (!latestKollektivMessage) {
-    alert("Nema poruke na koju možete odgovoriti.");
+    alert(t.noReplyTarget);
     return;
   }
 
   if (!reply) {
-    alert("Unesite odgovor pre slanja.");
+    alert(t.enterReply);
     return;
   }
 
@@ -2887,13 +2992,13 @@ window.replyToEmployer = async function () {
     );
 
     replyInput.value = "";
-    alert("Vaš odgovor je poslat poslodavcu.");
+    alert(t.sent);
   } catch (error) {
-    console.error("Greška pri slanju odgovora:", error);
+    console.error("Genie reply error:", error);
 
     alert(
-      "Odgovor nije poslat. " +
-      (error.message || "Pokušajte ponovo.")
+      t.sendError +
+      (error.message || t.tryAgain)
     );
   }
 };
