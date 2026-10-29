@@ -2645,53 +2645,159 @@ const messageBox = document.getElementById("employerMessageBox");
 const messageContent = document.getElementById("employerMessageContent");
 const replyInput = document.getElementById("employeeReply");
 const fixedButton = document.getElementById("fixedButton");
+function getCommunicationText(key) {
+const lang = localStorage.getItem(“genieLanguage”) || “sv”;
 
+const texts = {
+sv: {
+fromEmployer: “Meddelande från arbetsgivaren:”,
+date: “Datum:”,
+status: “Status:”,
+yourReply: “Ditt svar:”,
+noMessages: “Inga meddelanden från arbetsgivaren för Kollektivavtal.”,
+login: “Logga in på Genie för att se meddelanden.”,
+loading: “Laddar meddelanden från Firebase…”,
+loadError: “Meddelandena kunde inte laddas: “,
+internet: “Kontrollera internetanslutningen.”,
+loginError: “Kontrollera att du är inloggad.”,
+noReply: “Det finns inget meddelande att svara på.”,
+enterReply: “Skriv ett svar innan du skickar.”,
+replySent: “Ditt svar har skickats till arbetsgivaren.”,
+replyFailed: “Svaret kunde inte skickas. “,
+tryAgain: “Försök igen.”,
+newComment: “Ny kommentar”,
+newMessage: “Nytt meddelande”,
+fixed: “Åtgärdad”,
+employeeReply: “Svar från arbetstagaren”
+},
+en: {
+fromEmployer: “Message from employer:”,
+date: “Date:”,
+status: “Status:”,
+yourReply: “Your reply:”,
+noMessages: “No employer messages for Collective agreement.”,
+login: “Log in to Genie to view messages.”,
+loading: “Loading messages from Firebase…”,
+loadError: “Messages could not be loaded: “,
+internet: “Check your internet connection.”,
+loginError: “Check that you are logged in.”,
+noReply: “There is no message to reply to.”,
+enterReply: “Enter a reply before sending.”,
+replySent: “Your reply has been sent to the employer.”,
+replyFailed: “The reply could not be sent. “,
+tryAgain: “Please try again.”,
+newComment: “New comment”,
+newMessage: “New message”,
+fixed: “Resolved”,
+employeeReply: “Employee reply”
+},
+sr: {
+fromEmployer: “Poruka od poslodavca:”,
+date: “Datum:”,
+status: “Status:”,
+yourReply: “Vaš odgovor:”,
+noMessages: “Nema poruka poslodavca za kolektivni ugovor.”,
+login: “Prijavite se u Genie da biste videli poruke.”,
+loading: “Učitavanje poruka sa Firebase-a…”,
+loadError: “Poruke nisu učitane: “,
+internet: “Proverite internet vezu.”,
+loginError: “Proverite da li ste prijavljeni.”,
+noReply: “Nema poruke na koju možete odgovoriti.”,
+enterReply: “Unesite odgovor pre slanja.”,
+replySent: “Vaš odgovor je poslat poslodavcu.”,
+replyFailed: “Odgovor nije poslat. “,
+tryAgain: “Pokušajte ponovo.”,
+newComment: “Novi komentar”,
+newMessage: “Nova poruka”,
+fixed: “Rešeno”,
+employeeReply: “Odgovor zaposlenog”
+}
+};
+
+return (texts[lang] || texts.sv)[key] || key;
+}
+
+function translateKollektivStatus(status) {
+if (status === “Åtgärdad”) {
+return getCommunicationText(“fixed”);
+}
+
+if (
+status === “Svar från arbetstagaren” ||
+status === “Odgovor zaposlenog”
+) {
+return getCommunicationText(“employeeReply”);
+}
+
+if (status === “Nova poruka”) {
+return getCommunicationText(“newMessage”);
+}
+
+if (status === “Ny kommentar” || status === “Novi komentar”) {
+return getCommunicationText(“newComment”);
+}
+
+return status || “—”;
+}
 if (fixedButton) {
   fixedButton.style.display = "none";
 }
 
 function renderKollektivMessage() {
-  if (!messageBox || !messageContent) return;
+if (!messageBox || !messageContent) return;
 
-  messageContent.replaceChildren();
+messageContent.replaceChildren();
 
-  if (!latestKollektivMessage) {
-    messageContent.textContent =
-      "Nema poruka sa poslodavcem za Kollektivavtal.";
-    messageBox.style.display = "block";
-    return;
-  }
-
-  const message = latestKollektivMessage;
-
-  const date = message.createdAt?.toDate
-    ? message.createdAt.toDate().toLocaleDateString("sv-SE")
-    : "";
-
-  function addLine(label, value) {
-    const line = document.createElement("p");
-    const strong = document.createElement("strong");
-
-    strong.textContent = label;
-    line.append(
-      strong,
-      document.createTextNode(" " + (value || "—"))
-    );
-
-    messageContent.appendChild(line);
-  }
-
-  addLine("Poruka od poslodavca:", message.message);
-  addLine("Datum:", date);
-  addLine("Status:", message.status);
-
-  if (message.reply) {
-    addLine("Vaš odgovor:", message.reply);
-  }
-
-  messageBox.style.display = "block";
+if (!latestKollektivMessage) {
+messageContent.textContent =
+getCommunicationText(“noMessages”);
+messageBox.style.display = “block”;
+return;
 }
 
+const message = latestKollektivMessage;
+
+const date = message.createdAt?.toDate
+? message.createdAt.toDate().toLocaleDateString(
+getCurrentLanguage() === “sv” ? “sv-SE” :
+getCurrentLanguage() === “sr” ? “sr-RS” : “en-GB”
+)
+: “”;
+
+function addLine(label, value) {
+const line = document.createElement(“p”);
+const strong = document.createElement(“strong”);
+
+strong.textContent = label;
+line.append(
+  strong,
+  document.createTextNode(" " + (value || "—"))
+);
+messageContent.appendChild(line);
+
+}
+
+addLine(
+getCommunicationText(“fromEmployer”),
+message.message
+);
+
+addLine(getCommunicationText(“date”), date);
+
+addLine(
+getCommunicationText(“status”),
+translateKollektivStatus(message.status)
+);
+
+if (message.reply) {
+addLine(
+getCommunicationText(“yourReply”),
+message.reply
+);
+}
+
+messageBox.style.display = “block”;
+}
 window.renderKollektivMessage = renderKollektivMessage;
 window.loadEmployerMessage = renderKollektivMessage;
 
