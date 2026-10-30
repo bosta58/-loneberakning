@@ -1,1 +1,442 @@
 
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Genie – Uputstvo za korišćenje</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px 14px 40px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: #f3f4f6;
+      color: #222;
+    }
+
+    .container {
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .genie-logo {
+      width: 90px;
+      height: auto;
+      display: block;
+      margin: 0 auto 8px;
+    }
+
+    h1 {
+      margin: 5px 0;
+      font-size: 27px;
+      color: #222;
+    }
+
+    .subtitle {
+      color: #666;
+      font-size: 14px;
+      margin-top: 7px;
+    }
+
+    .language-box {
+      text-align: center;
+      margin: 18px 0;
+    }
+
+    .language-box select {
+      padding: 10px 14px;
+      border: 1px solid #ccc;
+      border-radius: 9px;
+      background: white;
+      font-size: 15px;
+    }
+
+    .back-button {
+      display: block;
+      width: 100%;
+      padding: 13px;
+      margin: 18px 0;
+      border: none;
+      border-radius: 12px;
+      background: #374151;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .intro {
+      background: white;
+      padding: 17px;
+      border-radius: 14px;
+      margin-bottom: 18px;
+      line-height: 1.5;
+      font-size: 15px;
+    }
+
+    .chapter {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 13px;
+      margin-bottom: 11px;
+      overflow: hidden;
+    }
+
+    .chapter-button {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      background: white;
+      text-align: left;
+      font-size: 16px;
+      font-weight: 700;
+      color: #222;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chapter-button:active {
+      background: #f9fafb;
+    }
+
+    .chapter-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .chapter-summary {
+      padding: 0 16px 15px;
+      color: #666;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .chapter-content {
+      display: none;
+      padding: 16px;
+      border-top: 1px solid #e5e7eb;
+      font-size: 15px;
+      line-height: 1.65;
+      color: #333;
+    }
+
+    .chapter-content.open {
+      display: block;
+    }
+
+    .chapter-content h3 {
+      font-size: 17px;
+      margin: 15px 0 7px;
+    }
+
+    .chapter-content p {
+      margin: 8px 0;
+    }
+
+    .footer {
+      text-align: center;
+      color: #888;
+      font-size: 13px;
+      margin-top: 28px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <img src="genie-logo.png.PNG" alt="Genie" class="genie-logo">
+    <h1>Uputstvo za korišćenje</h1>
+    <div class="subtitle">
+      Jednostavno uputstvo za korišćenje Genie aplikacije
+    </div>
+  </div>
+
+  <div class="language-box">
+    <select id="guideLanguage">
+      <option value="sr">Srpski</option>
+      <option value="sv">Svenska</option>
+      <option value="en">English</option>
+    </select>
+  </div>
+
+  <button class="back-button" onclick="window.location.href='index.html'">
+    ← Nazad na početnu stranicu
+  </button>
+
+  <div class="intro">
+    Dobrodošli u Genie!
+
+    <p>
+      Genie je aplikacija namenjena jednostavnom i preglednom
+      evidentiranju radnog vremena i informativnom obračunu plate.
+    </p>
+
+    <p>
+      Izaberite poglavlje koje želite da pročitate.
+      Dodirom na naslov otvara se detaljno objašnjenje.
+    </p>
+  </div>
+
+  <div id="chapters">
+
+    <div class="chapter">
+      <button class="chapter-button">
+        <span>1. Dobrodošli u Genie</span>
+        <span class="chapter-icon">＋</span>
+      </button>
+      <div class="chapter-summary">
+        Upoznajte Genie i njegovu namenu.
+      </div>
+      <div class="chapter-content">
+        <h3>Dobrodošli u Genie</h3>
+        <p>
+          Genie je napravljen da zaposlenima i poslodavcima
+          omogući jednostavnije, jasnije i transparentnije
+          praćenje radnog vremena i obračuna plate.
+        </p>
+        <p>
+          Cilj aplikacije je da važne informacije budu
+          dostupne na jednom mestu.
+        </p>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <button class="chapter-button">
+        <span>2. Početna stranica i prvi koraci</span>
+        <span class="chapter-icon">＋</span>
+      </button>
+      <div class="chapter-summary">
+        Upoznajte početnu stranicu i glavne opcije.
+      </div>
+      <div class="chapter-content">
+        <h3>Početna stranica</h3>
+        <p>
+          Na početnoj stranici možete izabrati način
+          obračuna plate:
+        </p>
+        <p>
+          Timlön – obračun po satu.
+          Kollektivavtal – obračun prema procentima.
+          Månadslön – mesečna plata.
+        </p>
+        <p>
+          Izborom odgovarajuće opcije otvara se stranica
+          za željeni način obračuna.
+        </p>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <button class="chapter-button">
+        <span>3. Timlön – obračun satnice</span>
+        <span class="chapter-icon">＋</span>
+      </button>
+      <div class="chapter-summary">
+        Evidentiranje radnih sati i obračun satnice.
+      </div>
+      <div class="chapter-content">
+        <h3>Timlön – satnica</h3>
+        <p>
+          Ovaj deo aplikacije namenjen je zaposlenima
+          koji primaju platu po satu.
+        </p>
+        <p>
+          Unose se radni dani i sati, a aplikacija
+          prikazuje informativni obračun prema
+          podešenim satnicama i dodacima.
+        </p>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <button class="chapter-button">
+        <span>4. Kollektivavtal – obračun po ugovoru</span>
+        <span class="chapter-icon">＋</span>
+      </button>
+      <div class="chapter-summary">
+        Obračun prema procentima i pravilima ugovora.
+      </div>
+      <div class="chapter-content">
+        <h3>Kollektivavtal</h3>
+        <p>
+          Ovaj deo služi za informativni obračun
+          prema procentima i uslovima kolektivnog ugovora.
+        </p>
+        <p>
+          Tačni rezultati zavise od unetih podataka
+          i podešenih vrednosti.
+        </p>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <button class="chapter-button">
+        <span>5. Månadslön – mesečna plata</span>
+        <span class="chapter-icon">＋</span>
+      </button>
+      <div class="chapter-summary">
+        Evidentiranje radnog vremena kod mesečne plate.
+      </div>
+      <div class="chapter-content">
+        <h3>Månadslön</h3>
+        <p>
+          Ovaj deo aplikacije namenjen je zaposlenima
+          koji imaju ugovorenu mesečnu platu.
+        </p>
+        <p>
+          Omogućava evidentiranje radnog vremena
+          i pregled informativnih podataka za obračunski period.
+        </p>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <button class="chapter-button">
+        <span>6. Poslodavci i zaposleni – povezivanje</span>
+        <span class="chapter-icon">＋</span>
+      </button>
+      <div class="chapter-summary">
+        Povezivanje naloga poslodavca i zaposlenog.
+      </div>
+      <div class="chapter-content">
+        <h3>Povezivanje</h3>
+        <p>
+          Genie omogućava povezivanje naloga zaposlenog
+          i poslodavca.
+        </p>
+        <p>
+          Poslodavac može poslati zahtev za povezivanje,
+          a zaposleni ga može prihvatiti.
+        </p>
+        <p>
+          Nakon aktiviranja veze omogućena je razmena
+          relevantnih podataka i poruka.
+        </p>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <button class="chapter-button">
+        <span>7. Komunikacija i poruke</span>
+        <span class="chapter-icon">＋</span>
+      </button>
+      <div class="chapter-summary">
+        Slanje i primanje poruka između zaposlenog i poslodavca.
+      </div>
+      <div class="chapter-content">
+        <h3>Komunikacija</h3>
+        <p>
+          Zaposleni i poslodavac mogu razmenjivati
+          poruke kroz Genie aplikaciju.
+        </p>
+        <p>
+          Poruke omogućavaju jednostavniju komunikaciju
+          u vezi sa radnim vremenom i obračunom plate.
+        </p>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <button class="chapter-button">
+        <span>8. Jezici, sigurnost i pomoć</span>
+        <span class="chapter-icon">＋</span>
+      </button>
+      <div class="chapter-summary">
+        Izbor jezika, nalog i osnovne sigurnosne informacije.
+      </div>
+      <div class="chapter-content">
+        <h3>Jezici i sigurnost</h3>
+        <p>
+          Genie podržava švedski, engleski i srpski jezik.
+        </p>
+        <p>
+          Korisnici treba da čuvaju svoje podatke za prijavu
+          i da ne dele lozinku sa drugim osobama.
+        </p>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <button class="chapter-button">
+        <span>9. Važne napomene i odgovornost</span>
+        <span class="chapter-icon">＋</span>
+      </button>
+      <div class="chapter-summary">
+        Važne informacije o korišćenju i obračunu.
+      </div>
+      <div class="chapter-content">
+        <h3>Važne napomene</h3>
+        <p>
+          Genie je pomoćni alat za evidentiranje radnog
+          vremena i informativni obračun plate.
+        </p>
+        <p>
+          Korisnik je odgovoran za tačnost unetih podataka.
+          Poslodavac je odgovoran za konačan obračun plate,
+          poreze, primenu važećih propisa i ugovora,
+          kao i isplatu zarade.
+        </p>
+        <p>
+          Prikazani rezultati u aplikaciji ne zamenjuju
+          zvanični obračun zarade.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="back-button" onclick="window.location.href='index.html'">
+    ← Nazad na početnu stranicu
+  </button>
+
+  <div class="footer">
+    Genie – Genie za Genia
+  </div>
+
+</div>
+
+<script>
+  const chapterButtons = document.querySelectorAll(".chapter-button");
+
+  chapterButtons.forEach(function(button) {
+    button.addEventListener("click", function() {
+      const content = button.nextElementSibling.nextElementSibling;
+      const icon = button.querySelector(".chapter-icon");
+      const wasOpen = content.classList.contains("open");
+
+      document.querySelectorAll(".chapter-content").forEach(function(item) {
+        item.classList.remove("open");
+      });
+
+      document.querySelectorAll(".chapter-icon").forEach(function(item) {
+        item.textContent = "＋";
+      });
+
+      if (!wasOpen) {
+        content.classList.add("open");
+        icon.textContent = "−";
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
+
