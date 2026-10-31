@@ -121,13 +121,13 @@ h1 { margin: 5px 0; font-size: 27px; color: #222; }
     <div class="subtitle">En enkel guide för arbetstagare och arbetsgivare</div>
   </div>
 
-  <div class="language-box">
-    <select>
-      <option value="sv" selected>Svenska</option>
-      <option value="sr">Srpski</option>
-      <option value="en">English</option>
-    </select>
-  </div>
+ <div class="language-box">
+  <select onchange="changeGuideLanguage(this.value)">
+    <option value="sr">Srpski</option>
+    <option value="sv" selected>Svenska</option>
+    <option value="en">English</option>
+  </select>
+</div>
 
   <button class="back-button" onclick="window.location.href='index.html'">
     ← Tillbaka till Genie
@@ -659,6 +659,15 @@ h1 { margin: 5px 0; font-size: 27px; color: #222; }
 </div>
 
 <script>
+  function changeGuideLanguage(language) {
+  const pages = {
+    sr: "uputstvo.html",
+    sv: "instruktioner-sv.html",
+    en: "instructions-en.html"
+  };
+
+  window.location.href = pages[language];
+}
 document.querySelectorAll(".chapter-button").forEach(button => {
   button.addEventListener("click", () => {
     const content = button.nextElementSibling.nextElementSibling;
