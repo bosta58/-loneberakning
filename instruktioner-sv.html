@@ -1,1 +1,686 @@
 
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genie – Användarmanual</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 20px 14px 40px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  background: #f3f4f6;
+  color: #222;
+}
+
+.container { max-width: 650px; margin: 0 auto; }
+.header { text-align: center; margin-bottom: 22px; }
+
+.genie-logo {
+  width: 90px;
+  height: auto;
+  display: block;
+  margin: 0 auto 8px;
+}
+
+h1 { margin: 5px 0; font-size: 27px; color: #222; }
+.subtitle { color: #666; font-size: 14px; margin-top: 7px; }
+.language-box { text-align: center; margin: 18px 0; }
+
+.language-box select {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 9px;
+  background: white;
+  font-size: 15px;
+}
+
+.back-button {
+  display: block;
+  width: 100%;
+  padding: 13px;
+  margin: 18px 0;
+  border: none;
+  border-radius: 12px;
+  background: #374151;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.intro {
+  background: white;
+  padding: 17px;
+  border-radius: 14px;
+  margin-bottom: 18px;
+  line-height: 1.5;
+  font-size: 15px;
+}
+
+.chapter {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 13px;
+  margin-bottom: 11px;
+  overflow: hidden;
+}
+
+.chapter-button {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  background: white;
+  text-align: left;
+  font-size: 16px;
+  font-weight: 700;
+  color: #222;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.chapter-button:active { background: #f9fafb; }
+.chapter-icon { font-size: 20px; flex-shrink: 0; }
+
+.chapter-summary {
+  padding: 0 16px 15px;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.chapter-content {
+  display: none;
+  padding: 16px;
+  border-top: 1px solid #e5e7eb;
+  font-size: 15px;
+  line-height: 1.65;
+  color: #333;
+}
+
+.chapter-content.open { display: block; }
+.chapter-content h3 { font-size: 17px; margin: 15px 0 7px; }
+.chapter-content p { margin: 8px 0; }
+.footer { text-align: center; color: #888; font-size: 13px; margin-top: 28px; }
+</style>
+</head>
+
+<body>
+<div class="container">
+
+  <div class="header">
+    <img src="genie-logo.png.PNG" alt="Genie logo" class="genie-logo">
+    <h1>Genie – Användarmanual</h1>
+    <div class="subtitle">En enkel guide för arbetstagare och arbetsgivare</div>
+  </div>
+
+  <div class="language-box">
+    <select>
+      <option value="sv" selected>Svenska</option>
+      <option value="sr">Srpski</option>
+      <option value="en">English</option>
+    </select>
+  </div>
+
+  <button class="back-button" onclick="window.location.href='index.html'">
+    ← Tillbaka till Genie
+  </button>
+
+  <div class="intro">
+    <strong>Välkommen till Genie!</strong>
+    <p>
+      Den här manualen hjälper dig att förstå hur Genie fungerar och hur du
+      använder appens olika funktioner.
+    </p>
+    <p>
+      Genie är utvecklad för att göra löneberäkning, arbetstidsregistrering
+      och kommunikationen mellan arbetstagare och arbetsgivare enklare och
+      tydligare.
+    </p>
+    <p>
+      Läs gärna igenom kapitlen i ordning eller öppna det kapitel som du
+      behöver hjälp med.
+    </p>
+  </div>
+
+  <div class="chapter">
+    <button class="chapter-button">
+      <span>1. Välkommen till Genie</span>
+      <span class="chapter-icon">＋</span>
+    </button>
+    <div class="chapter-summary">
+      Vad Genie är, vem appen är till för och vad du kan använda den till.
+    </div>
+    <div class="chapter-content">
+      <h3>Vad är Genie?</h3>
+      <p>
+        Genie är en löne- och arbetstidsapp som är utvecklad för både
+        arbetstagare och arbetsgivare. Målet är att göra löneberäkningen
+        enklare, tydligare och mer överskådlig.
+      </p>
+
+      <h3>Vad kan du göra i Genie?</h3>
+      <p>Appen har tre olika lönealternativ:</p>
+      <ul>
+        <li><strong>Timlön</strong> – registrering av arbetade timmar och beräkning av lön.</li>
+        <li><strong>Kollektivavtal</strong> – beräkning med grundlön och olika tillägg.</li>
+        <li><strong>Månadslön</strong> – registrering av arbetstid för anställda med månadslön.</li>
+      </ul>
+
+      <p>
+        Genie gör det också möjligt för arbetstagare och arbetsgivare att
+        koppla ihop sina konton, utbyta löneuppgifter och skicka meddelanden
+        till varandra.
+      </p>
+
+      <h3>Vårt mål</h3>
+      <p>
+        Vi vill skapa en enkel och tydlig kontakt mellan arbetsgivare och
+        arbetstagare, där båda parter kan följa och kontrollera uppgifter.
+      </p>
+      <p><strong>Genie – enkelt, tydligt och transparent.</strong></p>
+      <p><strong>Genie för Genie! ❤️</strong></p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <button class="chapter-button">
+      <span>2. Startsidan och första stegen</span>
+      <span class="chapter-icon">＋</span>
+    </button>
+    <div class="chapter-summary">
+      Så här börjar du använda appen och väljer rätt lönealternativ.
+    </div>
+    <div class="chapter-content">
+      <h3>Startsidan</h3>
+      <p>
+        När du öppnar Genie kommer du till appens startsida. Här kan du välja
+        språk och den funktion som passar din anställning.
+      </p>
+
+      <h3>Välj språk</h3>
+      <p>
+        Genie finns på svenska, engelska och serbiska. Välj det språk som
+        passar dig bäst.
+      </p>
+
+      <h3>Välj lönealternativ</h3>
+      <ul>
+        <li><strong>T – Timlön:</strong> för dig som får betalt per arbetad timme.</li>
+        <li><strong>% – Kollektivavtal:</strong> för dig vars lön beräknas med grundlön och tillägg enligt avtal.</li>
+        <li><strong>M – Månadslön:</strong> för dig som har en fast månadslön.</li>
+      </ul>
+
+      <h3>Arbetsgivare</h3>
+      <p>
+        Arbetsgivaren öppnar arbetsgivardelen för att hantera företagsuppgifter,
+        anställda, löneinformation och meddelanden.
+      </p>
+
+      <p>
+        Välj det alternativ som gäller för dig och följ instruktionerna på
+        skärmen.
+      </p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <button class="chapter-button">
+      <span>3. Timlön – registrering av arbetstid</span>
+      <span class="chapter-icon">＋</span>
+    </button>
+    <div class="chapter-summary">
+      Registrera arbetstimmar och se en beräkning av din lön.
+    </div>
+    <div class="chapter-content">
+      <h3>Arbetstidskalendern</h3>
+      <p>
+        I Timlön registrerar du dina arbetade timmar i kalendern. Du kan välja
+        månad och år och fylla i arbetstiden för respektive dag.
+      </p>
+
+      <h3>Registrera arbetstid</h3>
+      <p>
+        Arbetstiden kan anges i halvtimmesintervall. Välj rätt typ av dag,
+        till exempel vanlig arbetsdag, helg eller helgdag.
+      </p>
+      <p>
+        Svenska helgdagar visas i kalendern så att du lättare kan hålla reda
+        på vilka dagar som kan ha särskilda ersättningar.
+      </p>
+
+      <h3>Översikt och sparande</h3>
+      <p>
+        I översikten kan du se registrerade timmar och olika kategorier av
+        arbetstid. Du kan spara uppgifterna och vid behov ta bort en
+        registrering.
+      </p>
+      <p>
+        Löneperioden kan anpassas efter den period som gäller för dig.
+        Den behöver alltså inte alltid följa ett fast datumintervall.
+      </p>
+
+      <h3>Löneuppgifter</h3>
+      <p>Fyll i eller kontrollera följande uppgifter:</p>
+      <ul>
+        <li>Timlön för vanlig arbetstid.</li>
+        <li>Eventuella timlöner och tillägg för olika tider.</li>
+        <li>Semesterersättning i procent.</li>
+        <li>Preliminär skatt i procent.</li>
+      </ul>
+
+      <h3>Löneberäkning</h3>
+      <p>
+        Genie beräknar bruttolön, semesterersättning, skatt och beräknad
+        nettolön utifrån de uppgifter du har registrerat.
+      </p>
+      <p>
+        Beräkningen är informativ och ska kontrolleras mot dina faktiska
+        anställningsvillkor och löneuppgifter.
+      </p>
+
+      <h3>Kommunikation med arbetsgivaren</h3>
+      <p>
+        Om du har en aktiv Genie-koppling till din arbetsgivare kan du skicka
+        löneuppgifterna och ta emot meddelanden direkt i appen.
+      </p>
+      <p>
+        Du kan följa meddelandets status och se när arbetsgivaren har svarat
+        eller hanterat det.
+      </p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <button class="chapter-button">
+      <span>4. Kollektivavtal – lön och tillägg</span>
+      <span class="chapter-icon">＋</span>
+    </button>
+    <div class="chapter-summary">
+      Registrera arbetstid och beräkna lön med olika tillägg enligt avtal.
+    </div>
+    <div class="chapter-content">
+      <h3>Grundlön</h3>
+      <p>
+        I Kollektivavtal anger du din grundläggande timlön. Därefter kan du
+        registrera arbetstid och olika tillägg som gäller enligt ditt avtal.
+      </p>
+
+      <h3>Arbetstid och tillägg</h3>
+      <p>
+        Kalendern används för att registrera arbetade timmar. Beroende på
+        dina anställningsvillkor kan olika tillägg gälla, till exempel:
+      </p>
+      <ul>
+        <li>Övertid.</li>
+        <li>Helgarbete.</li>
+        <li>Arbete på helgdagar.</li>
+        <li>OB-tillägg och nattarbete.</li>
+      </ul>
+
+      <h3>Löneperiod</h3>
+      <p>
+        Välj den period som du vill beräkna. Registrerade timmar och tillägg
+        sammanställs för den valda perioden.
+      </p>
+
+      <h3>Semesterersättning och skatt</h3>
+      <p>
+        Ange semesterersättning och preliminär skatt enligt dina uppgifter.
+        Kontrollera alltid att procentsatserna stämmer med dina villkor.
+      </p>
+
+      <h3>Beräkning och kommunikation</h3>
+      <p>
+        Genie sammanställer registrerade timmar, grundlön och tillägg och
+        visar en informativ löneberäkning.
+      </p>
+      <p>
+        Med en aktiv koppling till arbetsgivaren kan du skicka uppgifterna
+        och kommunicera direkt via appens meddelandefunktion.
+      </p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <button class="chapter-button">
+      <span>5. Månadslön – registrering av arbetstid</span>
+      <span class="chapter-icon">＋</span>
+    </button>
+    <div class="chapter-summary">
+      Registrera arbetstid, raster och arbetspass när du har månadslön.
+    </div>
+    <div class="chapter-content">
+      <h3>Månadslön</h3>
+      <p>
+        Den här delen är avsedd för dig som har en fast månadslön.
+        Du kan registrera arbetstid och följa dina arbetspass under
+        löneperioden.
+      </p>
+
+      <h3>Grunduppgifter</h3>
+      <p>
+        Ange din månadslön och planerade arbetstid. Kontrollera att
+        uppgifterna stämmer med ditt anställningsavtal.
+      </p>
+
+      <h3>Löneperiod och nattarbete</h3>
+      <p>
+        Arbetstiden sammanställs för den aktuella löneperioden.
+        Du kan också ange tidsintervallet för nattarbete enligt
+        de inställningar som gäller för dig.
+      </p>
+
+      <h3>Registrera arbetspass</h3>
+      <p>Appen har följande knappar för arbetstidsregistrering:</p>
+      <ul>
+        <li><strong>STARTA ARBETE</strong> – registrerar när du börjar arbeta.</li>
+        <li><strong>PAUS</strong> – registrerar när du tar paus.</li>
+        <li><strong>FORTSÄTT</strong> – registrerar när du fortsätter arbeta.</li>
+        <li><strong>SLUTA ARBETA</strong> – registrerar när arbetspasset avslutas.</li>
+      </ul>
+
+      <p>
+        Start- och sluttider sparas så att du kan följa dina arbetspass.
+        Du kan registrera raster enligt appens funktioner.
+      </p>
+
+      <h3>Översikt</h3>
+      <p>
+        I översikten ser du registrerade arbetspass och sammanlagd arbetstid
+        för perioden.
+      </p>
+
+      <h3>Skicka uppgifter till arbetsgivaren</h3>
+      <p>
+        Om du har en aktiv Genie-koppling kan du skicka dina
+        löne- och arbetstidsuppgifter till arbetsgivaren.
+      </p>
+      <p>
+        Du kan även ta emot meddelanden och svara direkt i appen.
+      </p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <button class="chapter-button">
+      <span>6. Arbetsgivare och anställda</span>
+      <span class="chapter-icon">＋</span>
+    </button>
+    <div class="chapter-summary">
+      Hantera företagsuppgifter, anställda, löneinformation och kontakt.
+    </div>
+    <div class="chapter-content">
+      <h3>Arbetsgivarsidan</h3>
+      <p>
+        Arbetsgivaren använder arbetsgivardelen i Genie för att hantera
+        företagets uppgifter och kontakten med sina anställda.
+      </p>
+
+      <h3>Företagsuppgifter</h3>
+      <p>
+        Du kan fylla i företagets uppgifter och lägga till företagets logotyp
+        om funktionen finns tillgänglig. Spara uppgifterna när du är klar.
+      </p>
+
+      <h3>Lägg till anställd</h3>
+      <p>
+        Arbetsgivaren kan registrera uppgifter om sina anställda, till exempel:
+      </p>
+      <ul>
+        <li>Namn.</li>
+        <li>Adress.</li>
+        <li>Personnummer.</li>
+        <li>Telefonnummer.</li>
+        <li>E-postadress.</li>
+      </ul>
+      <p>
+        Namn är obligatoriskt. Övriga uppgifter kan lämnas tomma om de inte
+        behövs.
+      </p>
+
+      <h3>Hantera anställda</h3>
+      <p>
+        Arbetsgivaren kan visa registrerade uppgifter, kontakta en anställd
+        och vid behov ta bort en anställd från listan.
+      </p>
+
+      <h3>Löneinformation</h3>
+      <p>
+        Arbetsgivaren kan ta del av löneuppgifter som arbetstagaren har
+        skickat för de olika lönealternativen:
+      </p>
+      <ul>
+        <li>Timlön.</li>
+        <li>Kollektivavtal.</li>
+        <li>Månadslön.</li>
+      </ul>
+
+      <h3>Meddelanden</h3>
+      <p>
+        Arbetsgivaren kan skicka meddelanden till den anställde och ta emot
+        svar. Meddelandenas status hjälper båda parter att följa
+        kommunikationen.
+      </p>
+
+      <h3>Aktiv koppling</h3>
+      <p>
+        För att utbyta uppgifter via Genie behöver arbetstagaren och
+        arbetsgivaren ha en aktiv koppling mellan sina konton.
+        Båda behöver vara inloggade.
+      </p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <button class="chapter-button">
+      <span>7. Kommunikation och meddelanden</span>
+      <span class="chapter-icon">＋</span>
+    </button>
+    <div class="chapter-summary">
+      Så fungerar meddelanden mellan arbetstagare och arbetsgivare.
+    </div>
+    <div class="chapter-content">
+      <h3>Skicka och ta emot meddelanden</h3>
+      <p>
+        Genie gör det möjligt för arbetsgivare och arbetstagare att
+        kommunicera direkt i appen.
+      </p>
+
+      <h3>Arbetsgivarens meddelanden</h3>
+      <p>
+        Arbetsgivaren kan skicka ett meddelande till en anställd.
+        Meddelandet visas på arbetstagarens sida.
+      </p>
+
+      <h3>Arbetstagarens svar</h3>
+      <p>
+        Arbetstagaren kan läsa meddelandet och skicka ett svar tillbaka.
+        Svaret visas sedan hos arbetsgivaren.
+      </p>
+
+      <h3>Meddelandestatus</h3>
+      <p>
+        Meddelanden kan ha olika status beroende på var i kommunikationen
+        de befinner sig. Det gör det lättare att se om ett meddelande är
+        nytt, besvarat eller hanterat.
+      </p>
+
+      <h3>Avsluta ett ärende</h3>
+      <p>
+        Arbetsgivaren kan markera ett meddelande som hanterat när ärendet
+        är löst.
+      </p>
+
+      <h3>Viktigt att veta</h3>
+      <p>
+        För att meddelandefunktionen ska fungera behöver båda parter ha
+        tillgång till internet, vara inloggade och ha en aktiv Genie-koppling.
+      </p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <button class="chapter-button">
+      <span>8. Språk, säkerhet och hjälp</span>
+      <span class="chapter-icon">＋</span>
+    </button>
+    <div class="chapter-summary">
+      Språkinställningar, inloggning och säker användning av Genie.
+    </div>
+    <div class="chapter-content">
+      <h3>Språk</h3>
+      <p>
+        Genie finns på svenska, engelska och serbiska. Välj önskat språk
+        i appens språkval.
+      </p>
+
+      <h3>Inloggning</h3>
+      <p>
+        Genie använder e-postadress och lösenord för inloggning.
+        Arbetstagare och arbetsgivare använder sina respektive konton.
+      </p>
+
+      <h3>Lösenord</h3>
+      <p>
+        Lösenordet måste innehålla minst sex tecken.
+        Dela aldrig ditt lösenord med någon annan.
+      </p>
+
+      <h3>Arbetstagare och arbetsgivare</h3>
+      <p>
+        När ett konto skapas väljer användaren vilken roll kontot ska ha.
+        Det är viktigt att logga in med rätt kontotyp.
+      </p>
+
+      <h3>Koppling mellan konton</h3>
+      <p>
+        Arbetsgivaren kan skicka en förfrågan om att koppla samman kontona.
+        Arbetstagaren kan acceptera eller avvisa förfrågan.
+        När kopplingen är aktiv kan uppgifter och meddelanden utbytas.
+      </p>
+
+      <h3>Datasäkerhet</h3>
+      <p>
+        Genie använder Firebase för inloggning och hantering av uppgifter.
+        Åtkomsten till information styrs av säkerhetsregler och kopplingen
+        mellan användarnas konton.
+      </p>
+
+      <h3>Om något inte fungerar</h3>
+      <p>
+        Kontrollera först att du har internetanslutning och att du är
+        inloggad på rätt konto.
+      </p>
+      <p>
+        Om problemet kvarstår kan du försöka igen senare eller kontakta
+        den som ansvarar för Genie.
+      </p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <button class="chapter-button">
+      <span>9. Viktig information och ansvar</span>
+      <span class="chapter-icon">＋</span>
+    </button>
+    <div class="chapter-summary">
+      Viktigt att känna till om löneberäkningar, uppgifter och ansvar.
+    </div>
+    <div class="chapter-content">
+      <h3>Informativa beräkningar</h3>
+      <p>
+        Genies löneberäkningar är avsedda som ett hjälpmedel och en
+        uppskattning. De ersätter inte en officiell lönespecifikation
+        från arbetsgivaren.
+      </p>
+
+      <h3>Kontrollera dina uppgifter</h3>
+      <p>
+        Användaren ansvarar för att de uppgifter som registreras i appen
+        är korrekta och uppdaterade.
+      </p>
+      <p>
+        Kontrollera alltid beräkningen mot ditt anställningsavtal,
+        kollektivavtal och de regler som gäller för din anställning.
+      </p>
+
+      <h3>Tillägg och ersättningar</h3>
+      <p>
+        Kontrollera särskilt övertid, helgarbete, helgdagar, nattarbete,
+        semesterersättning och skatt. Regler och procentsatser kan skilja
+        sig mellan olika avtal och arbetsplatser.
+      </p>
+
+      <h3>Arbetsgivarens och arbetstagarens ansvar</h3>
+      <p>
+        Både arbetsgivaren och arbetstagaren ansvarar för att kontrollera
+        de uppgifter som skickas och tas emot via Genie.
+      </p>
+
+      <h3>Teknik och internet</h3>
+      <p>
+        Vissa funktioner kräver internetanslutning. Tillfälliga avbrott
+        i internet eller externa tjänster kan påverka appens funktioner.
+      </p>
+
+      <h3>Avslutande information</h3>
+      <p>
+        Genie är ett praktiskt hjälpmedel för löneberäkning,
+        arbetstidsregistrering och kommunikation. Appen ger inte juridisk
+        eller ekonomisk rådgivning.
+      </p>
+
+      <p>
+        Vårt mål är att göra samarbetet mellan arbetsgivare och
+        arbetstagare enklare, tydligare och mer transparent.
+      </p>
+
+      <p><strong>GENIE – enkelt, tydligt och transparent.</strong></p>
+      <p><strong>Genie för Genie! ❤️</strong></p>
+    </div>
+  </div>
+
+  <button class="back-button" onclick="window.location.href='index.html'">
+    ← Tillbaka till Genie
+  </button>
+
+  <div class="footer">
+    Genie – Användarmanual
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll(".chapter-button").forEach(button => {
+  button.addEventListener("click", () => {
+    const content = button.nextElementSibling.nextElementSibling;
+    const icon = button.querySelector(".chapter-icon");
+
+    const isOpen = content.classList.contains("open");
+
+    document.querySelectorAll(".chapter-content").forEach(item => {
+      item.classList.remove("open");
+    });
+
+    document.querySelectorAll(".chapter-icon").forEach(item => {
+      item.textContent = "＋";
+    });
+
+    if (!isOpen) {
+      content.classList.add("open");
+      icon.textContent = "−";
+    }
+  });
+});
+</script>
+
+</body>
+</html>
