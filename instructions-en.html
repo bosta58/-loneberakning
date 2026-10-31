@@ -1,1 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genie – User Manual</title>
 
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 20px 14px 40px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  background: #f3f4f6;
+  color: #222;
+}
+
+.container { max-width: 650px; margin: 0 auto; }
+.header { text-align: center; margin-bottom: 22px; }
+
+.genie-logo {
+  width: 90px;
+  height: auto;
+  display: block;
+  margin: 0 auto 8px;
+}
+
+h1 { margin: 5px 0; font-size: 27px; color: #222; }
+.subtitle { color: #666; font-size: 14px; margin-top: 7px; }
+.language-box { text-align: center; margin: 18px 0; }
+
+.language-box select {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 9px;
+  background: white;
+  font-size: 15px;
+}
+
+.back-button {
+  display: block;
+  width: 100%;
+  padding: 13px;
+  margin: 18px 0;
+  border: none;
+  border-radius: 12px;
+  background: #374151;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.intro {
+  background: white;
+  padding: 17px;
+  border-radius: 14px;
+  margin-bottom: 18px;
+  line-height: 1.5;
+  font-size: 15px;
+}
+
+.chapter {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 13px;
+  margin-bottom: 11px;
+  overflow: hidden;
+}
+
+.chapter-button {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  background: white;
+  text-align: left;
+  font-size: 16px;
+  font-weight: 700;
+  color: #222;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.chapter-button:active { background: #f9fafb; }
+.chapter-icon { font-size: 20px; flex-shrink: 0; }
+
+.chapter-summary {
+  padding: 0 16px 15px;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.chapter-content {
+  display: none;
+  padding: 16px;
+  border-top: 1px solid #e5e7eb;
+  font-size: 15px;
+  line-height: 1.65;
+  color: #333;
+}
+
+.chapter-content.open { display: block; }
+.chapter-content h3 { font-size: 17px; margin: 15px 0 7px; }
+.chapter-content p { margin: 8px 0; }
+.footer { text-align: center; color: #888; font-size: 13px; margin-top: 28px; }
+</style>
+</head>
+
+<body>
+<div class="container">
+
+  <div class="header">
+    <img src="genie-logo.png.PNG" alt="Genie logo" class="genie-logo">
+    <h1>Genie – User Manual</h1>
+    <div class="subtitle">A simple guide for employees and employers</div>
+  </div>
+
+  <div class="language-box">
+    <select id="guideLanguage" onchange="changeGuideLanguage(this.value)">
+      <option value="sr">Srpski</option>
+      <option value="sv">Svenska</option>
+      <option value="en" selected>English</option>
+    </select>
+  </div>
+
+  <button class="back-button" onclick="window.location.href='index.html'">
+    ← Back to Genie
+  </button>
+
+  <div class="intro">
+    <strong>Welcome to Genie!</strong>
+    <p>
+      This manual will help you understand how Genie works and how to use
+      the app's different features.
+    </p>
+    <p>
+      Genie is designed to make salary calculations, working time
+      registration and communication between employees and employers
+      easier and clearer.
+    </p>
+    <p>
+      You can read the chapters in order or open the chapter you need help with.
+    </p>
+  </div>
+
+  <div class="chapter">
+    <button class="chapter-button">
+      <span>1. Welcome to Genie</span>
+      <span class="chapter-icon">＋</span>
+    </button>
+    <div class="chapter-summary">
+      What Genie is, who the app is for and what you can use it for.
+    </div>
+    <div class="chapter-content">
+      <h3>What is Genie?</h3>
+      <p>
+        Genie is a salary and working time app designed for both employees
+        and employers. Its goal is to make salary calculations simpler,
+        clearer and easier to understand.
+      </p>
+
+      <h3>What can you do with Genie?</h3>
+      <p>The app offers three different salary options:</p>
+      <ul>
+        <li><strong>Hourly pay</strong> – registration of working hours and hourly salary calculation.</li>
+        <li><strong>Collective agreement</strong> – calculation using a basic hourly rate and different supplements.</li>
+        <li><strong>Monthly salary</strong> – registration of working time for employees with a fixed monthly salary.</li>
+      </ul>
+
+      <p>
+        Genie also allows employees and employers to connect their accounts,
+        exchange salary information and send messages to each other.
+      </p>
+
+      <h3>Our goal</h3>
+      <p>
+        We want to create simple and clear communication between employers
+        and employees, where both parties can follow and check the information.
+      </p>
+      <p><strong>Genie – simple, clear and transparent.</strong></p>
+      <p><strong>Genie for Genie! ❤️</strong></p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <button class="chapter-button">
+      <span>2. Home page and first steps</span>
+      <span class="chapter-icon">＋</span>
+    </button>
+    <div class="chapter-summary">
+      How to start using the app and choose the correct salary option.
+    </div>
+    <div class="chapter-content">
+      <h3>Home page</h3>
+      <p>
+        When you open Genie, you arrive at the app's home page. Here you can
+        select your language and the function that matches your employment.
+      </p>
+
+      <h3>Choose your language</h3>
+      <p>
+        Genie is available in Swedish, English and Serbian. Choose the
+        language that suits you best.
+      </p>
+
+      <h3>Choose a salary option</h3>
+      <ul>
+        <li><strong>T – Hourly pay:</strong> for employees who are paid for each hour worked.</li>
+        <li><strong>% – Collective agreement:</strong> for employees whose pay is based on a basic rate and contractual supplements.</li>
+        <li><strong>M – Monthly salary:</strong> for employees who receive a fixed monthly salary.</li>
+      </ul>
+
+      <h3>Employer</h3>
+      <p>
+        Employers use the employer section to manage company information,
+        employees, salary information and messages.
+      </p>
+
+      <p>
+        Select the option that applies to you and follow the instructions
+        on the screen.
+      </p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <button class="chapter-button">
+      <span>3. Hourly pay – working time registration</span>
+      <span class="chapter-icon">＋</span>
+    </button>
+    <div class="chapter-summary">
+      Register working hours and view your estimated salary calculation.
+    </div>
+    <div class="chapter-content">
+      <h3>Working time calendar</h3>
+      <p>
+        In the Hourly Pay section, you register your working hours in the
+        calendar. You can select a month and year and enter the hours worked
+        for each day.
+      </p>
+
+      <h3>Register working hours</h3>
+      <p>
+        Working time can be entered in half-hour intervals. Select the
+        correct type of day, for example a normal working day, weekend
+        or public holiday.
+      </p>
+      <p>
+        Swedish public holidays are displayed in the calendar to help you
+        keep track of days that may involve special compensation.
+      </p>
+
+      <h3>Overview and saving</h3>
+      <p>
+        The overview shows your registered hours and different categories
+        of working time. You can save your entries and delete a registration
+        if necessary.
+      </p>
+      <p>
+        The salary period can be adjusted to the period that applies to you.
+        It does not always have to follow a fixed date interval.
+      </p>
+
+      <h3>Salary information</h3>
+      <p>Enter or check the following information:</p>
+      <ul>
+        <li>Hourly rate for normal working hours.</li>
+        <li>Any additional hourly rates or supplements for different working times.</li>
+        <li>Holiday pay as a percentage.</li>
+        <li>Preliminary tax as a percentage.</li>
+      </ul>
+
+      <h3>Salary calculation</h3>
+      <p>
+        Genie calculates gross salary, holiday pay, tax and estimated
+        net salary based on the information you have entered.
+      </p>
+      <p>
+        The calculation is for information purposes and should be checked
+        against your actual employment conditions and salary information.
+      </p>
+
+      <h3>Communication with the employer</h3>
+      <p>
+        If you have an active Genie connection with your employer, you can
+        send salary information and receive messages directly in the app.
+      </p>
+      <p>
+        You can follow the message status and see when the employer has
+        replied or handled the matter.
+      </p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <button class="chapter-button">
+      <span>4. Collective agreement – salary and supplements</span>
+      <span class="chapter-icon">＋</span>
+    </button>
+    <div class="chapter-summary">
+      Register working time and calculate salary with different contractual supplements.
+    </div>
+    <div class="chapter-content">
+      <h3>Basic hourly rate</h3>
+      <p>
+        In the Collective Agreement section, enter your basic hourly rate.
+        You can then register working time and different supplements
+        according to your agreement.
+      </p>
+
+      <h3>Working time and supplements</h3>
+      <p>
+        Use the calendar to register your working hours. Depending on your
+        employment conditions, different supplements may apply, for example:
+      </p>
+      <ul>
+        <li>Overtime.</li>
+        <li>Weekend work.</li>
+        <li>Work on public holidays.</li>
+        <li>Unsocial hours and night work supplements.</li>
+      </ul>
+
+      <h3>Salary period</h3>
+      <p>
+        Select the period you want to calculate. Registered hours and
+        supplements are summarised for the selected period.
+      </p>
+
+      <h3>Holiday pay and tax</h3>
+      <p>
+        Enter holiday pay and preliminary tax according to your information.
+        Always check that the percentages match your employment conditions.
+      </p>
+
+      <h3>Calculation and communication</h3>
+      <p>
+        Genie summarises registered hours, basic pay and supplements and
+        displays an estimated salary calculation.
+      </p>
+      <p>
+        With an active connection to your employer, you can send the
+        information and communicate directly through the app's messaging
+        function.
+      </p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <button class="chapter-button">
+      <span>5. Monthly salary – working time registration</span>
+      <span class="chapter-icon">＋</span>
+    </button>
+    <div class="chapter-summary">
+      Register working hours, breaks and shifts when you receive a monthly salary.
+    </div>
+    <div class="chapter-content">
+      <h3>Monthly salary</h3>
+      <p>
+        This section is intended for employees who receive a fixed monthly
+        salary. You can register working time and follow your shifts during
+        the salary period.
+      </p>
+
+      <h3>Basic information</h3>
+      <p>
+        Enter your monthly salary and planned working hours. Check that
+        the information matches your employment agreement.
+      </p>
+
+      <h3>Salary period and night work</h3>
+      <p>
+        Working time is summarised for the current salary period.
+        You can also enter the time interval for night work according
+        to the settings that apply to you.
+      </p>
+
+      <h3>Register a work shift</h3>
+      <p>The app has the following buttons for working time registration:</p>
+      <ul>
+        <li><strong>START WORK</strong> – registers when you begin working.</li>
+        <li><strong>PAUSE</strong> – registers when you take a break.</li>
+        <li><strong>CONTINUE</strong> – registers when you resume working.</li>
+        <li><strong>END WORK</strong> – registers when your work shift ends.</li>
+      </ul>
+
+      <p>
+        Start and end times are saved so that you can follow your work shifts.
+        You can register breaks using the app's available functions.
+      </p>
+
+      <h3>Overview</h3>
+      <p>
+        The overview shows your registered work shifts and total working
+        time for the period.
+      </p>
+
+      <h3>Send information to the employer</h3>
+      <p>
+        If you have an active Genie connection, you can send your salary
+        and working time information to your employer.
+      </p>
+      <p>
+        You can also receive messages and reply directly in the app.
+      </p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <button class="chapter-button">
+      <span>6. Employers and employees</span>
+      <span class="chapter-icon">＋</span>
+    </button>
+    <div class="chapter-summary">
+      Manage company information, employees, salary details and communication.
+    </div>
+    <div class="chapter-content">
+      <h3>Employer section</h3>
+      <p>
+        Employers use the employer section in Genie to manage company
+        information and communication with their employees.
+      </p>
+
+      <h3>Company information</h3>
+      <p>
+        You can enter company information and add the company logo if the
+        function is available. Save the information when you are finished.
+      </p>
+
+      <h3>Add an employee</h3>
+      <p>
+        The employer can register information about employees, for example:
+      </p>
+      <ul>
+        <li>Name.</li>
+        <li>Address.</li>
+        <li>Personal identity number.</li>
+        <li>Telephone number.</li>
+        <li>Email address.</li>
+      </ul>
+      <p>
+        Name is required. Other information can be left blank if it is
+        not needed.
+      </p>
+
+      <h3>Manage employees</h3>
+      <p>
+        The employer can view registered information, contact an employee
+        and, when necessary, remove an employee from the list.
+      </p>
+
+      <h3>Salary information</h3>
+      <p>
+        The employer can view salary information sent by the employee
+        for the different salary options:
+      </p>
+      <ul>
+        <li>Hourly pay.</li>
+        <li>Collective agreement.</li>
+        <li>Monthly salary.</li>
+      </ul>
+
+      <h3>Messages</h3>
+      <p>
+        The employer can send messages to employees and receive their replies.
+        Message statuses help both parties follow the communication.
+      </p>
+
+      <h3>Active connection</h3>
+      <p>
+        To exchange information through Genie, the employee and employer
+        must have an active connection between their accounts.
+        Both parties must be signed in.
+      </p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <button class="chapter-button">
+      <span>7. Communication and messages</span>
+      <span class="chapter-icon">＋</span>
+    </button>
+    <div class="chapter-summary">
+      How messages work between employees and employers.
+    </div>
+    <div class="chapter-content">
+      <h3>Send and receive messages</h3>
+      <p>
+        Genie allows employers and employees to communicate directly
+        through the app.
+      </p>
+
+      <h3>Messages from the employer</h3>
+      <p>
+        The employer can send a message to an employee.
+        The message appears on the employee's page.
+      </p>
+
+      <h3>Employee replies</h3>
+      <p>
+        The employee can read the message and send a reply.
+        The reply is then displayed to the employer.
+      </p>
+
+      <h3>Message status</h3>
+      <p>
+        Messages can have different statuses depending on their stage
+        in the communication process. This makes it easier to see whether
+        a message is new, answered or handled.
+      </p>
+
+      <h3>Close a matter</h3>
+      <p>
+        The employer can mark a message as handled when the matter
+        has been resolved.
+      </p>
+
+      <h3>Important information</h3>
+      <p>
+        To use the messaging function, both parties need an internet
+        connection, must be signed in and must have an active Genie connection.
+      </p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <button class="chapter-button">
+      <span>8. Languages, security and help</span>
+      <span class="chapter-icon">＋</span>
+    </button>
+    <div class="chapter-summary">
+      Language settings, signing in and using Genie safely.
+    </div>
+    <div class="chapter-content">
+      <h3>Languages</h3>
+      <p>
+        Genie is available in Swedish, English and Serbian.
+        Select your preferred language using the language selector.
+      </p>
+
+      <h3>Sign in</h3>
+      <p>
+        Genie uses an email address and password for signing in.
+        Employees and employers use their respective accounts.
+      </p>
+
+      <h3>Password</h3>
+      <p>
+        Your password must contain at least six characters.
+        Never share your password with anyone else.
+      </p>
+
+      <h3>Employees and employers</h3>
+      <p>
+        When an account is created, the user selects the account role.
+        It is important to sign in using the correct account type.
+      </p>
+
+      <h3>Connecting accounts</h3>
+      <p>
+        The employer can send a request to connect the accounts.
+        The employee can accept or reject the request.
+        When the connection is active, information and messages can be exchanged.
+      </p>
+
+      <h3>Data security</h3>
+      <p>
+        Genie uses Firebase for sign-in and data management.
+        Access to information is controlled by security rules and
+        the connection between user accounts.
+      </p>
+
+      <h3>If something does not work</h3>
+      <p>
+        First check that you have an internet connection and that you
+        are signed in to the correct account.
+      </p>
+      <p>
+        If the problem continues, try again later or contact the person
+        responsible for Genie.
+      </p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <button class="chapter-button">
+      <span>9. Important information and responsibility</span>
+      <span class="chapter-icon">＋</span>
+    </button>
+    <div class="chapter-summary">
+      Important information about salary calculations, data and responsibility.
+    </div>
+    <div class="chapter-content">
+      <h3>Informational calculations</h3>
+      <p>
+        Genie's salary calculations are intended as a guide and an estimate.
+        They do not replace an official payslip issued by the employer.
+      </p>
+
+      <h3>Check your information</h3>
+      <p>
+        The user is responsible for ensuring that the information entered
+        in the app is correct and up to date.
+      </p>
+      <p>
+        Always check the calculation against your employment agreement,
+        collective agreement and the rules that apply to your employment.
+      </p>
+
+      <h3>Supplements and compensation</h3>
+      <p>
+        Pay particular attention to overtime, weekend work, public holidays,
+        night work, holiday pay and tax. Rules and percentages may differ
+        between agreements and workplaces.
+      </p>
+
+      <h3>Employer and employee responsibility</h3>
+      <p>
+        Both the employer and the employee are responsible for checking
+        the information sent and received through Genie.
+      </p>
+
+      <h3>Technology and internet</h3>
+      <p>
+        Some functions require an internet connection. Temporary interruptions
+        to the internet or external services may affect the app's functions.
+      </p>
+
+      <h3>Final information</h3>
+      <p>
+        Genie is a practical tool for salary calculations, working time
+        registration and communication. The app does not provide legal
+        or financial advice.
+      </p>
+
+      <p>
+        Our goal is to make cooperation between employers and employees
+        simpler, clearer and more transparent.
+      </p>
+
+      <p><strong>GENIE – simple, clear and transparent.</strong></p>
+      <p><strong>Genie for Genie! ❤️</strong></p>
+    </div>
+  </div>
+
+  <button class="back-button" onclick="window.location.href='index.html'">
+    ← Back to Genie
+  </button>
+
+  <div class="footer">
+    Genie – User Manual
+  </div>
+
+</div>
+
+<script>
+function changeGuideLanguage(language) {
+  const pages = {
+    sr: "uputstvo.html",
+    sv: "instruktioner-sv.html",
+    en: "instructions-en.html"
+  };
+
+  if (pages[language]) {
+    window.location.href = pages[language];
+  }
+}
+
+const chapterButtons = document.querySelectorAll(".chapter-button");
+
+chapterButtons.forEach(function(button) {
+  button.addEventListener("click", function() {
+    const content = button.nextElementSibling.nextElementSibling;
+    const icon = button.querySelector(".chapter-icon");
+    const wasOpen = content.classList.contains("open");
+
+    document.querySelectorAll(".chapter-content").forEach(function(item) {
+      item.classList.remove("open");
+    });
+
+    document.querySelectorAll(".chapter-icon").forEach(function(item) {
+      item.textContent = "＋";
+    });
+
+    if (!wasOpen) {
+      content.classList.add("open");
+      icon.textContent = "−";
+    }
+  });
+});
+</script>
+
+</body>
+</html>
