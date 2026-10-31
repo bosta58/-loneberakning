@@ -403,10 +403,10 @@
         <span class="menu-text" id="arbetsgivareText">Arbetsgivare</span>
       </button>
 
-      <button
+   <button
   type="button"
   class="menu-button employer-button"
-  onclick="window.location.href='uputstvo.html'"
+  onclick="openGenieGuide()"
 >
   <span class="menu-symbol">📖</span>
   <span class="menu-text" id="guideButtonText">
@@ -452,7 +452,17 @@
       guideButton: "Uputstvo za korišćenje",
       }
     };
+function openGenieGuide() {
+  const language = localStorage.getItem("genieLanguage") || "sv";
 
+  const guidePages = {
+    sr: "uputstvo.html",
+    sv: "instruktioner-sv.html",
+    en: "instructions-en.html"
+  };
+
+  window.location.href = guidePages[language] || "instruktioner-sv.html";
+}
     function changeLanguage(language) {
       const t = translations[language];
       if (!t) return;
