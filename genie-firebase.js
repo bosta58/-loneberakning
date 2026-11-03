@@ -136,6 +136,17 @@ export async function createGenieAccount(
     );
   }
 
+    try {
+    await startOrGetTrial();
+  } catch (error) {
+    await signOut(auth);
+
+    throw new Error(
+      "Nalog je napravljen, ali probni period nije mogao biti aktiviran. " +
+      "Prijavite se ponovo da Genie pokuša aktivaciju."
+    );
+  }
+
   return result.user;
 }
 
@@ -199,8 +210,9 @@ export async function signInGenie(
       throw new Error("Uloga ovog naloga nije odgovarajuća.");
     }
 
-    return result.user;
-  } catch (error) {
+        await startOrGetTrial();
+
+    return result.user; catch (error) {
     await signOut(auth);
     throw error;
   }
