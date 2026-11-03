@@ -109,11 +109,12 @@ export async function createGenieAccount(
   );
 
   const profile = {
-    role: requestedRole === "worker" ? "worker" : "pending",
-    requestedRole,
-    email: clean,
-    createdAt: serverTimestamp()
-  };
+  role: requestedRole === "worker" ? "worker" : "pending",
+  requestedRole,
+  email: clean,
+  trialEligible: true,
+  createdAt: serverTimestamp()
+};
 
   try {
     await setDoc(doc(db, "users", result.user.uid), profile);
