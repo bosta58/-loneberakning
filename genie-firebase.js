@@ -112,7 +112,6 @@ export async function createGenieAccount(
   role: requestedRole === "worker" ? "worker" : "pending",
   requestedRole,
   email: clean,
-  trialEligible: true,
   createdAt: serverTimestamp()
 };
 
