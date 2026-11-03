@@ -210,14 +210,15 @@ export async function signInGenie(
       throw new Error("Uloga ovog naloga nije odgovarajuća.");
     }
 
-        await startOrGetTrial();
+    await startOrGetTrial();
 
-    return result.user; catch (error) {
+    return result.user;
+
+  } catch (error) {
     await signOut(auth);
     throw error;
   }
 }
-
 /* -----------------------------------------
    GENIE PORUKE — FIREBASE
 ----------------------------------------- */
