@@ -231,10 +231,11 @@ export async function signInGenie(
     return result.user;
 
   } catch (error) {
+    console.error("GENIE TRIAL / LOGIN ERROR:", error);
+
     await signOut(auth);
     throw error;
   }
-}
 /* -----------------------------------------
    GENIE PORUKE — FIREBASE
 ----------------------------------------- */
