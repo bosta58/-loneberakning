@@ -86,7 +86,30 @@ async function getMyProfile() {
 export async function getCurrentGenieProfile() {
   return await getMyProfile();
 }
+async function startOrGetGenieTrial(userUid) {
+  const trialRef = doc(db, "trials", userUid);
+  const trialSnap = await getDoc(trialRef);
 
+  if (!trialSnap.exists()) {
+    await setDoc(trialRef, {
+      startedAt: serverTimestamp()
+    });
+  }
+
+  const updatedTrialSnap = await getDoc(trialRef);
+
+  if (!updatedTrialSnap.exists()) {
+    throw new Error("Probni period nije mogao biti aktiviran.");
+  }
+
+  const trialData = updatedTrialSnap.data();
+
+  if (!trialData.startedAt) {
+    throw new Error("Datum početka probnog perioda nedostaje.");
+  }
+
+  return trialData.startedAt;
+}
 export async function createGenieAccount(
   email,
   password,
