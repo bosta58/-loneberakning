@@ -152,7 +152,16 @@ export async function createGenieAccount(
     );
   }
 
-   
+   try {
+    await startOrGetGenieTrial(result.user.uid);
+  } catch (error) {
+    await signOut(auth);
+
+    throw new Error(
+      "Nalog je napravljen, ali probni period nije mogao biti aktiviran. " +
+      "Pokušajte ponovo da se prijavite."
+    );
+  }  
 
   return result.user;
 }
