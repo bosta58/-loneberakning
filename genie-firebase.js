@@ -1,5 +1,4 @@
 
-
 /*
   GENIE – FIREBASE POVEZIVANJE
   Projekat: genie-255f7
@@ -30,7 +29,10 @@ import {
   signOut,
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
-
+import {
+  getFunctions,
+  httpsCallable
+} from "https://www.gstatic.com/firebasejs/13.0.0/firebase-functions.js";
 const firebaseConfig = {
   apiKey: "AIzaSyC_Jr_suisLmVpuuXParkd8jWy901hfin0",
   authDomain: "genie-255f7.firebaseapp.com",
@@ -44,7 +46,11 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-
+const functions = getFunctions(app);
+const startOrGetTrial = httpsCallable(
+  functions,
+  "startOrGetTrial"
+);
 
 function cleanEmail(email) {
   return String(email || "").trim().toLowerCase();
@@ -86,30 +92,7 @@ async function getMyProfile() {
 export async function getCurrentGenieProfile() {
   return await getMyProfile();
 }
-async function startOrGetGenieTrial(userUid) {
-  const trialRef = doc(db, "trials", userUid);
-  const trialSnap = await getDoc(trialRef);
 
-  if (!trialSnap.exists()) {
-    await setDoc(trialRef, {
-      startedAt: serverTimestamp()
-    });
-  }
-
-  const updatedTrialSnap = await getDoc(trialRef);
-
-  if (!updatedTrialSnap.exists()) {
-    throw new Error("Probni period nije mogao biti aktiviran.");
-  }
-
-  const trialData = updatedTrialSnap.data();
-
-  if (!trialData.startedAt) {
-    throw new Error("Datum početka probnog perioda nedostaje.");
-  }
-
-  return trialData.startedAt;
-}
 export async function createGenieAccount(
   email,
   password,
@@ -152,16 +135,16 @@ export async function createGenieAccount(
     );
   }
 
-   try {
-    await startOrGetGenieTrial(result.user.uid);
+    try {
+    await startOrGetTrial();
   } catch (error) {
     await signOut(auth);
 
     throw new Error(
       "Nalog je napravljen, ali probni period nije mogao biti aktiviran. " +
-      "Pokušajte ponovo da se prijavite."
+      "Prijavite se ponovo da Genie pokuša aktivaciju."
     );
-  }  
+  }
 
   return result.user;
 }
@@ -226,7 +209,7 @@ export async function signInGenie(
       throw new Error("Uloga ovog naloga nije odgovarajuća.");
     }
 
-        await startOrGetGenieTrial(result.user.uid);
+    await startOrGetTrial();
 
     return result.user;
 
@@ -234,6 +217,7 @@ export async function signInGenie(
     await signOut(auth);
     throw error;
   }
+}
 /* -----------------------------------------
    GENIE PORUKE — FIREBASE
 ----------------------------------------- */
