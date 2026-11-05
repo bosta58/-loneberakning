@@ -241,7 +241,7 @@ export async function signInGenie(
       throw new Error("Uloga ovog naloga nije odgovarajuća.");
     }
 
-    
+        await getOrCreateGenieTrial();
 
     return result.user;
 
