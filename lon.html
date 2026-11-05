@@ -2794,6 +2794,36 @@ window.calculateSalary = async function () {
   }
 };
 </script>
+<script type="module">
+import {
+  watchGenieAuth,
+  getOrCreateGenieTrial
+} from "./genie-firebase.js";
 
+watchGenieAuth(async (user) => {
+  // Ako korisnik nije prijavljen, vrati ga na početnu stranicu.
+  if (!user) {
+    window.location.replace("./index.html");
+    return;
+  }
+
+  try {
+    // Proveri probni period.
+    const trial = await getOrCreateGenieTrial();
+
+    if (!trial.active) {
+      window.location.replace("./index.html");
+      return;
+    }
+
+    // Prikaži stranicu tek nakon uspešne provere.
+    document.body.style.visibility = "visible";
+
+  } catch (error) {
+    console.error("Genie access error:", error);
+    window.location.replace("./index.html");
+  }
+});
+</script>
 </body>
 </html>
