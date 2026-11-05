@@ -3312,5 +3312,51 @@ console.log("PRIJAVLJEN KORISNIK:", user.uid);
   });
 </script>
 
+<script type="module">
+  import {
+    watchGenieAuth,
+    getCurrentGenieProfile,
+    getOrCreateGenieTrial
+  } from "./genie-firebase.js";
+
+  watchGenieAuth(async (user) => {
+    if (!user) {
+      window.location.replace("./index.html");
+      return;
+    }
+
+    try {
+      const result = await getCurrentGenieProfile();
+      const profile = result.profile;
+
+      // Samo aktivan poslodavac ima pristup.
+      if (
+        profile.requestedRole !== "employer" ||
+        profile.role !== "employer"
+      ) {
+        window.location.replace("./index.html");
+        return;
+      }
+
+      // Provera probnog perioda od 60 dana.
+      const trial = await getOrCreateGenieTrial();
+
+      if (!trial.active) {
+        window.location.replace("./index.html");
+        return;
+      }
+
+      // Sve je u redu – prikaži stranicu.
+      document.body.style.visibility = "visible";
+
+    } catch (error) {
+      console.error("Genie employer access error:", error);
+      window.location.replace("./index.html");
+    }
+  });
+</script>
+
+
+
 </body>
 </html>
