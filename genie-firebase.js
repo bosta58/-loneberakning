@@ -176,7 +176,7 @@ export async function createGenieAccount(
     );
   }
 
-    
+      await getOrCreateGenieTrial();
 
   return result.user;
 }
