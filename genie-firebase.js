@@ -29,10 +29,7 @@ import {
   signOut,
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
-import {
-  getFunctions,
-  httpsCallable
-} from "https://www.gstatic.com/firebasejs/13.0.0/firebase-functions.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyC_Jr_suisLmVpuuXParkd8jWy901hfin0",
   authDomain: "genie-255f7.firebaseapp.com",
@@ -46,11 +43,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-const functions = getFunctions(app);
-const startOrGetTrial = httpsCallable(
-  functions,
-  "startOrGetTrial"
-);
+
 
 function cleanEmail(email) {
   return String(email || "").trim().toLowerCase();
