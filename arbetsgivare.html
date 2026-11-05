@@ -3331,12 +3331,15 @@ console.log("PRIJAVLJEN KORISNIK:", user.uid);
 
       // Samo aktivan poslodavac ima pristup.
       if (
-        profile.requestedRole !== "employer" ||
-        profile.role !== "employer"
-      ) {
-        window.location.replace("./index.html");
-        return;
-      }
+  profile.requestedRole !== "employer" ||
+  (
+    profile.role !== "employer" &&
+    profile.role !== "pending"
+  )
+) {
+  window.location.replace("./index.html");
+  return;
+}
 
       // Provera probnog perioda od 60 dana.
       const trial = await getOrCreateGenieTrial();
