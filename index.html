@@ -867,7 +867,14 @@ async function checkGenieTrial() {
 
           await signInGenie(email, password, selectedRole);
 
-          message.textContent = "Uspešna prijava.";
+const trialActive = await checkGenieTrial();
+
+if (!trialActive) {
+  logoutButton.hidden = false;
+  return;
+}
+
+message.textContent = "Uspešna prijava.";
 
           if (selectedRole === "worker") {
             showWorkerPanel();
