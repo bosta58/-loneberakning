@@ -959,7 +959,14 @@ message.textContent = "Uspešna prijava.";
       // Registracija i prijava same prikazuju odgovarajući panel.
       if (authActionInProgress) return;
 
-      try {
+            try {
+        const trialActive = await checkGenieTrial();
+
+        if (!trialActive) {
+          logoutButton.hidden = false;
+          return;
+        }
+
         const result = await getCurrentGenieProfile();
 
         // Ako se korisnik u međuvremenu odjavio, ne prikazuj stari profil.
