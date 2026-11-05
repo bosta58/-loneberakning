@@ -42,7 +42,55 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+/* -----------------------------------------
+   GENIE – PROBNI PERIOD OD 60 DANA
+----------------------------------------- */
 
+export async function getOrCreateGenieTrial() {
+  const user = requireSignedInUser();
+
+  const trialRef = doc(db, "trials", user.uid);
+  let trialSnap = await getDoc(trialRef);
+
+  // Ako probni period još ne postoji, pokreni ga.
+  if (!trialSnap.exists()) {
+    try {
+      await setDoc(trialRef, {
+        startedAt: serverTimestamp()
+      });
+    } catch (error) {
+      // Proveri da li je dokument u međuvremenu napravljen.
+      trialSnap = await getDoc(trialRef);
+
+      if (!trialSnap.exists()) {
+        throw error;
+      }
+    }
+
+    trialSnap = await getDoc(trialRef);
+  }
+
+  const trialData = trialSnap.data();
+
+  if (!trialData.startedAt?.toDate) {
+    throw new Error("Datum početka probnog perioda nije ispravan.");
+  }
+
+  const startedAt = trialData.startedAt.toDate();
+  const endsAt = new Date(
+    startedAt.getTime() + 60 * 24 * 60 * 60 * 1000
+  );
+
+  return {
+    startedAt,
+    endsAt,
+    active: Date.now() < endsAt.getTime()
+  };
+}
+
+/* -----------------------------------------
+   KRAJ PROBNOG PERIODA
+----------------------------------------- */
 
 
 function cleanEmail(email) {
