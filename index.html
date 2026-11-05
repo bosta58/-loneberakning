@@ -528,7 +528,19 @@ function openGenieGuide() {
 
     const connectionMessage = document.getElementById("connectionMessage");
     const logoutButton = document.getElementById("genieLogoutButton");
+async function checkGenieTrial() {
+  const trial = await getOrCreateGenieTrial();
 
+  if (!trial.active) {
+    message.textContent =
+      "Probni period od 60 dana je istekao. Izaberite da li želite da nastavite sa Genie.";
+
+    hideConnectionPanels();
+    return false;
+  }
+
+  return true;
+}
     function selectRole(role) {
       selectedRole = role;
 
