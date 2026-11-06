@@ -730,11 +730,54 @@ export async function saveWorkerSalaryRecord(record) {
       periodStart: String(record.periodStart || ""),
       periodEnd: String(record.periodEnd || ""),
       periodKey: String(record.periodKey),
-      hours: record.hours || {},
-      rates: record.rates || {},
-      holidayPay: Number(record.holidayPay || 0),
-      tax: Number(record.tax || 0),
-      calculation: record.calculation || {},
+     hours: {
+  regularHours: Number(record.regularHours || 0),
+  regularOvertimeHours: Number(record.regularOvertimeHours || 0),
+  nightHours: Number(record.nightHours || 0),
+  nightOvertimeHours: Number(record.nightOvertimeHours || 0),
+  weekendHours: Number(record.weekendHours || 0),
+  weekendOvertimeHours: Number(record.weekendOvertimeHours || 0),
+  holidayHours: Number(record.holidayHours || 0),
+  holidayOvertimeHours: Number(record.holidayOvertimeHours || 0)
+},
+
+rates: {
+  regularRate: Number(record.regularRate || 0),
+  regularOvertimePercent: Number(record.regularOvertimePercent || 0),
+  regularOvertimeRate: Number(record.regularOvertimeRate || 0),
+  nightPercent: Number(record.nightPercent || 0),
+  nightOvertimePercent: Number(record.nightOvertimePercent || 0),
+  nightRate: Number(record.nightRate || 0),
+  nightOvertimeRate: Number(record.nightOvertimeRate || 0),
+  weekendPercent: Number(record.weekendPercent || 0),
+  weekendOvertimePercent: Number(record.weekendOvertimePercent || 0),
+  weekendRate: Number(record.weekendRate || 0),
+  weekendOvertimeRate: Number(record.weekendOvertimeRate || 0),
+  holidayPercent: Number(record.holidayPercent || 0),
+  holidayOvertimePercent: Number(record.holidayOvertimePercent || 0),
+  holidayRate: Number(record.holidayRate || 0),
+  holidayOvertimeRate: Number(record.holidayOvertimeRate || 0),
+  holidayPayPercent: Number(record.holidayPayPercent || 0)
+},
+
+holidayPay: Number(record.holidayPayPercent || 0),
+tax: Number(record.taxPercent || 0),
+
+calculation: {
+  regularPay: Number(record.regularPay || 0),
+  regularOvertimePay: Number(record.regularOvertimePay || 0),
+  nightPay: Number(record.nightPay || 0),
+  nightOvertimePay: Number(record.nightOvertimePay || 0),
+  weekendPay: Number(record.weekendPay || 0),
+  weekendOvertimePay: Number(record.weekendOvertimePay || 0),
+  holidayPay: Number(record.holidayPay || 0),
+  holidayOvertimePay: Number(record.holidayOvertimePay || 0),
+  baseGross: Number(record.baseGross || 0),
+  vacationPay: Number(record.vacationPay || 0),
+  grossSalary: Number(record.grossSalary || 0),
+  taxAmount: Number(record.taxAmount || 0),
+  netSalary: Number(record.netSalary || 0)
+},
       updatedAt: serverTimestamp()
     };
 
