@@ -3273,9 +3273,14 @@ console.log(
 );
 if (!user) {
   window.genieFirebaseMessages = [];
+  window.genieFirebaseSalaryRecords = [];
 
   window.dispatchEvent(
     new Event("genie-firebase-messages-updated")
+  );
+
+  window.dispatchEvent(
+    new Event("genie-firebase-salary-updated")
   );
 
   return;
