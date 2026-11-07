@@ -3257,7 +3257,10 @@ let stopWatchingSalaryRecords = null;
       stopWatchingMessages();
       stopWatchingMessages = null;
     }
-
+if (stopWatchingSalaryRecords) {
+  stopWatchingSalaryRecords();
+  stopWatchingSalaryRecords = null;
+}
     window.genieFirebaseUserSignedIn = Boolean(user);
 console.log(
   "GENIE PRIJAVA:",
