@@ -3318,6 +3318,30 @@ console.log("PRIJAVLJEN KORISNIK:", user.uid);
       }
     );
   });
+  stopWatchingSalaryRecords =
+  watchEmployerSalaryRecords((records, error) => {
+
+    if (error) {
+      console.error("Genie obračuni:", error);
+      return;
+    }
+
+    window.genieFirebaseSalaryRecords = records;
+
+    console.log(
+      "GENIE FIREBASE OBRAČUNI:",
+      records
+    );
+
+    console.log(
+      "BROJ OBRAČUNA:",
+      records.length
+    );
+
+    window.dispatchEvent(
+      new Event("genie-firebase-salary-updated")
+    );
+  });
 </script>
 
 <script type="module">
