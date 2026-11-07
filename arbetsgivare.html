@@ -1024,198 +1024,137 @@
      AKTIV LÖNETYP
   ========================================== */
 
-  function getActiveSalaryRecord(
-    employeeName
-  ) {
+  function getActiveSalaryRecord(employeeName) {
 
-    const employeeKey =
-      normalizeName(
-        employeeName
-      );
+  const records =
+    window.genieFirebaseSalaryRecords || [];
 
+  const employeeKey =
+    normalizeName(employeeName);
 
-    const salaryData =
-      readSalaryData();
-
-
-    const employeeData =
-      salaryData[
+  const employeeRecords =
+    records.filter(function(record) {
+      return (
+        normalizeName(record.employee) ===
         employeeKey
-      ];
-
-
-    if (
-      !employeeData ||
-      !employeeData.types
-    ) {
-
-      return null;
-
-    }
-
-
-    const types =
-      employeeData.types;
-
-
-    /* --------------------------------------
-       1. Försök använda aktuell typ
-    -------------------------------------- */
-
-    const currentEmployeeKey =
-      localStorage.getItem(
-        "genieCurrentEmployeeKey"
       );
+    });
 
-
-    const currentSalaryType =
-      localStorage.getItem(
-        "genieCurrentSalaryType"
-      );
-
-
-    const currentPeriodKey =
-      localStorage.getItem(
-        "genieCurrentPeriodKey"
-      );
-
-
-    if (
-      currentEmployeeKey === employeeKey &&
-      currentSalaryType &&
-      types[currentSalaryType]
-    ) {
-
-      const currentTypeData =
-        types[
-          currentSalaryType
-        ];
-
-
-      if (
-        currentPeriodKey &&
-        currentTypeData[
-          currentPeriodKey
-        ]
-      ) {
-
-        return {
-
-          type:
-            currentSalaryType,
-
-          data:
-            currentTypeData[
-              currentPeriodKey
-            ]
-
-        };
-
-      }
-
-
-      const latestCurrent =
-        getLatestRecordFromType(
-          currentTypeData
-        );
-
-
-      if (latestCurrent) {
-
-        return {
-
-          type:
-            currentSalaryType,
-
-          data:
-            latestCurrent
-
-        };
-
-      }
-
-    }
-
-
-    /* --------------------------------------
-       2. Om ingen aktiv pekare finns:
-          använd senast uppdaterade posten
-    -------------------------------------- */
-
-    const candidates = [];
-
-
-    Object.keys(
-      types
-    )
-      .forEach(
-        function(type) {
-
-          const record =
-            getLatestRecordFromType(
-              types[type]
-            );
-
-
-          if (record) {
-
-            candidates.push({
-
-              type:
-                type,
-
-              data:
-                record,
-
-              updated:
-                record.updated ||
-                ""
-
-            });
-
-          }
-
-        }
-      );
-
-
-    if (
-      candidates.length === 0
-    ) {
-
-      return null;
-
-    }
-
-
-    candidates.sort(
-      function(a, b) {
-
-        return String(
-          b.updated
-        )
-          .localeCompare(
-            String(
-              a.updated
-            )
-          );
-
-      }
-    );
-
-
-    return {
-
-      type:
-        candidates[0].type,
-
-      data:
-        candidates[0].data
-
-    };
-
+  if (employeeRecords.length === 0) {
+    return null;
   }
 
+  function getUpdatedTime(record) {
+    const value = record.updatedAt;
+
+    if (value && typeof value.toMillis === "function") {
+      return value.toMillis();
+    }
+
+    if (value && value.seconds) {
+      return value.seconds * 1000;
+    }
+
+    return new Date(value || 0).getTime() || 0;
+  }
+
+  employeeRecords.sort(function(a, b) {
+    return getUpdatedTime(b) - getUpdatedTime(a);
+  });
+
+  const record = employeeRecords[0];
+
+  const hours = record.hours || {};
+  const calculation = record.calculation || {};
+  const rates = record.rates || {};
+
+  /* 1. Timlön */
+
+  if (record.type === "Timlön") {
+
+    return {
+      type: record.type,
+
+      data: {
+        hours: {
+          regular: hours.regularHours || 0,
+          regularOvertime: hours.regularOvertimeHours || 0,
+          night: hours.nightHours || 0,
+          nightOvertime: hours.nightOvertimeHours || 0,
+          weekend: hours.weekendHours || 0,
+          weekendOvertime: hours.weekendOvertimeHours || 0,
+          holiday: hours.holidayHours || 0,
+          holidayOvertime: hours.holidayOvertimeHours || 0
+        },
+
+        calculation: calculation,
+
+        periodStart: record.periodStart || "",
+        periodEnd: record.periodEnd || ""
+      }
+    };
+  }
+
+  /* 2. Kollektivavtal */
+
+  if (record.type === "Kollektivavtal") {
+
+    return {
+      type: record.type,
+
+      data: {
+        regularHours: hours.regularHours || 0,
+        regularOvertimeHours: hours.regularOvertimeHours || 0,
+        nightHours: hours.nightHours || 0,
+        nightOvertimeHours: hours.nightOvertimeHours || 0,
+        weekendHours: hours.weekendHours || 0,
+        weekendOvertimeHours: hours.weekendOvertimeHours || 0,
+        holidayHours: hours.holidayHours || 0,
+        holidayOvertimeHours: hours.holidayOvertimeHours || 0,
+
+        regularPay: calculation.regularPay || 0,
+        regularOvertimePay: calculation.regularOvertimePay || 0,
+        nightPay: calculation.nightPay || 0,
+        nightOvertimePay: calculation.nightOvertimePay || 0,
+        weekendPay: calculation.weekendPay || 0,
+        weekendOvertimePay: calculation.weekendOvertimePay || 0,
+        holidayPay: calculation.holidayPay || 0,
+        holidayOvertimePay: calculation.holidayOvertimePay || 0,
+        vacationPay: calculation.vacationPay || 0,
+        grossSalary: calculation.grossSalary || 0,
+        taxAmount: calculation.taxAmount || 0,
+        netSalary: calculation.netSalary || 0,
+
+        periodStart: record.periodStart || "",
+        periodEnd: record.periodEnd || ""
+      }
+    };
+  }
+
+  /* 3. Månadslön */
+
+  if (record.type === "Månadslön") {
+
+    return {
+      type: record.type,
+
+      data: {
+        monthlySalary: rates.monthlySalary || calculation.monthlySalary || 0,
+        workTarget: hours.workTarget || rates.workTarget || 0,
+        totalHours: calculation.totalHours || hours.totalHours || 0,
+        targetHours: calculation.targetHours || 0,
+        difference: calculation.difference || 0,
+        nightStart: rates.nightStart || "",
+        nightEnd: rates.nightEnd || "",
+
+        periodStart: record.periodStart || "",
+        periodEnd: record.periodEnd || ""
+      }
+    };
+  }
+
+  return null;
+}
 
   /* ==========================================
      HÄMTA LÖNEUPPGIFTER
