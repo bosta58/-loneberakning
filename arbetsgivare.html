@@ -3108,7 +3108,20 @@ window.addEventListener(
 
   }
 );
+window.addEventListener(
+  "genie-firebase-salary-updated",
+  function() {
+    updateEmployeeList();
 
+    if (
+      typeof selectedEmployeeIndex !== "undefined" &&
+      selectedEmployeeIndex !== null &&
+      employees[selectedEmployeeIndex]
+    ) {
+      viewEmployee(selectedEmployeeIndex);
+    }
+  }
+);
 
   /* ==========================================
      STÄNG
