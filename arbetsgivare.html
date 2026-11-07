@@ -3251,7 +3251,7 @@ window.markGenieMessageFixed =
   window.genieFirebaseUserSignedIn = false;
 
   let stopWatchingMessages = null;
-
+let stopWatchingSalaryRecords = null;
   watchGenieAuth((user) => {
     if (stopWatchingMessages) {
       stopWatchingMessages();
