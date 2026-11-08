@@ -672,6 +672,7 @@ function makeSalaryRecordId(workerUid, employerUid, record) {
   Firestore pravila za salaryRecords još moraju biti podešena
   pre nego što ovaj prenos može uspešno da radi.
 */
+
 export async function saveWorkerSalaryRecord(record) {
   const { user, profile } = await getMyProfile();
 
@@ -691,6 +692,256 @@ export async function saveWorkerSalaryRecord(record) {
       "Obračunu nedostaje vrsta plate ili obračunski period."
     );
   }
+
+  const num = (...values) => {
+    const value = values.find(
+      item => item !== undefined &&
+              item !== null &&
+              item !== ""
+    );
+
+    return Number(value) || 0;
+  };
+
+  const sourceHours = record.hours || {};
+  const sourceRates = record.rates || {};
+  const sourceCalculation = record.calculation || {};
+
+  // ZAJEDNIČKI FORMAT SATI
+  const hours = {
+    ...sourceHours,
+
+    regularHours: num(
+      sourceHours.regularHours,
+      sourceHours.regular,
+      record.regularHours
+    ),
+
+    regularOvertimeHours: num(
+      sourceHours.regularOvertimeHours,
+      sourceHours.regularOvertime,
+      record.regularOvertimeHours
+    ),
+
+    nightHours: num(
+      sourceHours.nightHours,
+      sourceHours.night,
+      record.nightHours
+    ),
+
+    nightOvertimeHours: num(
+      sourceHours.nightOvertimeHours,
+      sourceHours.nightOvertime,
+      record.nightOvertimeHours
+    ),
+
+    weekendHours: num(
+      sourceHours.weekendHours,
+      sourceHours.weekend,
+      record.weekendHours
+    ),
+
+    weekendOvertimeHours: num(
+      sourceHours.weekendOvertimeHours,
+      sourceHours.weekendOvertime,
+      record.weekendOvertimeHours
+    ),
+
+    holidayHours: num(
+      sourceHours.holidayHours,
+      sourceHours.holiday,
+      record.holidayHours
+    ),
+
+    holidayOvertimeHours: num(
+      sourceHours.holidayOvertimeHours,
+      sourceHours.holidayOvertime,
+      record.holidayOvertimeHours
+    ),
+
+    totalMinutes: num(sourceHours.totalMinutes),
+
+    totalHours: num(sourceHours.totalHours),
+
+    workTarget: num(sourceHours.workTarget)
+  };
+
+  // ZAJEDNIČKI FORMAT TARIFA
+  const rates = {
+    ...sourceRates,
+
+    regularRate: num(
+      sourceRates.regularRate,
+      sourceRates.regular,
+      record.regularRate
+    ),
+
+    regularOvertimeRate: num(
+      sourceRates.regularOvertimeRate,
+      sourceRates.regularOvertime,
+      record.regularOvertimeRate
+    ),
+
+    regularOvertimePercent: num(
+      sourceRates.regularOvertimePercent,
+      record.regularOvertimePercent
+    ),
+
+    nightRate: num(
+      sourceRates.nightRate,
+      sourceRates.night,
+      record.nightRate
+    ),
+
+    nightOvertimeRate: num(
+      sourceRates.nightOvertimeRate,
+      sourceRates.nightOvertime,
+      record.nightOvertimeRate
+    ),
+
+    nightPercent: num(
+      sourceRates.nightPercent,
+      record.nightPercent
+    ),
+
+    nightOvertimePercent: num(
+      sourceRates.nightOvertimePercent,
+      record.nightOvertimePercent
+    ),
+
+    weekendRate: num(
+      sourceRates.weekendRate,
+      sourceRates.weekend,
+      record.weekendRate
+    ),
+
+    weekendOvertimeRate: num(
+      sourceRates.weekendOvertimeRate,
+      sourceRates.weekendOvertime,
+      record.weekendOvertimeRate
+    ),
+
+    weekendPercent: num(
+      sourceRates.weekendPercent,
+      record.weekendPercent
+    ),
+
+    weekendOvertimePercent: num(
+      sourceRates.weekendOvertimePercent,
+      record.weekendOvertimePercent
+    ),
+
+    holidayRate: num(
+      sourceRates.holidayRate,
+      sourceRates.holiday,
+      record.holidayRate
+    ),
+
+    holidayOvertimeRate: num(
+      sourceRates.holidayOvertimeRate,
+      sourceRates.holidayOvertime,
+      record.holidayOvertimeRate
+    ),
+
+    holidayPercent: num(
+      sourceRates.holidayPercent,
+      record.holidayPercent
+    ),
+
+    holidayOvertimePercent: num(
+      sourceRates.holidayOvertimePercent,
+      record.holidayOvertimePercent
+    ),
+
+    holidayPayPercent: num(
+      sourceRates.holidayPayPercent,
+      record.holidayPayPercent,
+      record.holidayPay
+    ),
+
+    monthlySalary: num(
+      sourceRates.monthlySalary,
+      record.monthlySalary,
+      sourceCalculation.monthlySalary
+    ),
+
+    nightStart:
+      sourceRates.nightStart || record.nightStart || "",
+
+    nightEnd:
+      sourceRates.nightEnd || record.nightEnd || ""
+  };
+
+  // ZAJEDNIČKI FORMAT OBRAČUNA
+  const calculation = {
+    ...sourceCalculation,
+
+    regularPay: num(
+      sourceCalculation.regularPay,
+      record.regularPay
+    ),
+
+    regularOvertimePay: num(
+      sourceCalculation.regularOvertimePay,
+      record.regularOvertimePay
+    ),
+
+    nightPay: num(
+      sourceCalculation.nightPay,
+      record.nightPay
+    ),
+
+    nightOvertimePay: num(
+      sourceCalculation.nightOvertimePay,
+      record.nightOvertimePay
+    ),
+
+    weekendPay: num(
+      sourceCalculation.weekendPay,
+      record.weekendPay
+    ),
+
+    weekendOvertimePay: num(
+      sourceCalculation.weekendOvertimePay,
+      record.weekendOvertimePay
+    ),
+
+    holidayPay: num(
+      sourceCalculation.holidayPay,
+      record.holidayPayAmount,
+      record.holidayPay
+    ),
+
+    holidayOvertimePay: num(
+      sourceCalculation.holidayOvertimePay,
+      record.holidayOvertimePay
+    ),
+
+    baseGross: num(
+      sourceCalculation.baseGross,
+      record.baseGross
+    ),
+
+    vacationPay: num(
+      sourceCalculation.vacationPay,
+      record.vacationPay
+    ),
+
+    grossSalary: num(
+      sourceCalculation.grossSalary,
+      record.grossSalary
+    ),
+
+    taxAmount: num(
+      sourceCalculation.taxAmount,
+      record.taxAmount
+    ),
+
+    netSalary: num(
+      sourceCalculation.netSalary,
+      record.netSalary
+    )
+  };
 
   const connectionsQuery = query(
     collection(db, "connections"),
@@ -724,60 +975,30 @@ export async function saveWorkerSalaryRecord(record) {
       workerUid: user.uid,
       employerUid: connection.employerUid,
       workerEmail: cleanEmail(user.email),
+
       employee: String(record.employee || ""),
       employer: String(record.employer || ""),
       type: String(record.type),
+
       periodStart: String(record.periodStart || ""),
       periodEnd: String(record.periodEnd || ""),
       periodKey: String(record.periodKey),
-     hours: {
-  regularHours: Number(record.regularHours || 0),
-  regularOvertimeHours: Number(record.regularOvertimeHours || 0),
-  nightHours: Number(record.nightHours || 0),
-  nightOvertimeHours: Number(record.nightOvertimeHours || 0),
-  weekendHours: Number(record.weekendHours || 0),
-  weekendOvertimeHours: Number(record.weekendOvertimeHours || 0),
-  holidayHours: Number(record.holidayHours || 0),
-  holidayOvertimeHours: Number(record.holidayOvertimeHours || 0)
-},
 
-rates: {
-  regularRate: Number(record.regularRate || 0),
-  regularOvertimePercent: Number(record.regularOvertimePercent || 0),
-  regularOvertimeRate: Number(record.regularOvertimeRate || 0),
-  nightPercent: Number(record.nightPercent || 0),
-  nightOvertimePercent: Number(record.nightOvertimePercent || 0),
-  nightRate: Number(record.nightRate || 0),
-  nightOvertimeRate: Number(record.nightOvertimeRate || 0),
-  weekendPercent: Number(record.weekendPercent || 0),
-  weekendOvertimePercent: Number(record.weekendOvertimePercent || 0),
-  weekendRate: Number(record.weekendRate || 0),
-  weekendOvertimeRate: Number(record.weekendOvertimeRate || 0),
-  holidayPercent: Number(record.holidayPercent || 0),
-  holidayOvertimePercent: Number(record.holidayOvertimePercent || 0),
-  holidayRate: Number(record.holidayRate || 0),
-  holidayOvertimeRate: Number(record.holidayOvertimeRate || 0),
-  holidayPayPercent: Number(record.holidayPayPercent || 0)
-},
+      hours,
+      rates,
 
-holidayPay: Number(record.holidayPayPercent || 0),
-tax: Number(record.taxPercent || 0),
+      holidayPay: num(
+        record.holidayPayPercent,
+        record.holidayPay
+      ),
 
-calculation: {
-  regularPay: Number(record.regularPay || 0),
-  regularOvertimePay: Number(record.regularOvertimePay || 0),
-  nightPay: Number(record.nightPay || 0),
-  nightOvertimePay: Number(record.nightOvertimePay || 0),
-  weekendPay: Number(record.weekendPay || 0),
-  weekendOvertimePay: Number(record.weekendOvertimePay || 0),
-  holidayPay: Number(record.holidayPay || 0),
-  holidayOvertimePay: Number(record.holidayOvertimePay || 0),
-  baseGross: Number(record.baseGross || 0),
-  vacationPay: Number(record.vacationPay || 0),
-  grossSalary: Number(record.grossSalary || 0),
-  taxAmount: Number(record.taxAmount || 0),
-  netSalary: Number(record.netSalary || 0)
-},
+      tax: num(
+        record.tax,
+        record.taxPercent
+      ),
+
+      calculation,
+
       updatedAt: serverTimestamp()
     };
 
