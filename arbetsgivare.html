@@ -1029,16 +1029,27 @@
   const records =
     window.genieFirebaseSalaryRecords || [];
 
-  const employeeKey =
-    normalizeName(employeeName);
+const employeeKey = normalizeName(employeeName);
 
-  const employeeRecords =
-    records.filter(function(record) {
-      return (
-        normalizeName(record.employee) ===
-        employeeKey
-      );
-    });
+const employee = employees.find(function(item) {
+  return normalizeName(item.name) === employeeKey;
+});
+
+const employeeEmail = String(
+  employee?.email || ""
+).trim().toLowerCase();
+
+const employeeRecords = records.filter(function(record) {
+  const recordEmail = String(
+    record.workerEmail || ""
+  ).trim().toLowerCase();
+
+  if (employeeEmail && recordEmail) {
+    return employeeEmail === recordEmail;
+  }
+
+  return normalizeName(record.employee) === employeeKey;
+});
 
   if (employeeRecords.length === 0) {
     return null;
