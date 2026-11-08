@@ -3188,159 +3188,137 @@ window.addEventListener(
 
 </script>
   
+
 <script type="module">
-  import {
+import {
   sendGenieMessageToEmployee,
   markGenieMessageFixed,
-    watchGenieMessages,
+  watchGenieMessages,
   watchEmployerSalaryRecords,
-  watchGenieAuth
+  watchGenieAuth,
+  getCurrentGenieProfile,
+  getOrCreateGenieTrial
 } from "./genie-firebase.js";
-  window.sendGenieMessageToWorker =
-    sendGenieMessageToEmployee;
-window.markGenieMessageFixed =
-    markGenieMessageFixed;
-  window.genieFirebaseUserSignedIn = false;
 
-  let stopWatchingMessages = null;
+window.sendGenieMessageToWorker = sendGenieMessageToEmployee;
+window.markGenieMessageFixed = markGenieMessageFixed;
+window.genieFirebaseUserSignedIn = false;
+
+let stopWatchingMessages = null;
 let stopWatchingSalaryRecords = null;
-  watchGenieAuth((user) => {
-    if (stopWatchingMessages) {
-      stopWatchingMessages();
-      stopWatchingMessages = null;
-    }
-if (stopWatchingSalaryRecords) {
-  stopWatchingSalaryRecords();
-  stopWatchingSalaryRecords = null;
-}
-    window.genieFirebaseUserSignedIn = Boolean(user);
-console.log(
-  "GENIE PRIJAVA:",
-  user ? "Prijavljen" : "Nije prijavljen"
-);
+let authCheckId = 0;
 
-console.log(
-  "GENIE UID:",
-  user ? user.uid : "Nema UID-a"
-);
-if (!user) {
-  window.genieFirebaseMessages = [];
-  window.genieFirebaseSalaryRecords = [];
+watchGenieAuth(async (user) => {
+  const currentCheck = ++authCheckId;
 
-  window.dispatchEvent(
-    new Event("genie-firebase-messages-updated")
-  );
-
-  window.dispatchEvent(
-    new Event("genie-firebase-salary-updated")
-  );
-
-  return;
-}
-
-    stopWatchingMessages = watchGenieMessages(
-      (messages, error) => {
-    if (error) {
-  console.error("Genie poruke:", error);
-
-  const box = document.getElementById("employeeMessages");
-
-  if (box) {
-    box.insertAdjacentHTML(
-      "afterbegin",
-      "<p style='color:red'>Firebase greška: " +
-      String(error.code || error.message || error) +
-      "</p>"
-    );
+  if (stopWatchingMessages) {
+    stopWatchingMessages();
+    stopWatchingMessages = null;
   }
 
-  return;
-}
+  if (stopWatchingSalaryRecords) {
+    stopWatchingSalaryRecords();
+    stopWatchingSalaryRecords = null;
+  }
+
+  window.genieFirebaseUserSignedIn = Boolean(user);
+
+  if (!user) {
+    window.genieFirebaseMessages = [];
+    window.genieFirebaseSalaryRecords = [];
+
+    window.dispatchEvent(
+      new Event("genie-firebase-messages-updated")
+    );
+
+    window.dispatchEvent(
+      new Event("genie-firebase-salary-updated")
+    );
+
+    window.location.replace("./index.html");
+    return;
+  }
+
+  try {
+    const result = await getCurrentGenieProfile();
+
+    if (currentCheck !== authCheckId) return;
+
+    const profile = result.profile;
+
+    if (
+      profile.requestedRole !== "employer" ||
+      (
+        profile.role !== "employer" &&
+        profile.role !== "pending"
+      )
+    ) {
+      window.location.replace("./index.html");
+      return;
+    }
+
+    const trial = await getOrCreateGenieTrial();
+
+    if (currentCheck !== authCheckId) return;
+
+    if (!trial.active) {
+      window.location.replace("./index.html");
+      return;
+    }
+
+    // Pristup je proveren – sada pokrećemo Firebase praćenje.
+    stopWatchingMessages = watchGenieMessages(
+      (messages, error) => {
+        if (error) {
+          console.error("Genie poruke:", error);
+          return;
+        }
 
         window.genieFirebaseMessages = messages;
-        alert("Genie je primio poruka: " + messages.length);
-        const checkBox = document.getElementById("employeeMessages");
-if (checkBox) checkBox.insertAdjacentHTML("afterbegin", "<p style='color:#b45309'>Firebase poruka: " + messages.length + "</p>");
-console.log("GENIE FIREBASE PORUKE:", messages);
-console.log("BROJ PORUKA:", messages.length);
-console.log("PRIJAVLJEN KORISNIK:", user.uid);
+
+        console.log(
+          "GENIE FIREBASE PORUKE:",
+          messages.length
+        );
+
         window.dispatchEvent(
           new Event("genie-firebase-messages-updated")
         );
       }
     );
-    stopWatchingSalaryRecords =
-      watchEmployerSalaryRecords((records, error) => {
-    if (error) {
-      console.error("Genie obračuni:", error);
-      return;
-    }
 
-    window.genieFirebaseSalaryRecords = records;
+    stopWatchingSalaryRecords = watchEmployerSalaryRecords(
+      (records, error) => {
+        if (error) {
+          console.error("Genie obračuni:", error);
+          return;
+        }
 
-    console.log(
-      "GENIE FIREBASE OBRAČUNI:",
-      records
-    );
+        window.genieFirebaseSalaryRecords = records;
 
-    console.log(
-      "BROJ OBRAČUNA:",
-      records.length
-    );
+        console.log(
+          "GENIE FIREBASE OBRAČUNI:",
+          records.length
+        );
 
-    window.dispatchEvent(
-      new Event("genie-firebase-salary-updated")
-    );     
-      });
-  });
-</script>
-
-<script type="module">
-  import {
-    watchGenieAuth,
-    getCurrentGenieProfile,
-    getOrCreateGenieTrial
-  } from "./genie-firebase.js";
-
-  watchGenieAuth(async (user) => {
-    if (!user) {
-      window.location.replace("./index.html");
-      return;
-    }
-
-    try {
-      const result = await getCurrentGenieProfile();
-      const profile = result.profile;
-
-      // Samo aktivan poslodavac ima pristup.
-      if (
-  profile.requestedRole !== "employer" ||
-  (
-    profile.role !== "employer" &&
-    profile.role !== "pending"
-  )
-) {
-  window.location.replace("./index.html");
-  return;
-}
-
-      // Provera probnog perioda od 60 dana.
-      const trial = await getOrCreateGenieTrial();
-
-      if (!trial.active) {
-        window.location.replace("./index.html");
-        return;
+        window.dispatchEvent(
+          new Event("genie-firebase-salary-updated")
+        );
       }
+    );
 
-      // Sve je u redu – prikaži stranicu.
-      document.body.style.visibility = "visible";
+    document.body.style.visibility = "visible";
 
-    } catch (error) {
-      console.error("Genie employer access error:", error);
+  } catch (error) {
+    console.error("Genie employer access error:", error);
+
+    if (currentCheck === authCheckId) {
       window.location.replace("./index.html");
     }
-  });
+  }
+});
 </script>
+
 
 
 
