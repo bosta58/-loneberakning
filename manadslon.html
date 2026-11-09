@@ -1735,44 +1735,29 @@ const employeeMessages =
    SVARA ARBETSGIVAREN
 ================================= */
 function getMatchingMessageIndexes() {
-  const employeeName =
-    getEmployeeName();
-  const currentPeriodKey =
-    getPeriodKey();
   const messages =
     JSON.parse(
       localStorage.getItem(
         GENIE_MESSAGES_KEY
       )
     ) || [];
+
   const indexes = [];
-  messages.forEach(
-    function(item,index) {
-      const sameEmployee =
-        normalizeEmployee(
-          item.employee
-        ) === employeeName;
-      const sameType =
-        !item.type ||
-        item.type === SALARY_TYPE;
-      const samePeriod =
-        !item.periodKey ||
-        item.periodKey === currentPeriodKey;
-      if (
-        sameEmployee &&
-        sameType &&
-        samePeriod
-      ) {
-        indexes.push(index);
-      }
+
+  messages.forEach(function(item, index) {
+    if (
+      !item.type ||
+      item.type === SALARY_TYPE
+    ) {
+      indexes.push(index);
     }
-  );
+  });
+
   return {
     messages: messages,
     indexes: indexes
   };
 }
-
 async function replyToEmployer(displayIndex) {
   const result = getMatchingMessageIndexes();
   const realIndex = result.indexes[displayIndex];
