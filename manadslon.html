@@ -1634,43 +1634,22 @@ function loadCommunication() {
     translations[
       getCurrentLanguage()
     ];
-  const employeeName =
-    getEmployeeName();
-  if (!employeeName) {
-    communicationList.innerHTML =
-      '<p style="text-align:center;color:#6b7280;">' +
-      t.enterEmployee +
-      '</p>';
-    return;
-  }
   const messages =
-    JSON.parse(
-      localStorage.getItem(
-        GENIE_MESSAGES_KEY
-      )
-    ) || [];
-  const currentPeriodKey =
-    getPeriodKey();
-  const employeeMessages =
-    messages.filter(
-      function(item) {
-        const sameEmployee =
-          normalizeEmployee(
-            item.employee
-          ) === employeeName;
-        const sameType =
-          !item.type ||
-          item.type === SALARY_TYPE;
-        const samePeriod =
-          !item.periodKey ||
-          item.periodKey === currentPeriodKey;
-        return (
-          sameEmployee &&
-          sameType &&
-          samePeriod
-        );
-      }
-    );
+  JSON.parse(
+    localStorage.getItem(
+      GENIE_MESSAGES_KEY
+    )
+  ) || [];
+
+const employeeMessages =
+  messages.filter(
+    function(item) {
+      return (
+        !item.type ||
+        item.type === SALARY_TYPE
+      );
+    }
+  );
   if (
     employeeMessages.length === 0
   ) {
