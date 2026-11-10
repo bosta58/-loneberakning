@@ -284,6 +284,35 @@
     .back-button:active {
       transform: scale(0.98);
     }
+    .history-panel {
+  margin-top: 12px;
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: #f9fafb;
+}
+
+.history-panel[hidden] {
+  display: none;
+}
+
+.history-item {
+  padding: 13px;
+  margin-bottom: 10px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 11px;
+}
+
+.history-item-title {
+  font-weight: 700;
+  margin-bottom: 7px;
+}
+
+.history-item-meta {
+  color: #6b7280;
+  font-size: 14px;
+}
     .footer {
       text-align: center;
       margin-top: 25px;
@@ -491,6 +520,28 @@
     </span>
   </div>
 </div>
+    <button
+  type="button"
+  class="time-button"
+  id="historyButton">
+  📚 HISTORIA
+</button>
+
+<div
+  class="history-panel"
+  id="historyPanel"
+  hidden>
+
+  <div
+    class="section-title"
+    id="historyTitle"
+    style="margin-top:0;">
+    Tidigare löneperioder
+  </div>
+
+  <div id="historyList"></div>
+
+</div>
 <div class="communication-card">
   <div
     class="section-title"
@@ -572,6 +623,10 @@ const translations = {
     statusNew:"Ny kommentar",
     statusReply:"Svar från arbetstagaren",
     statusHandled:"Åtgärdad"
+    history:"📚 HISTORIA",
+historyTitle:"Tidigare löneperioder",
+historyEmpty:"Inga tidigare löneperioder ännu.",
+historyWorked:"Arbetad tid:"
   },
   en: {
     title:"Monthly Salary",
@@ -619,6 +674,10 @@ const translations = {
     statusNew:"New comment",
     statusReply:"Reply from employee",
     statusHandled:"Handled"
+    history:"📚 HISTORY",
+historyTitle:"Previous salary periods",
+historyEmpty:"No previous salary periods yet.",
+historyWorked:"Worked time:"
   },
   sr: {
     title:"Mesečna plata",
@@ -666,6 +725,10 @@ const translations = {
     statusNew:"Nova poruka",
     statusReply:"Odgovor zaposlenog",
     statusHandled:"Rešeno"
+    history:"📚 ISTORIJA",
+historyTitle:"Prethodni obračunski periodi",
+historyEmpty:"Još nema prethodnih obračunskih perioda.",
+historyWorked:"Radno vreme:"
   }
 };
 function getCurrentLanguage() {
