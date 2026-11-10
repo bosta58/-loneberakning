@@ -930,7 +930,12 @@ const PAUSE_TOTAL_KEY =
   "genie_manadslon_pause_total";
 const PAUSE_COUNT_KEY =
   "genie_manadslon_pause_count";
-const startButton =
+const SESSION_STORAGE_KEY =
+  "genie_manadslon_sessions";
+
+const PAUSE_INTERVALS_KEY =
+  "genie_manadslon_pause_intervals";
+  const startButton =
   document.getElementById("startButton");
 const pauseButton =
   document.getElementById("pauseButton");
@@ -1234,90 +1239,396 @@ function saveLegacyFormFields() {
     }
   );
 }
+  /* =================================
+   PRECIZNA VREMENSKA EVIDENCIJA
+================================= */
+
+function readWorkSessions() {
+  try {
+    const data = JSON.parse(
+      localStorage.getItem(SESSION_STORAGE_KEY) || "[]"
+    );
+
+    return Array.isArray(data) ? data : [];
+
+  } catch (error) {
+    return [];
+  }
+}
+
+function readLegacyWorkdays() {
+  try {
+    const data = JSON.parse(
+      localStorage.getItem(STORAGE_KEY) || "[]"
+    );
+
+    return Array.isArray(data) ? data : [];
+
+  } catch (error) {
+    return [];
+  }
+}
+
+function getPeriodBounds(start, end) {
+
+  if (!start || !end || end < start) {
+    return null;
+  }
+
+  const startDate =
+    new Date(start + "T00:00:00");
+
+  const endDate =
+    new Date(end + "T00:00:00");
+
+  if (
+    isNaN(startDate.getTime()) ||
+    isNaN(endDate.getTime())
+  ) {
+    return null;
+  }
+
+  endDate.setDate(
+    endDate.getDate() + 1
+  );
+
+  return {
+    start: startDate.getTime(),
+    end: endDate.getTime()
+  };
+}
+
+function getSessionWorkSegments(session) {
+
+  const start = Date.parse(session.startISO);
+  const end = Date.parse(session.endISO);
+
+  if (
+    !Number.isFinite(start) ||
+    !Number.isFinite(end) ||
+    end <= start
+  ) {
+    return [];
+  }
+
+  const pauses = Array.isArray(session.pauses)
+    ? session.pauses.slice().sort(
+        (a, b) =>
+          Date.parse(a.start) - Date.parse(b.start)
+      )
+    : [];
+
+  const segments = [];
+
+  let cursor = start;
+
+  pauses.forEach(function(pause) {
+
+    const pauseStart = Date.parse(pause.start);
+    const pauseEnd = Date.parse(pause.end);
+
+    if (
+      !Number.isFinite(pauseStart) ||
+      !Number.isFinite(pauseEnd)
+    ) {
+      return;
+    }
+
+    const clippedStart =
+      Math.max(start, pauseStart);
+
+    const clippedEnd =
+      Math.min(end, pauseEnd);
+
+    if (clippedEnd <= cursor) {
+      return;
+    }
+
+    if (clippedStart > cursor) {
+      segments.push([
+        cursor,
+        clippedStart
+      ]);
+    }
+
+    cursor = Math.max(
+      cursor,
+      clippedEnd
+    );
+
+  });
+
+  if (cursor < end) {
+    segments.push([
+      cursor,
+      end
+    ]);
+  }
+
+  return segments;
+}
+
+function calculateSessionWorkMilliseconds(session) {
+
+  return getSessionWorkSegments(session).reduce(
+    function(sum, segment) {
+
+      return sum +
+        Math.max(
+          0,
+          segment[1] - segment[0]
+        );
+
+    },
+    0
+  );
+}
+
+/*
+  Računa samo stvarno radno vreme
+  unutar izabranog obračunskog perioda.
+*/
+
+function calculatePeriodMinutes(
+  periodStart,
+  periodEnd,
+  employeeKey,
+  periodKey
+) {
+
+  const bounds = getPeriodBounds(
+    periodStart,
+    periodEnd
+  );
+
+  if (!bounds) {
+    return 0;
+  }
+
+  const legacyMinutes =
+    readLegacyWorkdays().reduce(
+      function(sum, day) {
+
+        const samePeriod =
+          day.periodKey === periodKey;
+
+        const sameEmployee =
+          !day.employeeKey ||
+          day.employeeKey === employeeKey;
+
+        if (
+          samePeriod &&
+          sameEmployee
+        ) {
+          return sum +
+            Number(day.minutes || 0);
+        }
+
+        return sum;
+      },
+      0
+    );
+
+  let workedMilliseconds = 0;
+
+  readWorkSessions().forEach(
+    function(session) {
+
+      if (
+        session.employeeKey !== employeeKey
+      ) {
+        return;
+      }
+
+      getSessionWorkSegments(session).forEach(
+        function(segment) {
+
+          const overlapStart =
+            Math.max(
+              segment[0],
+              bounds.start
+            );
+
+          const overlapEnd =
+            Math.min(
+              segment[1],
+              bounds.end
+            );
+
+          if (overlapEnd > overlapStart) {
+
+            workedMilliseconds +=
+              overlapEnd - overlapStart;
+
+          }
+
+        }
+      );
+
+    }
+  );
+
+  return legacyMinutes +
+    Math.floor(
+      workedMilliseconds / 60000
+    );
+}
 /* =================================
    ARBETSDAGAR
 ================================= */
 function loadSavedWorkdays() {
-  const savedData =
-    localStorage.getItem(
-      STORAGE_KEY
+
+  totalMinutesWorked =
+    calculatePeriodMinutes(
+      getPeriodStart(),
+      getPeriodEnd(),
+      getEmployeeKey(),
+      getPeriodKey()
     );
 
-  if (!savedData) {
-    totalMinutesWorked = 0;
-    totalHoursDisplay.textContent =
-      formatDuration(0);
-    updateTargetAndDifference();
+  totalHoursDisplay.textContent =
+    formatDuration(
+      totalMinutesWorked
+    );
+
+  updateTargetAndDifference();
+
+  renderHistory();
+}
+  /* =================================
+   ISTORIJA OBRAČUNA
+================================= */
+
+function renderHistory() {
+
+  const historyList =
+    document.getElementById("historyList");
+
+  if (!historyList) {
     return;
   }
 
-  try {
-    const workdays =
-      JSON.parse(savedData);
+  historyList.innerHTML = "";
 
-    if (!Array.isArray(workdays)) {
-      totalMinutesWorked = 0;
-      totalHoursDisplay.textContent =
-        formatDuration(0);
-      updateTargetAndDifference();
-      return;
-    }
+  const employeeKey = getEmployeeKey();
 
-    const currentPeriodKey =
-      getPeriodKey();
+  const t =
+    translations[getCurrentLanguage()];
 
-    const currentEmployeeKey =
-      getEmployeeKey();
+  if (!employeeKey) {
 
-    /*
-      Räkna endast arbetstid som hör till
-      aktuell anställd och aktuellt
-      löneperiod.
-    */
-    const currentPeriodWorkdays =
-      workdays.filter(
-        function(day) {
-          const samePeriod =
-            day.periodKey ===
-            currentPeriodKey;
+    historyList.textContent =
+      t.historyEmpty;
 
-          const sameEmployee =
-            !day.employeeKey ||
-            day.employeeKey ===
-            currentEmployeeKey;
-
-          return (
-            samePeriod &&
-            sameEmployee
-          );
-        }
-      );
-
-    totalMinutesWorked =
-      currentPeriodWorkdays.reduce(
-        function(sum, day) {
-          return sum +
-            Number(day.minutes || 0);
-        },
-        0
-      );
-
-    totalHoursDisplay.textContent =
-      formatDuration(
-        totalMinutesWorked
-      );
-
-    updateTargetAndDifference();
-
-  } catch(error) {
-    totalMinutesWorked = 0;
-
-    totalHoursDisplay.textContent =
-      formatDuration(0);
-
-    updateTargetAndDifference();
+    return;
   }
+
+  const data = readSalaryData();
+
+  const records =
+    data[employeeKey]
+      ?.types
+      ?. [SALARY_TYPE] || {};
+
+  const currentPeriodKey =
+    getPeriodKey();
+
+  const periods =
+    Object.entries(records)
+      .filter(function(entry) {
+
+        const key = entry[0];
+        const record = entry[1];
+
+        return (
+          key !== currentPeriodKey &&
+          record &&
+          record.periodStart &&
+          record.periodEnd
+        );
+
+      })
+      .sort(function(a, b) {
+
+        return String(
+          b[1].periodStart
+        ).localeCompare(
+          String(a[1].periodStart)
+        );
+
+      });
+
+  if (periods.length === 0) {
+
+    historyList.textContent =
+      t.historyEmpty;
+
+    return;
+  }
+
+  periods.forEach(function(entry) {
+
+    const periodKey = entry[0];
+    const record = entry[1];
+
+    const minutes =
+      calculatePeriodMinutes(
+        record.periodStart,
+        record.periodEnd,
+        employeeKey,
+        periodKey
+      );
+
+    const card =
+      document.createElement("div");
+
+    card.className = "history-item";
+
+    const title =
+      document.createElement("div");
+
+    title.className =
+      "history-item-title";
+
+    title.textContent =
+      record.periodStart +
+      " – " +
+      record.periodEnd;
+
+    const details =
+      document.createElement("div");
+
+    details.className =
+      "history-item-meta";
+
+    details.textContent =
+      t.historyWorked +
+      " " +
+      formatDuration(minutes);
+
+    card.appendChild(title);
+    card.appendChild(details);
+
+    historyList.appendChild(card);
+
+  });
+
 }
+
+document.getElementById(
+  "historyButton"
+).onclick = function() {
+
+  const panel =
+    document.getElementById("historyPanel");
+
+  panel.hidden = !panel.hidden;
+
+  if (!panel.hidden) {
+    renderHistory();
+  }
+
+};
 /* =================================
    AKTIV STARTTID
 ================================= */
