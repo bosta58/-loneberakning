@@ -1714,6 +1714,10 @@ function() {
     "0"
   );
   localStorage.setItem(
+  PAUSE_INTERVALS_KEY,
+  "[]"
+);
+  localStorage.setItem(
     PAUSE_COUNT_KEY,
     "0"
   );
@@ -1783,6 +1787,36 @@ function() {
     );
   totalPauseMinutes +=
     pauseMinutes;
+  let pauseIntervals = [];
+
+try {
+
+  pauseIntervals = JSON.parse(
+    localStorage.getItem(
+      PAUSE_INTERVALS_KEY
+    ) || "[]"
+  );
+
+} catch (error) {
+
+  pauseIntervals = [];
+
+}
+
+pauseIntervals.push({
+
+  start:
+    pauseStartTimeValue.toISOString(),
+
+  end:
+    resumeTime.toISOString()
+
+});
+
+localStorage.setItem(
+  PAUSE_INTERVALS_KEY,
+  JSON.stringify(pauseIntervals)
+);
   pauseStartTimeValue = null;
   localStorage.setItem(
     PAUSE_TOTAL_KEY,
@@ -1799,143 +1833,183 @@ function() {
 ================================= */
 stopButton.onclick =
 function() {
+
   if (!startTimeValue) {
+
     const savedStart =
       localStorage.getItem(
         ACTIVE_START_KEY
       );
+
     if (savedStart) {
+
       startTimeValue =
         new Date(savedStart);
+
     }
+
   }
+
   if (!startTimeValue) {
     return;
   }
-  const endTimeValue =
-    new Date();
-  if (pauseStartTimeValue) {
-    const finalPauseMinutes =
-      Math.max(
-        0,
-        Math.floor(
-          (
-            endTimeValue.getTime() -
-            pauseStartTimeValue.getTime()
-          ) / 60000
-        )
-      );
-    totalPauseMinutes +=
-      finalPauseMinutes;
-    pauseStartTimeValue = null;
-    localStorage.removeItem(
-      PAUSE_START_KEY
+
+  const endTimeValue = new Date();
+
+  let pauseIntervals = [];
+
+  try {
+
+    pauseIntervals = JSON.parse(
+      localStorage.getItem(
+        PAUSE_INTERVALS_KEY
+      ) || "[]"
     );
-  }
-  endTimeDisplay.textContent =
-    formatTime(endTimeValue);
-  const difference =
-    endTimeValue.getTime() -
-    startTimeValue.getTime();
-  const totalElapsedMinutes =
-    Math.max(
-      0,
-      Math.floor(
-        difference / 60000
-      )
-    );
-  const dailyMinutes =
-    Math.max(
-      0,
-      totalElapsedMinutes -
-      totalPauseMinutes
-    );
-  dailyHoursDisplay.textContent =
-    formatDuration(
-      dailyMinutes
-    );
-  pauseTimeDisplay.textContent =
-    formatDuration(
-      totalPauseMinutes
-    );
-  let workdays = [];
-  const savedData =
-    localStorage.getItem(
-      STORAGE_KEY
-    );
-  if (savedData) {
-    try {
-      workdays =
-        JSON.parse(savedData);
-      if (!Array.isArray(workdays)) {
-        workdays = [];
-      }
-    } catch(error) {
-      workdays = [];
+
+    if (!Array.isArray(pauseIntervals)) {
+      pauseIntervals = [];
     }
+
+  } catch (error) {
+
+    pauseIntervals = [];
+
   }
-  const workday = {
-  date:
-    startTimeValue
-      .toISOString()
-      .split("T")[0],
-  start:
-    formatTime(startTimeValue),
-  end:
-    formatTime(endTimeValue),
-  minutes:
-    dailyMinutes,
-  pauseMinutes:
-    totalPauseMinutes,
-  pauseCount:
-    pauseCount,
 
   /*
-    Koppla arbetsdagen till rätt
-    anställd och rätt löneperiod.
+    Ako je radnik završio smenu
+    tokom pauze, zatvaramo pauzu.
   */
-  employeeKey:
-    getEmployeeKey(),
 
-  periodKey:
-    getPeriodKey()
-};
-  workdays.push(workday);
+  if (pauseStartTimeValue) {
+
+    pauseIntervals.push({
+
+      start:
+        pauseStartTimeValue.toISOString(),
+
+      end:
+        endTimeValue.toISOString()
+
+    });
+
+  }
+
+  const session = {
+
+    employeeKey:
+      getEmployeeKey(),
+
+    startISO:
+      startTimeValue.toISOString(),
+
+    endISO:
+      endTimeValue.toISOString(),
+
+    pauses:
+      pauseIntervals
+
+  };
+
+  /*
+    Čuvamo originalnu smenu.
+    Ne dodeljujemo joj jedan period.
+  */
+
+  const sessions =
+    readWorkSessions();
+
+  sessions.push(session);
+
   localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(workdays)
+    SESSION_STORAGE_KEY,
+    JSON.stringify(sessions)
   );
-  totalMinutesWorked =
-    workdays.reduce(
-      function(sum, day) {
+
+  const workedMilliseconds =
+    calculateSessionWorkMilliseconds(
+      session
+    );
+
+  const pauseMilliseconds =
+    pauseIntervals.reduce(
+      function(sum, pause) {
+
+        const start =
+          Date.parse(pause.start);
+
+        const end =
+          Date.parse(pause.end);
+
+        if (
+          !Number.isFinite(start) ||
+          !Number.isFinite(end)
+        ) {
+          return sum;
+        }
+
         return sum +
-          Number(day.minutes || 0);
+          Math.max(0, end - start);
+
       },
       0
     );
-  totalHoursDisplay.textContent =
-    formatDuration(
-      totalMinutesWorked
+
+  const dailyMinutes =
+    Math.floor(
+      workedMilliseconds / 60000
     );
-  updateTargetAndDifference();
+
+  totalPauseMinutes =
+    Math.floor(
+      pauseMilliseconds / 60000
+    );
+
+  endTimeDisplay.textContent =
+    formatTime(endTimeValue);
+
+  dailyHoursDisplay.textContent =
+    formatDuration(dailyMinutes);
+
+  pauseTimeDisplay.textContent =
+    formatDuration(totalPauseMinutes);
+
+  /*
+    Učitavamo samo sate koji pripadaju
+    trenutno izabranom periodu.
+  */
+
   localStorage.removeItem(
     ACTIVE_START_KEY
   );
+
   localStorage.removeItem(
     PAUSE_START_KEY
   );
+
   localStorage.removeItem(
     PAUSE_TOTAL_KEY
   );
+
   localStorage.removeItem(
     PAUSE_COUNT_KEY
   );
+
+  localStorage.removeItem(
+    PAUSE_INTERVALS_KEY
+  );
+
   startTimeValue = null;
   pauseStartTimeValue = null;
   totalPauseMinutes = 0;
   pauseCount = 0;
+
+  loadSavedWorkdays();
+
   updateWorkButtons();
+
   saveMonthlySalaryRecord();
+
 };
 /* =================================
    AUTOMATISKT SPARA ALLA FÄLT
@@ -1965,7 +2039,11 @@ document
   input.id === "periodEnd" ||
   input.id === "employeeInfo"
 ) {
+
   loadSavedWorkdays();
+
+  saveMonthlySalaryRecord();
+
 }
         }
       );
