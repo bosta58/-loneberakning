@@ -1146,6 +1146,23 @@ function updateSummary() {
     "workDays"
   ).textContent =
     workDays;
+    // AUTOMATSKO ČUVANJE DNEVNIH UNOSA
+  const calendarData = {};
+
+  inputs.forEach((input, index) => {
+    calendarData[input.dataset.day] = {
+      hours: input.value,
+      type: types[index].value
+    };
+  });
+
+  const calendarKey =
+    "calendar_" + selectedYear + "_" + selectedMonth;
+
+  localStorage.setItem(
+    calendarKey,
+    JSON.stringify(calendarData)
+  );
     const selectedPeriod = getSelectedPayPeriod();
   const periodHours = getPayPeriodHours(
     selectedPeriod.start,
