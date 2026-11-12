@@ -2641,13 +2641,42 @@ document
           */
 
           if (
-            input.id === "periodStart" ||
-            input.id === "periodEnd"
-          ) {
+  input.id === "periodStart" ||
+  input.id === "periodEnd"
+) {
 
-            saveTimlonPeriod();
+  saveTimlonPeriod();
 
-          }
+  const periodStart =
+    document.getElementById("periodStart").value;
+
+  const periodEnd =
+    document.getElementById("periodEnd").value;
+
+  if (
+    periodStart &&
+    periodEnd &&
+    periodStart <= periodEnd
+  ) {
+
+    const mode = "timlon";
+
+    localStorage.setItem(
+      "genieTimlonPeriodStart",
+      periodStart
+    );
+
+    localStorage.setItem(
+      "genieTimlonPeriodEnd",
+      periodEnd
+    );
+
+    window.location.href =
+      "kalendar.html?mode=" + mode;
+
+  }
+
+}
 
 
           saveFormData();
