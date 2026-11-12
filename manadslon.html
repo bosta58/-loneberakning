@@ -1240,6 +1240,78 @@ function saveLegacyFormFields() {
     }
   );
 }
+  
+/* =================================
+   JEDNOKRATNO ČIŠĆENJE TESTNIH PODATAKA
+================================= */
+
+function cleanOldMonthlySalaryTestDataOnce() {
+
+  const CLEAN_KEY =
+    "genie_manadslon_testdata_cleaned_v1";
+
+  if (localStorage.getItem(CLEAN_KEY)) {
+    return;
+  }
+
+  const employeeKey = getEmployeeKey();
+  const currentPeriodKey = getPeriodKey();
+
+  if (!employeeKey) {
+    return;
+  }
+
+  const data = readSalaryData();
+
+  Object.keys(data).forEach(function(key) {
+
+    const employeeData = data[key];
+
+    if (
+      !employeeData ||
+      !employeeData.types ||
+      !employeeData.types[SALARY_TYPE]
+    ) {
+      return;
+    }
+
+    if (key === employeeKey) {
+
+      const currentRecord =
+        employeeData.types[SALARY_TYPE][currentPeriodKey];
+
+      employeeData.types[SALARY_TYPE] =
+        currentRecord
+          ? { [currentPeriodKey]: currentRecord }
+          : {};
+
+    } else {
+
+      delete employeeData.types[SALARY_TYPE];
+
+    }
+  });
+
+  writeSalaryData(data);
+
+  localStorage.setItem(STORAGE_KEY, "[]");
+  localStorage.setItem(SESSION_STORAGE_KEY, "[]");
+
+  localStorage.removeItem(ACTIVE_START_KEY);
+  localStorage.removeItem(PAUSE_START_KEY);
+  localStorage.removeItem(PAUSE_TOTAL_KEY);
+  localStorage.removeItem(PAUSE_COUNT_KEY);
+  localStorage.removeItem(PAUSE_INTERVALS_KEY);
+
+  startTimeValue = null;
+  totalMinutesWorked = 0;
+  pauseStartTimeValue = null;
+  totalPauseMinutes = 0;
+  pauseCount = 0;
+
+  localStorage.setItem(CLEAN_KEY, "1");
+}
+
   /* =================================
    PRECIZNA VREMENSKA EVIDENCIJA
 ================================= */
@@ -2293,6 +2365,7 @@ function markMessageHandled(displayIndex) {
    START
 ================================= */
 loadFormData();
+cleanOldMonthlySalaryTestDataOnce();
 loadSavedWorkdays();
 loadActiveStart();
 updatePauseDisplay();
