@@ -1614,11 +1614,12 @@ function renderHistory() {
         const record = entry[1];
 
         return (
-          key !== currentPeriodKey &&
-          record &&
-          record.periodStart &&
-          record.periodEnd
-        );
+  key !== currentPeriodKey &&
+  record &&
+  record.periodStart &&
+  record.periodEnd &&
+  record.periodEnd < new Date().toLocaleDateString("sv-SE")
+);
 
       })
       .sort(function(a, b) {
