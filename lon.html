@@ -1465,6 +1465,157 @@ function saveTimlonRecord() {
 
 
 /* =====================================================
+   ISTORIJA OBRAČUNA – TIMLÖN
+===================================================== */
+
+function renderTimlonHistory() {
+
+  const historyList =
+    document.getElementById("timlonHistoryList");
+
+  if (!historyList) return;
+
+  historyList.innerHTML = "";
+
+  const employeeKey = getEmployeeKey();
+
+  const language =
+    localStorage.getItem(GENIE_LANGUAGE_KEY) || "sv";
+
+  const labels = {
+    sv: {
+      empty: "Inga avslutade löneperioder ännu.",
+      worked: "Arbetade timmar:",
+      gross: "Bruttolön:",
+      net: "Nettolön:"
+    },
+    en: {
+      empty: "No completed salary periods yet.",
+      worked: "Hours worked:",
+      gross: "Gross salary:",
+      net: "Net salary:"
+    },
+    sr: {
+      empty: "Još nema završenih obračunskih perioda.",
+      worked: "Radni sati:",
+      gross: "Bruto plata:",
+      net: "Neto plata:"
+    }
+  };
+
+  const t = labels[language] || labels.sv;
+
+  if (!employeeKey) {
+    historyList.textContent = t.empty;
+    return;
+  }
+
+  const data = readSalaryData();
+
+  const records =
+    data[employeeKey]?.types?.[SALARY_TYPE] || {};
+
+  const currentPeriodKey = getPeriodKey();
+
+  const today =
+    new Date().toLocaleDateString("sv-SE");
+
+  const periods =
+    Object.entries(records)
+      .filter(function(entry) {
+
+        const key = entry[0];
+        const record = entry[1];
+
+        return (
+          key !== currentPeriodKey &&
+          record &&
+          record.periodStart &&
+          record.periodEnd &&
+          record.periodEnd < today
+        );
+
+      })
+      .sort(function(a, b) {
+
+        return String(b[1].periodStart)
+          .localeCompare(String(a[1].periodStart));
+
+      });
+
+  if (periods.length === 0) {
+    historyList.textContent = t.empty;
+    return;
+  }
+
+  periods.forEach(function(entry) {
+
+    const record = entry[1];
+
+    const hours = record.hours || {};
+
+    const totalHours =
+      Number(hours.regular || 0) +
+      Number(hours.regularOvertime || 0) +
+      Number(hours.night || 0) +
+      Number(hours.nightOvertime || 0) +
+      Number(hours.weekend || 0) +
+      Number(hours.weekendOvertime || 0) +
+      Number(hours.holiday || 0) +
+      Number(hours.holidayOvertime || 0);
+
+    const calculation =
+      record.calculation || {};
+
+    const card = document.createElement("div");
+    card.className = "history-item";
+
+    const title = document.createElement("div");
+    title.className = "history-item-title";
+
+    title.textContent =
+      record.periodStart + " – " + record.periodEnd;
+
+    const details = document.createElement("div");
+    details.className = "history-item-meta";
+
+    details.textContent =
+      t.worked + " " + totalHours.toFixed(1) + " h" +
+      "\n" + t.gross + " " +
+      Number(calculation.grossSalary || 0).toFixed(2) + " kr" +
+      "\n" + t.net + " " +
+      Number(calculation.netSalary || 0).toFixed(2) + " kr";
+
+    details.style.whiteSpace = "pre-line";
+
+    card.appendChild(title);
+    card.appendChild(details);
+
+    historyList.appendChild(card);
+
+  });
+
+}
+
+
+/* VISA / DÖLJA HISTORIA */
+
+document.getElementById(
+  "timlonHistoryButton"
+).onclick = function() {
+
+  const panel =
+    document.getElementById("timlonHistoryPanel");
+
+  panel.hidden = !panel.hidden;
+
+  if (!panel.hidden) {
+    renderTimlonHistory();
+  }
+
+};
+
+/* =====================================================
    HÄMTA TIMMAR
 ===================================================== */
 
