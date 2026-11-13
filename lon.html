@@ -1616,6 +1616,78 @@ document.getElementById(
 };
 
 /* =====================================================
+   JEDNOKRATNO ČIŠĆENJE TESTNE TIMLÖN ISTORIJE
+===================================================== */
+
+const clearTimlonHistoryButton =
+  document.createElement("button");
+
+clearTimlonHistoryButton.type = "button";
+clearTimlonHistoryButton.textContent =
+  "🧹 Očisti stare testne periode";
+
+clearTimlonHistoryButton.style.cssText =
+  "width:100%; margin-top:12px; padding:12px; border:1px solid #d1d5db; border-radius:10px; background:#fff; color:#991b1b; font-weight:bold;";
+
+document
+  .getElementById("timlonHistoryPanel")
+  .insertBefore(
+    clearTimlonHistoryButton,
+    document.getElementById("timlonHistoryList")
+  );
+
+clearTimlonHistoryButton.onclick = function() {
+
+  if (!confirm(
+    "Da li želiš da obrišeš sve stare završene testne Timlön periode? Tekući period i kalendarski unosi ostaju sačuvani."
+  )) {
+    return;
+  }
+
+  const employeeKey = getEmployeeKey();
+
+  if (!employeeKey) {
+    alert("Radnik nije pronađen.");
+    return;
+  }
+
+  const data = readSalaryData();
+
+  const records =
+    data[employeeKey]?.types?.[SALARY_TYPE];
+
+  if (!records) return;
+
+  const currentPeriodKey = getPeriodKey();
+
+  const today =
+    new Date().toLocaleDateString("sv-SE");
+
+  Object.entries(records).forEach(function(entry) {
+
+    const key = entry[0];
+    const record = entry[1];
+
+    if (
+      key !== currentPeriodKey &&
+      record &&
+      record.periodEnd &&
+      record.periodEnd < today
+    ) {
+      delete records[key];
+    }
+
+  });
+
+  writeSalaryData(data);
+
+  renderTimlonHistory();
+
+  alert("Stari testni obračuni su očišćeni.");
+
+};
+
+/* =====================================================
    HÄMTA TIMMAR
 ===================================================== */
 
