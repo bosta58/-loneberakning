@@ -1131,77 +1131,7 @@ document.getElementById(
 
 });
 
-/* =====================================================
-   JEDNOKRATNO ČIŠĆENJE TESTNE KOLLEKTIVAVTAL ISTORIJE
-===================================================== */
 
-const clearKollektivHistoryButton =
-  document.createElement("button");
-
-clearKollektivHistoryButton.type = "button";
-clearKollektivHistoryButton.textContent =
-  "🧹 Očisti stare testne periode";
-
-clearKollektivHistoryButton.style.cssText =
-  "width:100%; margin-top:12px; padding:12px; border:1px solid #d1d5db; border-radius:10px; background:#fff; color:#991b1b; font-weight:bold;";
-
-document
-  .getElementById("kollektivHistoryPanel")
-  .insertBefore(
-    clearKollektivHistoryButton,
-    document.getElementById("kollektivHistoryList")
-  );
-
-clearKollektivHistoryButton.onclick = function() {
-
-  if (!confirm(
-    "Obrisati sve stare završene testne Kollektivavtal periode? Tekući period i kalendarski unosi ostaju sačuvani."
-  )) {
-    return;
-  }
-
-  const employeeKey = getEmployeeKey();
-
-  if (!employeeKey) {
-    alert("Radnik nije pronađen.");
-    return;
-  }
-
-  const data = readSalaryData();
-
-  const records =
-    data[employeeKey]?.types?.[SALARY_TYPE];
-
-  if (!records) return;
-
-  const currentPeriodKey = getPeriodKey();
-
-  const today =
-    new Date().toLocaleDateString("sv-SE");
-
-  Object.entries(records).forEach(function(entry) {
-
-    const key = entry[0];
-    const record = entry[1];
-
-    if (
-      key !== currentPeriodKey &&
-      record &&
-      record.periodEnd &&
-      record.periodEnd < today
-    ) {
-      delete records[key];
-    }
-
-  });
-
-  writeSalaryData(data);
-
-  renderKollektivHistory();
-
-  alert("Stari testni obračuni su očišćeni.");
-
-};
 
 /* =========================================================
    SPRÅK
