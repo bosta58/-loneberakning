@@ -991,6 +991,146 @@ function saveKollektivRecord(record) {
 
 }
 
+/* =====================================================
+   HISTORIA – KOLLEKTIVAVTAL
+===================================================== */
+
+function renderKollektivHistory() {
+
+  const historyList =
+    document.getElementById("kollektivHistoryList");
+
+  if (!historyList) return;
+
+  historyList.innerHTML = "";
+
+  const employeeKey = getEmployeeKey();
+  const language = getCurrentLanguage();
+
+  const labels = {
+    sv: {
+      empty: "Inga avslutade löneperioder ännu.",
+      worked: "Arbetade timmar:",
+      gross: "Bruttolön:",
+      net: "Nettolön"
+    },
+    en: {
+      empty: "No completed salary periods yet.",
+      worked: "Hours worked:",
+      gross: "Gross salary:",
+      net: "Net salary"
+    },
+    sr: {
+      empty: "Još nema završenih obračunskih perioda.",
+      worked: "Radni sati:",
+      gross: "Bruto plata:",
+      net: "Neto plata"
+    }
+  };
+
+  const t = labels[language] || labels.sv;
+
+  const data = readSalaryData();
+
+  const records =
+    data[employeeKey]?.types?.[SALARY_TYPE] || {};
+
+  const currentPeriodKey = getPeriodKey();
+
+  const today =
+    new Date().toLocaleDateString("sv-SE");
+
+  const periods =
+    Object.entries(records)
+      .filter(function(entry) {
+
+        const key = entry[0];
+        const record = entry[1];
+
+        return (
+          key !== currentPeriodKey &&
+          record &&
+          record.periodStart &&
+          record.periodEnd &&
+          record.periodEnd < today
+        );
+
+      })
+      .sort(function(a, b) {
+
+        return String(b[1].periodStart)
+          .localeCompare(String(a[1].periodStart));
+
+      });
+
+  if (periods.length === 0) {
+    historyList.textContent = t.empty;
+    return;
+  }
+
+  periods.forEach(function(entry) {
+
+    const record = entry[1];
+
+    const totalHours =
+      Number(record.regularHours || 0) +
+      Number(record.regularOvertimeHours || 0) +
+      Number(record.nightHours || 0) +
+      Number(record.nightOvertimeHours || 0) +
+      Number(record.weekendHours || 0) +
+      Number(record.weekendOvertimeHours || 0) +
+      Number(record.holidayHours || 0) +
+      Number(record.holidayOvertimeHours || 0);
+
+    const card = document.createElement("div");
+
+    card.style.cssText =
+      "margin-top:12px; padding:14px; border:1px solid #e5e7eb; border-radius:11px; background:white;";
+
+    const title = document.createElement("strong");
+
+    title.textContent =
+      record.periodStart + " – " + record.periodEnd;
+
+    const details = document.createElement("div");
+
+    details.style.cssText =
+      "margin-top:8px; line-height:1.7; white-space:pre-line;";
+
+    details.textContent =
+      t.worked + " " + totalHours.toFixed(1) + " h" +
+      "\n" + t.gross + " " +
+      Number(record.grossSalary || 0).toFixed(2) + " kr" +
+      "\n" + t.net + " " +
+      Number(record.netSalary || 0).toFixed(2) + " kr";
+
+    card.appendChild(title);
+    card.appendChild(details);
+
+    historyList.appendChild(card);
+
+  });
+
+}
+
+
+/* VISA / DÖLJA HISTORIA */
+
+document.getElementById(
+  "kollektivHistoryButton"
+).addEventListener("click", function() {
+
+  const panel =
+    document.getElementById("kollektivHistoryPanel");
+
+  panel.hidden = !panel.hidden;
+
+  if (!panel.hidden) {
+    renderKollektivHistory();
+  }
+
+});
+
 /* =========================================================
    SPRÅK
    ========================================================= */
