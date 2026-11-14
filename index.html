@@ -1009,6 +1009,22 @@ message.textContent = "Uspešna prijava.";
       }
     });
   </script>
+    <script type="module">
+    import {
+      setGenieLanguage
+    } from "./genie-language.js";
+
+    const languageSelect =
+      document.getElementById("languageSelect");
+
+    if (languageSelect) {
+      setGenieLanguage(languageSelect.value);
+
+      languageSelect.addEventListener("change", () => {
+        setGenieLanguage(languageSelect.value);
+      });
+    }
+  </script>
   <script>
 (function () {
   const extraTranslations = {
