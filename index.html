@@ -417,79 +417,21 @@
     </div>
   </div>
 
-  <script>
-    const translations = {
-      sv: {
-        subtitle: "Enkel och professionell löneberäkning",
-        timlon: "Timlön",
-        manadslon: "Månadslön",
-        kollektivavtal: "Kollektivavtal",
-        arbetsgivare: "Arbetsgivare",
-        
-       
-     guideButton: "Användarhandbok",
-      },
+  
+<script>
+  function openGenieGuide() {
+    const language = localStorage.getItem("genieLanguage") || "sv";
 
-      en: {
-        subtitle: "Simple and professional salary calculation",
-        timlon: "Hourly pay",
-        manadslon: "Monthly salary",
-        kollektivavtal: "Collective agreement",
-        arbetsgivare: "Employer",
-        
-       
-     guideButton: "User Guide",
-    },
-
-      sr: {
-        subtitle: "Jednostavan i profesionalan obračun plate",
-        timlon: "Satnica",
-        manadslon: "Mesečna plata",
-        kollektivavtal: "Kolektivni ugovor",
-        arbetsgivare: "Poslodavac",
-      
-       
-      guideButton: "Uputstvo za korišćenje",
-      }
+    const guidePages = {
+      sr: "uputstvo.html",
+      sv: "instruktioner-sv.html",
+      en: "instructions-en.html"
     };
-function openGenieGuide() {
-  const language = localStorage.getItem("genieLanguage") || "sv";
 
-  const guidePages = {
-    sr: "uputstvo.html",
-    sv: "instruktioner-sv.html",
-    en: "instructions-en.html"
-  };
-
-  window.location.href = guidePages[language] || "instruktioner-sv.html";
-}
-    function changeLanguage(language) {
-      const t = translations[language];
-      if (!t) return;
-
-      document.documentElement.lang = language;
-
-      document.getElementById("subtitle").textContent = t.subtitle;
-      document.getElementById("timlonText").textContent = t.timlon;
-      document.getElementById("manadslonText").textContent = t.manadslon;
-      document.getElementById("kollektivavtalText").textContent = t.kollektivavtal;
-      document.getElementById("arbetsgivareText").textContent = t.arbetsgivare;
-    document.getElementById("guideButtonText").textContent = t.guideButton;
-      
-
-      localStorage.setItem("genieLanguage", language);
-    }
-
-    const languageSelect = document.getElementById("languageSelect");
-    const savedLanguage = localStorage.getItem("genieLanguage") || "sv";
-
-    languageSelect.value = translations[savedLanguage] ? savedLanguage : "sv";
-    changeLanguage(languageSelect.value);
-
-    languageSelect.addEventListener("change", function () {
-      changeLanguage(this.value);
-    });
-  </script>
+    window.location.href =
+      guidePages[language] || "instruktioner-sv.html";
+  }
+</script>
 
   <script type="module">
     import {
