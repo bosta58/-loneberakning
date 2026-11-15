@@ -1678,40 +1678,31 @@ function calculateSalary() {
    VISA RESULTAT
    ========================================================= */
 
+
 function showResult(calculation) {
 
   if (!calculation) {
     return;
   }
 
-  const t =
-    translations[
-      getCurrentLanguage()
-    ];
+  const language = document.getElementById("languageSelect").value;
+  const t = translations[language] || translations.sv;
 
-  document.getElementById(
-    "result"
-  ).innerHTML = `
+  document.getElementById("result").innerHTML = `
 
     <p class="gross">
       <strong>${t.gross}</strong>
-      ${Number(
-        calculation.grossSalary
-      ).toFixed(2)} kr
+      ${Number(calculation.grossSalary).toFixed(2)} kr
     </p>
 
     <p class="vacation">
       <strong>${t.vacation}</strong>
-      ${Number(
-        calculation.vacationPay
-      ).toFixed(2)} kr
+      ${Number(calculation.vacationPay).toFixed(2)} kr
     </p>
 
     <p class="tax">
       <strong>${t.taxResult}</strong>
-      ${Number(
-        calculation.taxAmount
-      ).toFixed(2)} kr
+      ${Number(calculation.taxAmount).toFixed(2)} kr
     </p>
 
     <div class="net-box">
@@ -1721,16 +1712,14 @@ function showResult(calculation) {
       </span>
 
       <p class="total">
-        ${Number(
-          calculation.netSalary
-        ).toFixed(2)} kr
+        ${Number(calculation.netSalary).toFixed(2)} kr
       </p>
 
     </div>
 
   `;
-
 }
+
 
 /* =========================================================
    SPARA HELA KOLLEKTIVAVTAL-DATA
