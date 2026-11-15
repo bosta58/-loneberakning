@@ -2876,14 +2876,69 @@ import {
 const languageSelect =
   document.getElementById("languageSelect");
 
+
 function updatePageLanguage(language) {
   const t = translations[language];
   if (!t) return;
 
   document.documentElement.lang = language;
 
-  // Ovde ćemo povezati prevode za Kollektivavtal.
+  const setText = (id, value) => {
+    const element = document.getElementById(id);
+    if (element) element.textContent = value;
+  };
+
+  const setPlaceholder = (id, value) => {
+    const element = document.getElementById(id);
+    if (element) element.placeholder = value;
+  };
+
+  const labels = {
+    subtitle: t.subtitle,
+    employerTitle: t.employer,
+    employeeTitle: t.employee,
+    periodTitle: t.period,
+    fromLabel: t.from,
+    toLabel: t.to,
+    workingTimeTitle: t.workingTime,
+    regularHoursLabel: t.regularHours,
+    overtimeHoursLabel: t.overtimeHours,
+    weekendHoursLabel: t.weekend,
+    weekendOvertimeHoursLabel: t.weekendOvertime,
+    holidayHoursLabel: t.holiday,
+    holidayOvertimeHoursLabel: t.holidayOvertime,
+    nightHoursLabel: t.night,
+    nightOvertimeHoursLabel: t.nightOvertime,
+    agreementTitle: t.agreement,
+    regularRateLabel: t.regularRate,
+    regularOvertimePercentLabel: t.regularOvertimePercent,
+    weekendPercentLabel: t.weekendPercent,
+    weekendOvertimePercentLabel: t.weekendOvertimePercent,
+    holidayPercentLabel: t.holidayPercent,
+    holidayOvertimePercentLabel: t.holidayOvertimePercent,
+    nightPercentLabel: t.nightPercent,
+    nightOvertimePercentLabel: t.nightOvertimePercent,
+    holidayPayLabel: t.holidayPay,
+    taxLabel: t.tax,
+    backButton: t.back,
+    calculateButton: t.calculate,
+    resultMessage: t.fillData,
+    communicationTitle: t.communication,
+    replyButton: t.sendReply,
+    fixedButton: t.fixed
+  };
+
+  Object.entries(labels).forEach(([id, value]) => {
+    setText(id, value);
+  });
+
+  setPlaceholder("employerInfo", t.employerPlaceholder);
+  setPlaceholder("employeeInfo", t.employeePlaceholder);
+  setPlaceholder("employeeReply", t.replyPlaceholder);
+
+  updateResultLanguage();
 }
+
 
 const initialLanguage = getGenieLanguage();
 languageSelect.value = initialLanguage;
