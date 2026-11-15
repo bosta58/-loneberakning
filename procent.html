@@ -359,7 +359,7 @@
       <div class="header-icon">%</div>
 
       <div class="language-box">
-        <select id="languageSelect" onchange="changeLanguage(this.value)">
+        <select id="languageSelect">
           <option value="sv">🇸🇪 Svenska</option>
           <option value="en">🇬🇧 English</option>
           <option value="sr">🇷🇸 Srpski</option>
@@ -3108,6 +3108,27 @@ watchGenieAuth(async (user) => {
     console.error("Genie access error:", error);
     window.location.replace("./index.html");
   }
+});
+</script>
+  <script type="module">
+import {
+  getGenieLanguage,
+  setGenieLanguage
+} from "./genie-language.js";
+
+const languageSelect =
+  document.getElementById("languageSelect");
+
+languageSelect.value = getGenieLanguage();
+
+languageSelect.addEventListener("change", function(event) {
+
+  const language = event.target.value;
+
+  if (setGenieLanguage(language)) {
+    window.changeLanguage(language);
+  }
+
 });
 </script>
 </body>
