@@ -130,7 +130,35 @@ const GENIE_EXTRA_TRANSLATIONS = {
   "Ne mogu da učitam povezane radnike: ": ["Kan inte ladda anslutna arbetstagare: ", "Cannot load connected workers: "],
   "Učitavanje zahteva nije uspelo.": ["Det gick inte att ladda förfrågningarna.", "Failed to load requests."],
   "Učitavanje povezanih poslodavaca nije uspelo.": ["Det gick inte att ladda anslutna arbetsgivare.", "Failed to load connected employers."],
-  "Učitavanje povezanih radnika nije uspelo.": ["Det gick inte att ladda anslutna arbetstagare.", "Failed to load connected workers."]
+  "Učitavanje povezanih radnika nije uspelo.": ["Det gick inte att ladda anslutna arbetstagare.", "Failed to load connected workers."],
+  
+  "📚 HISTORIA": ["📚 HISTORIK", "📚 HISTORY"],
+
+  "Prethodni obračunski periodi": [
+    "Tidigare löneperioder",
+    "Previous salary periods"
+  ],
+
+  "Još nema završenih obračunskih perioda.": [
+    "Inga avslutade löneperioder ännu.",
+    "No completed salary periods yet."
+  ],
+
+  "💬 Komunikacija sa poslodavcem": [
+    "💬 Kommunikation med arbetsgivaren",
+    "💬 Communication with employer"
+  ],
+
+  "Nema poruka poslodavca za kolektivni ugovor.": [
+    "Inga meddelanden från arbetsgivaren för kollektivavtalet.",
+    "No messages from the employer for the collective agreement."
+  ],
+
+  "Pošalji odgovor": [
+    "Skicka svar",
+    "Send reply"
+  ]
+
 };
 
 function validLanguage(language) {
