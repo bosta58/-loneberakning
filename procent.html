@@ -2866,7 +2866,8 @@ watchGenieAuth(async (user) => {
   }
 });
 </script>
-  <script type="module">
+
+<script type="module">
 import {
   getGenieLanguage,
   setGenieLanguage
@@ -2875,17 +2876,27 @@ import {
 const languageSelect =
   document.getElementById("languageSelect");
 
-languageSelect.value = getGenieLanguage();
+function updatePageLanguage(language) {
+  const t = translations[language];
+  if (!t) return;
+
+  document.documentElement.lang = language;
+
+  // Ovde ćemo povezati prevode za Kollektivavtal.
+}
+
+const initialLanguage = getGenieLanguage();
+languageSelect.value = initialLanguage;
+updatePageLanguage(initialLanguage);
 
 languageSelect.addEventListener("change", function(event) {
-
   const language = event.target.value;
 
   if (setGenieLanguage(language)) {
-    window.changeLanguage(language);
+    updatePageLanguage(language);
   }
-
 });
 </script>
+
 </body>
 </html>
