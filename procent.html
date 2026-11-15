@@ -2553,9 +2553,17 @@ const messageContent = document.getElementById("employerMessageContent");
 const replyInput = document.getElementById("employeeReply");
 const fixedButton = document.getElementById("fixedButton");
 
+
 function getCurrentLanguage() {
-  return localStorage.getItem("genieLanguage") || "sv";
+  const language = localStorage.getItem("genieLanguage");
+
+  if (["sv", "en", "sr"].includes(language)) {
+    return language;
+  }
+
+  return "sv";
 }
+
 
 function getCommunicationText(key) {
   const lang = getCurrentLanguage();
