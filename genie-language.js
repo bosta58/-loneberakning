@@ -274,7 +274,7 @@ function applyExtraTranslations(language) {
   });
 
   const historyTitle = document.getElementById("kollektivHistoryTitle");
-
+console.log("GENIE LANGUAGE:", language);
   if (historyTitle) {
     historyTitle.textContent =
       language === "en"
