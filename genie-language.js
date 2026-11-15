@@ -157,8 +157,13 @@ const GENIE_EXTRA_TRANSLATIONS = {
   "Pošalji odgovor": [
     "Skicka svar",
     "Send reply"
-  ]
+  ],
 
+"Prethodni obračunski periodi": [
+  "Tidigare löneperioder",
+  "Previous salary periods"
+],
+  
 };
 
 function validLanguage(language) {
