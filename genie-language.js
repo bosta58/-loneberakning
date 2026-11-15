@@ -250,6 +250,7 @@ function applyMainTranslations(language) {
   });
 }
 
+
 function applyExtraTranslations(language) {
   document.querySelectorAll("body *").forEach(element => {
     if (element.children.length !== 0) return;
@@ -271,6 +272,17 @@ function applyExtraTranslations(language) {
       );
     }
   });
+
+  const historyTitle = document.getElementById("kollektivHistoryTitle");
+
+  if (historyTitle) {
+    historyTitle.textContent =
+      language === "en"
+        ? "Previous salary periods"
+        : language === "sv"
+          ? "Tidigare löneperioder"
+          : "Prethodni obračunski periodi";
+  }
 }
 
 export function applyGenieLanguage(userUid = null) {
