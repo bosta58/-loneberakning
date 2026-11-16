@@ -274,14 +274,17 @@ function applyExtraTranslations(language) {
   });
 
   const historyTitle = document.getElementById("kollektivHistoryTitle");
-console.log("GENIE LANGUAGE:", language);
-  if (historyTitle) {
-    historyTitle.textContent =
-      language === "en"
-        ? "Previous salary periods"
-        : language === "sv"
-          ? "Tidigare löneperioder"
-          : "Prethodni obračunski periodi";
+
+if (historyTitle) {
+  const translatedTitle =
+    language === "en"
+      ? "Previous salary periods"
+      : language === "sv"
+        ? "Tidigare löneperioder"
+        : "Prethodni obračunski periodi";
+
+  if (historyTitle.textContent !== translatedTitle) {
+    historyTitle.textContent = translatedTitle;
   }
 }
 
