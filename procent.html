@@ -1008,7 +1008,16 @@ function renderKollektivHistory() {
 
   const employeeKey = getEmployeeKey();
   const language = getCurrentLanguage();
+  const historyTitle =
+  document.getElementById("kollektivHistoryTitle");
 
+if (historyTitle) {
+  historyTitle.textContent = {
+    sv: "Tidigare löneperioder",
+    en: "Previous salary periods",
+    sr: "Prethodni obračunski periodi"
+  }[language] || "Tidigare löneperioder";
+}
   const labels = {
     sv: {
       empty: "Inga avslutade löneperioder ännu.",
