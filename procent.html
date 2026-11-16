@@ -2890,11 +2890,7 @@ const languageSelect =
 
 
 function updatePageLanguage(language) {
-   alert(
-    "Genie språk: " + language +
-    "\nÖversättningar: " +
-    typeof window.GENIE_PROCENT_TRANSLATIONS
-  );
+   
   const t = window.GENIE_PROCENT_TRANSLATIONS?.[language];
   if (!t) return;
 
