@@ -286,7 +286,7 @@ if (historyTitle) {
     if (historyTitle.textContent !== translatedTitle) {
     historyTitle.textContent = translatedTitle;
   }
-}
+
 }
 
 export function applyGenieLanguage(userUid = null) {
