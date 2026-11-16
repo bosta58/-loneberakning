@@ -283,9 +283,10 @@ if (historyTitle) {
         ? "Tidigare löneperioder"
         : "Prethodni obračunski periodi";
 
-  if (historyTitle.textContent !== translatedTitle) {
+    if (historyTitle.textContent !== translatedTitle) {
     historyTitle.textContent = translatedTitle;
   }
+
 }
 
 export function applyGenieLanguage(userUid = null) {
