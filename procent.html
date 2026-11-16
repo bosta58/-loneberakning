@@ -2462,6 +2462,9 @@ loadKollektivRecord();
 
 loadEmployerMessage();
 
+  window.GENIE_PROCENT_TRANSLATIONS = translations;
+window.updateProcentResultLanguage = updateResultLanguage;
+
 </script>
 
 <script type="module">
@@ -2877,7 +2880,7 @@ const languageSelect =
 
 
 function updatePageLanguage(language) {
-  const t = translations[language];
+  const t = window.GENIE_PROCENT_TRANSLATIONS?.[language];
   if (!t) return;
 
   document.documentElement.lang = language;
