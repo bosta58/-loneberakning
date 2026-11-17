@@ -1585,8 +1585,10 @@ function renderHistory() {
 
   const employeeKey = getEmployeeKey();
 
-  const t =
-    translations[getCurrentLanguage()];
+  const language =
+    document.getElementById("languageSelect")?.value || "sv";
+
+const t = translations[language];
 
   if (!employeeKey) {
 
