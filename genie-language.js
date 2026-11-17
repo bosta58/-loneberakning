@@ -132,7 +132,7 @@ const GENIE_EXTRA_TRANSLATIONS = {
   "Učitavanje povezanih poslodavaca nije uspelo.": ["Det gick inte att ladda anslutna arbetsgivare.", "Failed to load connected employers."],
   "Učitavanje povezanih radnika nije uspelo.": ["Det gick inte att ladda anslutna arbetstagare.", "Failed to load connected workers."],
   
-  "📚 HISTORIA": ["📚 HISTORIK", "📚 HISTORY"],
+  "📚 ISTORIA": ["📚 HISTORIK", "📚 HISTORY"],
 
   "Prethodni obračunski periodi": [
     "Tidigare löneperioder",
