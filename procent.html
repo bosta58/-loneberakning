@@ -1007,7 +1007,8 @@ function renderKollektivHistory() {
   historyList.innerHTML = "";
 
   const employeeKey = getEmployeeKey();
-  const language = getCurrentLanguage();
+  const language =
+  document.getElementById("languageSelect")?.value || "sv";
  
   const labels = {
     sv: {
