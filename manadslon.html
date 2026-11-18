@@ -524,7 +524,7 @@
   type="button"
   class="time-button"
   id="historyButton">
-  📚 ISTORIA
+  📚 ISTORIJA
 </button>
 
 <div
@@ -809,10 +809,10 @@ function applyLanguage() {
   document.getElementById("differenceLabel").textContent =
     t.difference;
   document.getElementById("historyButton").textContent =
-  t.history;
+  "📚 ISTORIJA";
 
 document.getElementById("historyTitle").textContent =
-  t.historyTitle;
+  "Prethodni obračunski periodi";
   document.getElementById("communicationTitle").textContent =
     t.communication;
   document.getElementById("communicationDescription").textContent =
@@ -1587,15 +1587,11 @@ function renderHistory() {
 
   const employeeKey = getEmployeeKey();
 
-  const language =
-    document.getElementById("languageSelect")?.value || "sv";
-
-const t = translations[language];
 
   if (!employeeKey) {
 
     historyList.textContent =
-      t.historyEmpty;
+    "Još nema prethodnih obračunskih perioda."
 
     return;
   }
@@ -1639,7 +1635,7 @@ const t = translations[language];
   if (periods.length === 0) {
 
     historyList.textContent =
-      t.historyEmpty;
+    "Još nema prethodnih obračunskih perioda."
 
     return;
   }
@@ -1680,7 +1676,7 @@ const t = translations[language];
       "history-item-meta";
 
     details.textContent =
-      t.historyWorked +
+      "Radno vreme:" +
       " " +
       formatDuration(minutes);
 
