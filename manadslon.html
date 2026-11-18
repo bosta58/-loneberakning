@@ -2590,5 +2590,33 @@ watchGenieAuth(async (user) => {
   }
 });
 </script>
+
+<script type="module">
+import {
+  getGenieLanguage,
+  setGenieLanguage
+} from "./genie-language.js";
+
+const originalChangeLanguage = window.changeLanguage;
+
+window.changeLanguage = function(language) {
+  if (typeof originalChangeLanguage === "function") {
+    originalChangeLanguage(language);
+  }
+
+  setGenieLanguage(language);
+
+  if (typeof window.renderHistory === "function") {
+    window.renderHistory();
+  }
+};
+
+setGenieLanguage(getGenieLanguage());
+
+if (typeof window.renderHistory === "function") {
+  window.renderHistory();
+}
+</script>
+  
 </body>
 </html>
