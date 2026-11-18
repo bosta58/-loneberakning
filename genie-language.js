@@ -153,6 +153,20 @@ const GENIE_EXTRA_TRANSLATIONS = {
   "Arbetad tid:",
   "Worked time:"
 ],
+  "Radni sati:": [
+  "Arbetade timmar:",
+  "Hours worked:"
+],
+
+"Bruto plata:": [
+  "Bruttolön:",
+  "Gross salary:"
+],
+
+"Neto plata:": [
+  "Nettolön:",
+  "Net salary:"
+],
 
   "💬 Komunikacija sa poslodavcem": [
     "💬 Kommunikation med arbetsgivaren",
