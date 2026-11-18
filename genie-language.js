@@ -32,6 +32,94 @@ const GENIE_MAIN_TRANSLATIONS = {
     guideButton: "Uputstvo za korišćenje"
   }
 };
+const GENIE_CALENDAR_TRANSLATIONS = {
+  sv: {
+    title: "📅 Arbetstidskalender",
+    summary: "Sammanställning",
+    weekday: "Vardag",
+    weekend: "Helg",
+    holiday: "Helgdag",
+    hour: "tim",
+    regularWeekday: "Ordinarie vardag:",
+    overtimeWeekday: "Övertid vardag:",
+    regularWeekend: "Ordinarie helg:",
+    overtimeWeekend: "Övertid helg:",
+    regularHoliday: "Ordinarie helgdag:",
+    overtimeHoliday: "Övertid helgdag:",
+    totalHours: "Totalt timmar:",
+    workDays: "Antal arbetsdagar:",
+    save: "💾 Spara",
+    clear: "🗑️ Rensa",
+    back: "← Tillbaka",
+    next: "Fortsätt →",
+    saved: "Kalendern är sparad.",
+    confirmClear: "Vill du rensa alla timmar för denna månad?",
+    months: [
+      "Januari", "Februari", "Mars", "April",
+      "Maj", "Juni", "Juli", "Augusti",
+      "September", "Oktober", "November", "December"
+    ],
+    weekdays: ["Mån", "Tis", "Ons", "Tor", "Fre", "Lör", "Sön"]
+  },
+
+  en: {
+    title: "📅 Work time calendar",
+    summary: "Summary",
+    weekday: "Weekday",
+    weekend: "Weekend",
+    holiday: "Public holiday",
+    hour: "hours",
+    regularWeekday: "Regular weekday:",
+    overtimeWeekday: "Overtime weekday:",
+    regularWeekend: "Regular weekend:",
+    overtimeWeekend: "Overtime weekend:",
+    regularHoliday: "Regular public holiday:",
+    overtimeHoliday: "Overtime public holiday:",
+    totalHours: "Total hours:",
+    workDays: "Number of workdays:",
+    save: "💾 Save",
+    clear: "🗑️ Clear",
+    back: "← Back",
+    next: "Continue →",
+    saved: "Calendar saved.",
+    confirmClear: "Do you want to clear all hours for this month?",
+    months: [
+      "January", "February", "March", "April",
+      "May", "June", "July", "August",
+      "September", "October", "November", "December"
+    ],
+    weekdays: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+  },
+
+  sr: {
+    title: "📅 Kalendar radnog vremena",
+    summary: "Pregled",
+    weekday: "Radni dan",
+    weekend: "Vikend",
+    holiday: "Praznik",
+    hour: "sati",
+    regularWeekday: "Redovni radni dan:",
+    overtimeWeekday: "Prekovremeni radni dan:",
+    regularWeekend: "Redovni vikend:",
+    overtimeWeekend: "Prekovremeni vikend:",
+    regularHoliday: "Redovni praznik:",
+    overtimeHoliday: "Prekovremeni praznik:",
+    totalHours: "Ukupno sati:",
+    workDays: "Broj radnih dana:",
+    save: "💾 Sačuvaj",
+    clear: "🗑️ Obriši",
+    back: "← Nazad",
+    next: "Nastavi →",
+    saved: "Kalendar je sačuvan.",
+    confirmClear: "Da li želiš da obrišeš sve sate za ovaj mesec?",
+    months: [
+      "Januar", "Februar", "Mart", "April",
+      "Maj", "Jun", "Jul", "Avgust",
+      "Septembar", "Oktobar", "Novembar", "Decembar"
+    ],
+    weekdays: ["Pon", "Uto", "Sre", "Čet", "Pet", "Sub", "Ned"]
+  }
+};
 
 /*
   Prvi element je švedski prevod.
