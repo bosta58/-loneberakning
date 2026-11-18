@@ -588,7 +588,9 @@ yearSelect.value = selectedYear;
 function applyLanguage() {
 
   const t =
-    translations[currentLanguage];
+  window.getGenieCalendarTranslations
+    ? window.getGenieCalendarTranslations(currentLanguage)
+    : translations[currentLanguage];
 
   document.documentElement.lang =
     currentLanguage;
@@ -635,8 +637,7 @@ function applyLanguage() {
   document.getElementById("nextButton").textContent =
     t.next;
 
-  const weekdays =
-    weekdayTranslations[currentLanguage];
+  const weekdays = t.weekdays;
 
   document.getElementById("mon").textContent = weekdays[0];
   document.getElementById("tue").textContent = weekdays[1];
