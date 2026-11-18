@@ -2431,6 +2431,21 @@ function applyLanguage() {
     "fixedButton"
   ).textContent =
     t.fixed;
+  const historyButton =
+  document.getElementById("timlonHistoryButton");
+
+if (historyButton) {
+  historyButton.textContent = t.historyButton;
+}
+
+const historyTitle =
+  document.querySelector(
+    "#timlonHistoryPanel .section-title"
+  );
+
+if (historyTitle) {
+  historyTitle.textContent = t.historyTitle;
+}
 
 
   loadSavedCalculation();
