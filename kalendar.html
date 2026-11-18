@@ -1531,12 +1531,18 @@ import("./genie-language.js")
       languageModule.setGenieLanguage;
 
     currentLanguage =
-      window.getGenieLanguage();
+  window.getGenieLanguage();
 
-    languageSelect.value =
-      currentLanguage;
+console.log("GENIE LANGUAGE:", currentLanguage);
+console.log(
+  "CALENDAR TRANSLATIONS:",
+  window.getGenieCalendarTranslations(currentLanguage)
+);
 
-    applyLanguage();
+languageSelect.value =
+  currentLanguage;
+
+applyLanguage();
 
   })
   .catch((error) => {
