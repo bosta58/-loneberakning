@@ -661,7 +661,10 @@ function renderMonths() {
 
   monthSelect.innerHTML = "";
 
-  monthTranslations[currentLanguage].forEach(
+  (window.getGenieCalendarTranslations
+  ? window.getGenieCalendarTranslations(currentLanguage).months
+  : monthTranslations[currentLanguage]
+).forEach(
     (month, index) => {
 
       const option =
