@@ -917,7 +917,7 @@ const calendarTranslations =
       "hours-input";
 
     input.placeholder =
-      translations[currentLanguage].hour;
+      calendarTranslations.hour
 
     input.dataset.day = day;
 
@@ -934,11 +934,11 @@ const calendarTranslations =
 
       typeSelect.innerHTML = `
         <option value="weekend">
-          ${translations[currentLanguage].weekend}
+        ${calendarTranslations.weekend}
         </option>
 
         <option value="holiday">
-          ${translations[currentLanguage].holiday}
+          ${calendarTranslations.holiday}
         </option>
       `;
 
