@@ -577,7 +577,7 @@
   type="button"
   id="kollektivHistoryButton"
   style="width:100%; margin-top:15px; padding:14px; border:0; border-radius:11px; background:#111827; color:white; font-size:16px; font-weight:bold;">
-  📚 ISTORIA
+ 📚 ISTORIJA
 </button>
 
 <div
@@ -997,6 +997,7 @@ function saveKollektivRecord(record) {
    HISTORIA – KOLLEKTIVAVTAL
 ===================================================== */
 
+
 function renderKollektivHistory() {
 
   const historyList =
@@ -1007,31 +1008,6 @@ function renderKollektivHistory() {
   historyList.innerHTML = "";
 
   const employeeKey = getEmployeeKey();
-  const language =
-  document.getElementById("languageSelect")?.value || "sv";
- 
-  const labels = {
-    sv: {
-      empty: "Inga avslutade löneperioder ännu.",
-      worked: "Arbetade timmar:",
-      gross: "Bruttolön:",
-      net: "Nettolön"
-    },
-    en: {
-      empty: "No completed salary periods yet.",
-      worked: "Hours worked:",
-      gross: "Gross salary:",
-      net: "Net salary"
-    },
-    sr: {
-      empty: "Još nema završenih obračunskih perioda.",
-      worked: "Radni sati:",
-      gross: "Bruto plata:",
-      net: "Neto plata"
-    }
-  };
-
-  const t = labels[language] || labels.sv;
 
   const data = readSalaryData();
 
@@ -1067,7 +1043,8 @@ function renderKollektivHistory() {
       });
 
   if (periods.length === 0) {
-    historyList.textContent = t.empty;
+    historyList.textContent =
+      "Još nema završenih obračunskih perioda.";
     return;
   }
 
@@ -1098,14 +1075,25 @@ function renderKollektivHistory() {
     const details = document.createElement("div");
 
     details.style.cssText =
-      "margin-top:8px; line-height:1.7; white-space:pre-line;";
+      "margin-top:8px; line-height:1.7;";
 
-    details.textContent =
-      t.worked + " " + totalHours.toFixed(1) + " h" +
-      "\n" + t.gross + " " +
-      Number(record.grossSalary || 0).toFixed(2) + " kr" +
-      "\n" + t.net + " " +
+    const workedLine = document.createElement("div");
+    workedLine.textContent =
+      "Radni sati: " + totalHours.toFixed(1) + " h";
+
+    const grossLine = document.createElement("div");
+    grossLine.textContent =
+      "Bruto plata: " +
+      Number(record.grossSalary || 0).toFixed(2) + " kr";
+
+    const netLine = document.createElement("div");
+    netLine.textContent =
+      "Neto plata: " +
       Number(record.netSalary || 0).toFixed(2) + " kr";
+
+    details.appendChild(workedLine);
+    details.appendChild(grossLine);
+    details.appendChild(netLine);
 
     card.appendChild(title);
     card.appendChild(details);
@@ -1115,7 +1103,6 @@ function renderKollektivHistory() {
   });
 
 }
-
 
 /* VISA / DÖLJA HISTORIA */
 
