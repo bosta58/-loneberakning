@@ -1644,7 +1644,30 @@ function continueToSalary() {
    POKRETANJE
 ========================= */
 
-applyLanguage();
+import("./genie-language.js")
+  .then((languageModule) => {
+
+    window.getGenieCalendarTranslations =
+      languageModule.getGenieCalendarTranslations;
+
+    window.getGenieLanguage =
+      languageModule.getGenieLanguage;
+
+    window.setGenieLanguage =
+      languageModule.setGenieLanguage;
+
+    currentLanguage =
+      window.getGenieLanguage();
+
+    languageSelect.value =
+      currentLanguage;
+
+    applyLanguage();
+
+  })
+  .catch((error) => {
+    console.error("Genie language loading error:", error);
+  });
 
 </script>
 
