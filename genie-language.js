@@ -144,6 +144,16 @@ const GENIE_EXTRA_TRANSLATIONS = {
     "No completed salary periods yet."
   ],
 
+  "Još nema prethodnih obračunskih perioda.": [
+  "Inga tidigare löneperioder ännu.",
+  "No previous salary periods yet."
+],
+
+"Radno vreme:": [
+  "Arbetad tid:",
+  "Worked time:"
+],
+
   "💬 Komunikacija sa poslodavcem": [
     "💬 Kommunikation med arbetsgivaren",
     "💬 Communication with employer"
