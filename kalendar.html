@@ -819,7 +819,10 @@ function getSwedishHoliday(date) {
 ========================= */
 
 function renderCalendar() {
-
+const calendarTranslations =
+  window.getGenieCalendarTranslations
+    ? window.getGenieCalendarTranslations(currentLanguage)
+    : translations[currentLanguage];
   selectedMonth =
     parseInt(monthSelect.value);
 
