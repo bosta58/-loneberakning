@@ -684,8 +684,7 @@ const translations = {
     newComment: "Ny kommentar",
     resolved: "Åtgärdad",
     employeeReply: "Svar från arbetstagaren",
-    historyButton: "📚 HISTORIA",
-    historyTitle: "Tidigare löneperioder",
+    
   },
 
   en: {
@@ -740,8 +739,7 @@ const translations = {
     newComment: "New comment",
     resolved: "Resolved",
     employeeReply: "Reply from employee",
-    historyButton: "📚 HISTORY",
-    historyTitle: "Previous salary periods",
+    
 },
 
   sr: {
@@ -796,8 +794,7 @@ const translations = {
     newComment: "Nova poruka",
     resolved: "Rešeno",
     employeeReply: "Odgovor zaposlenog",
-    historyButton: "📚 ISTORIJA",
-    historyTitle: "Prethodni obračunski periodi",
+    
   }
 
 };
@@ -2426,7 +2423,7 @@ function applyLanguage() {
   document.getElementById("timlonHistoryButton");
 
 if (historyButton) {
-  historyButton.textContent = t.historyButton;
+  historyButton.textContent = "📚 ISTORIJA";
 }
 
 const historyTitle =
@@ -2435,7 +2432,8 @@ const historyTitle =
   );
 
 if (historyTitle) {
-  historyTitle.textContent = t.historyTitle;
+  historyTitle.textContent =
+    "Prethodni obračunski periodi";
 }
 
 
