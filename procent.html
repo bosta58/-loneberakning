@@ -2942,6 +2942,9 @@ function updatePageLanguage(language) {
   setPlaceholder("employeeReply", t.replyPlaceholder);
 
   window.updateProcentResultLanguage();
+if (typeof window.renderKollektivMessage === "function") {
+  window.renderKollektivMessage();
+}
 }
 
 
