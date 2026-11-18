@@ -533,8 +533,7 @@ const weekdayTranslations = {
 
 };
 
-let currentLanguage =
-  localStorage.getItem("genieLanguage") || "sv";
+let calendarTranslations;
 
 const languageSelect =
   document.getElementById("languageSelect");
@@ -817,7 +816,7 @@ function getSwedishHoliday(date) {
 ========================= */
 
 function renderCalendar() {
-const calendarTranslations =
+calendarTranslations =
   window.getGenieCalendarTranslations
     ? window.getGenieCalendarTranslations(currentLanguage)
     : translations[currentLanguage];
