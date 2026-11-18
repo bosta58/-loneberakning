@@ -1474,6 +1474,7 @@ function saveTimlonRecord() {
    ISTORIJA OBRAČUNA – TIMLÖN
 ===================================================== */
 
+
 function renderTimlonHistory() {
 
   const historyList =
@@ -1485,34 +1486,11 @@ function renderTimlonHistory() {
 
   const employeeKey = getEmployeeKey();
 
-  const language =
-    localStorage.getItem(GENIE_LANGUAGE_KEY) || "sv";
-
-  const labels = {
-    sv: {
-      empty: "Inga avslutade löneperioder ännu.",
-      worked: "Arbetade timmar:",
-      gross: "Bruttolön:",
-      net: "Nettolön:"
-    },
-    en: {
-      empty: "No completed salary periods yet.",
-      worked: "Hours worked:",
-      gross: "Gross salary:",
-      net: "Net salary:"
-    },
-    sr: {
-      empty: "Još nema završenih obračunskih perioda.",
-      worked: "Radni sati:",
-      gross: "Bruto plata:",
-      net: "Neto plata:"
-    }
-  };
-
-  const t = labels[language] || labels.sv;
+  const emptyText =
+    "Još nema završenih obračunskih perioda.";
 
   if (!employeeKey) {
-    historyList.textContent = t.empty;
+    historyList.textContent = emptyText;
     return;
   }
 
@@ -1550,14 +1528,13 @@ function renderTimlonHistory() {
       });
 
   if (periods.length === 0) {
-    historyList.textContent = t.empty;
+    historyList.textContent = emptyText;
     return;
   }
 
   periods.forEach(function(entry) {
 
     const record = entry[1];
-
     const hours = record.hours || {};
 
     const totalHours =
@@ -1585,14 +1562,23 @@ function renderTimlonHistory() {
     const details = document.createElement("div");
     details.className = "history-item-meta";
 
-    details.textContent =
-      t.worked + " " + totalHours.toFixed(1) + " h" +
-      "\n" + t.gross + " " +
-      Number(calculation.grossSalary || 0).toFixed(2) + " kr" +
-      "\n" + t.net + " " +
+    const workedLine = document.createElement("div");
+    workedLine.textContent =
+      "Radni sati: " + totalHours.toFixed(1) + " h";
+
+    const grossLine = document.createElement("div");
+    grossLine.textContent =
+      "Bruto plata: " +
+      Number(calculation.grossSalary || 0).toFixed(2) + " kr";
+
+    const netLine = document.createElement("div");
+    netLine.textContent =
+      "Neto plata: " +
       Number(calculation.netSalary || 0).toFixed(2) + " kr";
 
-    details.style.whiteSpace = "pre-line";
+    details.appendChild(workedLine);
+    details.appendChild(grossLine);
+    details.appendChild(netLine);
 
     card.appendChild(title);
     card.appendChild(details);
@@ -1602,7 +1588,6 @@ function renderTimlonHistory() {
   });
 
 }
-
 
 /* VISA / DÖLJA HISTORIA */
 
