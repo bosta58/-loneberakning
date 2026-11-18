@@ -692,10 +692,14 @@ languageSelect.addEventListener(
 
     currentLanguage = this.value;
 
-    localStorage.setItem(
-      "genieLanguage",
-      currentLanguage
-    );
+    if (window.setGenieLanguage) {
+      window.setGenieLanguage(currentLanguage);
+    } else {
+      localStorage.setItem(
+        "genieLanguage",
+        currentLanguage
+      );
+    }
 
     applyLanguage();
 
