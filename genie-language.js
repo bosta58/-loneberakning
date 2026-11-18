@@ -303,7 +303,14 @@ export function getGenieLanguage(userUid = null) {
     return "sv";
   }
 }
+export function getGenieCalendarTranslations(language = null) {
+  const selectedLanguage =
+    validLanguage(language)
+      ? language
+      : getGenieLanguage();
 
+  return GENIE_CALENDAR_TRANSLATIONS[selectedLanguage];
+}
 function translateText(text, language) {
   if (!text || !text.trim()) return text;
 
