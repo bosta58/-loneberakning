@@ -847,9 +847,11 @@
 
 
   let currentLanguage =
-    localStorage.getItem(
-      GENIE_LANGUAGE_KEY
-    ) || "sv";
+  localStorage.getItem(
+    GENIE_LANGUAGE_KEY
+  ) || "sv";
+
+let employerTranslations = null;
 
 
   let employees =
