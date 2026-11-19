@@ -1215,7 +1215,12 @@ const employeeRecords = records.filter(function(record) {
 
 
   function applyLanguage() {
-
+  if (window.getGenieEmployerTranslations) {
+    employerTranslations =
+      window.getGenieEmployerTranslations(
+        currentLanguage
+      );
+  }
     document.documentElement.lang =
       currentLanguage;
 
