@@ -3028,13 +3028,20 @@ import {
   getCurrentGenieProfile,
   getOrCreateGenieTrial
 } from "./genie-firebase.js";
+
 import {
   getGenieEmployerTranslations
 } from "./genie-language.js";
 
+// Povezivanje centralnog prevoda sa stranicom
+window.getGenieEmployerTranslations =
+  getGenieEmployerTranslations;
+
+// Obaveštavanje stranice da je centralni prevod spreman
 window.dispatchEvent(
   new Event("genie-language-ready")
 );
+
 window.sendGenieMessageToWorker = sendGenieMessageToEmployee;
 window.markGenieMessageFixed = markGenieMessageFixed;
 window.genieFirebaseUserSignedIn = false;
