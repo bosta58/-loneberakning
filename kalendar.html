@@ -457,11 +457,10 @@ yearSelect.value = selectedYear;
 ========================= */
 
 function applyLanguage() {
-calendarTranslations =
-  window.getGenieCalendarTranslations(currentLanguage);
-  const t =
+const t =
   window.getGenieCalendarTranslations(currentLanguage);
 
+calendarTranslations = t;
   document.documentElement.lang =
     currentLanguage;
 
