@@ -997,29 +997,27 @@ const employeeRecords = records.filter(function(record) {
 
   function changeLanguage(language) {
 
-    if (
-      !translations[language]
-    ) {
-
-      language = "sv";
-
-    }
-
-
-    currentLanguage =
-      language;
-
-
-    localStorage.setItem(
-      GENIE_LANGUAGE_KEY,
-      language
-    );
-
-
-    applyLanguage();
-
+  if (
+    !["sv", "en", "sr"].includes(language)
+  ) {
+    language = "sv";
   }
 
+  currentLanguage = language;
+
+  localStorage.setItem(
+    GENIE_LANGUAGE_KEY,
+    language
+  );
+
+  employerTranslations =
+    window.getGenieEmployerTranslations(
+      currentLanguage
+    );
+
+  applyLanguage();
+
+}
 
   function applyLanguage() {
   if (window.getGenieEmployerTranslations) {
