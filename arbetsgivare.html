@@ -3007,7 +3007,13 @@ window.addEventListener(
 
   updateEmployeeList();
 
-  applyLanguage();
+  window.addEventListener(
+  "genie-language-ready",
+  function() {
+    applyLanguage();
+  },
+  { once: true }
+);
 
 </script>
   
