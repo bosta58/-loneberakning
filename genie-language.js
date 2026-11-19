@@ -334,7 +334,7 @@ const GENIE_EMPLOYER_TRANSLATIONS = {
     messageSent: "Meddelandet har skickats till ",
     fixed: "Åtgärdad",
     newComment: "Ny kommentar",
-    replyFromEmployee: "Svar från arbetstagaren"
+    replyFromEmployee: "Svar från arbetstagaren",
     chooseFile: "Välj fil",
   },
 
@@ -397,7 +397,7 @@ const GENIE_EMPLOYER_TRANSLATIONS = {
     messageSent: "Message has been sent to ",
     fixed: "Handled",
     newComment: "New comment",
-    replyFromEmployee: "Reply from employee"
+    replyFromEmployee: "Reply from employee",
     chooseFile: "Choose file",
 },
 
@@ -460,7 +460,7 @@ const GENIE_EMPLOYER_TRANSLATIONS = {
     messageSent: "Poruka je poslata zaposlenom ",
     fixed: "Rešeno",
     newComment: "Nova poruka",
-    replyFromEmployee: "Odgovor zaposlenog"
+    replyFromEmployee: "Odgovor zaposlenog",
     chooseFile: "Izaberi datoteku",
   }
 };
