@@ -1043,6 +1043,13 @@ const employeeRecords = records.filter(function(record) {
         currentLanguage
       );
   }
+  const chooseLogoFile =
+    document.getElementById("chooseLogoFile");
+
+  if (chooseLogoFile) {
+    chooseLogoFile.textContent = t("chooseFile");
+  }
+    
     document.documentElement.lang =
       currentLanguage;
 
