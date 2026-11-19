@@ -335,6 +335,7 @@ const GENIE_EMPLOYER_TRANSLATIONS = {
     fixed: "Åtgärdad",
     newComment: "Ny kommentar",
     replyFromEmployee: "Svar från arbetstagaren"
+    chooseFile: "Välj fil",
   },
 
   en: {
@@ -397,7 +398,8 @@ const GENIE_EMPLOYER_TRANSLATIONS = {
     fixed: "Handled",
     newComment: "New comment",
     replyFromEmployee: "Reply from employee"
-  },
+    chooseFile: "Choose file",
+},
 
   sr: {
     subtitle: "Poslodavac",
@@ -459,6 +461,7 @@ const GENIE_EMPLOYER_TRANSLATIONS = {
     fixed: "Rešeno",
     newComment: "Nova poruka",
     replyFromEmployee: "Odgovor zaposlenog"
+    chooseFile: "Izaberi datoteku",
   }
 };
 
