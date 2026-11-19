@@ -3026,8 +3026,9 @@ import {
   getGenieEmployerTranslations
 } from "./genie-language.js";
 
-window.getGenieEmployerTranslations =
-  getGenieEmployerTranslations;
+window.dispatchEvent(
+  new Event("genie-language-ready")
+);
 window.sendGenieMessageToWorker = sendGenieMessageToEmployee;
 window.markGenieMessageFixed = markGenieMessageFixed;
 window.genieFirebaseUserSignedIn = false;
