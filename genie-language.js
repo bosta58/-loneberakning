@@ -493,6 +493,15 @@ export function getGenieLanguage(userUid = null) {
     return "sv";
   }
 }
+export function getGenieEmployerTranslations(language = null) {
+  const selectedLanguage =
+    validLanguage(language)
+      ? language
+      : getGenieLanguage();
+
+  return GENIE_EMPLOYER_TRANSLATIONS[selectedLanguage];
+}
+
 export function getGenieCalendarTranslations(language = null) {
   const selectedLanguage =
     validLanguage(language)
