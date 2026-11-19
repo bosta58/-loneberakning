@@ -3212,7 +3212,12 @@ import {
   getCurrentGenieProfile,
   getOrCreateGenieTrial
 } from "./genie-firebase.js";
+import {
+  getGenieEmployerTranslations
+} from "./genie-language.js";
 
+window.getGenieEmployerTranslations =
+  getGenieEmployerTranslations;
 window.sendGenieMessageToWorker = sendGenieMessageToEmployee;
 window.markGenieMessageFixed = markGenieMessageFixed;
 window.genieFirebaseUserSignedIn = false;
