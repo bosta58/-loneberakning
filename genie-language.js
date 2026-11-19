@@ -225,12 +225,7 @@ const GENIE_EXTRA_TRANSLATIONS = {
   "Prethodni obračunski periodi": [
     "Tidigare löneperioder",
     "Previous salary periods"
-  ],
-
-  "Još nema završenih obračunskih perioda.": [
-    "Inga avslutade löneperioder ännu.",
-    "No completed salary periods yet."
-  ],
+],
 
   "Još nema prethodnih obračunskih perioda.": [
   "Inga tidigare löneperioder ännu.",
