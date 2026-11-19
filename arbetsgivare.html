@@ -870,21 +870,12 @@ let employerTranslations = null;
      HJÄLPFUNKTIONER
   ========================================== */
 
-  function t(key) {
+function t(key) {
 
   return (
     employerTranslations &&
     employerTranslations[key]
-  )
-  ||
-  (
-    translations[currentLanguage] &&
-    translations[currentLanguage][key]
-  )
-  ||
-  translations.sv[key]
-  ||
-  key;
+  ) || key;
 
 }
 
