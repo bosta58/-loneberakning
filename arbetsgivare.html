@@ -872,16 +872,21 @@ let employerTranslations = null;
 
   function t(key) {
 
-    return (
-      translations[currentLanguage] &&
-      translations[currentLanguage][key]
-    )
-    ||
-    translations.sv[key]
-    ||
-    key;
+  return (
+    employerTranslations &&
+    employerTranslations[key]
+  )
+  ||
+  (
+    translations[currentLanguage] &&
+    translations[currentLanguage][key]
+  )
+  ||
+  translations.sv[key]
+  ||
+  key;
 
-  }
+}
 
 
   function normalizeName(name) {
