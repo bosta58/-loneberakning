@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="sr">
 <head>
@@ -13,1255 +12,717 @@
 
     body {
       margin: 0;
-      padding: 20px 14px 40px;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-      background: #f3f4f6;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
       color: #222;
+      line-height: 1.6;
     }
 
     .container {
-      max-width: 650px;
+      max-width: 900px;
       margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
     }
 
-    .header {
-      text-align: center;
-      margin-bottom: 22px;
-    }
-
-    .genie-logo {
-      width: 90px;
-      height: auto;
+    .logo {
       display: block;
-      margin: 0 auto 8px;
+      max-width: 180px;
+      height: auto;
+      margin: 0 auto 15px;
     }
 
     h1 {
-      margin: 5px 0;
-      font-size: 27px;
-      color: #222;
-    }
-
-    .subtitle {
-      color: #666;
-      font-size: 14px;
-      margin-top: 7px;
-    }
-
-    .language-box {
       text-align: center;
-      margin: 18px 0;
-    }
-
-    .language-box select {
-      padding: 10px 14px;
-      border: 1px solid #ccc;
-      border-radius: 9px;
-      background: white;
-      font-size: 15px;
-    }
-
-    .back-button {
-      display: block;
-      width: 100%;
-      padding: 13px;
-      margin: 18px 0;
-      border: none;
-      border-radius: 12px;
-      background: #374151;
-      color: white;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
+      color: #174a75;
     }
 
     .intro {
-      background: white;
-      padding: 17px;
-      border-radius: 14px;
-      margin-bottom: 18px;
-      line-height: 1.5;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .language-switch {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .language-switch button,
+    .back-button {
+      border: none;
+      border-radius: 7px;
+      padding: 10px 16px;
+      background: #174a75;
+      color: white;
+      cursor: pointer;
       font-size: 15px;
     }
 
     .chapter {
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 13px;
-      margin-bottom: 11px;
+      margin-bottom: 14px;
+      border: 1px solid #d8e0e8;
+      border-radius: 8px;
       overflow: hidden;
     }
 
-    .chapter-button {
+    .chapter-header {
       width: 100%;
-      padding: 16px;
+      padding: 15px;
+      background: #eaf1f7;
       border: none;
-      background: white;
       text-align: left;
-      font-size: 16px;
-      font-weight: 700;
-      color: #222;
+      font-size: 17px;
+      font-weight: bold;
+      color: #174a75;
       cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .chapter-button:active {
-      background: #f9fafb;
-    }
-
-    .chapter-icon {
-      font-size: 20px;
-      flex-shrink: 0;
     }
 
     .chapter-summary {
-      padding: 0 16px 15px;
-      color: #666;
-      font-size: 14px;
-      line-height: 1.5;
+      padding: 0 15px;
+      font-weight: bold;
+      color: #555;
     }
 
     .chapter-content {
       display: none;
-      padding: 16px;
-      border-top: 1px solid #e5e7eb;
-      font-size: 15px;
-      line-height: 1.65;
-      color: #333;
-    }
-
-    .chapter-content.open {
-      display: block;
+      padding: 15px;
+      border-top: 1px solid #d8e0e8;
     }
 
     .chapter-content h3 {
-      font-size: 17px;
-      margin: 15px 0 7px;
+      color: #174a75;
+      margin-top: 20px;
     }
 
-    .chapter-content p {
-      margin: 8px 0;
+    .chapter-content h3:first-child {
+      margin-top: 0;
     }
 
-    .footer {
+    .chapter-content p,
+    .chapter-content li {
+      margin-bottom: 10px;
+    }
+
+    .chapter-content ul {
+      padding-left: 22px;
+    }
+
+    .back-area {
       text-align: center;
-      color: #888;
-      font-size: 13px;
-      margin-top: 28px;
+      margin-top: 25px;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+
+      .container {
+        padding: 14px;
+      }
+
+      .chapter-header {
+        font-size: 16px;
+      }
     }
   </style>
 </head>
 
 <body>
+  <div class="container">
 
-<div class="container">
+    <img src="genie-logo.png.PNG" alt="Genie logo" class="logo">
 
-  <div class="header">
-    <img src="genie-logo.png.PNG" alt="Genie" class="genie-logo">
-    <h1>Uputstvo za korišćenje</h1>
-    <div class="subtitle">
-      Jednostavno uputstvo za korišćenje Genie aplikacije
+    <h1>Genie – Uputstvo za korišćenje</h1>
+
+    <p class="intro">
+      Dobro došli u Genie! Ovo uputstvo objašnjava kako da koristite
+      aplikaciju, obračunate zaradu i komunicirate sa poslodavcem.
+    </p>
+
+    <div class="language-switch">
+      <button onclick="changeLanguage('sv')">Svenska</button>
+      <button onclick="changeLanguage('en')">English</button>
+      <button onclick="changeLanguage('sr')">Srpski</button>
     </div>
-  </div>
-
-  <div class="language-box">
-  <select id="guideLanguage" onchange="changeGuideLanguage(this.value)">
-    <option value="sr" selected>Srpski</option>
-    <option value="sv">Svenska</option>
-    <option value="en">English</option>
-  </select>
-</div>
-
-  <button class="back-button" onclick="window.location.href='index.html'">
-    ← Nazad na početnu stranicu
-  </button>
-
-  <div class="intro">
-    Dobrodošli u Genie!
-
-    <p>
-      Genie je aplikacija namenjena jednostavnom i preglednom
-      evidentiranju radnog vremena i informativnom obračunu plate.
-    </p>
-
-    <p>
-      Izaberite poglavlje koje želite da pročitate.
-      Dodirom na naslov otvara se detaljno objašnjenje.
-    </p>
-  </div>
-
-  <div id="chapters">
-
-   
-<div class="chapter">
-  <button class="chapter-button">
-    <span>1. Dobrodošli u Genie</span>
-    <span class="chapter-icon">＋</span>
-  </button>
-
-  <div class="chapter-summary">
-    Upoznajte Genie i njegovu namenu.
-  </div>
-
-  <div class="chapter-content">
-    <h3>Dobrodošli u Genie!</h3>
-
-    <p>
-      Genie je aplikacija namenjena zaposlenima i poslodavcima
-      koji žele jednostavnije, preglednije i transparentnije
-      praćenje radnog vremena i informativni obračun plate.
-    </p>
-
-    <p>
-      Aplikacija objedinjuje nekoliko načina obračuna zarade:
-    </p>
-
-    <p>
-      <strong>Timlön</strong> – obračun plate prema satnici.
-    </p>
-
-    <p>
-      <strong>Kollektivavtal</strong> – obračun prema procentima
-      i pravilima kolektivnog ugovora.
-    </p>
-
-    <p>
-      <strong>Månadslön</strong> – praćenje radnog vremena
-      kod ugovorene mesečne plate.
-    </p>
-
-    <p>
-      Genie omogućava povezivanje zaposlenih i poslodavaca,
-      razmenu podataka i međusobnu komunikaciju putem poruka.
-    </p>
-
-    <p>
-      Naš cilj je da važne informacije budu dostupne na jednom
-      mestu, da korišćenje bude jednostavno i da zaposleni
-      i poslodavci imaju bolji pregled radnog vremena
-      i obračuna zarade.
-    </p>
-
-    <p>
-      <strong>Genie – jednostavno, pregledno i transparentno.</strong>
-    </p>
-
-    <p>
-      <strong>Genie za Genia!</strong>
-    </p>
-  </div>
-</div>
-
-
-
-<div class="chapter">
-  <button class="chapter-button">
-    <span>2. Početna stranica i prvi koraci</span>
-    <span class="chapter-icon">＋</span>
-  </button>
-
-  <div class="chapter-summary">
-    Upoznajte početnu stranicu, izbor jezika i glavne opcije.
-  </div>
-
-  <div class="chapter-content">
-    <h3>Početna stranica i prvi koraci</h3>
-
-    <p>
-      Početna stranica Genie aplikacije omogućava jednostavan
-      pristup glavnim funkcijama.
-    </p>
-
-    <h3>1. Izbor jezika</h3>
-
-    <p>
-      Korisnik može izabrati jedan od tri dostupna jezika:
-    </p>
-
-    <p>
-      Svenska – švedski jezik.<br>
-      English – engleski jezik.<br>
-      Srpski – srpski jezik.
-    </p>
-
-    <p>
-      Izbor jezika dostupan je i na ostalim glavnim stranicama
-      aplikacije.
-    </p>
-
-    <h3>2. Izbor načina obračuna plate</h3>
-
-    <p>
-      Na početnoj stranici nalaze se tri glavne opcije:
-    </p>
-
-    <p>
-      <strong>T – Timlön:</strong> za zaposlene koji primaju
-      platu prema satnici.
-    </p>
-
-    <p>
-      <strong>% – Kollektivavtal:</strong> za obračun prema
-      procentima i pravilima kolektivnog ugovora.
-    </p>
-
-    <p>
-      <strong>M – Månadslön:</strong> za zaposlene koji imaju
-      ugovorenu mesečnu platu.
-    </p>
-
-    <h3>3. Pristup za poslodavce</h3>
-
-    <p>
-      Poslodavci mogu izabrati posebnu opciju za pristup
-      svom nalogu i funkcijama namenjenim povezivanju
-      sa zaposlenima.
-    </p>
-
-    <h3>4. Početak korišćenja</h3>
-
-    <p>
-      Izaberite odgovarajući način obračuna ili pristup
-      za poslodavce. Nakon toga otvara se odgovarajuća
-      stranica aplikacije.
-    </p>
-
-    <p>
-      Genie je osmišljen tako da korisnik lako pronađe
-      funkciju koja mu je potrebna.
-    </p>
-  </div>
-</div>
-
-
- <div class="chapter">
-  <button class="chapter-button">
-    <span>3. Timlön – obračun satnice</span>
-    <span class="chapter-icon">＋</span>
-  </button>
-  <div class="chapter-summary">
-    Unos radnih sati, pregled radnog vremena i informativni obračun satnice.
-  </div>
-  <div class="chapter-content">
-    <h3>Timlön – obračun satnice</h3>
-<p>
-  Timlön je namenjen zaposlenima koji primaju platu
-  prema satnici. Genie omogućava unos radnih sati,
-  pregled radnog vremena i informativni obračun plate.
-</p>
-<h3>1. Otvaranje Timlön</h3>
-<p>
-  Na početnoj stranici izaberite opciju
-  <strong>T – Timlön</strong>. Otvoriće se kalendar
-  radnog vremena u kojem unosite svoje radne sate.
-</p>
-<h3>2. Unos radnog vremena u kalendar</h3>
-<p>
-  Najpre izaberite mesec i godinu za koje želite
-  da unesete radne sate.
-</p>
-<p>
-  Za svaki radni dan unesite broj odrađenih sati.
-  Sate možete unositi u koracima od pola sata.
-</p>
-<p>
-  Za svaki dan možete izabrati odgovarajuću vrstu:
-  radni dan, vikend ili praznik.
-</p>
-<p>
-  Kalendar automatski prepoznaje određene švedske
-  praznike. Vrstu dana možete promeniti ako je potrebno.
-</p>
-<h3>3. Pregled i čuvanje radnih sati</h3>
-<p>
-  U delu „Pregled“ prikazuje se raspodela radnih sati:
-</p>
-<p>
-  Redovni sati radnim danima.<br>
-  Prekovremeni sati radnim danima.<br>
-  Redovni i prekovremeni sati vikendom.<br>
-  Redovni i prekovremeni sati praznikom.<br>
-  Ukupan broj radnih sati.<br>
-  Broj radnih dana.
-</p>
-<p>
-  Dugme „Sačuvaj“ čuva unete sate za izabrani mesec.
-  Dugme „Obriši“ omogućava brisanje unosa za taj mesec
-  nakon potvrde.
-</p>
-<h3>4. Obračunski period</h3>
-<p>
-  Obračunski period se unosi prema stvarnom obračunskom
-  periodu koji važi za zaposlenog kod njegovog poslodavca.
-</p>
-<p>
-  Početni i završni datum treba da odgovaraju stvarnom
-  periodu za koji se obračunava plata. Period nije
-  unapred određen i nije obavezno vezan za 26. i 25.
-  dan u mesecu.
-</p>
-<h3>5. Nastavak na obračun plate</h3>
-<p>
-  Kada završite unos radnih sati, izaberite dugme
-  „Nastavi“. Otvoriće se stranica Timlön, gde se
-  prikazuju sati pripremljeni za obračun.
-</p>
-<h3>6. Unos podataka za platu</h3>
-<p>
-  Na stranici Timlön možete uneti ili proveriti
-  podatke o poslodavcu i zaposlenom, obračunski period
-  i satnice za različite vrste radnog vremena.
-</p>
-<p>
-  Takođe možete uneti procenat dodatka za godišnji
-  odmor i procenat poreza.
-</p>
-<h3>7. Obračun plate</h3>
-<p>
-  Pritiskom na dugme „Izračunaj platu“ Genie prikazuje:
-</p>
-<p>
-  Bruto platu – iznos pre odbitka poreza.<br>
-  Dodatak za godišnji odmor.<br>
-  Porez – iznos koji se odbija prema unetom procentu.<br>
-  Neto platu – iznos nakon obračunatih odbitaka.
-</p>
-<p>
-  Rezultat predstavlja informativni obračun na osnovu
-  unetih sati, satnica i procenata.
-</p>
-<h3>8. Komunikacija sa poslodavcem</h3>
-<p>
-  Na stranici Timlön zaposleni može primati poruke
-  od poslodavca i odgovarati na njih.
-</p>
-<p>
-  Status poruke pokazuje da li je stigla nova poruka
-  ili odgovor zaposlenog. Označavanje poruke kao
-  rešene obavlja poslodavac.
-</p>
-<p>
-  Genie omogućava jednostavniji pregled radnog vremena,
-  obračuna plate i komunikacije između zaposlenog
-  i poslodavca.
-</p>
-  </div>
-</div>
-
-  <div class="chapter">
-  <button class="chapter-button">
-    <span>4. Kollektivavtal – obračun po ugovoru</span>
-    <span class="chapter-icon">＋</span>
-  </button>
-
-  <div class="chapter-summary">
-    Unos radnih sati, osnovne satnice i procenata dodataka
-    za informativni obračun plate.
-  </div>
-
-  <div class="chapter-content">
-
-    <h3>Kollektivavtal – obračun po ugovoru</h3>
-    <p>
-      Kollektivavtal omogućava zaposlenima informativni
-      obračun plate na osnovu osnovne satnice i dodataka
-      izraženih u procentima.
-    </p>
-
-    <h3>1. Otvaranje Kollektivavtal</h3>
-    <p>
-      Na početnoj stranici izaberite opciju
-      <strong>% – Kollektivavtal</strong>. Otvoriće se
-      kalendar radnog vremena za unos radnih sati.
-    </p>
-
-    <h3>2. Unos radnog vremena</h3>
-    <p>
-      Izaberite mesec i godinu, a zatim za svaki dan
-      unesite broj odrađenih sati. Odaberite da li je
-      u pitanju redovni radni dan, vikend ili praznik.
-    </p>
-    <p>
-      Kalendar automatski prikazuje redovne i prekovremene
-      sate, ukupan broj sati i broj radnih dana.
-      Unete sate možete sačuvati ili obrisati.
-    </p>
-
-    <h3>3. Obračunski period</h3>
-    <p>
-      Obračunski period unosi se prema stvarnom periodu
-      koji važi za zaposlenog kod njegovog poslodavca.
-      Nije unapred određen i nije obavezno vezan za
-      26. i 25. dan u mesecu.
-    </p>
-
-    <h3>4. Osnovna satnica i procenti dodataka</h3>
-    <p>
-      Na stranici Kollektivavtal unosi se osnovna satnica
-      i procenti dodataka za prekovremeni rad, vikend,
-      praznike i noćni rad.
-    </p>
-    <p>
-      Procenti se mogu prilagoditi uslovima koji važe
-      prema ugovoru zaposlenog.
-    </p>
-
-    <h3>5. Naknada za godišnji odmor i porez</h3>
-    <p>
-      Unose se procenat naknade za godišnji odmor
-      i procenat poreza koji se koristi u obračunu.
-    </p>
-
-    <h3>6. Obračun plate</h3>
-    <p>
-      Pritiskom na dugme „Izračunaj platu“ Genie prikazuje:
-    </p>
-    <p>
-      Bruto platu.<br>
-      Naknadu za godišnji odmor.<br>
-      Porez.<br>
-      Neto platu.
-    </p>
-    <p>
-      Rezultat je informativni obračun na osnovu
-      unetih sati, satnice i procenata.
-    </p>
-
-    <h3>7. Komunikacija sa poslodavcem</h3>
-    <p>
-      Zaposleni može primati poruke od poslodavca
-      i odgovarati direktno preko aplikacije.
-      Poruke i odgovori prikazuju se na stranici
-      Kollektivavtal.
-    </p>
-
-    <p>
-      Genie omogućava jednostavniji pregled radnog
-      vremena, obračuna plate i komunikacije između
-      zaposlenog i poslodavca.
-    </p>
-
-  </div>
-</div>
-
-</div>
-    <div class="chapter">
-  <button class="chapter-button">
-    <span>5. Månadslön – mesečna plata</span>
-    <span class="chapter-icon">＋</span>
-  </button>
-
-  <div class="chapter-summary">
-    Unos mesečne plate, evidencija radnog vremena
-    i pregled ostvarenih sati u obračunskom periodu.
-  </div>
-
-  <div class="chapter-content">
-
-    <h3>Månadslön – mesečna plata</h3>
-    <p>
-      Månadslön omogućava zaposlenima da evidentiraju
-      radno vreme, prate ostvarene sate i upoređuju ih
-      sa planiranim mesečnim fondom sati.
-    </p>
-
-    <h3>1. Otvaranje Månadslön</h3>
-    <p>
-      Na početnoj stranici izaberite opciju
-      <strong>M – Månadslön</strong>.
-      Otvoriće se stranica za unos podataka
-      i evidenciju radnog vremena.
-    </p>
-
-    <h3>2. Unos podataka o plati</h3>
-    <p>
-      Unesite podatke o poslodavcu i zaposlenom,
-      iznos mesečne plate u krunama i planirani
-      broj radnih sati za obračunski period.
-    </p>
-
-    <h3>3. Obračunski period</h3>
-    <p>
-      Unesite datum početka i završetka perioda
-      koji važi kod vašeg poslodavca.
-      Genie koristi izabrani period za pregled
-      evidentiranog radnog vremena.
-    </p>
-
-    <h3>4. Podešavanje noćnog rada</h3>
-    <p>
-      Unesite početak i završetak vremenskog intervala
-      koji se prema pravilima firme ili ugovoru
-      računa kao noćni rad.
-    </p>
-
-    <h3>5. Evidencija radnog vremena</h3>
-    <p>
-      Pritiskom na dugme „STARTA ARBETE“
-      započinjete evidentiranje radnog vremena.
-      Dugmetom „PAUS“ započinjete pauzu,
-      a dugmetom „FORTSÄTT“ nastavljate rad.
-      Dugmetom „SLUTA ARBETE“ završavate radni dan.
-    </p>
-    <p>
-      Genie beleži početak rada, završetak rada,
-      trajanje pauze i ukupno ostvareno dnevno vreme.
-      Tokom jednog radnog dana mogu se evidentirati
-      najviše dve pauze.
-    </p>
-
-    <h3>6. Pregled radnih sati</h3>
-    <p>
-      U pregledu se prikazuju:
-    </p>
-    <p>
-      Ukupno ostvareno radno vreme.<br>
-      Planirani fond radnih sati.<br>
-      Razlika između ostvarenog i planiranog vremena.
-    </p>
-
-    <h3>7. Čuvanje i prenos podataka</h3>
-    <p>
-      Podaci o radnom vremenu čuvaju se u aplikaciji.
-      Nakon završetka radnog dana, podaci o mesečnoj
-      plati i evidentiranim satima šalju se poslodavcu
-      preko aktivne Genie veze.
-    </p>
-
-    <h3>8. Komunikacija sa poslodavcem</h3>
-    <p>
-      Zaposleni može primati poruke od poslodavca
-      i odgovarati direktno preko aplikacije.
-      Poruke i odgovori prikazuju se u odeljku
-      „Komunikacija“.
-    </p>
-
-    <p>
-      Genie omogućava jednostavnu evidenciju
-      radnog vremena, pregled mesečnog fonda sati
-      i razmenu podataka između zaposlenog
-      i poslodavca.
-    </p>
-
-  </div>
-</div>
-
- 
-<div class="chapter">
-  <button class="chapter-button">
-    <span>6. Poslodavci i zaposleni – povezivanje</span>
-    <span class="chapter-icon">＋</span>
-  </button>
-
-  <div class="chapter-summary">
-    Podaci o firmi, dodavanje zaposlenih,
-    pregled plata i komunikacija između poslodavca i zaposlenog.
-  </div>
-
-  <div class="chapter-content">
-
-    <h3>1. Otvaranje stranice Poslodavac</h3>
-    <p>
-      Na početnoj stranici izaberite opciju
-      za poslodavca. Otvoriće se stranica
-      za upravljanje podacima o firmi i zaposlenima.
-    </p>
-
-    <h3>2. Podaci o firmi</h3>
-    <p>
-      U odeljku „Podaci o firmi“ možete uneti
-      naziv firme i dodatne informacije o poslodavcu.
-      Možete dodati i logotip firme izborom slike
-      sa svog uređaja.
-    </p>
-    <p>
-      Kada završite unos, pritisnite dugme
-      „Sačuvaj podatke poslodavca“.
-      Podaci o firmi i logotip čuvaju se
-      u memoriji pregledača.
-    </p>
-
-    <h3>3. Dodavanje zaposlenog</h3>
-    <p>
-      Pritisnite dugme „Dodaj zaposlenog“.
-      Genie će zatražiti sledeće podatke:
-    </p>
-    <p>
-      Ime i prezime.<br>
-      Adresu.<br>
-      Lični broj.<br>
-      Broj telefona.<br>
-      E-mail adresu (opciono).
-    </p>
-    <p>
-      Ime i prezime su obavezni za dodavanje
-      zaposlenog. Ostali podaci mogu se uneti
-      prema potrebi.
-    </p>
-
-    <h3>4. Pregled zaposlenih</h3>
-    <p>
-      Svi dodati zaposleni prikazuju se
-      na listi zaposlenih. Pored svakog zaposlenog
-      dostupne su opcije:
-    </p>
-    <p>
-      „Prikaži podatke“ – otvara lične podatke
-      zaposlenog i dostupne podatke o plati.<br>
-      „Kontaktiraj zaposlenog“ – omogućava
-      slanje poruke zaposlenom.<br>
-      „Obriši zaposlenog“ – uklanja zaposlenog
-      sa liste nakon potvrde.
-    </p>
-
-    <h3>5. Pregled podataka o plati</h3>
-    <p>
-      Kada izaberete „Prikaži podatke“,
-      možete pregledati podatke o zaposlenom
-      i dostupne podatke iz poslednjeg obračuna.
-    </p>
-    <p>
-      Genie podržava prikaz podataka za sva tri
-      načina obračuna:
-    </p>
-    <p>
-      <strong>Timlön</strong> – satnica, radni sati,
-      dodaci, bruto plata, porez i neto plata.<br>
-      <strong>Kollektivavtal</strong> – redovni sati,
-      prekovremeni sati, dodaci i obračun plate.<br>
-      <strong>Månadslön</strong> – mesečna plata,
-      ciljani fond sati, ostvareni sati i razlika.
-    </p>
-    <p>
-      Prikazuju se podaci koji su sačuvani
-      u aplikaciji za izabranog zaposlenog.
-    </p>
-
-    <h3>6. Slanje poruka zaposlenom</h3>
-    <p>
-      Pritiskom na „Kontaktiraj zaposlenog“
-      otvara se polje za unos poruke.
-      Unesite tekst i potvrdite slanje.
-    </p>
-    <p>
-      Poruka se šalje preko aktivne
-      Firebase veze. Poslodavac može pratiti
-      odgovor zaposlenog u odeljku
-      „Komunikacija“.
-    </p>
-
-    <h3>7. Pregled poruka i odgovora</h3>
-    <p>
-      U odeljku „Komunikacija“ prikazuju se
-      poruke poslodavca, datum i vreme,
-      status poruke i odgovor zaposlenog
-      kada postoji.
-    </p>
-    <p>
-      Poslodavac može označiti poruku
-      kao rešenu. Status se prikazuje
-      u komunikaciji i na listi zaposlenih.
-    </p>
-
-    <h3>8. Povezivanje poslodavca i zaposlenog</h3>
-    <p>
-      Za razmenu poruka i podataka između
-      poslodavca i zaposlenog potrebno je
-      da postoji aktivna Genie veza i da
-      korisnik bude prijavljen na Firebase.
-    </p>
-    <p>
-      Kada je veza aktivna, podaci o plati
-      i radnom vremenu mogu se razmenjivati
-      između zaposlenog i poslodavca,
-      a komunikacija se odvija direktno
-      kroz aplikaciju.
-    </p>
-
-    <p>
-      Genie omogućava poslodavcu pregled
-      zaposlenih, dostupnih podataka o plati
-      i jednostavnu komunikaciju sa zaposlenima
-      na jednom mestu.
-    </p>
-
-  </div>
-</div>
-
-
-  
-<div class="chapter">
-  <button class="chapter-button">
-    <span>7. Komunikacija i poruke</span>
-    <span class="chapter-icon">＋</span>
-  </button>
-
-  <div class="chapter-summary">
-    Slanje poruka između poslodavca i zaposlenog,
-    pregled odgovora i praćenje statusa komunikacije.
-  </div>
-
-  <div class="chapter-content">
-
-    <h3>1. Komunikacija kroz Genie</h3>
-    <p>
-      Genie omogućava direktnu komunikaciju
-      između poslodavca i zaposlenog.
-      Razmena poruka odvija se kroz aplikaciju
-      pomoću aktivne Firebase veze.
-    </p>
-
-    <h3>2. Slanje poruke zaposlenom</h3>
-    <p>
-      Na stranici poslodavca izaberite zaposlenog
-      i pritisnite dugme „Kontaktiraj zaposlenog“.
-      Otvoriće se polje za unos poruke.
-    </p>
-    <p>
-      Unesite tekst poruke i potvrdite slanje.
-      Poruka se povezuje sa odgovarajućim zaposlenim
-      i dostupnim obračunskim periodom.
-    </p>
-
-    <h3>3. Prijem poruke kod zaposlenog</h3>
-    <p>
-      Poslata poruka prikazuje se zaposlenom
-      u odeljku za komunikaciju na njegovoj
-      Genie stranici.
-    </p>
-    <p>
-      Zaposleni može pročitati poruku
-      i poslati odgovor poslodavcu.
-    </p>
-
-    <h3>4. Odgovor zaposlenog</h3>
-    <p>
-      Kada zaposleni pošalje odgovor,
-      on se prikazuje poslodavcu uz
-      odgovarajuću poruku.
-    </p>
-    <p>
-      Na taj način obe strane mogu pratiti
-      tok razgovora i imati pregled
-      prethodne komunikacije.
-    </p>
-
-    <h3>5. Datum, vreme i status poruke</h3>
-    <p>
-      Uz svaku poruku prikazuju se datum
-      i vreme slanja, kao i njen status.
-    </p>
-    <p>
-      Status pokazuje da li je poruka nova
-      ili je označena kao rešena.
-      Poslodavac može pratiti status
-      u odeljku „Komunikacija“.
-    </p>
-
-    <h3>6. Označavanje poruke kao rešene</h3>
-    <p>
-      Kada je komunikacija završena,
-      poslodavac može pritisnuti dugme
-      „Označi kao rešeno“.
-    </p>
-    <p>
-      Nakon uspešnog ažuriranja, poruka
-      dobija status „Rešeno“ i više se
-      ne prikazuje dugme za njeno rešavanje.
-    </p>
-
-    <h3>7. Automatsko osvežavanje poruka</h3>
-    <p>
-      Genie prati promene u Firebase komunikaciji.
-      Kada stigne nova poruka ili odgovor,
-      prikaz komunikacije se automatski
-      osvežava.
-    </p>
-    <p>
-      Nije potrebno ručno ponovo otvarati
-      stranicu da bi se prikazale nove poruke.
-    </p>
-
-    <h3>8. Uslovi za razmenu poruka</h3>
-    <p>
-      Za komunikaciju između poslodavca
-      i zaposlenog potrebno je da oba korisnika
-      budu pravilno prijavljena i da postoji
-      aktivna Genie veza.
-    </p>
-    <p>
-      Za slanje i prijem poruka potrebna
-      je internet veza.
-    </p>
-
-    <p>
-      Genie čuva komunikaciju preglednom
-      i omogućava poslodavcu i zaposlenom
-      jednostavnu razmenu informacija
-      tokom saradnje.
-    </p>
-
-  </div>
-</div>
-
-
-    
-<div class="chapter">
-  <button class="chapter-button">
-    <span>8. Jezici, sigurnost i pomoć</span>
-    <span class="chapter-icon">＋</span>
-  </button>
-
-  <div class="chapter-summary">
-    Izbor jezika, korisnički nalozi,
-    prijavljivanje, odjavljivanje i zaštita podataka.
-  </div>
-
-  <div class="chapter-content">
-
-    <h3>1. Izbor jezika</h3>
-    <p>
-      Genie podržava tri jezika:
-    </p>
-    <p>
-      Švedski (sv).<br>
-      Engleski (en).<br>
-      Srpski (sr).
-    </p>
-    <p>
-      Jezik možete promeniti pomoću
-      padajućeg menija za izbor jezika.
-      Tekstovi na stranici prilagođavaju
-      se izabranom jeziku.
-    </p>
-
-    <h3>2. Čuvanje izabranog jezika</h3>
-    <p>
-      Genie pamti poslednji izabrani jezik
-      u memoriji pregledača.
-      Prilikom sledeće posete stranici
-      aplikacija može ponovo koristiti
-      prethodno izabrani jezik.
-    </p>
-
-    <h3>3. Kreiranje korisničkog naloga</h3>
-    <p>
-      Za korišćenje Firebase funkcija
-      potrebno je kreirati korisnički nalog
-      pomoću e-mail adrese i lozinke.
-    </p>
-    <p>
-      Prilikom registracije bira se vrsta
-      naloga: Radnik ili Poslodavac.
-      Lozinka mora imati najmanje
-      šest znakova.
-    </p>
-
-    <h3>4. Prijavljivanje u Genie</h3>
-    <p>
-      Za prijavljivanje unesite e-mail adresu
-      i lozinku koje ste koristili
-      prilikom registracije.
-    </p>
-    <p>
-      Važno je da izaberete istu vrstu naloga
-      koju ste odabrali prilikom registracije.
-      U suprotnom prijavljivanje neće biti
-      uspešno.
-    </p>
-
-    <h3>5. Korisničke uloge</h3>
-    <p>
-      Genie razlikuje dve vrste korisnika:
-    </p>
-    <p>
-      <strong>Radnik</strong> – koristi svoj nalog
-      za povezivanje sa poslodavcem,
-      pregled podataka i komunikaciju.
-    </p>
-    <p>
-      <strong>Poslodavac</strong> – koristi svoj nalog
-      za povezivanje sa zaposlenima,
-      pregled dostupnih obračuna i komunikaciju.
-    </p>
-
-    <h3>6. Povezivanje korisnika</h3>
-    <p>
-      Poslodavac može poslati zahtev
-      za povezivanje radniku putem
-      njegove e-mail adrese.
-    </p>
-    <p>
-      Radnik može prihvatiti ili odbiti zahtev.
-      Tek nakon prihvatanja uspostavlja se
-      aktivna Genie veza između korisnika.
-    </p>
-
-    <h3>7. Zaštita korisničkog naloga</h3>
-    <p>
-      Prijavljivanje i registracija obavljaju se
-      preko Firebase Authentication sistema.
-      Svaki korisnički nalog ima svoju
-      jedinstvenu identifikaciju.
-    </p>
-    <p>
-      Genie proverava korisničku ulogu
-      i pripadnost poruke ili obračuna
-      odgovarajućem nalogu pre izvršavanja
-      određenih operacija.
-    </p>
-    <p>
-      Svoju lozinku nemojte deliti
-      sa drugim osobama.
-    </p>
-
-    <h3>8. Podaci i razmena informacija</h3>
-    <p>
-      Genie koristi Firebase za prijavljivanje,
-      povezivanje radnika i poslodavaca,
-      razmenu poruka i prenos obračuna
-      za aktivno povezane korisnike.
-    </p>
-    <p>
-      Pristup podacima zavisi od podešavanja
-      Firebase baze i njenih sigurnosnih pravila.
-      Podaci treba da budu dostupni samo
-      ovlašćenim korisnicima.
-    </p>
-
-    <h3>9. Odjavljivanje</h3>
-    <p>
-      Kada završite korišćenje aplikacije,
-      možete se odjaviti iz svog
-      Firebase korisničkog naloga.
-    </p>
-    <p>
-      Nakon odjavljivanja potrebno je
-      ponovo se prijaviti da biste koristili
-      funkcije koje zahtevaju aktivan nalog.
-    </p>
-
-    <h3>10. Pomoć korisnicima</h3>
-    <p>
-      Ako imate poteškoće sa prijavljivanjem,
-      povezivanjem ili razmenom poruka,
-      prvo proverite internet vezu,
-      e-mail adresu i izabranu vrstu naloga.
-    </p>
-    <p>
-      Ako problem i dalje postoji,
-      obratite se podršci Genie aplikacije.
-    </p>
-
-    <p>
-      Genie je osmišljen tako da radnicima
-      i poslodavcima omogući jednostavno
-      korišćenje, preglednu komunikaciju
-      i odgovorno rukovanje podacima.
-    </p>
-
-  </div>
-</div>
-
-
- 
-<div class="chapter">
-  <button class="chapter-button">
-    <span>9. Važne napomene i odgovornost</span>
-    <span class="chapter-icon">＋</span>
-  </button>
-
-  <div class="chapter-summary">
-    Važne informacije o obračunu plata,
-    tačnosti podataka, čuvanju informacija
-    i odgovornosti korisnika.
-  </div>
-
-  <div class="chapter-content">
-
-    <h3>1. Informativni karakter obračuna</h3>
-    <p>
-      Genie je aplikacija namenjena evidenciji
-      radnog vremena i informativnom obračunu
-      zarade za različite načine plaćanja.
-    </p>
-    <p>
-      Rezultati obračuna služe kao pomoć
-      korisniku i ne predstavljaju zvanični
-      obračun plate niti zamenu za platni listić
-      koji izdaje poslodavac.
-    </p>
-
-    <h3>2. Tačnost unetih podataka</h3>
-    <p>
-      Korisnik je odgovoran za tačnost
-      podataka koje unosi u aplikaciju.
-      To uključuje radne sate, datume,
-      satnice, dodatke, mesečnu platu
-      i ostale podatke potrebne za obračun.
-    </p>
-    <p>
-      Pre prihvatanja rezultata potrebno je
-      proveriti da li su svi podaci
-      pravilno uneti.
-    </p>
-
-    <h3>3. Provera obračuna plate</h3>
-    <p>
-      Rezultate prikazane u Genie aplikaciji
-      treba uporediti sa podacima poslodavca,
-      važećim ugovorom o radu i odgovarajućim
-      pravilima za obračun zarade.
-    </p>
-    <p>
-      Posebnu pažnju treba obratiti na
-      prekovremeni rad, rad vikendom,
-      praznicima, noćni rad, porez
-      i dodatak za godišnji odmor.
-    </p>
-
-    <h3>4. Kollektivavtal i važeći uslovi rada</h3>
-    <p>
-      Kod obračuna prema kolektivnom ugovoru
-      korisnik treba da proveri da li su
-      unete satnice, procenti dodataka
-      i ostali uslovi u skladu sa ugovorom
-      koji važi za njegovo radno mesto.
-    </p>
-    <p>
-      Uslovi mogu biti različiti u zavisnosti
-      od delatnosti, poslodavca i važećeg
-      kolektivnog ugovora.
-    </p>
-
-    <h3>5. Odgovornost poslodavca i zaposlenog</h3>
-    <p>
-      Poslodavac i zaposleni odgovorni su
-      za proveru podataka koje razmenjuju
-      putem Genie aplikacije.
-    </p>
-    <p>
-      Aplikacija omogućava pregled i
-      komunikaciju, ali ne zamenjuje
-      međusobne obaveze poslodavca
-      i zaposlenog.
-    </p>
-
-    <h3>6. Čuvanje podataka</h3>
-    <p>
-      Pojedini podaci čuvaju se u memoriji
-      pregledača, dok se funkcije povezivanja,
-      prijavljivanja i razmene informacija
-      koriste preko Firebase sistema.
-    </p>
-    <p>
-      Korisnik treba da vodi računa o svom
-      uređaju, pristupu nalogu i poverljivosti
-      svojih podataka za prijavljivanje.
-    </p>
-
-    <h3>7. Internet veza i dostupnost</h3>
-    <p>
-      Za Firebase prijavljivanje, povezivanje
-      korisnika i razmenu poruka potrebna
-      je internet veza.
-    </p>
-    <p>
-      Privremeni prekidi internet veze
-      ili dostupnosti servisa mogu uticati
-      na pojedine funkcije aplikacije.
-    </p>
-
-    <h3>8. Važne napomene</h3>
-    <p>
-      Genie ne zamenjuje stručni savet
-      računovođe, poslodavca ili nadležnih
-      institucija.
-    </p>
-    <p>
-      Za zvaničan obračun zarade, poreza
-      i drugih naknada uvek proverite
-      važeće propise i dokumentaciju
-      koja se odnosi na vaš radni odnos.
-    </p>
-
-    <h3>9. Završna poruka</h3>
-    <p>
-      Genie je nastao sa idejom da radnicima
-      i poslodavcima pruži jednostavan,
-      pregledan i transparentan način
-      praćenja radnog vremena, obračuna
-      zarade i međusobne komunikacije.
-    </p>
-    <p>
-      Naš cilj je da svakodnevni rad
-      učinimo jednostavnijim i da obe strane
-      imaju bolji pregled važnih informacija.
-    </p>
-
-    <p style="text-align:center; margin-top:25px;">
-      <strong>GENIE – jednostavno, pregledno
-      i transparentno.</strong>
-    </p>
-
-    <p style="text-align:center;">
-      <strong>Genie za Genia! ❤️</strong>
-    </p>
-
-  </div>
-</div>
 
+    <div id="chapters">
+
+      <!-- POGLAVLJE 1 -->
+      <div class="chapter">
+        <button class="chapter-header" onclick="toggleChapter(this)">
+          1. Uvod u Genie
+        </button>
+        <div class="chapter-summary">
+          Osnovne informacije o aplikaciji i njenoj nameni.
+        </div>
+        <div class="chapter-content">
+
+          <h3>Šta je Genie?</h3>
+          <p>
+            Genie je aplikacija namenjena radnicima i poslodavcima.
+            Omogućava jednostavniji obračun zarade, pregled radnih sati
+            i bolju komunikaciju između radnika i poslodavca.
+          </p>
+
+          <h3>Šta možete da radite u aplikaciji?</h3>
+          <ul>
+            <li>Obračunavate zaradu prema satnici.</li>
+            <li>Obračunavate zaradu prema kolektivnom ugovoru.</li>
+            <li>Obračunavate mesečnu platu.</li>
+            <li>Pratite radno vreme i pauze.</li>
+            <li>Pregledate ranije obračune.</li>
+            <li>Razmenjujete poruke sa poslodavcem.</li>
+          </ul>
+
+          <h3>Ko može da koristi Genie?</h3>
+          <p>
+            Aplikaciju mogu koristiti radnici i poslodavci.
+            Svaki korisnik se prijavljuje svojim korisničkim nalogom
+            i koristi mogućnosti koje odgovaraju njegovoj ulozi.
+          </p>
+
+        </div>
+      </div>
+
+      <!-- POGLAVLJE 2 -->
+      <div class="chapter">
+        <button class="chapter-header" onclick="toggleChapter(this)">
+          2. Registracija i prijava
+        </button>
+        <div class="chapter-summary">
+          Otvaranje korisničkog naloga i pristup aplikaciji.
+        </div>
+        <div class="chapter-content">
+
+          <h3>Registracija</h3>
+          <p>
+            Prilikom prvog korišćenja potrebno je napraviti korisnički
+            nalog. Unesite tražene podatke, svoju adresu elektronske
+            pošte i lozinku.
+          </p>
+
+          <h3>Izbor vrste korisnika</h3>
+          <p>
+            Prilikom registracije birate da li ćete koristiti Genie
+            kao radnik ili kao poslodavac.
+          </p>
+
+          <h3>Prijava</h3>
+          <p>
+            Kada već imate otvoren nalog, unesite adresu elektronske
+            pošte i lozinku da biste pristupili aplikaciji.
+          </p>
+
+          <h3>Važno</h3>
+          <p>
+            Svoje podatke za prijavu čuvajte na sigurnom mestu
+            i nemojte ih deliti sa drugim osobama.
+          </p>
+
+        </div>
+      </div>
+
+      <!-- POGLAVLJE 3 -->
+      <div class="chapter">
+        <button class="chapter-header" onclick="toggleChapter(this)">
+          3. Obračun zarade po satu – Timlön
+        </button>
+        <div class="chapter-summary">
+          Unos radnih sati, dodataka, poreza i pregled obračuna.
+        </div>
+        <div class="chapter-content">
+
+          <h3>1. Osnovni obračun</h3>
+          <p>
+            Na stranici Timlön možete uneti broj odrađenih sati
+            i odgovarajuću satnicu. Aplikacija izračunava zaradu
+            na osnovu unetih podataka.
+          </p>
+
+          <h3>2. Dodaci za rad</h3>
+          <p>
+            U zavisnosti od vrste rada i vremena kada ste radili,
+            možete uneti sate koji pripadaju različitim kategorijama
+            dodataka.
+          </p>
+
+          <h3>3. Porez i naknada za godišnji odmor</h3>
+          <p>
+            U odgovarajuća polja unosite procenat poreza i naknade
+            za godišnji odmor. Proverite da li uneti procenti
+            odgovaraju vašim uslovima rada.
+          </p>
+
+          <h3>4. Obračunski period i istorija</h3>
+          <p>
+            Sami birate datum početka i završetka obračunskog perioda,
+            u skladu sa svojim radnim uslovima i dogovorom sa poslodavcem.
+          </p>
+          <p>
+            Na primer, možete izabrati period od 26. jednog meseca
+            do 25. narednog meseca. To je samo primer – možete postaviti
+            i druge datume koji odgovaraju vašoj situaciji.
+          </p>
+          <p>
+            Kada se obračunski period završi, njegovi podaci se
+            premeštaju u istoriju. Tamo možete pregledati prethodne
+            obračunske periode i njihove rezultate.
+          </p>
+          <p>
+            Novi obračunski period počinje prema datumima koje ste
+            sami odredili. Tako u svakom trenutku možete pratiti
+            podatke za tekući period i pregledati ranije periode.
+          </p>
+
+          <h3>5. Pregled rezultata</h3>
+          <p>
+            Nakon unosa podataka aplikacija prikazuje obračunatu
+            zaradu, dodatke, porez i iznos koji ostaje nakon odbitka poreza.
+          </p>
+
+          <h3>6. Čuvanje podataka</h3>
+          <p>
+            Podaci obračuna mogu se sačuvati i koristiti za kasniji
+            pregled, u skladu sa mogućnostima aplikacije.
+          </p>
+
+          <h3>7. Provera obračuna</h3>
+          <p>
+            Pre nego što se oslonite na rezultat, proverite da li su
+            svi uneti sati, satnice i procenti ispravni.
+          </p>
+
+          <h3>8. Poruke i statusi</h3>
+          <p>
+            Ako ste povezani sa poslodavcem, možete razmenjivati
+            poruke i komentare u aplikaciji.
+          </p>
+          <ul>
+            <li><strong>Novi komentar</strong> – primili ste novu poruku ili komentar.</li>
+            <li><strong>Odgovor radnika</strong> – radnik je poslao odgovor poslodavcu.</li>
+            <li><strong>Rešeno</strong> – poslodavac je označio poruku kao rešenu.</li>
+          </ul>
+
+        </div>
+      </div>
+            <!-- POGLAVLJE 4 -->
+      <div class="chapter">
+        <button class="chapter-header" onclick="toggleChapter(this)">
+          4. Kollektivavtal – obračun prema kolektivnom ugovoru
+        </button>
+        <div class="chapter-summary">
+          Obračun zarade prema uslovima kolektivnog ugovora.
+        </div>
+        <div class="chapter-content">
+
+          <h3>1. Osnovni obračun</h3>
+          <p>
+            Na ovoj stranici možete obračunati zaradu prema uslovima
+            kolektivnog ugovora. Unosite broj radnih sati u odgovarajuća
+            polja, a aplikacija obračunava zaradu prema unetim podacima.
+          </p>
+
+          <h3>2. Procenti i dodaci</h3>
+          <p>
+            Različite vrste rada mogu imati različite dodatke izražene
+            u procentima. Proverite vrednosti koje su prikazane u
+            aplikaciji i unesite podatke koji odgovaraju vašem ugovoru.
+          </p>
+
+          <h3>3. Obračunski period i istorija</h3>
+          <p>
+            Sami birate datum početka i završetka obračunskog perioda,
+            u skladu sa svojim radnim uslovima i dogovorom sa poslodavcem.
+          </p>
+          <p>
+            Na primer, možete izabrati period od 26. jednog meseca
+            do 25. narednog meseca. To je samo primer – možete postaviti
+            i druge datume koji odgovaraju vašoj situaciji.
+          </p>
+          <p>
+            Kada se obračunski period završi, njegovi podaci se
+            premeštaju u istoriju. Tamo možete pregledati prethodne
+            obračunske periode i njihove rezultate.
+          </p>
+          <p>
+            Novi obračunski period počinje prema datumima koje ste
+            sami odredili. Tako možete pratiti tekući period i
+            pregledati ranije obračune.
+          </p>
+
+          <h3>4. Porez i naknada za godišnji odmor</h3>
+          <p>
+            Procenat poreza i naknade za godišnji odmor možete podesiti
+            u odgovarajućim poljima. Vodite računa da unete vrednosti
+            odgovaraju vašim uslovima.
+          </p>
+
+          <h3>5. Pregled rezultata</h3>
+          <p>
+            Nakon unosa radnih sati i ostalih podataka, aplikacija
+            prikazuje obračun zarade, dodatke, porez i iznos nakon
+            odbitka poreza.
+          </p>
+
+          <h3>6. Provera podataka</h3>
+          <p>
+            Pre korišćenja rezultata proverite da li su svi sati,
+            procenti i ostali podaci pravilno uneti.
+          </p>
+
+          <h3>7. Poruke i statusi</h3>
+          <p>
+            Ako ste povezani sa poslodavcem, možete razmenjivati
+            poruke i komentare u aplikaciji.
+          </p>
+          <ul>
+            <li><strong>Novi komentar</strong> – primili ste novu poruku ili komentar.</li>
+            <li><strong>Odgovor radnika</strong> – radnik je poslao odgovor poslodavcu.</li>
+            <li><strong>Rešeno</strong> – poslodavac je označio poruku kao rešenu.</li>
+          </ul>
+
+        </div>
+      </div>
+
+      <!-- POGLAVLJE 5 -->
+      <div class="chapter">
+        <button class="chapter-header" onclick="toggleChapter(this)">
+          5. Månadslön – mesečna plata
+        </button>
+        <div class="chapter-summary">
+          Unos mesečne plate, radnog vremena i praćenje obračuna.
+        </div>
+        <div class="chapter-content">
+
+          <h3>1. Osnovna mesečna plata</h3>
+          <p>
+            Na stranici Månadslön unosite iznos mesečne plate i
+            podatke o radnom vremenu. Aplikacija koristi te podatke
+            za obračun zarade.
+          </p>
+
+          <h3>2. Radni sati i dodaci</h3>
+          <p>
+            Unosite odrađene sate i odgovarajuće dodatke. Proverite
+            da li su svi podaci pravilno uneseni kako bi obračun
+            bio tačan.
+          </p>
+
+          <h3>3. Obračunski period i istorija</h3>
+          <p>
+            Sami određujete početni i završni datum obračunskog perioda.
+            Izaberite datume koji odgovaraju vašem radnom rasporedu
+            i načinu obračuna plate.
+          </p>
+          <p>
+            Na primer, obračunski period može trajati od 26. jednog
+            meseca do 25. narednog meseca. Ovo je samo primer –
+            svaki korisnik bira datume prema svojoj situaciji.
+          </p>
+          <p>
+            Kada se period završi, njegovi podaci prelaze u istoriju.
+            U istoriji možete pregledati prethodne periode i njihove
+            obračune.
+          </p>
+          <p>
+            Novi period počinje prema datumima koje ste odredili.
+            Podaci za novi period prikazuju se u tekućem obračunu,
+            dok prethodni periodi ostaju dostupni u istoriji.
+          </p>
+
+          <h3>4. Praćenje radnog vremena</h3>
+          <p>
+            Aplikacija omogućava praćenje početka rada, pauze,
+            nastavka rada i završetka rada.
+          </p>
+          <ul>
+            <li><strong>Započni rad</strong> – beleži početak rada.</li>
+            <li><strong>Pauza</strong> – beleži početak pauze.</li>
+            <li><strong>Nastavi</strong> – beleži nastavak rada nakon pauze.</li>
+            <li><strong>Završi rad</strong> – beleži završetak rada.</li>
+          </ul>
+
+          <h3>5. Vreme rada</h3>
+          <p>
+            Vreme rada se računa na osnovu zabeleženih početaka,
+            pauza i završetaka rada. Proverite unete podatke
+            pre nego što se oslonite na konačan obračun.
+          </p>
+
+          <h3>6. Porez i dodaci</h3>
+          <p>
+            U odgovarajućim poljima možete pregledati ili podesiti
+            procenat poreza i druge vrednosti koje se koriste
+            u obračunu.
+          </p>
+
+          <h3>7. Pregled rezultata</h3>
+          <p>
+            Nakon unosa podataka aplikacija prikazuje obračun
+            mesečne zarade i odgovarajuće rezultate.
+          </p>
+
+          <h3>8. Poruke i statusi</h3>
+          <p>
+            Ako ste povezani sa poslodavcem, možete razmenjivati
+            poruke i komentare.
+          </p>
+          <ul>
+            <li><strong>Novi komentar</strong> – primili ste novu poruku ili komentar.</li>
+            <li><strong>Odgovor radnika</strong> – radnik je poslao odgovor poslodavcu.</li>
+            <li><strong>Rešeno</strong> – poslodavac je označio poruku kao rešenu.</li>
+          </ul>
+
+        </div>
+      </div>
+
+      <!-- POGLAVLJE 6 -->
+      <div class="chapter">
+        <button class="chapter-header" onclick="toggleChapter(this)">
+          6. Poslodavci i zaposleni – povezivanje
+        </button>
+        <div class="chapter-summary">
+          Povezivanje korisničkih naloga i komunikacija između radnika i poslodavca.
+        </div>
+        <div class="chapter-content">
+
+          <h3>1. Povezivanje radnika i poslodavca</h3>
+          <p>
+            Genie omogućava povezivanje korisničkih naloga radnika
+            i poslodavaca. Na taj način mogu lakše razmenjivati
+            informacije i komunicirati u vezi sa radom i obračunom zarade.
+          </p>
+
+          <h3>2. Zahtev za povezivanje</h3>
+          <p>
+            Poslodavac može poslati zahtev za povezivanje radniku.
+            Radnik zatim može pregledati zahtev i odlučiti da li
+            želi da prihvati povezivanje.
+          </p>
+
+          <h3>3. Prihvatanje zahteva</h3>
+          <p>
+            Kada radnik prihvati zahtev, uspostavlja se veza između
+            njegovog naloga i naloga poslodavca.
+          </p>
+
+          <h3>4. Pregled zaposlenih</h3>
+          <p>
+            Poslodavac može pregledati povezane zaposlene i koristiti
+            mogućnosti koje su dostupne u delu aplikacije namenjenom
+            poslodavcima.
+          </p>
+
+          <h3>5. Poruke i komunikacija</h3>
+          <p>
+            Radnik i poslodavac mogu razmenjivati poruke i komentare.
+            Ova mogućnost služi za pitanja, objašnjenja i rešavanje
+            nedoumica u vezi sa radom i obračunom.
+          </p>
+
+          <h3>6. Statusi poruka</h3>
+          <ul>
+            <li><strong>Novi komentar</strong> – stigla je nova poruka ili komentar.</li>
+            <li><strong>Odgovor radnika</strong> – radnik je odgovorio na poruku poslodavca.</li>
+            <li><strong>Rešeno</strong> – poslodavac je označio poruku kao rešenu.</li>
+          </ul>
+
+          <h3>7. Važno za povezivanje</h3>
+          <p>
+            Povezivanje se obavlja između odgovarajućih korisničkih
+            naloga. Čuvajte podatke za prijavu i proverite da li
+            povezivanje prihvatate sa odgovarajućim poslodavcem.
+          </p>
+
+        </div>
+      </div>
+            <!-- POGLAVLJE 7 -->
+      <div class="chapter">
+        <button class="chapter-header" onclick="toggleChapter(this)">
+          7. Poruke i rešavanje pitanja
+        </button>
+        <div class="chapter-summary">
+          Slanje poruka, odgovaranje i praćenje statusa.
+        </div>
+        <div class="chapter-content">
+
+          <h3>1. Slanje poruka</h3>
+          <p>
+            Radnik i poslodavac mogu razmenjivati poruke putem
+            aplikacije Genie. Poruke mogu služiti za pitanja,
+            objašnjenja i dogovore u vezi sa radom i obračunom zarade.
+          </p>
+
+          <h3>2. Odgovaranje na poruke</h3>
+          <p>
+            Kada primite poruku, možete pročitati njen sadržaj
+            i poslati odgovor drugoj strani.
+          </p>
+
+          <h3>3. Praćenje razgovora</h3>
+          <p>
+            Razmenjene poruke i odgovori omogućavaju radniku
+            i poslodavcu da prate prethodnu komunikaciju.
+          </p>
+
+          <h3>4. Statusi poruka</h3>
+          <ul>
+            <li>
+              <strong>Novi komentar</strong> – stigla je nova poruka
+              ili komentar koji treba pregledati.
+            </li>
+            <li>
+              <strong>Odgovor radnika</strong> – radnik je poslao
+              odgovor poslodavcu.
+            </li>
+            <li>
+              <strong>Rešeno</strong> – poslodavac je označio
+              poruku kao rešenu.
+            </li>
+          </ul>
+
+          <h3>5. Važno</h3>
+          <p>
+            Redovno proveravajte poruke kako biste na vreme
+            videli nova pitanja, odgovore i obaveštenja.
+          </p>
+
+        </div>
+      </div>
+
+      <!-- POGLAVLJE 8 -->
+      <div class="chapter">
+        <button class="chapter-header" onclick="toggleChapter(this)">
+          8. Bezbednost i čuvanje podataka
+        </button>
+        <div class="chapter-summary">
+          Zaštita korisničkog naloga i pravilno korišćenje aplikacije.
+        </div>
+        <div class="chapter-content">
+
+          <h3>1. Zaštita naloga</h3>
+          <p>
+            Svaki korisnik treba da čuva svoje podatke za prijavu.
+            Lozinku nemojte deliti sa drugim osobama.
+          </p>
+
+          <h3>2. Tačnost unetih podataka</h3>
+          <p>
+            Proverite unete radne sate, satnice, procente i ostale
+            podatke pre nego što se oslonite na rezultat obračuna.
+          </p>
+
+          <h3>3. Pregled podataka</h3>
+          <p>
+            Redovno pregledajte svoje obračune i istoriju kako biste
+            imali uvid u ranije i tekuće obračunske periode.
+          </p>
+
+          <h3>4. Korišćenje na ličnom uređaju</h3>
+          <p>
+            Ako koristite Genie na uređaju koji pripada drugoj osobi,
+            obavezno se odjavite nakon završetka rada.
+          </p>
+
+          <h3>5. Odgovorno korišćenje</h3>
+          <p>
+            Genie je pomoćno sredstvo za obračun i praćenje zarade.
+            Uvek proverite da li uneti podaci odgovaraju vašim
+            stvarnim radnim uslovima i dogovoru sa poslodavcem.
+          </p>
+
+        </div>
+      </div>
+
+      <!-- POGLAVLJE 9 -->
+      <div class="chapter">
+        <button class="chapter-header" onclick="toggleChapter(this)">
+          9. Završne informacije
+        </button>
+        <div class="chapter-summary">
+          Korisni saveti i završna poruka korisnicima.
+        </div>
+        <div class="chapter-content">
+
+          <h3>1. Redovno korišćenje</h3>
+          <p>
+            Preporučujemo da redovno unosite i proveravate podatke
+            o radnom vremenu kako bi obračuni bili što tačniji.
+          </p>
+
+          <h3>2. Obračunski periodi</h3>
+          <p>
+            Obratite pažnju na datume početka i završetka obračunskog
+            perioda. Svaki korisnik može ih prilagoditi svojim
+            potrebama i načinu obračuna zarade.
+          </p>
+
+          <h3>3. Istorija</h3>
+          <p>
+            Završeni obračunski periodi čuvaju se u istoriji,
+            gde možete pregledati prethodne rezultate i uporediti
+            ih sa tekućim obračunom.
+          </p>
+
+          <h3>4. Pomoć i komunikacija</h3>
+          <p>
+            Ako imate nedoumice u vezi sa obračunom ili podacima,
+            možete koristiti mogućnost razmene poruka sa poslodavcem,
+            ukoliko ste povezani.
+          </p>
+
+          <h3>5. Hvala što koristite Genie!</h3>
+          <p>
+            Cilj aplikacije Genie je da radnicima i poslodavcima
+            omogući jednostavniji, pregledniji i transparentniji
+            obračun zarade i komunikaciju.
+          </p>
+          <p>
+            Želimo vam uspešno i prijatno korišćenje aplikacije!
+          </p>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="back-area">
+      <button class="back-button" onclick="history.back()">
+        Nazad
+      </button>
     </div>
 
   </div>
 
-  <button class="back-button" onclick="window.location.href='index.html'">
-    ← Nazad na početnu stranicu
-  </button>
-
-  <div class="footer">
-    Genie – Genie za Genia
-  </div>
-
-</div>
-
-<script>
-  function changeGuideLanguage(language) {
-  const pages = {
-    sr: "uputstvo.html",
-    sv: "instruktioner-sv.html",
-    en: "instructions-en.html"
-  };
-
-  window.location.href = pages[language];
-}
-  const chapterButtons = document.querySelectorAll(".chapter-button");
-
-  chapterButtons.forEach(function(button) {
-    button.addEventListener("click", function() {
+  <script>
+    function toggleChapter(button) {
       const content = button.nextElementSibling.nextElementSibling;
-      const icon = button.querySelector(".chapter-icon");
-      const wasOpen = content.classList.contains("open");
 
-      document.querySelectorAll(".chapter-content").forEach(function(item) {
-        item.classList.remove("open");
-      });
-
-      document.querySelectorAll(".chapter-icon").forEach(function(item) {
-        item.textContent = "＋";
-      });
-
-      if (!wasOpen) {
-        content.classList.add("open");
-        icon.textContent = "−";
+      if (content.style.display === "block") {
+        content.style.display = "none";
+      } else {
+        content.style.display = "block";
       }
-    });
-  });
-</script>
+    }
+
+    function changeLanguage(language) {
+      const pages = {
+        sr: "uputstvo.html",
+        sv: "instruktioner-sv.html",
+        en: "instructions-en.html"
+      };
+
+      window.location.href = pages[language];
+    }
+  </script>
 
 </body>
 </html>
-
+      
