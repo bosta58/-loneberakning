@@ -729,11 +729,16 @@
     }
 
     function changeLanguage(language) {
-      const pages = {
-        sr: "uputstvo.html",
-        sv: "instruktioner-sv.html",
-        en: "instructions-en.html"
-      };
+  const pages = {
+    sr: "uputstvo.html",
+    sv: "instruktioner-sv.html",
+    en: "instructions-en.html"
+  };
+
+  localStorage.setItem("genieLanguage", language);
+
+  window.location.href = pages[language];
+}
 
       window.location.href = pages[language];
     }
