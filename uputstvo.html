@@ -45,25 +45,21 @@
       margin-bottom: 25px;
     }
 
-    .language-switch {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
+   .language-menu {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
 
-    .language-switch button,
-    .back-button {
-      border: none;
-      border-radius: 7px;
-      padding: 10px 16px;
-      background: #174a75;
-      color: white;
-      cursor: pointer;
-      font-size: 15px;
-    }
-
+.language-menu select {
+  padding: 10px 16px;
+  border: 1px solid #174a75;
+  border-radius: 7px;
+  background: white;
+  color: #174a75;
+  font-size: 15px;
+  cursor: pointer;
+}
     .chapter {
       margin-bottom: 14px;
       border: 1px solid #d8e0e8;
@@ -146,11 +142,13 @@
       aplikaciju, obračunate zaradu i komunicirate sa poslodavcem.
     </p>
 
-    <div class="language-switch">
-      <button onclick="changeLanguage('sv')">Svenska</button>
-      <button onclick="changeLanguage('en')">English</button>
-      <button onclick="changeLanguage('sr')">Srpski</button>
-    </div>
+  <div class="language-menu">
+  <select id="languageSelect" onchange="changeLanguage(this.value)">
+    <option value="sv">🇸🇪 Svenska</option>
+    <option value="en">🇬🇧 English</option>
+    <option value="sr" selected>🇷🇸 Srpski</option>
+  </select>
+</div>
 
     <div id="chapters">
 
