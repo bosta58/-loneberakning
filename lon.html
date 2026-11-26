@@ -1097,12 +1097,7 @@ function saveTimlonRecord() {
     men själva löneposten får ingen period ännu.
   */
 
-  const periodKey =
-    periodStart && periodEnd
-      ? periodStart + "_" + periodEnd
-      : "utan_period";
-
-
+      
   const regularHours =
     getHoursValue("lonRegularHours");
 
