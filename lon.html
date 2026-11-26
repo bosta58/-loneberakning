@@ -1078,6 +1078,20 @@ function saveTimlonRecord() {
   const periodEnd =
     getPeriodEnd();
 
+    /*
+    Ett löneunderlag får bara sparas när hela
+    perioden är ifylld och datumen är giltiga.
+  */
+  if (
+    !periodStart ||
+    !periodEnd ||
+    periodStart > periodEnd
+  ) {
+    return;
+  }
+
+  const periodKey =
+    periodStart + "_" + periodEnd;
   /*
     Om period saknas sparar vi ändå formuläret,
     men själva löneposten får ingen period ännu.
@@ -1656,9 +1670,6 @@ function saveFormData() {
   */
 
   saveTimlonPeriod();
-
-
-  saveTimlonRecord();
 
 }
 
